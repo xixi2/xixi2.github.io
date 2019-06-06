@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="leetcode,树形dp,">
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继">
+<meta name="description" content="一去不复返的远方还有无法抵达的过去">
+<meta name="keywords" content="leetcode,树形dp">
 <meta property="og:type" content="article">
-<meta property="og:title" content="寻找下一个节点">
-<meta property="og:url" content="http://yoursite.com/2019/06/03/寻找下一个节点/index.html">
+<meta property="og:title" content="树形dp专题">
+<meta property="og:url" content="http://yoursite.com/2019/06/06/树形dp专题/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继">
+<meta property="og:description" content="一去不复返的远方还有无法抵达的过去">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-30T11:54:58.161Z">
+<meta property="og:updated_time" content="2019-06-06T04:01:25.383Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="寻找下一个节点">
-<meta name="twitter:description" content="链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继">
+<meta name="twitter:title" content="树形dp专题">
+<meta name="twitter:description" content="一去不复返的远方还有无法抵达的过去">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/06/03/寻找下一个节点/">
+  <link rel="canonical" href="http://yoursite.com/2019/06/06/树形dp专题/">
 
 
 
 
 
-  <title>寻找下一个节点 | Hexo</title>
+  <title>树形dp专题 | Hexo</title>
   
 
 
@@ -284,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/03/寻找下一个节点/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/06/树形dp专题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -301,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">寻找下一个节点</h1>
+          <h1 class="post-title" itemprop="name headline">树形dp专题</h1>
         
 
         <div class="post-meta">
@@ -313,8 +314,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-03T16:30:22+08:00">
-                2019-06-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-06T12:01:25+08:00">
+                2019-06-06
               </time>
             
 
@@ -356,14 +357,7 @@
       
 
       
-        <p>链接：</p>
-<p><a href="https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a" target="_blank" rel="noopener">https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a</a></p>
-<p>请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。</p>
-<p>给定树的根结点指针TreeNode* <strong>root</strong>和结点的值int <strong>p</strong>，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继返回-1。</p>
-<a id="more"></a>
-
-
-
+        
       
     </div>
     
@@ -378,6 +372,14 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/leetcode/" rel="tag"># leetcode</a>
+          
+            <a href="/tags/树形dp/" rel="tag"># 树形dp</a>
+          
+        </div>
+      
 
       
       
@@ -387,8 +389,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/03/二叉树的下一个结点/" rel="next" title="二叉树的下一个结点">
-                <i class="fa fa-chevron-left"></i> 二叉树的下一个结点
+              <a href="/2019/06/06/队列的最大值/" rel="next" title="队列的最大值">
+                <i class="fa fa-chevron-left"></i> 队列的最大值
               </a>
             
           </div>
@@ -397,8 +399,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/06/04/友元等概念总结/" rel="prev" title="c++基础知识总结">
-                c++基础知识总结 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/06/06/变形词系列/" rel="prev" title="变形词">
+                变形词 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
