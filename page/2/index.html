@@ -284,7 +284,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/08/linux系统编程基础/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/17/Grid-pathfinding-optimizations/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -303,7 +303,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/06/08/linux系统编程基础/" itemprop="url">linux系统编程基础</a></h1>
+                <a class="post-title-link" href="/2019/06/17/Grid-pathfinding-optimizations/" itemprop="url">Grid pathfinding optimizations</a></h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-08T14:07:59+08:00">
-                2019-06-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-17T20:11:35+08:00">
+                2019-06-17
               </time>
             
 
@@ -355,133 +355,8 @@
       
         
           
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/07/c++-premiere-第三部分/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="xixi2">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/07/c++-premiere-第三部分/" itemprop="url">c++ premiere 5th 第三部分</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-07T19:31:08+08:00">
-                2019-06-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h1><h2 id="拷贝构造函数"><a href="#拷贝构造函数" class="headerlink" title="拷贝构造函数"></a>拷贝构造函数</h2><p>如果一个构造函数的第一个参数是自身类类型的引用，且任何额外参数都有默认值，则此构造函数是拷贝构造函数．</p>
-<blockquote>
-<p>拷贝初始化通常由拷贝构造函数来完成．但是如果一个类有一个移动构造函数，则拷贝初始化会使用移动构造函数而非拷贝构造函数来完成．总之，拷贝初始化是依靠拷贝构造函数或移动构造函数来完成的．</p>
-</blockquote>
-<p><strong>拷贝初始化何时发生呢？拷贝初始化在以下情况下发生：</strong><br>在我们用 = 定义变量时<br>在将一个对象作为实参传递给一个非引用类型的形参时<br>从一个返回类型为非引用类型的函数返回一个对象<br>用花括号列表初始化一个数组中的元素或一个聚合类中的成员</p>
-<h2 id="拷贝赋值运算符"><a href="#拷贝赋值运算符" class="headerlink" title="拷贝赋值运算符"></a>拷贝赋值运算符</h2><p>赋值运算符返回一个指向其左侧运算对象的引用．</p>
-<h1 id="析构函数"><a href="#析构函数" class="headerlink" title="析构函数"></a>析构函数</h1><p>构造函数初始化对象的非static数据成员；析构函数释放对象使用的资源，并销毁对象的非static数据成员．在一个析构函数中，首先执行函数体，然后销毁成员，成员按初始化顺序的逆序销毁．</p>
-<h1 id="移动构造函数"><a href="#移动构造函数" class="headerlink" title="移动构造函数"></a>移动构造函数</h1><h1 id="移动赋值运算符"><a href="#移动赋值运算符" class="headerlink" title="移动赋值运算符"></a>移动赋值运算符</h1><h1 id="关联"><a href="#关联" class="headerlink" title="关联"></a>关联</h1><p>以上五个函数统称为拷贝控制操作．各个拷贝控制操作之间的关系是：<br>通常如果一个类需要一个析构函数，那么它也需要一个拷贝构造函数和一个拷贝赋值运算符．但需要拷贝或赋值操作时，不一定需要析构函数．<br>如果一个类需要一个拷贝构造函数，那么它也需要一个拷贝构造函数．</p>
+            <p>A*算法和迪杰斯特拉算法都是用于图的寻路算法.要将他们用在方格上,我们必须用graph来表示方格.对于绝大多数基于方格的map, 这样的表示都表现很好.但是对于某些对性能有较高要求的项目而言,必须考虑一些优化方案.</p>
+<h1 id="改变map的表示"><a href="#改变map的表示" class="headerlink" title="改变map的表示"></a>改变map的表示</h1><h1 id="改变heuristic函数"><a href="#改变heuristic函数" class="headerlink" title="改变heuristic函数"></a>改变heuristic函数</h1><p>heuristic函数对每个节点到终点的路径长度的预测值与该点到终点的真实的最短路径长度越接近,A<em>算法越快.当heuristic函数的值为0时, A\</em>算法变成了迪杰斯特拉算法.当heuristic给出的值比真实的最短路径长度大时,A*算法将不能保证可以得到最短路径.对于grids, 我们通常选择距离作为heuristic.</p>
 
           
         
@@ -530,7 +405,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/06/字符串系列1：字符串转整数/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/17/c++ 牛客网刷题问题总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -549,7 +424,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/06/06/字符串系列1：字符串转整数/" itemprop="url">字符串系列1：字符串转整数</a></h1>
+                <a class="post-title-link" href="/2019/06/17/c++ 牛客网刷题问题总结/" itemprop="url">未命名</a></h1>
         
 
         <div class="post-meta">
@@ -561,382 +436,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-06T17:23:07+08:00">
-                2019-06-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="8-String-to-Integer-atoi"><a href="#8-String-to-Integer-atoi" class="headerlink" title="8. String to Integer (atoi)"></a>8. String to Integer (atoi)</h1><p>Implement <code>atoi</code> which converts a string to an integer.</p>
-<p>The function first discards as many whitespace characters as necessary until the first non-whitespace character is found. Then, starting from this character, takes an optional initial plus or minus sign followed by as many numerical digits as possible, and interprets them as a numerical value.</p>
-<p>The string can contain additional characters after those that form the integral number, which are ignored and have no effect on the behavior of this function.</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/06/06/字符串系列1：字符串转整数/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/06/找出现仅一次的数系列/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="xixi2">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/06/找出现仅一次的数系列/" itemprop="url">数组中数字出现的次数</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-06T17:19:01+08:00">
-                2019-06-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="数组中只出现一次的数"><a href="#数组中只出现一次的数" class="headerlink" title="数组中只出现一次的数"></a>数组中只出现一次的数</h1><p>一个整型数组里除了两个数字之外，其他的数字都出现了两次。请写程序找出这两个只出现一次的数字。<br>题目来源：剑指offer 56</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/06/06/找出现仅一次的数系列/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/06/变形词系列/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="xixi2">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/06/变形词系列/" itemprop="url">变形词</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-06T15:06:15+08:00">
-                2019-06-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>此类题比较麻烦，但其实并不难。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/06/06/变形词系列/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/06/树形dp专题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="xixi2">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/06/树形dp专题/" itemprop="url">树形dp专题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-06T12:01:25+08:00">
-                2019-06-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-17T20:11:35+08:00">
+                2019-06-17
               </time>
             
 
@@ -975,7 +476,29 @@
       
         
           
-            
+            <h1 id="预处理器"><a href="#预处理器" class="headerlink" title="预处理器"></a>预处理器</h1><p>预定义在代码编译时直接替换，i=5*x+x(x=5)<br><a href="<https://www.nowcoder.com/test/question/done?tid=24439463&qid=15080#summary>">题目链接</a></p>
+<p>std::sort是稳定排序, 说法错误, 为什么?<br>C语言风格字符串和字符数组基础.</p>
+<h1 id="基础类型"><a href="#基础类型" class="headerlink" title="基础类型"></a>基础类型</h1><p>float和double类型如何判0?<br>基础运算,如7/5的答案<br><a href="<https://www.nowcoder.com/question/next?pid=17093204&qid=14704&tid=24440818>">题目链接</a></p>
+<p><a href="https://www.nowcoder.com/test/question/done?tid=24459913&qid=111952#summary" target="_blank" rel="noopener">题目链接</a></p>
+<pre><code>int a = 1;
+double b = 1.0;
+b = a;//将a转换成double再赋值给b
+cout &lt;&lt; b &lt;&lt; endl;
+cout &lt;&lt; typeid(a).name() &lt;&lt; endl; // int
+cout &lt;&lt; typeid(b).name() &lt;&lt; endl; // double</code></pre><h1 id="sizeof"><a href="#sizeof" class="headerlink" title="sizeof"></a>sizeof</h1><p><strong>注意：空类编译器会将sizeof（）的值变为1；</strong><br>类的大小只与非静态成员和虚函数的大小有关，而与其他普通函数成员无关，与构造函数析构函数也无关.<br><a href="www.nowcoder.com/test/question/done?tid=24440818&qid=36399#summary">题目链接</a><br><a href="https://www.nowcoder.com/question/next?pid=17108534&qid=1317&tid=24459913" target="_blank" rel="noopener">题目链接2</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> &#123;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> ch;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> ch1;             <span class="comment">//占用1字节</span></span><br><span class="line">    <span class="keyword">char</span> ch2;             <span class="comment">//占用1字节</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">func</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> in;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">func</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    A a;</span><br><span class="line">    B b;</span><br><span class="line">    C c;</span><br><span class="line">    D d;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"sizeof(char):"</span> &lt;&lt; <span class="keyword">sizeof</span>(<span class="keyword">char</span>) &lt;&lt; <span class="built_in">endl</span>;<span class="comment">// 1</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"sizeof(int):"</span> &lt;&lt; <span class="keyword">sizeof</span>(<span class="keyword">int</span>) &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 4</span></span><br><span class="line">    <span class="keyword">int</span> *p = <span class="literal">nullptr</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"sizeof(p):"</span> &lt;&lt; <span class="keyword">sizeof</span>(p) &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 8</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>(a) &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//result=1</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>(b) &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//result=1</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>(c) &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//result=16</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>(d) &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//result=16</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">以下代码中的两个<span class="keyword">sizeof</span>用法有问题吗？</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UpperCase</span><span class="params">( <span class="keyword">char</span> str[] )</span> <span class="comment">// 将 str 中的小写字母转换成大写字母</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">for</span> ( <span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; <span class="keyword">sizeof</span>(str) / <span class="keyword">sizeof</span>(str[<span class="number">0</span>]); ++i )</span><br><span class="line"><span class="keyword">if</span> ( <span class="string">'a'</span> &lt;= str[i] &amp;&amp; str[i] &lt;= <span class="string">'z'</span> )</span><br><span class="line">str -= (<span class="string">'a'</span> - <span class="string">'A'</span> );</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">char</span> str[] = <span class="string">"aBcDe"</span>;</span><br><span class="line"><span class="built_in">cout</span> &lt; &lt; <span class="string">"str字符长度为: "</span> &lt; &lt; <span class="keyword">sizeof</span>(str) / <span class="keyword">sizeof</span>(str[<span class="number">0</span>]) &lt; &lt; <span class="built_in">endl</span>;</span><br><span class="line">UpperCase( str );</span><br><span class="line"><span class="built_in">cout</span> &lt; &lt; str &lt; &lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a>内存对齐</h1><p><a href="https://www.nowcoder.com/test/question/done?tid=24459913&qid=112463#summary" target="_blank" rel="noopener">题目链接</a></p>
+<p>指针问题<br><a href="https://www.nowcoder.com/test/question/done?tid=24440818&qid=15407#summary" target="_blank" rel="noopener">题目链接</a></p>
+<p>cdecl等<br><a href="https://www.nowcoder.com/test/question/done?tid=24459913&qid=1317#referAnchor" target="_blank" rel="noopener">题目链接</a></p>
+<h1 id="c-类的数据成员的存储类型"><a href="#c-类的数据成员的存储类型" class="headerlink" title="c++类的数据成员的存储类型"></a>c++类的数据成员的存储类型</h1><p><a href="https://www.nowcoder.com/test/question/done?tid=24459913&qid=63365#summary" target="_blank" rel="noopener">题目链接</a><br>C++类的数据成员的存储类型，不能是auto、register和extern：</p>
+<p>原因：auto/register/extern表示的是变量的存储位置和作用域。auto变量存储在函数的堆栈空间，register存储在寄存器，extern表示这里没有新定义变量，只是扩展了一个已有全局变量的作用域。类和结构体中的变量是成员变量，其存储位置和作用域由定义对象的函数决定，不由这些对象自己决定。</p>
+<h1 id="递增递减运算符"><a href="#递增递减运算符" class="headerlink" title="递增递减运算符"></a>递增递减运算符</h1><p><a href="https://www.nowcoder.com/test/question/done?tid=24459913&qid=111690#summary" target="_blank" rel="noopener">题目链接</a></p>
+<h1 id="虚析构函数"><a href="#虚析构函数" class="headerlink" title="虚析构函数"></a>虚析构函数</h1><p><a href="https://www.nowcoder.com/test/question/done?tid=24488924&qid=7660#summary" target="_blank" rel="noopener">题目链接</a></p>
+<h1 id="memset的使用"><a href="#memset的使用" class="headerlink" title="memset的使用"></a>memset的使用</h1><p><a href="https://www.nowcoder.com/test/question/done?tid=24488924&qid=1660#summary" target="_blank" rel="noopener">题目链接</a></p>
+
           
         
       
@@ -1023,7 +546,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/06/队列的最大值/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/17/c++数据类型、类型转换基础知识/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -1042,7 +565,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/06/06/队列的最大值/" itemprop="url">队列的最大值</a></h1>
+                <a class="post-title-link" href="/2019/06/17/c++数据类型、类型转换基础知识/" itemprop="url">未命名</a></h1>
         
 
         <div class="post-meta">
@@ -1054,8 +577,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-06T10:17:03+08:00">
-                2019-06-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-17T20:11:35+08:00">
+                2019-06-17
               </time>
             
 
@@ -1093,14 +616,290 @@
 
       
         
-          <h1 id="队列的最大值"><a href="#队列的最大值" class="headerlink" title="队列的最大值"></a>队列的最大值</h1><ol start="239">
-<li>Sliding Window Maximum</li>
+          
+            <p><strong>位运算专题</strong></p>
+<h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><h2 id="无符号数"><a href="#无符号数" class="headerlink" title="无符号数"></a>无符号数</h2><p>示例1</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> u = <span class="number">0xFFFFFFFF</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"u="</span>&lt;&lt;u&lt;&lt;<span class="built_in">endl</span>; <span class="comment">//4294967295</span></span><br><span class="line">u -= <span class="number">31</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"u="</span>&lt;&lt;u&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//4294967264</span></span><br></pre></td></tr></table></figure>
+
+<p>无符号数0xFFFFFFFF是32位无符号数中的最大值。</p>
+<p>示例2：无符号数和有符号数运算</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> u = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> i = <span class="number">-42</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"u="</span>&lt;&lt;u&lt;&lt;<span class="built_in">endl</span>; </span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"unsigned(i)="</span>&lt;&lt;<span class="keyword">unsigned</span>(i)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"(i+u)      ="</span>&lt;&lt;(i+u)&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="G:%5Cmarkdown-place%5Cimages%5C1557468069872.png" alt="1557468069872"></p>
+<p>无符号数u和有符号数i相加前，把有符号数i转换为无符号数，结果等于两个无符号数相加。</p>
+<p>示例3：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> u = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> i = <span class="number">-1</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"u="</span>&lt;&lt;u&lt;&lt;<span class="built_in">endl</span>; <span class="comment">//10</span></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"unsigned(i)="</span>&lt;&lt;<span class="keyword">unsigned</span>(i)&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//4294967295</span></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"(i+u)      ="</span>&lt;&lt;(i+u)&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//(4294967295 + 10) % (4294967296)，其中4294967296是2的32次方</span></span><br></pre></td></tr></table></figure>
+
+<p>两个无符号数相加结果超出它表示范围时，先对这个超出表示范围的结果进行取模(对2的n次方进行取模)，则得到了真正的结果。</p>
+<p>示例4：无符号数都是整数。若给无符号赋值一个负数，则将该负数+2^n得到最后的结果。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> x = <span class="number">0xFFFFFFFF</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> u = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> v = <span class="number">42</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"x:"</span>&lt;&lt;x&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"(v - u):"</span>&lt;&lt;(v - u)&lt;&lt;<span class="built_in">endl</span>; <span class="comment">// 32</span></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"(u - v):"</span>&lt;&lt;(u - v)&lt;&lt;<span class="built_in">endl</span>; <span class="comment">// 4294967264: (-32 + 4294967296) % 4294967296的结果</span></span><br></pre></td></tr></table></figure>
+
+<p>示例5：当表达式中既有带符号数又有无符号数时，当带符号数值为负数时会出现异常情况，这是因为带符号数会自动转换成无符号数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> x = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> y = <span class="number">-1</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"x * y="</span>&lt;&lt;(x * y)&lt;&lt;<span class="built_in">endl</span>; <span class="comment">//4294967295，y转换为无符号数(-1 + 4294967296) = 4294967295</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="16进制数0xffffffff"><a href="#16进制数0xffffffff" class="headerlink" title="16进制数0xffffffff"></a>16进制数0xffffffff</h2><p>0xffffffff是一个十六进制数。把它转换成2进制为：1111111..11(32个1)<br>把它转成10进制无符号数是：0xffffffff = 16x10^7+ 16x10^6+….+16x10^1+16x10^0 = 4294967295<br>把它转成10进制带符号整数为：<br>111111111111111(32个1表示的补码形式)转化为源码形式为10…00001(中间30个0)，即-1。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> a = <span class="number">0xffffffff</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"a="</span>&lt;&lt;a&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="keyword">int</span> b = <span class="number">0xffffffff</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"b="</span>&lt;&lt;b&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<p>运行截图：</p>
+<p><img src="G:%5Cmarkdown-place%5Cimages%5C1556345786770.png" alt="1556345786770"></p>
+<h2 id="异或运算"><a href="#异或运算" class="headerlink" title="异或运算"></a>异或运算</h2><p>异或运算满足交换律与结合律。<br>C = A ^ B  (^是异或运算符)，则 A = B ^ C, B = A ^ C</p>
+<p>例1.  A = 1011, B = 0101 , C= 1110<br>若A和B在某一位上都是1， 则C在该位上为0，则A或B的该位与C的该位相与就是1；若A和B在某一位上都是0， 则C在该位上为0，则A或B的该位与C的该位相与就是0。<br>若A在某一位为1， B在该位为0， 则C在该位上为1，则A的该位与C的该位相与就是0，B的该位与C的该位相与就是1。同理，A在该位为0，B在该位为1时可证成立。</p>
+<ol start="3">
+<li><p>按位取反~</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">-2147483648</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"a="</span>&lt;&lt;a&lt;&lt;<span class="string">" ~a="</span>&lt;&lt;~a&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="built_in">bitset</span>&lt;32&gt; b1(a);</span><br><span class="line"><span class="built_in">bitset</span>&lt;32&gt; b2(~a);</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"a: "</span>&lt;&lt;b1.to_string()&lt;&lt;<span class="string">" ~a: "</span>&lt;&lt;b2.to_string()&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="G:%5Cmarkdown-place%5Cimages%5C1556362743389.png" alt="1556362743389"></p>
+</li>
+<li><p>补码、原码、求补运算</p>
+<p>负数的补码由其原码对除符号位外各位取反末位加1，同样，由补码求原码也是对补码除符号位外，各位取反末位加1。<br>求补运算：不考虑符号位，对原码各位取反，并在末位加1。对一个数进行求补运算得到的是其相反数的补码。<br>如对0111进行求补运算，0111的真值为7。其补数为1001（补码），补码1001对应的源码为1111，真值为-7。</p>
+</li>
+<li><p>n &amp;(~n+1)</p>
+<p>这个表达式常用来取n中最右侧的1。这是因为, <del>n是对进行按位取反。<br>例如：n = 1000，</del>n=0111, <del>n+1 = 1000,  n &amp; (</del>n+1)=1000，只有n中最右边为1的位置为1。<br>n = 1010， <del>n=0101，</del>n+1=0110, n &amp; (~n+1)=0010。</p>
+</li>
 </ol>
-<p>Hard</p>
-<p>Given an array <em>nums</em>, there is a sliding window of size <em>k</em> which is moving from the very left of the array to the very right. You can only see the <em>k</em> numbers in the window. Each time the sliding window moves right by one position. Return the max sliding window.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/17/c++xxxxxxxxxx templatetypename Comparableclass BinarySearchTree{    public        BinarySearchTree();        BinarySe/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xixi2">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/17/c++xxxxxxxxxx templatetypename Comparableclass BinarySearchTree{    public        BinarySearchTree();        BinarySe/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-17T20:11:35+08:00">
+                2019-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Comparable&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BinarySearchTree</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">public</span>:</span><br><span class="line">		BinarySearchTree();</span><br><span class="line">		BinarySearchTree(<span class="keyword">const</span> BinarySearchTree &amp;rhs);</span><br><span class="line">		BinarySearchTree(BinarySearchTree &amp;&amp;rhs);</span><br><span class="line">		~BinarySearchTree();</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">const</span> Comparable &amp; <span class="title">findMin</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line">		<span class="function"><span class="keyword">const</span> Comparable &amp; <span class="title">findMax</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line">		<span class="function"><span class="keyword">bool</span> <span class="title">contains</span><span class="params">(<span class="keyword">const</span> Comparable &amp; x)</span> <span class="keyword">const</span></span>;</span><br><span class="line">		<span class="function"><span class="keyword">bool</span> <span class="title">isEmpty</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">printTree</span><span class="params">(ostream &amp; out = <span class="built_in">cout</span>)</span> <span class="keyword">const</span></span>;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">makeEmpty</span><span class="params">()</span></span>;</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">const</span> Comparable &amp; x)</span></span>;</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(Comparable &amp;&amp; x)</span></span>;</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">remove</span><span class="params">(<span class="keyword">const</span> Comparable &amp; x)</span></span>;</span><br><span class="line">		</span><br><span class="line">		BinarySearchTree &amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> BinarySearchTree &amp; rhs);</span><br><span class="line">		BinarySearchTree &amp; <span class="keyword">operator</span>=(BinarySearchTree &amp;&amp; rhs);</span><br><span class="line">		</span><br><span class="line">	<span class="keyword">private</span>:</span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">BinaryNode</span>&#123;</span></span><br><span class="line">			Comparable element;</span><br><span class="line">			BinaryNode *left;</span><br><span class="line">			BinaryNode *right;</span><br><span class="line">			BinaryNode(<span class="keyword">const</span> Comparable &amp; theElement, BinaryNode *lt, BinaryNode *rt)</span><br><span class="line">				:element&#123;theElement&#125;, left&#123;lt&#125;,right&#123;rt&#125;</span><br><span class="line">				&#123;</span><br><span class="line">				&#125;</span><br><span class="line">			BinaryNode(<span class="keyword">const</span> Comparable &amp;&amp; theElement, BinaryNode *lt, BinaryNode *rt)</span><br><span class="line">				:element&#123;<span class="built_in">std</span>::move(theElement)&#125;, left&#123;lt&#125;, right&#123;rt&#125;</span><br><span class="line">				&#123;</span><br><span class="line">				&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">		BinaryNode *root;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">const</span> Comparable &amp; x, BinaryNode * &amp; t)</span></span>;</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(Comparable &amp;&amp; x, BinaryNode * &amp; t)</span></span>;</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">remove</span><span class="params">(<span class="keyword">const</span> Comparable &amp; x, BinaryNode * &amp; t)</span></span>;</span><br><span class="line">		<span class="function">BinaryNode * <span class="title">findMin</span><span class="params">(BinaryNode *t)</span> <span class="keyword">const</span></span>;</span><br><span class="line">		<span class="function">BinaryNode * <span class="title">findMax</span><span class="params">(BinaryNode *t)</span> <span class="keyword">const</span></span>;</span><br><span class="line">		<span class="function"><span class="keyword">bool</span> <span class="title">contains</span><span class="params">(<span class="keyword">const</span> Comparable &amp; x, BinaryNode *t)</span> <span class="keyword">const</span></span>;</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">makeEmpty</span><span class="params">(BinaryNode * &amp; t)</span></span>;		<span class="comment">// 指针t可以指向新的BinaryNode对象 </span></span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">printTree</span><span class="params">(BinaryNode *t, ostream &amp; out)</span> <span class="keyword">const</span></span>;</span><br><span class="line">		<span class="function">BinaryNode *<span class="title">clone</span><span class="params">(BinaryNode *t)</span> <span class="keyword">const</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/17/523.Continuous-Subarray-Sum/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xixi2">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/17/523.Continuous-Subarray-Sum/" itemprop="url">523. Continuous Subarray Sum</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-17T20:11:35+08:00">
+                2019-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Given a list of <strong>non-negative</strong> numbers and a target <strong>integer</strong> k, write a function to check if the array has a continuous subarray of size at least 2 that sums up to a multiple of <strong>k</strong>, that is, sums up to n<em>k where n is also an *</em>integer**.</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/06/06/队列的最大值/#more" rel="contents">
+            <a class="btn" href="/2019/06/17/523.Continuous-Subarray-Sum/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1151,7 +950,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/05/正则表达式匹配/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/17/12.1 StrBlob/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -1170,7 +969,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/06/05/正则表达式匹配/" itemprop="url">正则表达式匹配</a></h1>
+                <a class="post-title-link" href="/2019/06/17/12.1 StrBlob/" itemprop="url">未命名</a></h1>
         
 
         <div class="post-meta">
@@ -1182,8 +981,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-05T20:59:06+08:00">
-                2019-06-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-17T20:11:35+08:00">
+                2019-06-17
               </time>
             
 
@@ -1221,11 +1020,373 @@
 
       
         
-          <p>请实现一个函数用来匹配包括’.’和’<em>‘的正则表达式。模式中的字符’.’表示任意一个字符，而’</em>‘表示它前面的字符可以出现任意次（包含0次）。 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串”aaa”与模式”a.a”和”ab<em>ac</em>a”匹配，但是与”aa.a”和”ab*a”均不匹配</p>
-<p><a href="<https://www.nowcoder.com/practice/45327ae22b7b413ea21df13ee7d6429c?tpId=13&tqId=11205&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking>">题目链接</a></p>
+          
+            <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StrBlob</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">typedef</span> <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;::size_type size_type;</span><br><span class="line"></span><br><span class="line">    StrBlob();</span><br><span class="line"></span><br><span class="line">    StrBlob(<span class="built_in">initializer_list</span>&lt;<span class="built_in">string</span>&gt; il);</span><br><span class="line"></span><br><span class="line">    <span class="function">size_type <span class="title">size</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> data-&gt;size(); &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">empty</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> data-&gt;empty(); &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">push_back</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span> &amp;t)</span> </span>&#123; data-&gt;push_back(t); &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">pop_back</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="built_in">string</span> &amp;<span class="title">front</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="built_in">string</span> &amp;<span class="title">back</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">shared_ptr</span>&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt; data;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">check</span><span class="params">(size_type i, <span class="keyword">const</span> <span class="built_in">string</span> &amp;msg)</span> <span class="keyword">const</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">StrBlob::StrBlob() : data(make_shared&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt;()) &#123;&#125;</span><br><span class="line"></span><br><span class="line">StrBlob::StrBlob(<span class="built_in">initializer_list</span>&lt;<span class="built_in">string</span>&gt; il) : data(make_shared&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt;(il)) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> StrBlob::check(StrBlob::size_type i, <span class="keyword">const</span> <span class="built_in">string</span> &amp;msg) <span class="keyword">const</span> &#123;</span><br><span class="line">    <span class="comment">// 检查一个索引是否在合法范围内，病返回一个字符串给异常处理程序，这个字符串描述了错误内容</span></span><br><span class="line">    <span class="keyword">if</span> (i &gt;= data-&gt;size()) &#123;</span><br><span class="line">        <span class="keyword">throw</span> out_of_range(msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">string</span> &amp;StrBlob::front() &#123;</span><br><span class="line">    <span class="comment">// 当data为空时，无法查看其front和back元素</span></span><br><span class="line">    check(<span class="number">0</span>, <span class="string">"front on empty StrBlob"</span>);</span><br><span class="line">    <span class="keyword">return</span> data-&gt;front();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">string</span> &amp;StrBlob::back() &#123;</span><br><span class="line">    check(<span class="number">0</span>, <span class="string">"back on empty StrBlob"</span>);</span><br><span class="line">    <span class="keyword">return</span> data-&gt;back();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> StrBlob::pop_back() &#123;</span><br><span class="line">    check(<span class="number">0</span>, <span class="string">"pop_back on empty StrBlob"</span>);</span><br><span class="line">    data-&gt;pop_back();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    StrBlob sb;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"sb.data-&gt;use_count:"</span> &lt;&lt; sb.size() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"><span class="comment">//    string s0 = sb.back();</span></span><br><span class="line"><span class="comment">//    cout &lt;&lt; "s0:" &lt;&lt; s0 &lt;&lt; endl;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    sb.push_back(<span class="string">"hello"</span>);</span><br><span class="line">    sb.push_back(<span class="string">"world"</span>);</span><br><span class="line">    <span class="built_in">string</span> s1 = sb.front();</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"s1:"</span> &lt;&lt; s1 &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    s1 = sb.back();</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"s1:"</span> &lt;&lt; s1 &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/17/12.1.2 联系12.6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xixi2">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/17/12.1.2 联系12.6/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-17T20:11:35+08:00">
+                2019-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="动态分配的指针版本"><a href="#动态分配的指针版本" class="headerlink" title="动态分配的指针版本"></a>动态分配的指针版本</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addItems</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; *p)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">6</span>; i++) &#123;</span><br><span class="line">        (*p).push_back((i + <span class="number">2</span>) * <span class="number">4</span>);</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"add "</span>&lt;&lt;(i+<span class="number">2</span>) * <span class="number">4</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printVec</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; *p)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; (*p).size(); i++) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; (*p)[i] &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; *p = <span class="keyword">new</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&#123;&#125;;</span><br><span class="line">    addItems(p);</span><br><span class="line">    printVec(p);</span><br><span class="line">    <span class="keyword">delete</span> p;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="shared-ptr版本"><a href="#shared-ptr版本" class="headerlink" title="shared_ptr版本"></a>shared_ptr版本</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addItems</span><span class="params">(<span class="built_in">shared_ptr</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; p)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">6</span>; i++) &#123;</span><br><span class="line">        (*p).push_back((i + <span class="number">2</span>) * <span class="number">4</span>);</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"add "</span> &lt;&lt; (i + <span class="number">2</span>) * <span class="number">4</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printVec</span><span class="params">(<span class="built_in">shared_ptr</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; p)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; (*p).size(); i++) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; (*p)[i] &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="comment">//    shared_ptr&lt;vector&lt;int&gt;&gt; p = make_shared&lt;vector&lt;int&gt;&gt;(vector&lt;int&gt; &#123;&#125;);</span></span><br><span class="line">    <span class="built_in">shared_ptr</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; p = make_shared&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;();</span><br><span class="line">    addItems(p);</span><br><span class="line">    printVec(p);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/17/10.3重排元素的算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xixi2">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/17/10.3重排元素的算法/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-17T20:11:35+08:00">
+                2019-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printVec</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; words)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> item:words) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; item &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">elimDups</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; &amp;words)</span> </span>&#123;</span><br><span class="line">    sort(words.begin(), words.end());</span><br><span class="line">    printVec(words);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">auto</span> end_unique = unique(words.begin(), words.end());</span><br><span class="line">    printVec(words);</span><br><span class="line"></span><br><span class="line">    words.erase(end_unique, words.end());</span><br><span class="line">    printVec(words);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 如何定义一个字符串的vector</span></span><br><span class="line">    <span class="built_in">array</span>&lt;<span class="built_in">string</span>, 10&gt; arr&#123;<span class="string">"the"</span>, <span class="string">"quick"</span>, <span class="string">"red"</span>, <span class="string">"fox"</span>, <span class="string">"jump"</span>, <span class="string">"over"</span>, <span class="string">"the"</span>, <span class="string">"slow"</span>, <span class="string">"red"</span>, <span class="string">"turtle"</span>&#125;;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; vec(begin(arr), end(arr));</span><br><span class="line">    elimDups(vec);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/14/未排序数组中累加和为给定值的最长子数组系列问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xixi2">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/14/未排序数组中累加和为给定值的最长子数组系列问题/" itemprop="url">未排序数组中累加和为给定值的最长子数组系列问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-14T15:53:58+08:00">
+                2019-06-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="原题"><a href="#原题" class="headerlink" title="原题"></a>原题</h1><p>给定一个无序数组,其中元素可正,可负,可0.给定一个整数k,求arr所有的子数组中累加和为k的最长子数组长度.</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/06/05/正则表达式匹配/#more" rel="contents">
+            <a class="btn" href="/2019/06/14/未排序数组中累加和为给定值的最长子数组系列问题/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1276,7 +1437,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/05/计算机基础知识/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/14/Two Sum系列/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -1295,7 +1456,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/06/05/计算机基础知识/" itemprop="url">基础知识</a></h1>
+                <a class="post-title-link" href="/2019/06/14/Two Sum系列/" itemprop="url">Two Sum 系列, 和为s的两个数字系列(2sum)</a></h1>
         
 
         <div class="post-meta">
@@ -1307,8 +1468,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-05T20:48:58+08:00">
-                2019-06-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-14T13:10:00+08:00">
+                2019-06-14
               </time>
             
 
@@ -1346,134 +1507,10 @@
 
       
         
-          <p>符号右移，无符号右移</p>
+          <h1 id="和为S两个数字"><a href="#和为S两个数字" class="headerlink" title="和为S两个数字"></a>和为S两个数字</h1>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/06/05/计算机基础知识/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/05/并查集/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="xixi2">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/05/并查集/" itemprop="url">并查集基础知识</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-05T20:47:32+08:00">
-                2019-06-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="并查集-不相交集合"><a href="#并查集-不相交集合" class="headerlink" title="并查集(不相交集合)"></a>并查集(不相交集合)</h1><p>不相交集合数据结构是这样一种数据结构: 它维护了一个不相交动态集的集合</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/06/05/并查集/#more" rel="contents">
+            <a class="btn" href="/2019/06/14/Two Sum系列/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1515,7 +1552,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1563,7 +1600,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">53</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1585,7 +1622,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
