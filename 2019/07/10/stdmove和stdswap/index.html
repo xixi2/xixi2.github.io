@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="std::movestd::move的存在主要是出于对性能的考虑. std::move可以获得绑定到左值上的 右值引用.此函数定义在utility头文件中. 12int &amp;amp;&amp;amp;rr1 = 42;	// 字面常量是右值, rr1是一个变量,尽管它是右值引用类型int &amp;amp;&amp;amp;rr3 = std::move(rr1);  std::move告诉编译器,我们有一个左值,但是我们">
+<meta name="description" content="std::movestd::move的存在主要是出于对性能的考虑.std::move可以获得绑定到左值上的 右值引用.此函数定义在utility头文件中.">
 <meta name="keywords" content="c++ 基础">
 <meta property="og:type" content="article">
 <meta property="og:title" content="std::move和std::swap">
-<meta property="og:url" content="http://yoursite.com/2019/07/05/stdmove和stdswap/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/07/10/stdmove和stdswap/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="std::movestd::move的存在主要是出于对性能的考虑. std::move可以获得绑定到左值上的 右值引用.此函数定义在utility头文件中. 12int &amp;amp;&amp;amp;rr1 = 42;	// 字面常量是右值, rr1是一个变量,尽管它是右值引用类型int &amp;amp;&amp;amp;rr3 = std::move(rr1);  std::move告诉编译器,我们有一个左值,但是我们">
+<meta property="og:description" content="std::movestd::move的存在主要是出于对性能的考虑.std::move可以获得绑定到左值上的 右值引用.此函数定义在utility头文件中.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-05T08:45:46.984Z">
+<meta property="og:updated_time" content="2019-07-10T03:22:17.499Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="std::move和std::swap">
-<meta name="twitter:description" content="std::movestd::move的存在主要是出于对性能的考虑. std::move可以获得绑定到左值上的 右值引用.此函数定义在utility头文件中. 12int &amp;amp;&amp;amp;rr1 = 42;	// 字面常量是右值, rr1是一个变量,尽管它是右值引用类型int &amp;amp;&amp;amp;rr3 = std::move(rr1);  std::move告诉编译器,我们有一个左值,但是我们">
+<meta name="twitter:description" content="std::movestd::move的存在主要是出于对性能的考虑.std::move可以获得绑定到左值上的 右值引用.此函数定义在utility头文件中.">
 
 
 
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/05/stdmove和stdswap/">
+  <link rel="canonical" href="http://yoursite.com/2019/07/10/stdmove和stdswap/">
 
 
 
@@ -285,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/05/stdmove和stdswap/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/10/stdmove和stdswap/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -314,8 +314,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-05T16:45:46+08:00">
-                2019-07-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-10T11:22:17+08:00">
+                2019-07-10
               </time>
             
 
@@ -357,12 +357,13 @@
       
 
       
-        <h1 id="std-move"><a href="#std-move" class="headerlink" title="std::move"></a>std::move</h1><p>std::move的存在主要是出于对性能的考虑.</p>
-<p>std::move可以获得绑定到左值上的 右值引用.此函数定义在utility头文件中.</p>
+        <h1 id="std-move"><a href="#std-move" class="headerlink" title="std::move"></a>std::move</h1><p>std::move的存在主要是出于对性能的考虑.<br>std::move可以获得绑定到左值上的 右值引用.此函数定义在utility头文件中.</p>
+<a id="more"></a>
+
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int &amp;&amp;rr1 = 42;	// 字面常量是右值, rr1是一个变量,尽管它是右值引用类型</span><br><span class="line">int &amp;&amp;rr3 = std::move(rr1);</span><br></pre></td></tr></table></figure>
 
 <p>std::move告诉编译器,我们有一个左值,但是我们希望像一个右值一样处理它.我们必须认识到,调用move就意味着, 除了对rr1赋值和销毁它以外,我们将不再使用它.在调用move之后, 我们不能对移后源对象的值做任何假设.</p>
-
+<h1 id="std-swap"><a href="#std-swap" class="headerlink" title="std::swap"></a>std::swap</h1>
       
     </div>
     
@@ -392,8 +393,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/05/栈的应用之有效括号系列/" rel="next" title="栈的应用之有效括号系列">
-                <i class="fa fa-chevron-left"></i> 栈的应用之有效括号系列
+              <a href="/2019/07/10/c++数据类型基础知识/" rel="next" title="c++数据类型基础知识">
+                <i class="fa fa-chevron-left"></i> c++数据类型基础知识
               </a>
             
           </div>
@@ -401,10 +402,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/07/07/字符串/" rel="prev" title="字符串">
-                字符串 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -538,7 +535,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#std-move"><span class="nav-number">1.</span> <span class="nav-text">std::move</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#std-move"><span class="nav-number">1.</span> <span class="nav-text">std::move</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#std-swap"><span class="nav-number">2.</span> <span class="nav-text">std::swap</span></a></li></ol></div>
             
 
           </div>
