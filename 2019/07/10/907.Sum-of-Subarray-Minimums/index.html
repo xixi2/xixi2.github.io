@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="leetcode,dynamic programming,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="You are given a list of non-negative integers, a1, a2, …, an, and a target, S. Now you have 2 symbols + and -. For each integer, you should choose one from + and - as its new symbol. Find out how many">
-<meta name="keywords" content="leetcode,dynamic programming">
+<meta name="description" content="Given an array of integers A, find the sum of min(B), where B ranges over every (contiguous) subarray of A. Since the answer may be large, return the answer modulo 10^9 + 7.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="494. Target Sum">
-<meta property="og:url" content="http://yoursite.com/2019/06/03/494.-Target-Sum/index.html">
+<meta property="og:title" content="907. Sum of Subarray Minimums">
+<meta property="og:url" content="http://yoursite.com/2019/07/10/907.Sum-of-Subarray-Minimums/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="You are given a list of non-negative integers, a1, a2, …, an, and a target, S. Now you have 2 symbols + and -. For each integer, you should choose one from + and - as its new symbol. Find out how many">
+<meta property="og:description" content="Given an array of integers A, find the sum of min(B), where B ranges over every (contiguous) subarray of A. Since the answer may be large, return the answer modulo 10^9 + 7.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-30T11:20:09.873Z">
+<meta property="og:updated_time" content="2019-07-10T03:24:37.835Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="494. Target Sum">
-<meta name="twitter:description" content="You are given a list of non-negative integers, a1, a2, …, an, and a target, S. Now you have 2 symbols + and -. For each integer, you should choose one from + and - as its new symbol. Find out how many">
+<meta name="twitter:title" content="907. Sum of Subarray Minimums">
+<meta name="twitter:description" content="Given an array of integers A, find the sum of min(B), where B ranges over every (contiguous) subarray of A. Since the answer may be large, return the answer modulo 10^9 + 7.">
 
 
 
@@ -120,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/06/03/494.-Target-Sum/">
+  <link rel="canonical" href="http://yoursite.com/2019/07/10/907.Sum-of-Subarray-Minimums/">
 
 
 
 
 
-  <title>494. Target Sum | Hexo</title>
+  <title>907. Sum of Subarray Minimums | Hexo</title>
   
 
 
@@ -285,7 +284,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/03/494.-Target-Sum/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/10/907.Sum-of-Subarray-Minimums/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -302,7 +301,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">494. Target Sum</h1>
+          <h1 class="post-title" itemprop="name headline">907. Sum of Subarray Minimums</h1>
         
 
         <div class="post-meta">
@@ -314,8 +313,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-03T16:30:22+08:00">
-                2019-06-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-10T11:24:37+08:00">
+                2019-07-10
               </time>
             
 
@@ -357,27 +356,23 @@
       
 
       
-        <p>You are given a list of non-negative integers, a1, a2, …, an, and a target, S. Now you have 2 symbols <code>+</code> and <code>-</code>. For each integer, you should choose one from <code>+</code> and <code>-</code> as its new symbol.</p>
-<p>Find out how many ways to assign symbols to make sum of integers equal to target S.</p>
-<a id="more"></a>
+        <p>Given an array of integers <code>A</code>, find the sum of <code>min(B)</code>, where <code>B</code> ranges over every (contiguous) subarray of <code>A</code>.</p>
+<p>Since the answer may be large, <strong>return the answer modulo 10^9 + 7.</strong></p>
+<a id="more"></a> 
 
 <p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Input: nums is [1, 1, 1, 1, 1], S is 3. </span><br><span class="line">Output: 5</span><br><span class="line">Explanation: </span><br><span class="line"></span><br><span class="line">-1+1+1+1+1 = 3</span><br><span class="line">+1-1+1+1+1 = 3</span><br><span class="line">+1+1-1+1+1 = 3</span><br><span class="line">+1+1+1-1+1 = 3</span><br><span class="line">+1+1+1+1-1 = 3</span><br><span class="line"></span><br><span class="line">There are 5 ways to assign symbols to make the sum of nums be target 3.</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: [3,1,2,4]</span><br><span class="line">Output: 17</span><br><span class="line">Explanation: Subarrays are [3], [1], [2], [4], [3,1], [1,2], [2,4], [3,1,2], [1,2,4], [3,1,2,4]. </span><br><span class="line">Minimums are 3, 1, 2, 4, 1, 1, 2, 1, 1, 1.  Sum is 17.</span><br></pre></td></tr></table></figure>
 
-<p><strong>Note:</strong></p>
-<ol>
-<li>The length of the given array is positive and will not exceed 20.</li>
-<li>The sum of elements in the given array will not exceed 1000.</li>
-<li>Your output answer is guaranteed to be fitted in a 32-bit integer.</li>
-</ol>
-<h1 id="暴力破解"><a href="#暴力破解" class="headerlink" title="暴力破解"></a>暴力破解</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findTargetSumWays</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> S)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.empty())&#123;</span><br><span class="line">            <span class="keyword">return</span> S == <span class="number">0</span> ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dfs(nums, S, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">dfs</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> S, <span class="keyword">int</span> index, <span class="keyword">int</span> sum)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(index == nums.size())&#123;</span><br><span class="line">            <span class="keyword">return</span> sum == S ? <span class="number">1</span> : <span class="number">0</span>;   </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dfs(nums, S, index + <span class="number">1</span>, sum + nums[index]) +  dfs(nums, S, index + <span class="number">1</span>, sum - nums[index]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="自顶向下的记忆化搜索"><a href="#自顶向下的记忆化搜索" class="headerlink" title="自顶向下的记忆化搜索"></a>自顶向下的记忆化搜索</h1><p>这里会涉及到负值,如何处理呢?加上可能的最小值的负数,进行偏移.</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findTargetSumWays</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> S)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.empty())&#123;</span><br><span class="line">            <span class="keyword">return</span> S == <span class="number">0</span> ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; res(nums.size(), <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(<span class="number">2010</span>, <span class="number">-1</span>));</span><br><span class="line">        <span class="keyword">return</span> dfs(nums, S, <span class="number">0</span>, <span class="number">0</span>, res);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">dfs</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> S, <span class="keyword">int</span> index, <span class="keyword">int</span> sum, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; res)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(index == nums.size())&#123;</span><br><span class="line">            <span class="keyword">return</span> sum == S ? <span class="number">1</span> : <span class="number">0</span>;   </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(res[index][sum + <span class="number">1000</span>]!=<span class="number">-1</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> res[index][sum + <span class="number">1000</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> add = dfs(nums, S, index + <span class="number">1</span>, sum + nums[index], res);</span><br><span class="line">        <span class="keyword">int</span> sub = dfs(nums, S, index + <span class="number">1</span>, sum - nums[index], res);</span><br><span class="line">        res[index][sum + <span class="number">1000</span>] = add + sub;</span><br><span class="line">        <span class="keyword">return</span> add + sub;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="自底向上"><a href="#自底向上" class="headerlink" title="自底向上"></a>自底向上</h1><blockquote>
-<p><strong>dp[i][j]</strong>表示到第i个元素,组成的和为j的方法数.<br>dp[i][sum + nums[i]] = dp[i][sum + nums[i]] + dp[i-1][sum]</p>
+<h1 id="解法1"><a href="#解法1" class="headerlink" title="解法1"></a>解法1</h1><p>统计以a[j]为right-most最小值的子数组的个数, 记作s[j].这样, 结果就是sum(s[j] * a[j]). 必须以right-most为条件,因为只有如此,才能把子数组分为不重合的集合以免重复计算.<br>问题于是转化为, 求最小的i(i&lt;=j), a[i] , a[i+1] , …., a[j]都是大于等于a[j]的.以及最大的k(k&gt;=j) , a[j+1], a[j+2],….,a[k]都大于a[j].</p>
+<blockquote>
+<p>对于一个数组[2,3,4,1]来说,包含3的子数组有6个.<br>这是因为3的左边有一个数, 右边有2个数.3可以在它的左边选择0个或者1个数, 在右边选择0或1个或2个构成子数组.因为包括3的子数组个数共有6个,分别是:<br>即包括3的子数组的个数是(j-i+1) * (k - j + 1), 设j表示3的索引1, i=0, k = 3.</p>
 </blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[3],[2,3],[3,4],[3,4,1], [2,3,4],[2,3,4,1]]</span><br></pre></td></tr></table></figure>
+
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><p>设a = [10,3,4,5,3,2,3,10], 我们想知道以j=4(即以a中第三个3为right-most最小值的子数组的个数), 首先我们找出i = 1, k = 5; 则以这个3为right-most最小值的子数组的个数为(5-5+1) *(5-1+1) = 5, 即子数组[[3],[5,3],[4,5,3],[3,4,5,3]]<br>然后使用单调栈来求数组a中a[j]左边第一个小于a[j]的元素a[i]和右边第一个小于等于a[j]的元素a[k].
+代码未测试:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***</span></span><br><span class="line"><span class="comment"> * 找出nums中元素nums[j]左边第一个小于nums[j]的元素nums[i],</span></span><br><span class="line"><span class="comment"> * 及nums[j]右边第一个小于等于nums[j]的元素nums[k</span></span><br><span class="line"><span class="comment"> * @param nums</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; singleStack(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums) &#123;</span><br><span class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; st;</span><br><span class="line">    <span class="keyword">if</span> (nums.size() &lt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; res(nums.size(), <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(<span class="number">2</span>, <span class="number">-1</span>));</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.size(); ++i) &#123;</span><br><span class="line">        <span class="keyword">while</span> (!st.empty() &amp;&amp; nums[st.top()] &gt;= nums[i]) &#123;</span><br><span class="line">            <span class="keyword">int</span> index = st.top();</span><br><span class="line">            st.pop();</span><br><span class="line">            <span class="keyword">int</span> l = st.empty() ? <span class="number">-1</span> : st.top();</span><br><span class="line">            <span class="keyword">int</span> r = i;</span><br><span class="line">            res[index][<span class="number">0</span>] = l;</span><br><span class="line">            res[index][<span class="number">1</span>] = r;</span><br><span class="line">        &#125;</span><br><span class="line">        st.push(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 下面这些元素右边没有元素比它们小</span></span><br><span class="line">    <span class="keyword">while</span> (!st.empty()) &#123;</span><br><span class="line">        <span class="keyword">int</span> index = st.top();</span><br><span class="line">        st.pop();</span><br><span class="line">        <span class="keyword">int</span> l = st.empty() ? <span class="number">-1</span> : st.top();</span><br><span class="line">        <span class="keyword">int</span> r = nums.size();</span><br><span class="line">        res[index][<span class="number">0</span>] = l;</span><br><span class="line">        res[index][<span class="number">1</span>] = r;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">testsingleStack</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="comment">//    vector&lt;int&gt; nums&#123;2, 3, 2, 3, 5, 2, 3, 3&#125;;</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; nums&#123;<span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>&#125;;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; res = singleStack(nums);</span><br><span class="line">    <span class="keyword">int</span> total = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.size(); ++i) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"nums["</span> &lt;&lt; i &lt;&lt; <span class="string">"] "</span> &lt;&lt; nums[i] &lt;&lt; <span class="string">":  "</span> &lt;&lt; res[i][<span class="number">0</span>] &lt;&lt; <span class="string">","</span> &lt;&lt; res[i][<span class="number">1</span>] &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// (i - res[i][0]) * (res[i][1] - i) 表示以nums[i]为最小值的子数组个数</span></span><br><span class="line">        total += (i - res[i][<span class="number">0</span>]) * (res[i][<span class="number">1</span>] - i) * nums[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; total &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -393,14 +388,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/leetcode/" rel="tag"># leetcode</a>
-          
-            <a href="/tags/dynamic-programming/" rel="tag"># dynamic programming</a>
-          
-        </div>
-      
 
       
       
@@ -410,8 +397,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/03/179.-Largest-Number/" rel="next" title="179. Largest Number">
-                <i class="fa fa-chevron-left"></i> 179. Largest Number
+              <a href="/2019/07/10/stdmove和stdswap/" rel="next" title="std::move和std::swap">
+                <i class="fa fa-chevron-left"></i> std::move和std::swap
               </a>
             
           </div>
@@ -420,8 +407,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/06/03/877.Stone-Game/" rel="prev" title="877. Stone Game">
-                877. Stone Game <i class="fa fa-chevron-right"></i>
+              <a href="/2019/07/10/494.Target-Sum/" rel="prev" title="494. Target Sum">
+                494. Target Sum <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -523,7 +510,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">44</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -556,7 +543,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#暴力破解"><span class="nav-number">1.</span> <span class="nav-text">暴力破解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自顶向下的记忆化搜索"><span class="nav-number">2.</span> <span class="nav-text">自顶向下的记忆化搜索</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自底向上"><span class="nav-number">3.</span> <span class="nav-text">自底向上</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#解法1"><span class="nav-number">1.</span> <span class="nav-text">解法1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#过程"><span class="nav-number">1.1.</span> <span class="nav-text">过程</span></a></li></ol></li></ol></div>
             
 
           </div>

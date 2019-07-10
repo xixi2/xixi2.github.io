@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="c++ 类基础知识,c++ premiere 5th,">
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="在数组中找到出现次数超过n/2的数暴力破解排序法在数组找到出现次数大于n/k的数在数组中找到出现次数大于n/3的数123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051class Solution &amp;#123;public:    vector&amp;lt;int&amp;gt;">
+<meta name="description" content="拷贝构造函数如果一个构造函数的第一个参数是自身类类型的引用，且任何额外参数都有默认值，则此构造函数是拷贝构造函数．">
+<meta name="keywords" content="c++ 类基础知识,c++ premiere 5th">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在数组中找到出现次数大于n&#x2F;k的数">
-<meta property="og:url" content="http://yoursite.com/2019/06/11/在数组中找到出现次数大于nk的数/index.html">
+<meta property="og:title" content="类的５大控制成员">
+<meta property="og:url" content="http://yoursite.com/2019/07/10/c++-premiere-第三部分/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="在数组中找到出现次数超过n/2的数暴力破解排序法在数组找到出现次数大于n/k的数在数组中找到出现次数大于n/3的数123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051class Solution &amp;#123;public:    vector&amp;lt;int&amp;gt;">
+<meta property="og:description" content="拷贝构造函数如果一个构造函数的第一个参数是自身类类型的引用，且任何额外参数都有默认值，则此构造函数是拷贝构造函数．">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-11T12:29:10.682Z">
+<meta property="og:updated_time" content="2019-07-10T03:36:48.804Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在数组中找到出现次数大于n&#x2F;k的数">
-<meta name="twitter:description" content="在数组中找到出现次数超过n/2的数暴力破解排序法在数组找到出现次数大于n/k的数在数组中找到出现次数大于n/3的数123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051class Solution &amp;#123;public:    vector&amp;lt;int&amp;gt;">
+<meta name="twitter:title" content="类的５大控制成员">
+<meta name="twitter:description" content="拷贝构造函数如果一个构造函数的第一个参数是自身类类型的引用，且任何额外参数都有默认值，则此构造函数是拷贝构造函数．">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/06/11/在数组中找到出现次数大于nk的数/">
+  <link rel="canonical" href="http://yoursite.com/2019/07/10/c++-premiere-第三部分/">
 
 
 
 
 
-  <title>在数组中找到出现次数大于n/k的数 | Hexo</title>
+  <title>类的５大控制成员 | Hexo</title>
   
 
 
@@ -284,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/11/在数组中找到出现次数大于nk的数/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/10/c++-premiere-第三部分/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -301,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">在数组中找到出现次数大于n/k的数</h1>
+          <h1 class="post-title" itemprop="name headline">类的５大控制成员</h1>
         
 
         <div class="post-meta">
@@ -313,8 +314,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-11T20:29:10+08:00">
-                2019-06-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-10T11:36:48+08:00">
+                2019-07-10
               </time>
             
 
@@ -356,11 +357,24 @@
       
 
       
-        <h1 id="在数组中找到出现次数超过n-2的数"><a href="#在数组中找到出现次数超过n-2的数" class="headerlink" title="在数组中找到出现次数超过n/2的数"></a>在数组中找到出现次数超过n/2的数</h1><h2 id="暴力破解"><a href="#暴力破解" class="headerlink" title="暴力破解"></a>暴力破解</h2><h2 id="排序法"><a href="#排序法" class="headerlink" title="排序法"></a>排序法</h2><h1 id="在数组找到出现次数大于n-k的数"><a href="#在数组找到出现次数大于n-k的数" class="headerlink" title="在数组找到出现次数大于n/k的数"></a>在数组找到出现次数大于n/k的数</h1><h2 id="在数组中找到出现次数大于n-3的数"><a href="#在数组中找到出现次数大于n-3的数" class="headerlink" title="在数组中找到出现次数大于n/3的数"></a>在数组中找到出现次数大于n/3的数</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; majorityElement(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">        <span class="keyword">if</span>(nums.empty())&#123;</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; mp; <span class="comment">// cand</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.size();i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(mp.find(nums[i]) == mp.end())&#123;</span><br><span class="line">                mp[nums[i]] = <span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                ++mp[nums[i]];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(mp.size() == <span class="number">3</span>)&#123;</span><br><span class="line">                allMinusOne(mp);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">map</span>&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt; counter;</span><br><span class="line">        countElem(nums, mp, counter);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> it=mp.begin();it!=mp.end();it++)&#123;</span><br><span class="line">            <span class="keyword">int</span> num = it-&gt;first;</span><br><span class="line">            <span class="keyword">if</span>(counter[num]&gt;(nums.size()/<span class="number">3</span>))&#123;</span><br><span class="line">                res.push_back(num);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">allMinusOne</span><span class="params">(<span class="built_in">map</span>&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt; &amp;mp)</span></span>&#123;</span><br><span class="line">        <span class="keyword">auto</span> it= mp.begin();</span><br><span class="line">        <span class="keyword">while</span>(it!=mp.end())&#123;</span><br><span class="line">            <span class="keyword">if</span>(it-&gt;second==<span class="number">1</span>)&#123;</span><br><span class="line">                it = mp.erase(it);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                --it-&gt;second;  </span><br><span class="line">                it++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">countElem</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="built_in">map</span>&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt;&amp; mp,<span class="built_in">map</span>&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt;&amp; counter)</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> num:nums)&#123;</span><br><span class="line">            <span class="keyword">if</span>(mp.find(num)!=mp.end())&#123;</span><br><span class="line">                <span class="keyword">if</span>(counter.find(num)==counter.end())&#123;</span><br><span class="line">                    counter[num] = <span class="number">1</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    ++counter[num];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+        <h1 id="拷贝构造函数"><a href="#拷贝构造函数" class="headerlink" title="拷贝构造函数"></a>拷贝构造函数</h1><p>如果一个构造函数的第一个参数是自身类类型的引用，且任何额外参数都有默认值，则此构造函数是<strong>拷贝构造函数</strong>．</p>
+<a id="more"></a>
 
 <blockquote>
-<p>c++中map的find方法查找一个键的时间复杂度为O(logn)</p>
+<p>拷贝初始化通常由拷贝构造函数来完成．但是如果一个类有一个移动构造函数，则拷贝初始化会使用移动构造函数而非拷贝构造函数来完成．总之，拷贝初始化是依靠拷贝构造函数或移动构造函数来完成的．</p>
 </blockquote>
+<p>合成的拷贝构造函数与默认构造函数不同, 即使类中存在其他构造函数, 编译也会自动合成一个拷贝构造函数.<br>合成的拷贝构造函数<strong>将其参数的成员逐个拷贝到正在创建的对象中</strong>,编译器从给定对象中依次将每个非static成员拷贝到正在创建的对象中.</p>
+<p>每个成员的类型决定了它如何拷贝:对于类类型成员,会使用其拷贝构造函数来拷贝;内置类型的成员直接拷贝.</p>
+<blockquote>
+<p>虽然数组不能直接拷贝,但是合成拷贝构造函数会逐元素地拷贝一个数组类型的成员.如果数组元素是类类型,则使用元素的拷贝构造函数来进行拷贝.</p>
+</blockquote>
+<h2 id="直接初始化和拷贝初始化"><a href="#直接初始化和拷贝初始化" class="headerlink" title="直接初始化和拷贝初始化"></a>直接初始化和拷贝初始化</h2><p>直接初始化是要求编译器使用普通的函数匹配来选择与我们提供的参数最匹配的构造函数.<br>使用拷贝初始化则要求编译器<strong>将右侧运算对象拷贝到我们正在创建的对象中</strong>.如果必要的话还需要进行类型转换.<br>拷贝初始化要么通过拷贝构造函数,要么通过移动构造函数完成.<br>拷贝初始化在以下情况下发生：</p>
+<blockquote>
+<p>当我们用=定义变量时<br>将一个对象作为实参传递给一个引用类型的形参<br>从一个返回类型为非引用类型的函数返回一个对象<br>用花括号列表初始化一个数组中的元素或一个聚合类中的成员</p>
+</blockquote>
+<h1 id="拷贝赋值运算符"><a href="#拷贝赋值运算符" class="headerlink" title="拷贝赋值运算符"></a>拷贝赋值运算符</h1><p>赋值运算符返回一个指向其左侧运算对象的引用．</p>
+<h1 id="析构函数"><a href="#析构函数" class="headerlink" title="析构函数"></a>析构函数</h1><p>构造函数初始化对象的非static数据成员；析构函数释放对象使用的资源，并销毁对象的非static数据成员．在一个析构函数中，首先执行函数体，然后销毁成员，成员按初始化顺序的逆序销毁．</p>
+<h1 id="移动构造函数"><a href="#移动构造函数" class="headerlink" title="移动构造函数"></a>移动构造函数</h1><h1 id="移动赋值运算符"><a href="#移动赋值运算符" class="headerlink" title="移动赋值运算符"></a>移动赋值运算符</h1><h1 id="关联"><a href="#关联" class="headerlink" title="关联"></a>关联</h1><p>以上五个函数统称为拷贝控制操作．各个拷贝控制操作之间的关系是：<br>通常如果一个类需要一个析构函数，那么它也需要一个拷贝构造函数和一个拷贝赋值运算符．但需要拷贝或赋值操作时，不一定需要析构函数．<br>如果一个类需要一个拷贝构造函数，那么它也需要一个拷贝构造函数．</p>
 
       
     </div>
@@ -376,6 +390,14 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/c-类基础知识/" rel="tag"># c++ 类基础知识</a>
+          
+            <a href="/tags/c-premiere-5th/" rel="tag"># c++ premiere 5th</a>
+          
+        </div>
+      
 
       
       
@@ -385,8 +407,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/07/c++-premiere-第三部分/" rel="next" title="c++ premiere 5th 第三部分">
-                <i class="fa fa-chevron-left"></i> c++ premiere 5th 第三部分
+              <a href="/2019/07/10/类的５大控制成员/" rel="next" title="类的５大控制成员">
+                <i class="fa fa-chevron-left"></i> 类的５大控制成员
               </a>
             
           </div>
@@ -395,8 +417,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/06/11/二叉树的遍历/" rel="prev" title="二叉树的遍历的延伸">
-                二叉树的遍历的延伸 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/07/10/179.Largest-Number/" rel="prev" title="179. Largest Number">
+                179. Largest Number <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -498,7 +520,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">44</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -531,7 +553,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#在数组中找到出现次数超过n-2的数"><span class="nav-number">1.</span> <span class="nav-text">在数组中找到出现次数超过n/2的数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#暴力破解"><span class="nav-number">1.1.</span> <span class="nav-text">暴力破解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排序法"><span class="nav-number">1.2.</span> <span class="nav-text">排序法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在数组找到出现次数大于n-k的数"><span class="nav-number">2.</span> <span class="nav-text">在数组找到出现次数大于n/k的数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#在数组中找到出现次数大于n-3的数"><span class="nav-number">2.1.</span> <span class="nav-text">在数组中找到出现次数大于n/3的数</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#拷贝构造函数"><span class="nav-number">1.</span> <span class="nav-text">拷贝构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#直接初始化和拷贝初始化"><span class="nav-number">1.1.</span> <span class="nav-text">直接初始化和拷贝初始化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#拷贝赋值运算符"><span class="nav-number">2.</span> <span class="nav-text">拷贝赋值运算符</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#析构函数"><span class="nav-number">3.</span> <span class="nav-text">析构函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#移动构造函数"><span class="nav-number">4.</span> <span class="nav-text">移动构造函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#移动赋值运算符"><span class="nav-number">5.</span> <span class="nav-text">移动赋值运算符</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关联"><span class="nav-number">6.</span> <span class="nav-text">关联</span></a></li></ol></div>
             
 
           </div>
