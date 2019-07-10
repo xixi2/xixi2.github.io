@@ -79,21 +79,17 @@
 
 
 
-<meta name="description" content="位运算专题 基础知识无符号数示例1 1234unsigned int u = 0xFFFFFFFF;cout&amp;lt;&amp;lt;&quot;u=&quot;&amp;lt;&amp;lt;u&amp;lt;&amp;lt;endl; //4294967295u -= 31;cout&amp;lt;&amp;lt;&quot;u=&quot;&amp;lt;&amp;lt;u&amp;lt;&amp;lt;endl;//4294967264  无符号数0xFFFFFFFF是32位无符号数中的最大值。 示例2：无符号数和有">
+<meta name="description" content="题目描述Given an absolute path for a file (Unix-style), simplify it. Or in other words, convert it to the canonical path. In a UNIX-style file system, a period . refers to the current directory. Furthermo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/2019/06/17/c++数据类型、类型转换基础知识/index.html">
+<meta property="og:title" content="71. Simplify Path">
+<meta property="og:url" content="http://yoursite.com/2019/07/10/71.Simplify-Path/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="位运算专题 基础知识无符号数示例1 1234unsigned int u = 0xFFFFFFFF;cout&amp;lt;&amp;lt;&quot;u=&quot;&amp;lt;&amp;lt;u&amp;lt;&amp;lt;endl; //4294967295u -= 31;cout&amp;lt;&amp;lt;&quot;u=&quot;&amp;lt;&amp;lt;u&amp;lt;&amp;lt;endl;//4294967264  无符号数0xFFFFFFFF是32位无符号数中的最大值。 示例2：无符号数和有">
+<meta property="og:description" content="题目描述Given an absolute path for a file (Unix-style), simplify it. Or in other words, convert it to the canonical path. In a UNIX-style file system, a period . refers to the current directory. Furthermo">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="g:%5Cmarkdown-place%5Cimages%5C1557468069872.png">
-<meta property="og:image" content="g:%5Cmarkdown-place%5Cimages%5C1556345786770.png">
-<meta property="og:image" content="g:%5Cmarkdown-place%5Cimages%5C1556362743389.png">
-<meta property="og:updated_time" content="2019-06-04T06:05:40.597Z">
+<meta property="og:updated_time" content="2019-07-10T03:14:37.087Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="位运算专题 基础知识无符号数示例1 1234unsigned int u = 0xFFFFFFFF;cout&amp;lt;&amp;lt;&quot;u=&quot;&amp;lt;&amp;lt;u&amp;lt;&amp;lt;endl; //4294967295u -= 31;cout&amp;lt;&amp;lt;&quot;u=&quot;&amp;lt;&amp;lt;u&amp;lt;&amp;lt;endl;//4294967264  无符号数0xFFFFFFFF是32位无符号数中的最大值。 示例2：无符号数和有">
-<meta name="twitter:image" content="g:%5Cmarkdown-place%5Cimages%5C1557468069872.png">
+<meta name="twitter:title" content="71. Simplify Path">
+<meta name="twitter:description" content="题目描述Given an absolute path for a file (Unix-style), simplify it. Or in other words, convert it to the canonical path. In a UNIX-style file system, a period . refers to the current directory. Furthermo">
 
 
 
@@ -123,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/06/17/c++数据类型、类型转换基础知识/">
+  <link rel="canonical" href="http://yoursite.com/2019/07/10/71.Simplify-Path/">
 
 
 
 
 
-  <title> | Hexo</title>
+  <title>71. Simplify Path | Hexo</title>
   
 
 
@@ -288,7 +284,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/17/c++数据类型、类型转换基础知识/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/10/71.Simplify-Path/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -305,7 +301,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline"></h1>
+          <h1 class="post-title" itemprop="name headline">71. Simplify Path</h1>
         
 
         <div class="post-meta">
@@ -317,8 +313,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-17T20:11:35+08:00">
-                2019-06-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-10T11:14:37+08:00">
+                2019-07-10
               </time>
             
 
@@ -360,46 +356,38 @@
       
 
       
-        <p><strong>位运算专题</strong></p>
-<h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><h2 id="无符号数"><a href="#无符号数" class="headerlink" title="无符号数"></a>无符号数</h2><p>示例1</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> u = <span class="number">0xFFFFFFFF</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"u="</span>&lt;&lt;u&lt;&lt;<span class="built_in">endl</span>; <span class="comment">//4294967295</span></span><br><span class="line">u -= <span class="number">31</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"u="</span>&lt;&lt;u&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//4294967264</span></span><br></pre></td></tr></table></figure>
+        <h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>Given an <strong>absolute path</strong> for a file (Unix-style), simplify it. Or in other words, convert it to the <strong>canonical path</strong>.</p>
+<p>In a UNIX-style file system, a period <code>.</code> refers to the current directory. Furthermore, a double period <code>..</code> moves the directory up a level. For more information, see: <a href="https://www.linuxnix.com/abslute-path-vs-relative-path-in-linuxunix/" target="_blank" rel="noopener">Absolute path vs relative path in Linux/Unix</a></p>
+<p>Note that the returned canonical path must always begin with a slash <code>/</code>, and there must be only a single slash <code>/</code> between two directory names. The last directory name (if it exists) <strong>must not</strong> end with a trailing <code>/</code>. Also, the canonical path must be the <strong>shortest</strong> string representing the absolute path.</p>
+ <a id="more"></a>
 
-<p>无符号数0xFFFFFFFF是32位无符号数中的最大值。</p>
-<p>示例2：无符号数和有符号数运算</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> u = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> i = <span class="number">-42</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"u="</span>&lt;&lt;u&lt;&lt;<span class="built_in">endl</span>; </span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"unsigned(i)="</span>&lt;&lt;<span class="keyword">unsigned</span>(i)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"(i+u)      ="</span>&lt;&lt;(i+u)&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: &quot;/home/&quot;</span><br><span class="line">Output: &quot;/home&quot;</span><br><span class="line">Explanation: Note that there is no trailing slash after the last directory name.</span><br></pre></td></tr></table></figure>
 
-<p><img src="G:%5Cmarkdown-place%5Cimages%5C1557468069872.png" alt="1557468069872"></p>
-<p>无符号数u和有符号数i相加前，把有符号数i转换为无符号数，结果等于两个无符号数相加。</p>
-<p>示例3：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> u = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> i = <span class="number">-1</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"u="</span>&lt;&lt;u&lt;&lt;<span class="built_in">endl</span>; <span class="comment">//10</span></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"unsigned(i)="</span>&lt;&lt;<span class="keyword">unsigned</span>(i)&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//4294967295</span></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"(i+u)      ="</span>&lt;&lt;(i+u)&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//(4294967295 + 10) % (4294967296)，其中4294967296是2的32次方</span></span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: &quot;/../&quot;</span><br><span class="line">Output: &quot;/&quot;</span><br><span class="line">Explanation: Going one level up from the root directory is a no-op, as the root level is the highest level you can go.</span><br></pre></td></tr></table></figure>
 
-<p>两个无符号数相加结果超出它表示范围时，先对这个超出表示范围的结果进行取模(对2的n次方进行取模)，则得到了真正的结果。</p>
-<p>示例4：无符号数都是整数。若给无符号赋值一个负数，则将该负数+2^n得到最后的结果。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> x = <span class="number">0xFFFFFFFF</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> u = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> v = <span class="number">42</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"x:"</span>&lt;&lt;x&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"(v - u):"</span>&lt;&lt;(v - u)&lt;&lt;<span class="built_in">endl</span>; <span class="comment">// 32</span></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"(u - v):"</span>&lt;&lt;(u - v)&lt;&lt;<span class="built_in">endl</span>; <span class="comment">// 4294967264: (-32 + 4294967296) % 4294967296的结果</span></span><br></pre></td></tr></table></figure>
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: &quot;/home//foo/&quot;</span><br><span class="line">Output: &quot;/home/foo&quot;</span><br><span class="line">Explanation: In the canonical path, multiple consecutive slashes are replaced by a single one.</span><br></pre></td></tr></table></figure>
 
-<p>示例5：当表达式中既有带符号数又有无符号数时，当带符号数值为负数时会出现异常情况，这是因为带符号数会自动转换成无符号数。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> x = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> y = <span class="number">-1</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"x * y="</span>&lt;&lt;(x * y)&lt;&lt;<span class="built_in">endl</span>; <span class="comment">//4294967295，y转换为无符号数(-1 + 4294967296) = 4294967295</span></span><br></pre></td></tr></table></figure>
+<p><strong>Example 4:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: &quot;/a/./b/../../c/&quot;</span><br><span class="line">Output: &quot;/c&quot;</span><br></pre></td></tr></table></figure>
 
-<h2 id="16进制数0xffffffff"><a href="#16进制数0xffffffff" class="headerlink" title="16进制数0xffffffff"></a>16进制数0xffffffff</h2><p>0xffffffff是一个十六进制数。把它转换成2进制为：1111111..11(32个1)<br>把它转成10进制无符号数是：0xffffffff = 16x10^7+ 16x10^6+….+16x10^1+16x10^0 = 4294967295<br>把它转成10进制带符号整数为：<br>111111111111111(32个1表示的补码形式)转化为源码形式为10…00001(中间30个0)，即-1。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> a = <span class="number">0xffffffff</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"a="</span>&lt;&lt;a&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="keyword">int</span> b = <span class="number">0xffffffff</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"b="</span>&lt;&lt;b&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+<p><strong>Example 5:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: &quot;/a/../../b/../c//.//&quot;</span><br><span class="line">Output: &quot;/c&quot;</span><br></pre></td></tr></table></figure>
 
-<p>运行截图：</p>
-<p><img src="G:%5Cmarkdown-place%5Cimages%5C1556345786770.png" alt="1556345786770"></p>
-<h2 id="异或运算"><a href="#异或运算" class="headerlink" title="异或运算"></a>异或运算</h2><p>异或运算满足交换律与结合律。<br>C = A ^ B  (^是异或运算符)，则 A = B ^ C, B = A ^ C</p>
-<p>例1.  A = 1011, B = 0101 , C= 1110<br>若A和B在某一位上都是1， 则C在该位上为0，则A或B的该位与C的该位相与就是1；若A和B在某一位上都是0， 则C在该位上为0，则A或B的该位与C的该位相与就是0。<br>若A在某一位为1， B在该位为0， 则C在该位上为1，则A的该位与C的该位相与就是0，B的该位与C的该位相与就是1。同理，A在该位为0，B在该位为1时可证成立。</p>
-<ol start="3">
-<li><p>按位取反~</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">-2147483648</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"a="</span>&lt;&lt;a&lt;&lt;<span class="string">" ~a="</span>&lt;&lt;~a&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="built_in">bitset</span>&lt;32&gt; b1(a);</span><br><span class="line"><span class="built_in">bitset</span>&lt;32&gt; b2(~a);</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"a: "</span>&lt;&lt;b1.to_string()&lt;&lt;<span class="string">" ~a: "</span>&lt;&lt;b2.to_string()&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+<p><strong>Example 6:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: &quot;/a//b////c/d//././/..&quot;</span><br><span class="line">Output: &quot;/a/b/c&quot;</span><br></pre></td></tr></table></figure>
 
-<p><img src="G:%5Cmarkdown-place%5Cimages%5C1556362743389.png" alt="1556362743389"></p>
-</li>
-<li><p>补码、原码、求补运算</p>
-<p>负数的补码由其原码对除符号位外各位取反末位加1，同样，由补码求原码也是对补码除符号位外，各位取反末位加1。<br>求补运算：不考虑符号位，对原码各位取反，并在末位加1。对一个数进行求补运算得到的是其相反数的补码。<br>如对0111进行求补运算，0111的真值为7。其补数为1001（补码），补码1001对应的源码为1111，真值为-7。</p>
-</li>
-<li><p>n &amp;(~n+1)</p>
-<p>这个表达式常用来取n中最右侧的1。这是因为, <del>n是对进行按位取反。<br>例如：n = 1000，</del>n=0111, <del>n+1 = 1000,  n &amp; (</del>n+1)=1000，只有n中最右边为1的位置为1。<br>n = 1010， <del>n=0101，</del>n+1=0110, n &amp; (~n+1)=0010。</p>
-</li>
-</ol>
+<p>#　解法1</p>
+<p>思路：一次取出path中不等于//的部分（表示的是目录），若该部分是..，表示返回上级目录，若此时不在根目录下则有上级目录可以返回，则返回上级目录，即删除当前的目录。若该部分是.，表示当前目录，则什么也不做。否则，将新的目录加入到当前路径中（这里用vector来存储当前路径中的所有目录名）。最后将整个目录用/连接起来。另外，这里的根目录是隐含的，没有在初始化路径时加入到vector中，这是因为我们知道当前路径中的第一个目录一定是根目录。</p>
+<p>注意：vector等的size()都是无符号数，无符号数都大于等于0，无符号数与有符号数做减法时不会产生负数，而是会变成一个很大的整数。参见：<a href>c++数据类型基础知识</a></p>
+<p>AC代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">simplifyPath</span><span class="params">(<span class="built_in">string</span> path)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(path.empty() || path[<span class="number">0</span>]!=<span class="string">'/'</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; vec;</span><br><span class="line">        <span class="keyword">int</span> i=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(i &lt; path.size())&#123;</span><br><span class="line">            <span class="keyword">int</span> j=i;</span><br><span class="line">            <span class="keyword">while</span>(j &lt; path.size() &amp;&amp; path[j]==<span class="string">'/'</span>)&#123;</span><br><span class="line">                ++j;</span><br><span class="line">            &#125;</span><br><span class="line">            i = j;</span><br><span class="line">            <span class="keyword">while</span>(j &lt; path.size() &amp;&amp; path[j]!=<span class="string">'/'</span>)&#123;</span><br><span class="line">                ++j;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(i &lt; j)&#123;</span><br><span class="line">                <span class="built_in">string</span> tmp = path.substr(i, j-i);</span><br><span class="line">                <span class="keyword">if</span>(tmp == <span class="string">".."</span>)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(!vec.empty())&#123;</span><br><span class="line">                        vec.pop_back();                        </span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;<span class="keyword">else</span> <span class="keyword">if</span>(tmp !=<span class="string">"."</span>)&#123;</span><br><span class="line">                    vec.push_back(tmp);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            i = j;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">string</span> res = <span class="string">"/"</span>;</span><br><span class="line">        i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(vec.size() &gt; <span class="number">1</span> &amp;&amp; i &lt; vec.size()<span class="number">-1</span>)&#123;</span><br><span class="line">            res += vec[i];</span><br><span class="line">            res += <span class="string">"/"</span>;</span><br><span class="line">            ++i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!vec.empty())&#123;</span><br><span class="line">            res += vec[vec.size()<span class="number">-1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><blockquote>
+<p>时间复杂度为为O(n)，只从左到右扫描了整个路径字符串一遍。<br>空间复杂度为O(n)，使用了一个vector来存储路径。</p>
+</blockquote>
 
       
     </div>
@@ -424,8 +412,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/17/523.Continuous-Subarray-Sum/" rel="next" title="523. Continuous Subarray Sum">
-                <i class="fa fa-chevron-left"></i> 523. Continuous Subarray Sum
+              <a href="/2019/07/10/c++数据类型基础知识/" rel="next" title="c++数据类型基础知识">
+                <i class="fa fa-chevron-left"></i> c++数据类型基础知识
               </a>
             
           </div>
@@ -433,10 +421,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/06/19/221.Maximal-Square/" rel="prev" title="221. Maximal Square">
-                221. Maximal Square <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -515,7 +499,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -537,7 +521,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -570,7 +554,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基础知识"><span class="nav-number">1.</span> <span class="nav-text">基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#无符号数"><span class="nav-number">1.1.</span> <span class="nav-text">无符号数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16进制数0xffffffff"><span class="nav-number">1.2.</span> <span class="nav-text">16进制数0xffffffff</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异或运算"><span class="nav-number">1.3.</span> <span class="nav-text">异或运算</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目描述"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#复杂度分析"><span class="nav-number">1.1.</span> <span class="nav-text">复杂度分析</span></a></li></ol></li></ol></div>
             
 
           </div>
