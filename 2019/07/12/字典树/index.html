@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="堆数据结构,优先队列,最小堆，最大堆,堆排序,">
+  <meta name="keywords" content="字符串,">
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="什么是堆我们面临的第一个问题是：什么是堆？  堆可以定义为一颗二叉树，树的节点中包含键，并且满足两个条件：１．该二叉树是完全二叉树．除了最后一层，树的每一层都是满的．２．父母优势：(以最大堆为例)父节点的键大于或等于孩子节点的键  可以用数组来实现堆．">
-<meta name="keywords" content="堆数据结构,优先队列,最小堆，最大堆,堆排序">
+<meta name="description" content="字典树以下描述来自左神的程序员面试指南．  字典树又叫前缀树或者Trie树，是处理字符串常见的数据结构．假设组成所有单词的字符仅仅是a-z，请实现字典树结构，并包含一下四个主要功能．  void insert(string word): 添加word，可重复添加． void delete(string word): 删除word，如果word添加过多次，仅删除一个． bool search(str">
+<meta name="keywords" content="字符串">
 <meta property="og:type" content="article">
-<meta property="og:title" content="堆">
-<meta property="og:url" content="http://yoursite.com/2019/07/08/堆/index.html">
+<meta property="og:title" content="字典树">
+<meta property="og:url" content="http://yoursite.com/2019/07/12/字典树/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="什么是堆我们面临的第一个问题是：什么是堆？  堆可以定义为一颗二叉树，树的节点中包含键，并且满足两个条件：１．该二叉树是完全二叉树．除了最后一层，树的每一层都是满的．２．父母优势：(以最大堆为例)父节点的键大于或等于孩子节点的键  可以用数组来实现堆．">
+<meta property="og:description" content="字典树以下描述来自左神的程序员面试指南．  字典树又叫前缀树或者Trie树，是处理字符串常见的数据结构．假设组成所有单词的字符仅仅是a-z，请实现字典树结构，并包含一下四个主要功能．  void insert(string word): 添加word，可重复添加． void delete(string word): 删除word，如果word添加过多次，仅删除一个． bool search(str">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-08T08:41:07.957Z">
+<meta property="og:updated_time" content="2019-07-12T11:42:45.760Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="堆">
-<meta name="twitter:description" content="什么是堆我们面临的第一个问题是：什么是堆？  堆可以定义为一颗二叉树，树的节点中包含键，并且满足两个条件：１．该二叉树是完全二叉树．除了最后一层，树的每一层都是满的．２．父母优势：(以最大堆为例)父节点的键大于或等于孩子节点的键  可以用数组来实现堆．">
+<meta name="twitter:title" content="字典树">
+<meta name="twitter:description" content="字典树以下描述来自左神的程序员面试指南．  字典树又叫前缀树或者Trie树，是处理字符串常见的数据结构．假设组成所有单词的字符仅仅是a-z，请实现字典树结构，并包含一下四个主要功能．  void insert(string word): 添加word，可重复添加． void delete(string word): 删除word，如果word添加过多次，仅删除一个． bool search(str">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/08/堆/">
+  <link rel="canonical" href="http://yoursite.com/2019/07/12/字典树/">
 
 
 
 
 
-  <title>堆 | Hexo</title>
+  <title>字典树 | Hexo</title>
   
 
 
@@ -285,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/08/堆/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/12/字典树/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -302,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">堆</h1>
+          <h1 class="post-title" itemprop="name headline">字典树</h1>
         
 
         <div class="post-meta">
@@ -314,8 +314,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-08T16:41:07+08:00">
-                2019-07-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-12T19:42:45+08:00">
+                2019-07-12
               </time>
             
 
@@ -357,40 +357,28 @@
       
 
       
-        <h1 id="什么是堆"><a href="#什么是堆" class="headerlink" title="什么是堆"></a>什么是堆</h1><p>我们面临的第一个问题是：什么是堆？</p>
+        <h1 id="字典树"><a href="#字典树" class="headerlink" title="字典树"></a>字典树</h1><p>以下描述来自左神的程序员面试指南．</p>
 <blockquote>
-<p>堆可以定义为一颗二叉树，树的节点中包含键，并且满足两个条件：<br>１．该二叉树是完全二叉树．除了最后一层，树的每一层都是满的．<br>２．父母优势：(以最大堆为例)父节点的键大于或等于孩子节点的键</p>
+<p>字典树又叫前缀树或者Trie树，是处理字符串常见的数据结构．假设组成所有单词的字符仅仅是a-z，请实现字典树结构，并包含一下四个主要功能．</p>
+<ul>
+<li>void insert(string word): 添加word，可重复添加．</li>
+<li>void delete(string word): 删除word，如果word添加过多次，仅删除一个．</li>
+<li>bool search(string word)：查询word是否在字典树中</li>
+<li>int prefixNumber(string pre)：返回以字符pre为前缀的单词数量．</li>
+</ul>
 </blockquote>
-<p>可以用<span style="color:green">数组</span>来实现堆．</p>
-<a id="more"></a>
-
-<h2 id="如何构造一个堆"><a href="#如何构造一个堆" class="headerlink" title="如何构造一个堆"></a>如何构造一个堆</h2><p>自底向上构造堆</p>
 <blockquote>
-<p>从最后一个非叶节点开始，检查该节点是否满足父母优势．如果不满足，就将该节点与最大孩子节点的键交换，然后再检查新的位置．这个过程持续到被检查节点满足父母优势为止(叶子节点自动满足父母优势)．此过程从最后一个非叶节点一直持续到根节点．<br>最后一个非叶节点：假设堆中有n个节点，则最后一个非叶节点为(n/2)向下取整．例如，n=7,最后一个非叶节点为３.</p>
+<p>字典树是一种树形结构，有点是利用字符串的公共前缀来节约存储空间．比如加入abc，abcd，abd，b，bcd，efg，hik之后，字典树如图所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;     a/   b|   \e  \h</span><br><span class="line">&gt;    b/   c/	   \f  \i</span><br><span class="line">&gt;   c/   d/       \g  \k</span><br><span class="line">&gt;  d/</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
 </blockquote>
-<h3 id="调整一个堆成为最大堆"><a href="#调整一个堆成为最大堆" class="headerlink" title="调整一个堆成为最大堆"></a>调整一个堆成为最大堆</h3><p><strong>非递归方式</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">max_heapify_iter(H[<span class="number">1</span>,...,n], k)</span><br><span class="line">    <span class="comment">// 输入：H[1,..,n]是一个数组，表示一个完全二叉树</span></span><br><span class="line">    <span class="comment">// k：当前要调整的节点K</span></span><br><span class="line">    <span class="comment">// 输出：以节点i为根的二叉树调整为一个堆</span></span><br><span class="line">  	k = i, v = H[k]   <span class="comment">// K是当前需要检查的节点</span></span><br><span class="line">  	heap = <span class="literal">false</span>   　　<span class="comment">//　状态变量，表示当前要检查的节点是否满足父母优势</span></span><br><span class="line">  	<span class="keyword">while</span> <span class="keyword">not</span> heap <span class="keyword">and</span> <span class="number">2</span> * k &lt;= n  <span class="comment">// 当要检查的节点不满足父母优势且不是叶子节点</span></span><br><span class="line">        j = <span class="number">2</span> * k</span><br><span class="line">        <span class="keyword">if</span> j &lt; n    <span class="comment">// 被检查节点有两个孩子节点</span></span><br><span class="line">        	<span class="keyword">if</span> H[j + <span class="number">1</span>] &gt; H[j]</span><br><span class="line">        		j = j + <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> v &gt;= H[j]</span><br><span class="line">        	heap = <span class="literal">true</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            H[k] = H[j]   <span class="comment">// 交换被检查的节点和它最大孩子节点的键</span></span><br><span class="line">            k = j　　　　　<span class="comment">// 继续检查被交换后的最大孩子节点的键</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>递归方式</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">max_heapify_recur(A, i)</span><br><span class="line">    <span class="comment">// 输入：A[1,..,n]是一个数组，表示一个完全二叉树</span></span><br><span class="line">    <span class="comment">// i：当前要调整的节点i</span></span><br><span class="line">    <span class="comment">// 输出：以节点i为根的二叉树调整为一个堆</span></span><br><span class="line">    l = <span class="number">2</span> * i     <span class="comment">// 节点i的左孩子2 * i</span></span><br><span class="line">    r = <span class="number">2</span> * i + <span class="number">1</span> <span class="comment">// 节点i的左孩子2 * i + 1</span></span><br><span class="line">    <span class="keyword">if</span> l &lt;= n <span class="keyword">and</span> A[l] &gt;= A[i]</span><br><span class="line">    	largest = l</span><br><span class="line">   	<span class="keyword">else</span> </span><br><span class="line">        largest = i</span><br><span class="line">   	<span class="keyword">if</span> r &lt;= n <span class="keyword">and</span> A[r] &gt;= A[largest]</span><br><span class="line">   		largest = r</span><br><span class="line">	<span class="keyword">if</span> largest != i</span><br><span class="line">		exchange(A[i], A[largest])</span><br><span class="line">    	max_heapify(A, largest)</span><br></pre></td></tr></table></figure>
-
-<h3 id="建堆"><a href="#建堆" class="headerlink" title="建堆"></a>建堆</h3><p><strong>非递归方式</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HeapBottomUp(H[<span class="number">1</span>,...,n])</span><br><span class="line">  <span class="comment">// 用自底向上算法，从给定数组的元素中构造一个堆</span></span><br><span class="line">  <span class="comment">// 输入：一个可排序元素的数组H[1,...,n]</span></span><br><span class="line">  <span class="comment">// 输出：一个堆H[1,...,n]</span></span><br><span class="line">  <span class="keyword">for</span> i = [n/<span class="number">2</span>] to <span class="number">1</span> <span class="keyword">do</span></span><br><span class="line">  	max_heapify_iter(H, i)</span><br></pre></td></tr></table></figure>
-
-<p><strong>递归方式</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">build_max_heap(A)</span><br><span class="line">    <span class="comment">// 用自底向上算法，从给定数组的元素中构造一个堆</span></span><br><span class="line">  	<span class="comment">// 输入：一个可排序元素的数组A[1,...,n]</span></span><br><span class="line">  	<span class="comment">// 输出：一个堆A[1,...,n]</span></span><br><span class="line">    <span class="keyword">for</span> i = n/<span class="number">2</span> to <span class="number">1</span> <span class="keyword">do</span>   <span class="comment">// n/2向下取整</span></span><br><span class="line">        max_heapify_recur(A, i)</span><br></pre></td></tr></table></figure>
-
-<h1 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h1><p>第一步，堆排序首先构造堆，为一个给定的数组构造一个堆．时间复杂度为O(n)</p>
 <blockquote>
-<p>建堆时间复杂度分析：</p>
+<p>字典树的性质如下：</p>
+<ul>
+<li>根节点没有字符路径．除根节点外，每一个节点都被一个字符路径找到．</li>
+<li>从根节点出发到任何一个节点，如果将沿途经过的字符连接起来，一定为某个加入过的字符串的前缀．</li>
+<li>每个节点向下所有的字符路径上的字符都不同．</li>
+</ul>
 </blockquote>
-<p>第二步，从堆中删除最大键，持续此动作n-1次．时间复杂度为O(nlogn)</p>
-<blockquote>
-<p>删除最大键并调整堆的时间复杂度分析：</p>
-</blockquote>
-<p>堆排序的时间效率是O(nlogn)，但是堆排序是原址排序，不需要任何额外的存储空间．<br>堆排序比快速排序运行得慢，但是比合并排序快．</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">heap_sort(A)</span><br><span class="line">	<span class="comment">// 输入：一个可排序元素的数组A[1,...,n]</span></span><br><span class="line">  	<span class="comment">// 输出：一个排好序的数组A</span></span><br><span class="line">   	heap_size = n</span><br><span class="line">    <span class="keyword">for</span> i = n to <span class="number">2</span></span><br><span class="line">        exchange(A[i], A[<span class="number">1</span>])</span><br><span class="line">        --heap_size;</span><br><span class="line">        max_heapify_iter(A, <span class="number">1</span>) <span class="comment">// 调整以节点１为根，大小为heap_size的数组为最大堆</span></span><br></pre></td></tr></table></figure>
-
 
       
     </div>
@@ -408,13 +396,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/堆数据结构/" rel="tag"># 堆数据结构</a>
-          
-            <a href="/tags/优先队列/" rel="tag"># 优先队列</a>
-          
-            <a href="/tags/最小堆，最大堆/" rel="tag"># 最小堆，最大堆</a>
-          
-            <a href="/tags/堆排序/" rel="tag"># 堆排序</a>
+            <a href="/tags/字符串/" rel="tag"># 字符串</a>
           
         </div>
       
@@ -427,8 +409,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/08/560.-Subarray-Sum-Equals-K/" rel="next" title="560. Subarray Sum Equals K">
-                <i class="fa fa-chevron-left"></i> 560. Subarray Sum Equals K
+              <a href="/2019/07/12/堆/" rel="next" title="堆">
+                <i class="fa fa-chevron-left"></i> 堆
               </a>
             
           </div>
@@ -437,8 +419,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/07/08/虚函数/" rel="prev" title="虚函数">
-                虚函数 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/07/13/包管理工具aptitude/" rel="prev" title="包管理工具aptitude">
+                包管理工具aptitude <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -573,7 +555,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是堆"><span class="nav-number">1.</span> <span class="nav-text">什么是堆</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何构造一个堆"><span class="nav-number">1.1.</span> <span class="nav-text">如何构造一个堆</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#调整一个堆成为最大堆"><span class="nav-number">1.1.1.</span> <span class="nav-text">调整一个堆成为最大堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建堆"><span class="nav-number">1.1.2.</span> <span class="nav-text">建堆</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#堆排序"><span class="nav-number">2.</span> <span class="nav-text">堆排序</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#字典树"><span class="nav-number">1.</span> <span class="nav-text">字典树</span></a></li></ol></div>
             
 
           </div>
