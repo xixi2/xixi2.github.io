@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="c++ 基础,">
+  <meta name="keywords" content="liunx系统,常用工具,">
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="std::movestd::move的存在主要是出于对性能的考虑.std::move可以获得绑定到左值上的 右值引用.此函数定义在utility头文件中.">
-<meta name="keywords" content="c++ 基础">
+<meta name="description" content="来自百度百科的介绍  aptitude与 apt-get 一样，是 Debian 及其衍生系统中功能极其强大的包管理工具。与 apt-get 不同的是，aptitude在处理依赖问题上更佳一些。举例来说，aptitude在删除一个包时，会同时删除本身所依赖的包。这样，系统中不会残留无用的包，整个系统更为干净。  之所以要来说一说这个包管理工具，是因为在ubuntu中安装软件的时候经常遇到依赖未安装">
+<meta name="keywords" content="liunx系统,常用工具">
 <meta property="og:type" content="article">
-<meta property="og:title" content="std::move和std::swap">
-<meta property="og:url" content="http://yoursite.com/2019/07/10/stdmove和stdswap/index.html">
+<meta property="og:title" content="包管理工具aptitude">
+<meta property="og:url" content="http://yoursite.com/2019/07/17/包管理工具aptitude/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="std::movestd::move的存在主要是出于对性能的考虑.std::move可以获得绑定到左值上的 右值引用.此函数定义在utility头文件中.">
+<meta property="og:description" content="来自百度百科的介绍  aptitude与 apt-get 一样，是 Debian 及其衍生系统中功能极其强大的包管理工具。与 apt-get 不同的是，aptitude在处理依赖问题上更佳一些。举例来说，aptitude在删除一个包时，会同时删除本身所依赖的包。这样，系统中不会残留无用的包，整个系统更为干净。  之所以要来说一说这个包管理工具，是因为在ubuntu中安装软件的时候经常遇到依赖未安装">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-10T03:22:17.499Z">
+<meta property="og:updated_time" content="2019-07-17T09:33:38.155Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="std::move和std::swap">
-<meta name="twitter:description" content="std::movestd::move的存在主要是出于对性能的考虑.std::move可以获得绑定到左值上的 右值引用.此函数定义在utility头文件中.">
+<meta name="twitter:title" content="包管理工具aptitude">
+<meta name="twitter:description" content="来自百度百科的介绍  aptitude与 apt-get 一样，是 Debian 及其衍生系统中功能极其强大的包管理工具。与 apt-get 不同的是，aptitude在处理依赖问题上更佳一些。举例来说，aptitude在删除一个包时，会同时删除本身所依赖的包。这样，系统中不会残留无用的包，整个系统更为干净。  之所以要来说一说这个包管理工具，是因为在ubuntu中安装软件的时候经常遇到依赖未安装">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/10/stdmove和stdswap/">
+  <link rel="canonical" href="http://yoursite.com/2019/07/17/包管理工具aptitude/">
 
 
 
 
 
-  <title>std::move和std::swap | xixi2</title>
+  <title>包管理工具aptitude | xixi2</title>
   
 
 
@@ -285,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/10/stdmove和stdswap/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/17/包管理工具aptitude/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -302,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">std::move和std::swap</h1>
+          <h1 class="post-title" itemprop="name headline">包管理工具aptitude</h1>
         
 
         <div class="post-meta">
@@ -314,8 +314,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-10T11:22:17+08:00">
-                2019-07-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-17T17:33:38+08:00">
+                2019-07-17
               </time>
             
 
@@ -357,13 +357,12 @@
       
 
       
-        <h1 id="std-move"><a href="#std-move" class="headerlink" title="std::move"></a>std::move</h1><p>std::move的存在主要是出于对性能的考虑.<br>std::move可以获得绑定到左值上的 右值引用.此函数定义在utility头文件中.</p>
+        <p>来自百度百科的介绍</p>
+<blockquote>
+<p>aptitude与 apt-get 一样，是 Debian 及其衍生系统中功能极其强大的包管理工具。与 apt-get 不同的是，aptitude在处理依赖问题上更佳一些。举例来说，aptitude在删除一个包时，会同时删除本身所依赖的包。这样，系统中不会残留无用的包，整个系统更为干净。</p>
+</blockquote>
+<p>之所以要来说一说这个包管理工具，是因为在ubuntu中安装软件的时候经常遇到依赖未安装的问题．每次遇到这种情况，就需要包管理工具来帮忙了．</p>
 <a id="more"></a>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int &amp;&amp;rr1 = 42;	// 字面常量是右值, rr1是一个变量,尽管它是右值引用类型</span><br><span class="line">int &amp;&amp;rr3 = std::move(rr1);</span><br></pre></td></tr></table></figure>
-
-<p>std::move告诉编译器,我们有一个左值,但是我们希望像一个右值一样处理它.我们必须认识到,调用move就意味着, 除了对rr1赋值和销毁它以外,我们将不再使用它.在调用move之后, 我们不能对移后源对象的值做任何假设.</p>
-<h1 id="std-swap"><a href="#std-swap" class="headerlink" title="std::swap"></a>std::swap</h1>
       
     </div>
     
@@ -380,7 +379,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/c-基础/" rel="tag"># c++ 基础</a>
+            <a href="/tags/liunx系统/" rel="tag"># liunx系统</a>
+          
+            <a href="/tags/常用工具/" rel="tag"># 常用工具</a>
           
         </div>
       
@@ -393,8 +394,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/10/c++数据类型基础知识/" rel="next" title="c++数据类型基础知识">
-                <i class="fa fa-chevron-left"></i> c++数据类型基础知识
+              <a href="/2019/07/17/c++指针基础/" rel="next" title="c++ 指针基础知识">
+                <i class="fa fa-chevron-left"></i> c++ 指针基础知识
               </a>
             
           </div>
@@ -403,8 +404,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/07/10/907.Sum-of-Subarray-Minimums/" rel="prev" title="907. Sum of Subarray Minimums">
-                907. Sum of Subarray Minimums <i class="fa fa-chevron-right"></i>
+              <a href="/2019/07/17/142. Linked-List-Cycle-II/" rel="prev" title="142. Linked List Cycle II">
+                142. Linked List Cycle II <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -457,17 +458,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -484,7 +476,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -506,7 +498,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -529,22 +521,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#std-move"><span class="nav-number">1.</span> <span class="nav-text">std::move</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#std-swap"><span class="nav-number">2.</span> <span class="nav-text">std::swap</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
