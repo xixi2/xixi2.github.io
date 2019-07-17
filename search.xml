@@ -239,11 +239,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[最大值减去最小值小于或等于num的子数组个数]]></title>
-    <url>%2F2019%2F06%2F22%2F%E6%9C%80%E5%A4%A7%E5%80%BC%E5%87%8F%E5%8E%BB%E6%9C%80%E5%B0%8F%E5%80%BC%E5%B0%8F%E4%BA%8E%E6%88%96%E7%AD%89%E4%BA%8Enum%E7%9A%84%E5%AD%90%E6%95%B0%E7%BB%84%E4%B8%AA%E6%95%B0%2F</url>
-    <content type="text"><![CDATA[维持一个最小队列队头元素是当前最大的元素.当队头元素出队后, 新的队头元素是最大的元素,也就是说, 队列中的元素按照从大到小的顺序从队头排列到队尾.可用于求子数组中当前最大的元素.算法步骤:当队列为空或者队尾元素]]></content>
-  </entry>
-  <entry>
     <title><![CDATA[221. Maximal Square]]></title>
     <url>%2F2019%2F06%2F19%2F221.Maximal-Square%2F</url>
     <content type="text"><![CDATA[Given a 2D binary matrix filled with 0’s and 1’s, find the largest square containing only 1’s and return its area. Example: 12345678Input: 1 0 1 0 01 0 1 1 11 1 1 1 11 0 0 1 0Output: 4 解法1首先为原矩阵生成一个同样大小的新矩阵dpdp[i][j]表示以index[i][j]作为右下角的正方形的最大边长.dp[i][j] = min{dp[i][j-1], dp[i-1][j-1], dp[i-1][j-1]}.为什么一定要考虑dp[i-1][j-1]呢?下面举个例子说明例如当前dp矩阵为 12[[0,1], [1,1]] 则以位置[1,1]为右下角的最大的正方形的边长为1,因为,位置[0,0]处的边长为0, 即位置[0,0]上的元素为0.]]></content>
