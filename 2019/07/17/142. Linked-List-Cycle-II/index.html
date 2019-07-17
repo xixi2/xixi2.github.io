@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="leetcode,剑指offer,">
+  <meta name="keywords" content="链表,">
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="Given a linked list, return the node where the cycle begins. If there is no cycle, return null. To represent a cycle in the given linked list, we use an integer pos which represents the position (0-in">
-<meta name="keywords" content="leetcode,剑指offer">
+<meta name="keywords" content="链表">
 <meta property="og:type" content="article">
 <meta property="og:title" content="142. Linked List Cycle II">
 <meta property="og:url" content="http://yoursite.com/2019/07/17/142. Linked-List-Cycle-II/index.html">
@@ -90,7 +90,7 @@
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist.png">
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test2.png">
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test3.png">
-<meta property="og:updated_time" content="2019-07-17T09:40:34.141Z">
+<meta property="og:updated_time" content="2019-07-17T15:34:06.445Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="142. Linked List Cycle II">
 <meta name="twitter:description" content="Given a linked list, return the node where the cycle begins. If there is no cycle, return null. To represent a cycle in the given linked list, we use an integer pos which represents the position (0-in">
@@ -328,7 +328,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-17T17:40:34+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-17T23:34:06+08:00">
                 2019-07-17
               </time>
             
@@ -338,6 +338,39 @@
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/剑指offer/" itemprop="url" rel="index">
+                    <span itemprop="name">剑指offer</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -388,7 +421,10 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: head = [1], pos = -1</span><br><span class="line">Output: no cycle</span><br><span class="line">Explanation: There is no cycle in the linked list.</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test3.png" alt="img"></p>
-<h1 id="解法1"><a href="#解法1" class="headerlink" title="解法1"></a>解法1</h1><p>双指针,快指针在前,慢指针在后.快指针一次走两步,慢指针一次走一步.如果链表无环,快指针一定先达到链表尾.否则,快指针比满指针走的快,快指针和慢指针一定会在链表上相遇.找到快慢指针相遇的环中节点后,接下来要怎么找入环节点呢.我们知道快指针比慢指针快,如果要是能让快指针和慢指针在入环节点处相遇,那么需要快指针比慢指针多走一个环的长度的距离.如果让慢指针先出发,当快指针赶上慢指针时,快指针正好比慢指针多走了一个环长的距离.所以,只需要让慢指针先走一个环的长度的距离,然后快指针和慢指针一起走,快指针来追赶慢指针,当慢指针赶上快指针时,正好是在入环节点上.<br>为什么必须快指针在前,慢指针在呢?<br>举个例子</p>
+<h1 id="解法1"><a href="#解法1" class="headerlink" title="解法1"></a>解法1</h1><p>双指针,快指针在前,慢指针在后.快指针一次走两步,慢指针一次走一步.如果链表无环,快指针一定先达到链表尾.否则,快指针比满指针走的快,快指针和慢指针一定会在链表上相遇.</p>
+<p>找到快慢指针相遇的环中节点后,接下来要怎么找入环节点呢.我们知道快指针比慢指针快,如果要是能让快指针和慢指针在入环节点处相遇,那么需要快指针比慢指针多走一个环的长度的距离.当快指针和慢指针都在环上走时, 如果让慢指针先出发,当快指针赶上慢指针时,快指针正好比慢指针多走了一个环长的距离.所以,只需要让慢指针先走一个环的长度的距离,然后快指针和慢指针一起走,快指针来追赶慢指针,当慢指针赶上快指针时,正好是在入环节点上.</p>
+<p>那么如何求环的长度呢?只需要一个指针从(快慢指针在环上相遇的节点)相遇节点出发, 再次回到该节点所需要走的步数就是环的长度.</p>
+<p><strong>为什么必须快指针在前,慢指针在呢?举个例子</strong></p>
 <blockquote>
 <p>如果链表是1-&gt;2-&gt;3.<br>如果初始化时,慢指针在前,指向节点2, 快指针在后,指向1,那么快指针会赶上慢指针,即快慢指针会在节点3相遇,那么结束条件就不能是快指针和慢指针是否相遇.如果如上所示,即使没环,快慢指针也会在节点3处相遇.</p>
 </blockquote>
@@ -409,9 +445,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/leetcode/" rel="tag"># leetcode</a>
-          
-            <a href="/tags/剑指offer/" rel="tag"># 剑指offer</a>
+            <a href="/tags/链表/" rel="tag"># 链表</a>
           
         </div>
       
@@ -424,8 +458,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/17/包管理工具aptitude/" rel="next" title="包管理工具aptitude">
-                <i class="fa fa-chevron-left"></i> 包管理工具aptitude
+              <a href="/2019/07/17/71.Simplify-Path/" rel="next" title="71. Simplify Path">
+                <i class="fa fa-chevron-left"></i> 71. Simplify Path
               </a>
             
           </div>
@@ -434,8 +468,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/07/17/正则表达式匹配/" rel="prev" title="正则表达式匹配">
-                正则表达式匹配 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/07/17/164 maximum-gap/" rel="prev" title="164. Maximum Gap">
+                164. Maximum Gap <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -515,7 +549,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -526,7 +560,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -537,7 +571,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
