@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="指针,">
+  <meta name="keywords" content="leetcode,快慢指针,">
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="C++ 指针基础">
-<meta name="keywords" content="指针">
+<meta name="description" content="Given a linked list, remove the n-th node from the end of list and return its head.">
+<meta name="keywords" content="leetcode,快慢指针">
 <meta property="og:type" content="article">
-<meta property="og:title" content="c++ 指针基础知识">
-<meta property="og:url" content="http://yoursite.com/2019/07/02/c++指针基础/index.html">
+<meta property="og:title" content="19. Remove Nth Node From End of List">
+<meta property="og:url" content="http://yoursite.com/2019/07/17/19. Remove Nth Node From End of List/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="C++ 指针基础">
+<meta property="og:description" content="Given a linked list, remove the n-th node from the end of list and return its head.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-02T13:09:48.624Z">
+<meta property="og:updated_time" content="2019-07-17T08:31:13.761Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="c++ 指针基础知识">
-<meta name="twitter:description" content="C++ 指针基础">
+<meta name="twitter:title" content="19. Remove Nth Node From End of List">
+<meta name="twitter:description" content="Given a linked list, remove the n-th node from the end of list and return its head.">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/02/c++指针基础/">
+  <link rel="canonical" href="http://yoursite.com/2019/07/17/19. Remove Nth Node From End of List/">
 
 
 
 
 
-  <title>c++ 指针基础知识 | Hexo</title>
+  <title>19. Remove Nth Node From End of List | Hexo</title>
   
 
 
@@ -285,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/02/c++指针基础/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/17/19. Remove Nth Node From End of List/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -302,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">c++ 指针基础知识</h1>
+          <h1 class="post-title" itemprop="name headline">19. Remove Nth Node From End of List</h1>
         
 
         <div class="post-meta">
@@ -314,8 +314,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-02T21:09:48+08:00">
-                2019-07-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-17T16:31:13+08:00">
+                2019-07-17
               </time>
             
 
@@ -357,21 +357,31 @@
       
 
       
-        <h1 id="C-指针基础"><a href="#C-指针基础" class="headerlink" title="C++ 指针基础"></a>C++ 指针基础</h1><a id="more"></a>
-<p>关于指针有一些很容易混淆的地方,下面举几个例子辨析一下.</p>
-<p>示例1</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> *p = &amp;a;</span><br><span class="line"><span class="keyword">int</span> **pp = &amp;p; <span class="comment">// pp是指向指针的指针，它指向指针p。解引用后是指针p。</span></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"pp:"</span>&lt;&lt;(pp)&lt;&lt;<span class="string">" &amp;p"</span>&lt;&lt;(&amp;p)&lt;&lt;<span class="built_in">endl</span>; <span class="comment">// pp是指向指针变量p的指针，所以，pp中存放着整形指针变量p的地址</span></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"*pp:"</span>&lt;&lt;(*pp)&lt;&lt;<span class="string">" p"</span>&lt;&lt;(p)&lt;&lt;<span class="built_in">endl</span>; <span class="comment">// pp是指向指针变量p的指针，*pp解引用pp会得到整形指针变量p，而p的值是一个整形变量a的地址</span></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"p:"</span>&lt;&lt;p&lt;&lt;<span class="string">" &amp;a:"</span>&lt;&lt;(&amp;a)&lt;&lt;<span class="built_in">endl</span>; <span class="comment">// p是指向整形变量a的指针，所以，p中存放着整形变量a的地址</span></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="string">"*p:"</span>&lt;&lt;p&lt;&lt;<span class="string">" a:"</span>&lt;&lt;(a)&lt;&lt;<span class="built_in">endl</span>;  <span class="comment">// p是指向整形变量a的指针。*p解引用整形指针p会得到一个整形数</span></span><br></pre></td></tr></table></figure>
+        <p>Given a linked list, remove the <em>n</em>-th node from the end of list and return its head.</p>
+<a id="more"></a>
 
-<p>运行结果</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pp:<span class="number">0x7fff5ce9bf48</span> &amp;p0x7fff5ce9bf48</span><br><span class="line">*pp:<span class="number">0x7fff5ce9bf44</span> p0x7fff5ce9bf44</span><br><span class="line">p:<span class="number">0x7fff5ce9bf44</span> &amp;a:<span class="number">0x7fff5ce9bf44</span></span><br><span class="line">*p:<span class="number">0x7fff5ce9bf44</span> a:<span class="number">10</span></span><br></pre></td></tr></table></figure>
+<p><strong>Example:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Given linked list: 1-&gt;2-&gt;3-&gt;4-&gt;5, and n = 2.</span><br><span class="line"></span><br><span class="line">After removing the second node from the end, the linked list becomes 1-&gt;2-&gt;3-&gt;5.</span><br></pre></td></tr></table></figure>
 
-<p>示例2</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a[<span class="number">5</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span> *p, **k;</span><br><span class="line">    p = a;</span><br><span class="line">    k = &amp;p;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"a:"</span> &lt;&lt; a &lt;&lt; <span class="string">" *a:"</span> &lt;&lt; *a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"p:"</span> &lt;&lt; p &lt;&lt; <span class="string">" *p:"</span> &lt;&lt; *p &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"k:"</span> &lt;&lt; k &lt;&lt; <span class="string">" *k:"</span> &lt;&lt; *k &lt;&lt; <span class="string">" **k:"</span> &lt;&lt; **k &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"============================="</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"a:"</span> &lt;&lt; a &lt;&lt; <span class="string">" *a:"</span> &lt;&lt; *a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"p:"</span> &lt;&lt; p &lt;&lt; <span class="string">" *(p++):"</span> &lt;&lt; *(p++) &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"after p++"</span> &lt;&lt; p &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"k:"</span> &lt;&lt; k &lt;&lt; <span class="string">" *k:"</span> &lt;&lt; *k &lt;&lt; <span class="string">" **k:"</span> &lt;&lt; **k &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"============================="</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    p = a;</span><br><span class="line">    k = &amp;p;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"a:"</span> &lt;&lt; a &lt;&lt; <span class="string">" *a:"</span> &lt;&lt; *a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"p:"</span> &lt;&lt; p &lt;&lt; <span class="string">" *(++p):"</span> &lt;&lt; *(++p) &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"after ++p"</span> &lt;&lt; p &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"k:"</span> &lt;&lt; k &lt;&lt; <span class="string">" *k:"</span> &lt;&lt; *k &lt;&lt; <span class="string">" **k:"</span> &lt;&lt; **k &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+<p><strong>Note:</strong></p>
+<p>Given <em>n</em> will always be valid.</p>
+<p><strong>Follow up:</strong></p>
+<p>Could you do this in one pass?</p>
+<h1 id="两趟算法"><a href="#两趟算法" class="headerlink" title="两趟算法"></a>两趟算法</h1><h1 id="一趟算法"><a href="#一趟算法" class="headerlink" title="一趟算法"></a>一趟算法</h1><p>用两个指针，一个快指针先走n+2步．指向第n+2个节点．随后慢指针也从头节点出发，两个指针一起向前走．当快指针到达链表尾后节点时，慢指针指向的节点和尾后节点之间隔着n个节点，即慢指针指向倒数第n+1个节点．<br>这时候只需要删除慢指针指向的下一个节点即可．<br>有几种情况需要考虑：</p>
+<ul>
+<li>当链表中的总节点个数少于n个．无法删除倒数第n个节点．</li>
+<li>当链表中的总结点个数等于n个．要被删除的正好是头结点．</li>
+<li>当链表中的总结点个数大于n个．删除倒数第n个节点．</li>
+</ul>
+<p>首先让快指针先走，要么走到第n+2个节点，要么走到尾后节点．<br>快指针先走之后，通过判断快指针共走过的节点个数来分情况处理．<br>若快指针共走过k个节点(包括最后一个尾后空节点)</p>
+<ul>
+<li>若k&lt;=n，说明链表中节点个数少于n，快指针走过的节点中包括了尾后节点(空节点)</li>
+<li>若k==n+1，说明链表中节点个数为n，要删除的正是头结点</li>
+<li>若k==n+2，说明链表中至少有n+1个<strong>非空节点</strong>，可以删除倒数第n个节点．</li>
+</ul>
+<p>AC代码</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>运行结果</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">a:<span class="number">0x7ffcd38cc930</span> *a:<span class="number">1</span></span><br><span class="line">p:<span class="number">0x7ffcd38cc930</span> *p:<span class="number">1</span></span><br><span class="line">k:<span class="number">0x7ffcd38cc920</span> *k:<span class="number">0x7ffcd38cc930</span> **k:<span class="number">1</span></span><br><span class="line">=============================</span><br><span class="line">a:<span class="number">0x7ffcd38cc930</span> *a:<span class="number">1</span></span><br><span class="line">p:<span class="number">0x7ffcd38cc930</span> *(p++):<span class="number">1</span> after p++<span class="number">0x7ffcd38cc934</span></span><br><span class="line">k:<span class="number">0x7ffcd38cc920</span> *k:<span class="number">0x7ffcd38cc934</span> **k:<span class="number">2</span></span><br><span class="line">=============================</span><br><span class="line">a:<span class="number">0x7ffcd38cc930</span> *a:<span class="number">1</span></span><br><span class="line">p:<span class="number">0x7ffcd38cc930</span> *(++p):<span class="number">2</span> after ++p0x7ffcd38cc934</span><br><span class="line">k:<span class="number">0x7ffcd38cc920</span> *k:<span class="number">0x7ffcd38cc934</span> **k:<span class="number">2</span></span><br></pre></td></tr></table></figure>
-
-<p>可知, a是数组的名字,也是指向数组首元素的指针.p=a将指针p指向数组首元素.因此p的值是数组首元素的地址. <em>p是数组首元素的值.<br>**k表明k是指向指向指针的指针, k指向指针p,因此,k中保存这指针p的地址,\</em>k是指针p的值,也就是指针指向的对象地址,这里就是数组a首元素的地址.**k就是*(p)就是指针p指向的对象的值.</p>
 
       
     </div>
@@ -389,7 +399,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/指针/" rel="tag"># 指针</a>
+            <a href="/tags/leetcode/" rel="tag"># leetcode</a>
+          
+            <a href="/tags/快慢指针/" rel="tag"># 快慢指针</a>
           
         </div>
       
@@ -402,8 +414,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/02/动态内存/" rel="next" title="动态内存">
-                <i class="fa fa-chevron-left"></i> 动态内存
+              <a href="/2019/07/17/c++-易混淆概念之常量指针/" rel="next" title="c++ 易混淆概念之常量指针">
+                <i class="fa fa-chevron-left"></i> c++ 易混淆概念之常量指针
               </a>
             
           </div>
@@ -412,8 +424,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/07/03/字符串转数字类型题/" rel="prev" title="字符串转数字类型题">
-                字符串转数字类型题 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/07/17/c++指针基础/" rel="prev" title="c++ 指针基础知识">
+                c++ 指针基础知识 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -548,7 +560,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C-指针基础"><span class="nav-number">1.</span> <span class="nav-text">C++ 指针基础</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#两趟算法"><span class="nav-number">1.</span> <span class="nav-text">两趟算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一趟算法"><span class="nav-number">2.</span> <span class="nav-text">一趟算法</span></a></li></ol></div>
             
 
           </div>
