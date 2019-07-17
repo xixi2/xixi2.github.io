@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[c++数据类型基础知识2-类型转换]]></title>
+    <url>%2F2019%2F07%2F17%2Fc%2B%2B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%BA%8C)%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%2F</url>
+    <content type="text"><![CDATA[显式转换cast-name&lt;type&gt;(expression): type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。]]></content>
+      <categories>
+        <category>c++</category>
+      </categories>
+      <tags>
+        <tag>c++基础知识</tag>
+        <tag>类型转换</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[c++ 指针基础知识]]></title>
+    <url>%2F2019%2F07%2F17%2Fc%2B%2B%E6%8C%87%E9%92%88%E5%9F%BA%E7%A1%80%2F</url>
+    <content type="text"><![CDATA[C++ 指针基础什么是指针? 指针是一种特殊的变量.它的值是一个对象的地址,也称指针指向该对象.对指针进行解引用可以获取该对象.指针本身是一个对象,可以赋值和拷贝. c++内置指针 指针中保存着它指向的对象的地址.直接输出指针的内容即指针指向的对象的地址.对指针进行解引用得到指针指向的对象 二级指针中保存一个指针的地址, 这个被指向的指针中才真正保存着对象的地址.直接输出指针得到指针指向的一级指针的地址.对二级指针进行解引用得到一级指针指向的最终对象的地址(即一级指针的值).对一级指针进行解引用,得到最终对象 关于指针有一些很容易混淆的地方,下面举几个例子辨析一下. 示例1 1234567int a = 10;int *p = &amp;a;int **pp = &amp;p; // pp是指向指针的指针，它指向指针p。解引用后是指针p。cout&lt;&lt;"pp:"&lt;&lt;(pp)&lt;&lt;" &amp;p"&lt;&lt;(&amp;p)&lt;&lt;endl; // pp是指向指针变量p的指针，所以，pp中存放着整形指针变量p的地址cout&lt;&lt;"*pp:"&lt;&lt;(*pp)&lt;&lt;" p"&lt;&lt;(p)&lt;&lt;endl; // pp是指向指针变量p的指针，*pp解引用pp会得到整形指针变量p，而p的值是一个整形变量a的地址cout&lt;&lt;"p:"&lt;&lt;p&lt;&lt;" &amp;a:"&lt;&lt;(&amp;a)&lt;&lt;endl; // p是指向整形变量a的指针，所以，p中存放着整形变量a的地址cout&lt;&lt;"*p:"&lt;&lt;p&lt;&lt;" a:"&lt;&lt;(a)&lt;&lt;endl; // p是指向整形变量a的指针。*p解引用整形指针p会得到一个整形数 运行结果 1234pp:0x7fff5ce9bf48 &amp;p0x7fff5ce9bf48*pp:0x7fff5ce9bf44 p0x7fff5ce9bf44p:0x7fff5ce9bf44 &amp;a:0x7fff5ce9bf44*p:0x7fff5ce9bf44 a:10 示例2 123456789101112131415161718192021int a[5] = &#123;1, 2, 3, 4, 5&#125;; int *p, **k; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *p:" &lt;&lt; *p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(p++):" &lt;&lt; *(p++) &lt;&lt; " "; cout &lt;&lt; "after p++" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(++p):" &lt;&lt; *(++p) &lt;&lt; " "; cout &lt;&lt; "after ++p" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; 运行结果 1234567891011a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *p:1k:0x7ffcd38cc920 *k:0x7ffcd38cc930 **k:1=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(p++):1 after p++0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(++p):2 after ++p0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2 可知, a是数组的名字,也是指向数组首元素的指针.p=a将指针p指向数组首元素.因此p的值是数组首元素的地址. p是数组首元素的值.**k表明k是指向指向指针的指针, k指向指针p,因此,k中保存这指针p的地址,\k是指针p的值,也就是指针指向的对象地址,这里就是数组a首元素的地址.**k就是*(p)就是指针p指向的对象的值. void*指针void是一种特殊的指针类型,可以存放任意对象的地址.,因此void\具体指向的对象的类型是未知.由于对象类型未知,我们不能直接操作该地址中的对象.]]></content>
+      <tags>
+        <tag>指针</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[数组和字符指针]]></title>
     <url>%2F2019%2F07%2F17%2F%E6%95%B0%E7%BB%84%E5%92%8C%E5%AD%97%E7%AC%A6%E6%8C%87%E9%92%88%2F</url>
     <content type="text"><![CDATA[数组基本概念什么是数组?数组是一组类型相同元素的容器.数组中存放的对象没有名字,必须通过位置来访问.数组的大小确定不变, 一旦数组定义完成,不能再向数组中添加元素. 适用所有数组类型 不能将数组的内容拷贝给其他数组作为其初始值，也不能用数组为其他数组赋值。 在大多数表达式中，使用数组类型的对象其实是使用一个指向该数组首元素的指针。当对数组名称使用decltype关键字时得到的是数组对象类型。 对数组执行下标运算其实是对指向数组元素的指针执行下标运算 内置的下标运算符不是无符号数,标准库类型如vector和string限定使用的下标必须是无符号数 因为数组本身是对象,可以定义数组的指针和数组的引用 适用于字符数组 当使用字符串常量对字符数组进行初始化时, 字符串数组最后一位会被加上一个’\0’空字符 但是使用strlen()计算该数组的长度时,该字符串末尾的空字符不计算在内 对字符数组进行列表初始化时,字符数组末尾没有空字符; 但是由于strlen()函数时是使用空字符来判断字符串结束的, 无法对这样的字符数组使用strlen()求长度 代码示例 字符数组初始化和求长度 123456789101112131415void testCharArray() &#123; char a1[] = "danam"; // 计算c风格字符串的长度时,c风格字符串末尾的空字符不计算在内 cout &lt;&lt; "strlen(\"danam\"): " &lt;&lt; strlen("danam") &lt;&lt; endl; // a1的长度为6字节,字符串字面值的末尾是一个空字符,这个空字符也会像其他字符一样拷贝到字符数组中去 cout &lt;&lt; "a1:" &lt;&lt; a1 &lt;&lt; " sizeof(a1): " &lt;&lt; sizeof(a1) &lt;&lt; " strlen(a1): " &lt;&lt; strlen(a1) &lt;&lt; endl; //a1:danam sizeof(a1): 6 strlen(a1): 5 // 对字符数组进行列表初始化,没有空字符 char a2[] = &#123;'a', 'b', 'c'&#125;; cout &lt;&lt; "a2: " &lt;&lt; a2 &lt;&lt; " sizeof(a2): " &lt;&lt; sizeof(a2) &lt;&lt; endl; // a2的长度为3字节;无法对a2使用strlen函数 // a2: abcdanam sizeof(a2): 3&#125; 运行结果 123strlen("danam"): 5a1:danam sizeof(a1): 6 strlen(a1): 5a2: abcdanam sizeof(a2): 3 数组名和指针,迭代器 123456789101112131415161718192021222324252627282930void testCharArray1() &#123; //===============数组名和指针================= int iarr[] = &#123;1, 2, 3, 4, 5&#125;; // ia是一个指针,在这里使用数组类型对象iarr时,编译器将其替换为一个指向数组首元素的指针 auto ia(iarr); ia = &amp;iarr[1]; // decltype(ia)是一个含有5个整形元素的数组对象,因此iarr2也是一个含有5个元素的数组 decltype(iarr) iarr2 = &#123;22, 33, 444, 55, 99&#125;; iarr2[2] = 1882; //================指针也是迭代器======================== string sarr[5] = &#123;"nice", "to", "meet", "you", "alice"&#125;; //指针e指向sarr尾元素的下一位置的指针,该位置并不存在,因此不能对该指针进行解引用和递增操作 string *e = &amp;sarr[5]; for (string *b = sarr; b != e; b++) &#123; cout &lt;&lt; *b &lt;&lt; " "; &#125; cout &lt;&lt; endl; //=====================标准库begin和end函数====================== int ia1[] = &#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;; int *beg = begin(ia1); // 指向ia1首元素的指针 int *last = end(ia1); // 指向ia1尾元素的下一位置的指针 while (beg != last) &#123; cout &lt;&lt; *beg &lt;&lt; " "; ++beg; &#125; cout &lt;&lt; endl;&#125; 运行结果 12nice to meet you alice 0 1 2 3 4 5 6 7 8 9 指针运算 123456789101112131415161718192021void testCharArray2() &#123; //=======================指针运算===================== string sarr[5] = &#123;"good", "day", "you", "know", "me"&#125;; // sarr[2]是一个使用了数组名字的表达式,对数组执行下标运算其实是对指向数组元素的指针执行下标运算 string s1 = sarr[2]; //sarr转换为指向数组首元素的指针,sarr[2]得到(sarr+2)所指向的元素 string *p = sarr; //sarr转换为指向数组首元素的指针 string s2 = *(p + 2); //等价于sarr[2] cout &lt;&lt; "s1: " &lt;&lt; s1 &lt;&lt; endl; cout &lt;&lt; "s2: " &lt;&lt; s2 &lt;&lt; endl; s2 = p[3]; cout &lt;&lt; "s2: " &lt;&lt; s2 &lt;&lt; endl; //=======只要指针指向的是数组中的元素(或者数组中尾元素的下一位置),都可以执行下标运算 //内置的下标运算符使用的不是无符号数,而标准库类型如vector和string限定使用的下标必须是无符号类型 string *p1 = &amp;sarr[2]; string s3 = p1[2]; string s4 = p1[-2]; cout &lt;&lt; "s3: " &lt;&lt; s3 &lt;&lt; endl; cout &lt;&lt; "s4: " &lt;&lt; s4 &lt;&lt; endl;&#125; 运行结果 12345s1: yous2: yous2: knows3: mes4: good]]></content>
@@ -13,14 +33,6 @@
     <title><![CDATA[字符串基础知识总结]]></title>
     <url>%2F2019%2F07%2F17%2F%E5%AD%97%E7%AC%A6%E4%B8%B2%2F</url>
     <content type="text"><![CDATA[有三种类型的字符串： c风格字符串， 字符串字面常量，string类型 c风格字符串 c风格字符串必须符合某种编码(如ASCII),并且除了字符串的末尾之外,字符串里面不能包含空字符(空字符是字符结束的标志).这些限制使得c风格字符串只能保存文本数据,而不能保存二进制数据(如图片,音频等) c风格字符串不保存自身长度,要获取一个c字符串的长度,需要遍历整个字符串,直到遇到代表字符串结尾的空字符为止,这个操作的时间复杂度为O(n)(n是字符串长度). c字符串容易造成缓冲区溢出 如使用strcat函数将src字符串中的内容拼接到字符串的末尾时, 1char *strcat(char* dest, const char* src) 由于c字符串不记录自身的长度,所以strcat假定用户在执行这个函数时,已经为dest分配了足够多的内存,可以容纳src字符串中的所有内容,但是万一这个假设不成立就会造成缓冲区溢出. c字符串修改字符串长度时需要进行内存重分配;内存重分配涉及复杂的算法,而且可能需要执行系统调用,通常来说比较耗时. 字符串,字符数组相关API c标准库string函数, 共有4个函数 strlen(p), strcmp(p1, p2), strcat(p1, p2), strcpy(p1, p2) 传入此类函数的指针必须指向以空字符结尾的数组 strlen计算c风格字符串的长度时,c风格字符串末尾的空字符不计算在内 123456789101112void testCharArray3() &#123; cout &lt;&lt; "strlen(\"danam\"): " &lt;&lt; strlen("danam") &lt;&lt; endl; // 允许使用以空字符结尾的字符数组类初始化string对象或为string对象赋值 string s("danam"); cout &lt;&lt; "s:" &lt;&lt; s &lt;&lt; " s.size():" &lt;&lt; s.size() &lt;&lt; endl; char c[] = "nice"; cout &lt;&lt; "strlen(c): " &lt;&lt; strlen(c) &lt;&lt; " c:" &lt;&lt; c &lt;&lt; endl; string s1(c); cout &lt;&lt; "s1.size():" &lt;&lt; s1.size() &lt;&lt; " s1:" &lt;&lt; s1 &lt;&lt; endl;&#125; 运行结果 1234strlen("danam"): 5s:danam s.size():5strlen(c): 4 c:nices1.size():4 s1:nice]]></content>
-  </entry>
-  <entry>
-    <title><![CDATA[c++ 指针基础知识]]></title>
-    <url>%2F2019%2F07%2F17%2Fc%2B%2B%E6%8C%87%E9%92%88%E5%9F%BA%E7%A1%80%2F</url>
-    <content type="text"><![CDATA[C++ 指针基础 指针中保存着它指向的对象的地址.直接输出指针的内容即指针指向的对象的地址.对指针进行解引用得到指针指向的对象 二级指针中保存一个指针的地址, 这个被指向的指针中才真正保存着对象的地址.直接输出指针得到指针指向的一级指针的地址.对二级指针进行解引用得到一级指针指向的最终对象的地址(即一级指针的值).对一级指针进行解引用,得到最终对象 关于指针有一些很容易混淆的地方,下面举几个例子辨析一下. 示例1 1234567int a = 10;int *p = &amp;a;int **pp = &amp;p; // pp是指向指针的指针，它指向指针p。解引用后是指针p。cout&lt;&lt;"pp:"&lt;&lt;(pp)&lt;&lt;" &amp;p"&lt;&lt;(&amp;p)&lt;&lt;endl; // pp是指向指针变量p的指针，所以，pp中存放着整形指针变量p的地址cout&lt;&lt;"*pp:"&lt;&lt;(*pp)&lt;&lt;" p"&lt;&lt;(p)&lt;&lt;endl; // pp是指向指针变量p的指针，*pp解引用pp会得到整形指针变量p，而p的值是一个整形变量a的地址cout&lt;&lt;"p:"&lt;&lt;p&lt;&lt;" &amp;a:"&lt;&lt;(&amp;a)&lt;&lt;endl; // p是指向整形变量a的指针，所以，p中存放着整形变量a的地址cout&lt;&lt;"*p:"&lt;&lt;p&lt;&lt;" a:"&lt;&lt;(a)&lt;&lt;endl; // p是指向整形变量a的指针。*p解引用整形指针p会得到一个整形数 运行结果 1234pp:0x7fff5ce9bf48 &amp;p0x7fff5ce9bf48*pp:0x7fff5ce9bf44 p0x7fff5ce9bf44p:0x7fff5ce9bf44 &amp;a:0x7fff5ce9bf44*p:0x7fff5ce9bf44 a:10 示例2 123456789101112131415161718192021int a[5] = &#123;1, 2, 3, 4, 5&#125;; int *p, **k; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *p:" &lt;&lt; *p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(p++):" &lt;&lt; *(p++) &lt;&lt; " "; cout &lt;&lt; "after p++" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(++p):" &lt;&lt; *(++p) &lt;&lt; " "; cout &lt;&lt; "after ++p" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; 运行结果 1234567891011a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *p:1k:0x7ffcd38cc920 *k:0x7ffcd38cc930 **k:1=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(p++):1 after p++0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(++p):2 after ++p0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2 可知, a是数组的名字,也是指向数组首元素的指针.p=a将指针p指向数组首元素.因此p的值是数组首元素的地址. p是数组首元素的值.**k表明k是指向指向指针的指针, k指向指针p,因此,k中保存这指针p的地址,\k是指针p的值,也就是指针指向的对象地址,这里就是数组a首元素的地址.**k就是*(p)就是指针p指向的对象的值.]]></content>
-      <tags>
-        <tag>指针</tag>
-      </tags>
   </entry>
   <entry>
     <title><![CDATA[19. Remove Nth Node From End of List]]></title>
@@ -237,15 +249,6 @@
     <content type="text"><![CDATA[20. Valid Parentheses需要考虑的边界有哪些?空字符串是不是有效字符串?是 150. Evaluate Reverse Polish Notation有乘法的地方一定要注意是否会溢出.数据范围有问题]]></content>
   </entry>
   <entry>
-    <title><![CDATA[字符串转数字类型题]]></title>
-    <url>%2F2019%2F07%2F03%2F%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%95%B0%E5%AD%97%E7%B1%BB%E5%9E%8B%E9%A2%98%2F</url>
-    <content type="text"><![CDATA[表示数值的字符串剑指offer面试题20.p127. 题目链接 把字符串转成整数#]]></content>
-      <tags>
-        <tag>剑指offer</tag>
-        <tag>字符串</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[动态内存]]></title>
     <url>%2F2019%2F07%2F02%2F%E5%8A%A8%E6%80%81%E5%86%85%E5%AD%98%2F</url>
     <content type="text"><![CDATA[静态内存用来保存局部静态对象,类静态数据成员以及定义在任何函数之外的变量.栈内存用来保存定义在函数内的非static对象.分配在静态或栈内存的对象由编译器自动创建和销毁. 栈对象在其定义的程序块运行时才存在;静态对象在使用之前分配,在程序结束时销毁.堆用来存储动态分配的对象, 即在程序运行时分配的对象.动态对象的生命期由程序控制.也就是说,当动态对象不再使用时,必须在代码中显式地销毁它们.c++动态内存的管理由一对运算符new和delete来完成.new在动态内存中为对象分配空间并返回一个指向该对象的指针.delete:接受一个动态对象的指针,销毁该对象,并释放该对象占用的内存. 常规指针的缺陷如果忘记了释放内存,就会导致内存泄露.如果在还有指针引用内存的情况就释放了内存会产生引用非法内存的指针. 智能指针与常规指针的区别在于, 智能指针是类类型, 在离开作用域时会自动调用析构函数, 自动释放内存. 程序使用动态内存的原因 原因 例子 程序不知道自己需要使用多少对象 容器类 程序不知道所需对象的准确类型 动态绑定 程序需要在多个对象间共享数据 strBlob类 shared_ptr: 多个指针可以指向同一个对象.使用引用计数来记录该对象的资源被多少个指针共享.当引用计数为0时, 资源自动释放. unique_ptr:同一时刻只能有一个unique_ptr指向一个给定对象.unique_ptr独占对象的资源.unique_ptr不支持普通的拷贝和赋值.可以通过release和reset将指针的所有权从一个unique_ptr转移到另一个unique_ptr. weak_ptr:不控制所指向对象生存期的智能指针,它指向由一个shared_ptr管理的对象.将一个weak_ptr绑定到一个shared_ptr不会改变该shared_ptr的引用计数.因此, weak_ptr指向的对象可能被释放掉.]]></content>
@@ -370,18 +373,6 @@
       <tags>
         <tag>基础算法</tag>
         <tag>理论</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[c++数据类型基础知识2-类型转换]]></title>
-    <url>%2F2019%2F06%2F05%2Fc%2B%2B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%BA%8C)%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%2F</url>
-    <content type="text"><![CDATA[显式转换cast-name&lt;type&gt;(expression);其中，type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。]]></content>
-      <categories>
-        <category>c++</category>
-      </categories>
-      <tags>
-        <tag>c++基础知识</tag>
-        <tag>类型转换</tag>
       </tags>
   </entry>
   <entry>
