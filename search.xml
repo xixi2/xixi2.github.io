@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[函数指针]]></title>
+    <url>%2F2019%2F07%2F31%2F%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%2F</url>
+    <content type="text"><![CDATA[函数指针指向的是函数而非对象.和其他指针一样,函数指针指向某种特定类型.函数的类型由它的返回类型和形参类型共同决定,与函数名无关. 123456789101112131415161718bool lengthCompare(const string &amp;a, const string &amp;b) &#123; return a.size() &lt; b.size();&#125;bool (*pf)(const string &amp;a, const string &amp;b); // pf是一个未初始化的函数指针bool (*pf1)(const string &amp;a, const string &amp;b); // pf是一个未初始化的函数指针int main()&#123; // 以下两种写法都是等价的 pf = lengthCompare; pf1 = &amp;lengthCompare; // 以下是三个等价的调用 bool fa = pf("hello", "goodbye"); bool fb = pf1("hello", "goodbye"); bool fc = lengthCompare("hello", "goodbye"); return 0; &#125; 当把函数名作为一个值使用时,该函数自动转换为指针,所以, pf = lengthCompare和 pf1 = &amp;lengthCompare是等价的. 函数指针作为实参不能定义函数类型的形参,但是&lt;形参可以使指向函数的指针 12345// 第三个形参是函数类型,它会自动转换为指向函数的指针void useBigger(const string &amp;s1, const string &amp;s2, bool pf(const string &amp;, const string &amp;));// 显式地将形参定义为指向函数的指针void useBigger(const string &amp;s1, const string &amp;s2, bool (*pf)(const string &amp;, const string &amp;)); 定义函数类型别名和函数指针类型别名decltype返回函数类型,不会将函数类型自动转换为指针类型 12345678// Func和Func2是函数类型typedef bool Func(const string &amp;, const string &amp;);typedef decltype(lengthCompare) Func2; // 等价的类型// FuncP和FuncP2是指向函数的指针typedef bool (*FuncP)(const string &amp;, const string &amp;);typedef decltype(lengthCompare) *FuncP2; useBigger的另外两种等价的声明(使用了类型别名) 12void useBigger(const string &amp;s1, const string &amp;s2,Func);void useBigger(const string &amp;s1, const string &amp;s2,FuncP2); 返回函数指针12using F = int(int*, int); // F是函数类型,不是指针using PF = int(*)(int*,int); // PF是指针类型 使用类型别名定义返回类型为函数指针的函数 1234567PF f1(int); // PF是指向函数的指针,f1返回指向函数的指针F f1(int); // F是函数类型,f1不能返回一个函数类型F* f1(int); // F*是函数类型int (*f1(int))(int *,int); // 直接声明f1// 尾置返回类型auto f1(int) -&gt; int(*)(int *,int); 首先f1有形参列表,所以,f1是个函数,f1的返回值是一个指针.该指针也有形参列表,所以,该指针指向函数.该函数的形参是int和int,返回int.所以,f1是一个返回一个函数int(\)(int *,int)的函数. 一个复杂点的例子 12345678910111213141516171819202122232425262728293031string::size_type sumLength(const string &amp;a, const string &amp;b) &#123; return a.size() + b.size();&#125;string::size_type largerLength(const string &amp;a, const string &amp;b) &#123; return a.size() &gt; b.size() ? a.size() : b.size();&#125;decltype(sumLength) *getFcn(const string &amp;s) &#123; if (s == "+") &#123; return sumLength; &#125; else &#123; return largerLength; &#125;&#125;int main()&#123; typedef string::size_type (*Func)(const string &amp;, const string &amp;); Func fcn = getFcn("+"); // fcn是一个函数指针 // 一种等价形式// auto fcn = getFcn("+"); string::size_type sz = fcn("hello", "good"); cout &lt;&lt; sz &lt;&lt; endl; fcn = getFcn("-"); sz = fcn("hello", "good"); cout &lt;&lt; sz &lt;&lt; endl; return 0;&#125; 由于函数的类型由它的返回类型和形参类型决定,而与函数名无关,可知sumLength和largerLength属于相同的类型.所以,我们可以向getFcn传入参数,获取指向同一种函数类型的不同的函数指针.]]></content>
+      <categories>
+        <category>c++基础</category>
+      </categories>
+      <tags>
+        <tag>函数指针</tag>
+        <tag>函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[内置指针]]></title>
+    <url>%2F2019%2F07%2F31%2Fc%2B%2B%E6%8C%87%E9%92%88%E5%9F%BA%E7%A1%80%2F</url>
+    <content type="text"><![CDATA[什么是指针?指针是一种特殊的变量.它的值是一个对象的地址,也称指针指向该对象.对指针进行解引用可以获取该对象.指针本身是一个对象,可以赋值和拷贝. 指针中保存着它指向的对象的地址.直接输出指针的内容即指针指向的对象的地址.对指针进行解引用得到指针指向的对象 二级指针中保存一个指针的地址, 这个被指向的指针中才真正保存着对象的地址.直接输出指针得到指针指向的一级指针的地址.对二级指针进行解引用得到一级指针指向的最终对象的地址(即一级指针的值).对一级指针进行解引用,得到最终对象 关于指针有一些很容易混淆的地方,下面举几个例子辨析一下. 示例1 1234567int a = 10;int *p = &amp;a;int **pp = &amp;p; // pp是指向指针的指针，它指向指针p。解引用后是指针p。cout&lt;&lt;"pp:"&lt;&lt;(pp)&lt;&lt;" &amp;p"&lt;&lt;(&amp;p)&lt;&lt;endl; // pp是指向指针变量p的指针，所以，pp中存放着整形指针变量p的地址cout&lt;&lt;"*pp:"&lt;&lt;(*pp)&lt;&lt;" p"&lt;&lt;(p)&lt;&lt;endl; // pp是指向指针变量p的指针，*pp解引用pp会得到整形指针变量p，而p的值是一个整形变量a的地址cout&lt;&lt;"p:"&lt;&lt;p&lt;&lt;" &amp;a:"&lt;&lt;(&amp;a)&lt;&lt;endl; // p是指向整形变量a的指针，所以，p中存放着整形变量a的地址cout&lt;&lt;"*p:"&lt;&lt;p&lt;&lt;" a:"&lt;&lt;(a)&lt;&lt;endl; // p是指向整形变量a的指针。*p解引用整形指针p会得到一个整形数 运行结果 1234pp:0x7fff5ce9bf48 &amp;p0x7fff5ce9bf48*pp:0x7fff5ce9bf44 p0x7fff5ce9bf44p:0x7fff5ce9bf44 &amp;a:0x7fff5ce9bf44*p:0x7fff5ce9bf44 a:10 示例2 123456789101112131415161718192021int a[5] = &#123;1, 2, 3, 4, 5&#125;; int *p, **k; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *p:" &lt;&lt; *p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(p++):" &lt;&lt; *(p++) &lt;&lt; " "; cout &lt;&lt; "after p++" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(++p):" &lt;&lt; *(++p) &lt;&lt; " "; cout &lt;&lt; "after ++p" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; 运行结果 1234567891011a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *p:1k:0x7ffcd38cc920 *k:0x7ffcd38cc930 **k:1=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(p++):1 after p++0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(++p):2 after ++p0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2 可知, a是数组的名字,也是指向数组首元素的指针.p=a将指针p指向数组首元素.因此p的值是数组首元素的地址. p是数组首元素的值.**k表明k是指向指向指针的指针, k指向指针p,因此,k中保存这指针p的地址,\k是指针p的值,也就是指针指向的对象地址,这里就是数组a首元素的地址.**k就是*(p)就是指针p指向的对象的值.]]></content>
+      <categories>
+        <category>C++基础</category>
+      </categories>
+      <tags>
+        <tag>指针</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[void*指针]]></title>
+    <url>%2F2019%2F07%2F31%2Fvoid*%E6%8C%87%E9%92%88%2F</url>
+    <content type="text"><![CDATA[void*是一种特殊的指针类型,可以用于存放任意类型的对象地址.但是我们不知道该指针着存放的地址指向的对象的类型. 1234int d = 102;void *p = &amp;d;int *pa = static_cast&lt;int *&gt;(p);cout &lt;&lt; *pa &lt;&lt; endl; // 102 将指针p强制为int*类型,强制转换过程中应该确保指针的值即指针指向的对象地址不变; 因此我们进行强制转换时,必须确保转换的目标类型就是指针所指的类型,否则,将产生未定义的结果. 那么什么时候使用void*指针呢?未完待续]]></content>
+      <categories>
+        <category>c++基础</category>
+      </categories>
+      <tags>
+        <tag>void*指针</tag>
+        <tag>static_cast</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[内置指针]]></title>
+    <url>%2F2019%2F07%2F31%2F%E5%86%85%E7%BD%AE%E6%8C%87%E9%92%88%2F</url>
+    <content type="text"><![CDATA[什么是指针?指针是一种特殊的变量.它的值是一个对象的地址,也称指针指向该对象.对指针进行解引用可以获取该对象.指针本身是一个对象,可以赋值和拷贝. 指针中保存着它指向的对象的地址.直接输出指针的内容即指针指向的对象的地址.对指针进行解引用得到指针指向的对象 二级指针中保存一个指针的地址, 这个被指向的指针中才真正保存着对象的地址.直接输出指针得到指针指向的一级指针的地址.对二级指针进行解引用得到一级指针指向的最终对象的地址(即一级指针的值).对一级指针进行解引用,得到最终对象 关于指针有一些很容易混淆的地方,下面举几个例子辨析一下. 示例1 1234567int a = 10;int *p = &amp;a;int **pp = &amp;p; // pp是指向指针的指针，它指向指针p。解引用后是指针p。cout&lt;&lt;"pp:"&lt;&lt;(pp)&lt;&lt;" &amp;p"&lt;&lt;(&amp;p)&lt;&lt;endl; // pp是指向指针变量p的指针，所以，pp中存放着整形指针变量p的地址cout&lt;&lt;"*pp:"&lt;&lt;(*pp)&lt;&lt;" p"&lt;&lt;(p)&lt;&lt;endl; // pp是指向指针变量p的指针，*pp解引用pp会得到整形指针变量p，而p的值是一个整形变量a的地址cout&lt;&lt;"p:"&lt;&lt;p&lt;&lt;" &amp;a:"&lt;&lt;(&amp;a)&lt;&lt;endl; // p是指向整形变量a的指针，所以，p中存放着整形变量a的地址cout&lt;&lt;"*p:"&lt;&lt;p&lt;&lt;" a:"&lt;&lt;(a)&lt;&lt;endl; // p是指向整形变量a的指针。*p解引用整形指针p会得到一个整形数 运行结果 1234pp:0x7fff5ce9bf48 &amp;p0x7fff5ce9bf48*pp:0x7fff5ce9bf44 p0x7fff5ce9bf44p:0x7fff5ce9bf44 &amp;a:0x7fff5ce9bf44*p:0x7fff5ce9bf44 a:10 示例2 123456789101112131415161718192021int a[5] = &#123;1, 2, 3, 4, 5&#125;; int *p, **k; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *p:" &lt;&lt; *p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(p++):" &lt;&lt; *(p++) &lt;&lt; " "; cout &lt;&lt; "after p++" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(++p):" &lt;&lt; *(++p) &lt;&lt; " "; cout &lt;&lt; "after ++p" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; 运行结果 1234567891011a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *p:1k:0x7ffcd38cc920 *k:0x7ffcd38cc930 **k:1=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(p++):1 after p++0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(++p):2 after ++p0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2 可知, a是数组的名字,也是指向数组首元素的指针.p=a将指针p指向数组首元素.因此p的值是数组首元素的地址. p是数组首元素的值.**k表明k是指向指向指针的指针, k指向指针p,因此,k中保存这指针p的地址,\k是指针p的值,也就是指针指向的对象地址,这里就是数组a首元素的地址.**k就是*(p)就是指针p指向的对象的值.]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>指针</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[类型转换系列2]]></title>
     <url>%2F2019%2F07%2F31%2F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%972%2F</url>
     <content type="text"><![CDATA[对于类类型的类型转换,通过定义类型转换运算符完成.转换构造函数和类型转换运算符共同定义了类类型转换.类型转换运算符没有显式的返回类型,也没有星灿,而且必须定义成类的成员函数.类型转换运算符一般不改变待转换对象的内容.因此,类型转换运算符一般是const的. 123456789101112131415161718192021222324252627282930/** * SmallInt既定义了向类类型的转换,也定义了从类类型向其他类型的转换 * 构造函数将算类型的值转换成SmallInt类型对象,类型转换运算符将SmallInt对象转换成int */class SmallInt &#123;public: SmallInt(int i = 0) : val(i) &#123; if (i &lt; 0 || i &gt; 255) &#123; throw std::out_of_range("Bad SmallInt value"); &#125; &#125; // 类型转换运算符:把类类型SmallInt转成int类型 operator int() const &#123; return val; &#125;private: std::size_t val;&#125;;int main()&#123; SmallInt s = 4; // s是一个SmallInt类型对象,val=4 cout &lt;&lt; s + 4 &lt;&lt; endl; // 8 SmallInt si = 3.14; // si是一个SmallInt类型对象,val=3 cout &lt;&lt; si + 3.14 &lt;&lt; endl; // 6 return 0;&#125; SmallInt s = 4首先将4隐式地转换为SmallInt,然后调用SmallInt::operator=(拷贝赋值运算符). s + 4首先将s隐式地转换成int,然后执行整数的加法 si = 3.14, 首先内置类型转换将double实参转换成int,然后再调用SmallInt(int)构造函数 在表达式si + 3.14中, 首先SmallInt类型转换运算符将si转换成3,然后内置类型转换将所得int继续转换为double. 编译器一次只能执行一个用户定义的类型转换,但是隐式的用户定义类型转换可以置于一个标准类型转换之前或之后]]></content>
@@ -30,10 +76,10 @@
         <category>c++基础知识</category>
       </categories>
       <tags>
+        <tag>static_cast</tag>
         <tag>类型转换</tag>
         <tag>显示转换</tag>
         <tag>cast</tag>
-        <tag>static_cast</tag>
         <tag>const_cast</tag>
       </tags>
   </entry>
@@ -88,17 +134,6 @@
       <categories>
         <category>linux基础</category>
       </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[c++ 指针基础知识]]></title>
-    <url>%2F2019%2F07%2F17%2Fc%2B%2B%E6%8C%87%E9%92%88%E5%9F%BA%E7%A1%80%2F</url>
-    <content type="text"><![CDATA[C++ 指针基础什么是指针?指针是一种特殊的变量.它的值是一个对象的地址,也称指针指向该对象.对指针进行解引用可以获取该对象.指针本身是一个对象,可以赋值和拷贝. c++内置指针 指针中保存着它指向的对象的地址.直接输出指针的内容即指针指向的对象的地址.对指针进行解引用得到指针指向的对象 二级指针中保存一个指针的地址, 这个被指向的指针中才真正保存着对象的地址.直接输出指针得到指针指向的一级指针的地址.对二级指针进行解引用得到一级指针指向的最终对象的地址(即一级指针的值).对一级指针进行解引用,得到最终对象 关于指针有一些很容易混淆的地方,下面举几个例子辨析一下. 示例1 1234567int a = 10;int *p = &amp;a;int **pp = &amp;p; // pp是指向指针的指针，它指向指针p。解引用后是指针p。cout&lt;&lt;"pp:"&lt;&lt;(pp)&lt;&lt;" &amp;p"&lt;&lt;(&amp;p)&lt;&lt;endl; // pp是指向指针变量p的指针，所以，pp中存放着整形指针变量p的地址cout&lt;&lt;"*pp:"&lt;&lt;(*pp)&lt;&lt;" p"&lt;&lt;(p)&lt;&lt;endl; // pp是指向指针变量p的指针，*pp解引用pp会得到整形指针变量p，而p的值是一个整形变量a的地址cout&lt;&lt;"p:"&lt;&lt;p&lt;&lt;" &amp;a:"&lt;&lt;(&amp;a)&lt;&lt;endl; // p是指向整形变量a的指针，所以，p中存放着整形变量a的地址cout&lt;&lt;"*p:"&lt;&lt;p&lt;&lt;" a:"&lt;&lt;(a)&lt;&lt;endl; // p是指向整形变量a的指针。*p解引用整形指针p会得到一个整形数 运行结果 1234pp:0x7fff5ce9bf48 &amp;p0x7fff5ce9bf48*pp:0x7fff5ce9bf44 p0x7fff5ce9bf44p:0x7fff5ce9bf44 &amp;a:0x7fff5ce9bf44*p:0x7fff5ce9bf44 a:10 示例2 123456789101112131415161718192021int a[5] = &#123;1, 2, 3, 4, 5&#125;; int *p, **k; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *p:" &lt;&lt; *p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(p++):" &lt;&lt; *(p++) &lt;&lt; " "; cout &lt;&lt; "after p++" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(++p):" &lt;&lt; *(++p) &lt;&lt; " "; cout &lt;&lt; "after ++p" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; 运行结果 1234567891011a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *p:1k:0x7ffcd38cc920 *k:0x7ffcd38cc930 **k:1=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(p++):1 after p++0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(++p):2 after ++p0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2 可知, a是数组的名字,也是指向数组首元素的指针.p=a将指针p指向数组首元素.因此p的值是数组首元素的地址. p是数组首元素的值.**k表明k是指向指向指针的指针, k指向指针p,因此,k中保存这指针p的地址,\k是指针p的值,也就是指针指向的对象地址,这里就是数组a首元素的地址.**k就是*(p)就是指针p指向的对象的值. void*指针void是一种特殊的指针类型,可以存放任意对象的地址.,因此void\具体指向的对象的类型是未知.由于对象类型未知,我们不能直接操作该地址中的对象.]]></content>
-      <categories>
-        <category>C++基础</category>
-      </categories>
-      <tags>
-        <tag>指针</tag>
-      </tags>
   </entry>
   <entry>
     <title><![CDATA[c++ 易混淆概念之常量指针]]></title>
