@@ -294,6 +294,319 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/31/可调用对象/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xixi2">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixi2">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/31/可调用对象/" itemprop="url">可调用对象</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-31T16:02:51+08:00">
+                2019-07-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/c-基础/" itemprop="url" rel="index">
+                    <span itemprop="name">c++基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>可调用对象有函数,函数指针,lambda表达式,函数对象, bind创建的对象等.<br>函数和函数指针不必多说.那么什么是函数对象呢?函数对象是一种重载了调用运算符的类类型.因为重载了调用运算符,所以我们可以像调用函数一样调用类的对象,因为称为函数对象.lambda表达式表示一个可调用的代码单元.</p>
+<h1 id="函数对象"><a href="#函数对象" class="headerlink" title="函数对象"></a>函数对象</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * absInt类只定义了一种操作:函数调用运算符</span></span><br><span class="line"><span class="comment"> * 此类为函数对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">absInt</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">int</span> val)</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> val &lt; <span class="number">0</span> ? -val : val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    absInt absObj;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; absObj(<span class="number">42</span>) &lt;&lt; <span class="built_in">endl</span>;		<span class="comment">// 42</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; absObj(<span class="number">-10</span>) &lt;&lt; <span class="built_in">endl</span>;	<span class="comment">// 10</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上代码即定义了一个函数对象.调用该对象就像调用函数一样.仿佛该类型对象是一个函数.<br>还可以定义有数据成员的函数对象</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PrintString</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    PrintString(ostream &amp;o = <span class="built_in">cout</span>, <span class="keyword">char</span> c = <span class="string">' '</span>) : os(o), sep(c) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span> &amp;s)</span> <span class="keyword">const</span> </span>&#123; os &lt;&lt; s &lt;&lt; sep; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    ostream &amp;os;</span><br><span class="line">    <span class="keyword">char</span> sep;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    PrintString printer;</span><br><span class="line">    printer(<span class="string">"hello"</span>);		<span class="comment">// 输出hello</span></span><br><span class="line">    <span class="function">PrintString <span class="title">errors</span><span class="params">(<span class="built_in">cerr</span>, <span class="string">'\n'</span>)</span></span>;</span><br><span class="line">    <span class="built_in">string</span> s = <span class="string">"wrong answer"</span>;</span><br><span class="line">    errors(s);		<span class="comment">// 输出wrong answer</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="lambda表达式"><a href="#lambda表达式" class="headerlink" title="lambda表达式"></a>lambda表达式</h1><p>lambda表达式在很多语言中都有.lambda可以理解为一个未命名的内联函数,但是与普通函数不同的是,lambda可能定义在函数内部;lambda表达式必须尾置返回; lambda表达式不能有默认参数; lambda表达式的参数列表和返回类型可以省略. 那么在c++中该怎么定义一个lambda表达式呢?<br>一个lambda表达式具有以下形式:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[capure <span class="built_in">list</span>](parameter <span class="built_in">list</span>)-&gt; <span class="keyword">return</span> type &#123;function body&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中,捕获列表(capure list)是该lambda表达式所在函数中定义的局部变量(通常为空).<br>参数列表(parameter list), 返回类型, 返回类型(return type)和函数体(function body)与普通函数相同.</p>
+<p>当定义一个lambda时,编译器生成一个与lambda对象的新的(未命名的)类类型.当向一个函数传递一个lambda时,同时定义了一个新类型和该类型的一个对象.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; vc&#123;<span class="string">"good"</span>, <span class="string">"to"</span>, <span class="string">"see"</span>, <span class="string">"you"</span>, <span class="string">"again"</span>&#125;;</span><br><span class="line">for_each(vc.begin(), vc.end(), PrintString(<span class="built_in">cout</span>, <span class="string">'\n'</span>));    <span class="comment">// 函数对象</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 等价的lambda表达式</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">sep</span><span class="params">(<span class="string">"\n"</span>)</span></span>;</span><br><span class="line">for_each(vc.begin(), vc.end(), [sep](<span class="keyword">const</span> <span class="built_in">string</span> &amp;s) &#123; <span class="built_in">cout</span> &lt;&lt; s &lt;&lt; sep; &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>使用函数对象打印出可变数组vc中的元素.同时定义了一个与函数对象PrintString等价的lambda表达式.</p>
+<h2 id="捕获变量"><a href="#捕获变量" class="headerlink" title="捕获变量"></a>捕获变量</h2><p>与参数传递类似,捕获变量也有两种方式,值捕获和引用捕获.采用值捕获需要变量可以拷贝.与参数传递不同,被捕获的变量的值是在lambda创建时拷贝,而不是调用时拷贝.引用捕获需要保证lambda表达式执行时,该引用指向的对象仍然存在.</p>
+<p>在一个基本类型为string类型的可变数组中找出第一个长度大于给定值sz的元素.下面分别用函数对象和lambda表达式的形式实现.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SizeCmp</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    SizeCmp(<span class="keyword">size_t</span> n) : sz(n) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span> &amp;a)</span> </span>&#123; <span class="keyword">return</span> a.size() &gt;= sz; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">size_t</span> sz;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; vc&#123;<span class="string">"good"</span>, <span class="string">"to"</span>, <span class="string">"see"</span>, <span class="string">"mango"</span>, <span class="string">"again"</span>, <span class="string">"day"</span>, <span class="string">"nana"</span>&#125;;</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">size_t</span> sz = <span class="number">6</span>;</span><br><span class="line">    <span class="comment">// 使用lambda表达式</span></span><br><span class="line"><span class="comment">//    auto wc = find_if(vc.begin(), vc.end(), [sz](const string &amp;a) &#123; return a.size() &gt;= sz; &#125;);</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用等价的函数对象</span></span><br><span class="line">    <span class="keyword">auto</span> wc = find_if(vc.begin(), vc.end(), SizeCmp(sz));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// wc 为指向第一个长度不小于给定值sz的元素的迭代器</span></span><br><span class="line">    <span class="keyword">if</span> (wc != vc.end())</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; (*wc) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"empty result"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;	<span class="comment">//当sz=5时,输出mango;当sz=6时,输出empty result</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="bind参数绑定"><a href="#bind参数绑定" class="headerlink" title="bind参数绑定"></a>bind参数绑定</h1><p>标准库的bind函数可以看做一个函数适配器.它接受一个可调用对象,生成一个新的可调用对象.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 给check_size函数的第一个参数绑定一个值</span></span><br><span class="line"><span class="comment">//    auto check6 = bind(check_size, std::placeholders::_1, 6);</span></span><br><span class="line"><span class="keyword">auto</span> check6 = bind(check_size, <span class="built_in">std</span>::placeholders::_1, <span class="number">5</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用check6函数</span></span><br><span class="line"><span class="built_in">string</span> s = <span class="string">"hello"</span>;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; check6(s) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; vc&#123;<span class="string">"good"</span>, <span class="string">"to"</span>, <span class="string">"see"</span>, <span class="string">"mango"</span>, <span class="string">"again"</span>, <span class="string">"day"</span>, <span class="string">"nana"</span>&#125;;</span><br><span class="line"><span class="keyword">auto</span> wc = find_if(vc.begin(), vc.end(), check6);</span><br><span class="line"><span class="comment">// wc 为指向第一个长度不小于给定值sz的元素的迭代器</span></span><br><span class="line"><span class="keyword">if</span> (wc != vc.end())</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; (*wc) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"empty result"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="可调用对象与function"><a href="#可调用对象与function" class="headerlink" title="可调用对象与function"></a>可调用对象与function</h1><p>每一个lambda表达式都是一种未命名的新类型;函数对象的类型是该对象的类类型;函数和函数指针的类型由参数列表和返回值决定.</p>
+<p>多个调用对象有不同的类型,但是却共享相同的调用形式.调用形式指明了调用返回的类型以及传递给调用的实参类型(如何SizeCmp类型的函数对象和lambda表达式,类型不同,调用形式相同).一种调用形式对应一个函数类型.标准库中function模板可以表示函数类型.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>, function&lt;<span class="keyword">int</span>(<span class="keyword">int</span>, <span class="keyword">int</span>)&gt;&gt; binops = &#123;</span><br><span class="line">    &#123;<span class="string">"+"</span>, add&#125;,</span><br><span class="line">    &#123;<span class="string">"-"</span>, <span class="built_in">std</span>::minus&lt;<span class="keyword">int</span>&gt;()&#125;,</span><br><span class="line">    &#123;<span class="string">"/"</span>, Divide()&#125;,</span><br><span class="line">    &#123;<span class="string">"*"</span>, [](<span class="keyword">int</span> i, <span class="keyword">int</span> j) &#123; <span class="keyword">return</span> i * j; &#125;&#125;,</span><br><span class="line">    &#123;<span class="string">"%"</span>, mod&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; binops[<span class="string">"+"</span>](<span class="number">10</span>, <span class="number">5</span>) &lt;&lt; <span class="built_in">endl</span>;     <span class="comment">// 15</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; binops[<span class="string">"-"</span>](<span class="number">10</span>, <span class="number">5</span>) &lt;&lt; <span class="built_in">endl</span>;     <span class="comment">// 5</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; binops[<span class="string">"%"</span>](<span class="number">11</span>, <span class="number">4</span>) &lt;&lt; <span class="built_in">endl</span>;     <span class="comment">// 3</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; binops[<span class="string">"*"</span>](<span class="number">13</span>, <span class="number">2</span>) &lt;&lt; <span class="built_in">endl</span>;     <span class="comment">// 26</span></span><br></pre></td></tr></table></figure>
+
+<p>add, Divide(),mod等各个可调用对象的类型各不相同,但是它们都是调用形式为int(int, int)的可调用对象,因此可以赋值给function&lt;int(int,int)&gt;类型的对象.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/30/纸牌博弈问题系列/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xixi2">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixi2">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/30/纸牌博弈问题系列/" itemprop="url">纸牌博弈问题系列</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-30T22:54:47+08:00">
+                2019-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>几道同类题目:</p>
+<ul>
+<li><a href="https://leetcode.com/problems/stone-game/submissions" target="_blank" rel="noopener">stone game</a></li>
+<li></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/17/Two Sum系列/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1449,302 +1762,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/17/907.Sum-of-Subarray-Minimums/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="xixi2">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixi2">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/17/907.Sum-of-Subarray-Minimums/" itemprop="url">907. Sum of Subarray Minimums</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-17T23:36:37+08:00">
-                2019-07-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Given an array of integers <code>A</code>, find the sum of <code>min(B)</code>, where <code>B</code> ranges over every (contiguous) subarray of <code>A</code>.</p>
-<p>Since the answer may be large, <strong>return the answer modulo 10^9 + 7.</strong></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/07/17/907.Sum-of-Subarray-Minimums/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/17/877.Stone-Game/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="xixi2">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixi2">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/17/877.Stone-Game/" itemprop="url">877. Stone Game</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-17T23:36:31+08:00">
-                2019-07-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Alex and Lee play a game with piles of stones.  There are an even number of piles <strong>arranged in a row</strong>, and each pile has a positive integer number of stones <code>piles[i]</code>.</p>
-<p>The objective of the game is to end with the most stones.  The total number of stones is odd, so there are no ties.</p>
-<p>Alex and Lee take turns, with Alex starting first.  Each turn, a player takes the entire pile of stones from either the beginning or the end of the row.  This continues until there are no more piles left, at which point the person with the most stones wins.</p>
-<p>Assuming Alex and Lee play optimally, return <code>True</code> if and only if Alex wins the game.</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/07/17/877.Stone-Game/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1797,7 +1814,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1819,7 +1836,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
