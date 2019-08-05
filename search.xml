@@ -1,6 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[模板实参推断和引用]]></title>
+    <url>%2F2019%2F08%2F04%2F%E6%A8%A1%E6%9D%BF%E5%AE%9E%E5%8F%82%E6%8E%A8%E6%96%AD%E5%92%8C%E5%BC%95%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[从左值引用函数参数推断类型从右值引用函数参数推断类型]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>模板</tag>
+        <tag>函数参数</tag>
+        <tag>引用</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[类型转换系列1]]></title>
+    <url>%2F2019%2F08%2F04%2Fc%2B%2B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%BA%8C)%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%2F</url>
+    <content type="text"><![CDATA[显式转换cast-name&lt;type&gt;(expression): type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>类型转换</tag>
+        <tag>显示转换</tag>
+        <tag>cast</tag>
+        <tag>static_cast</tag>
+        <tag>const_cast</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[重载new和delete]]></title>
+    <url>%2F2019%2F08%2F02%2F%E9%87%8D%E8%BD%BDnew%E5%92%8Cdelete%2F</url>
+    <content type="text"><![CDATA[当应用程序对于内存分配有特殊要求时,需要重载operator new和operator delete运算符. new表达式的工作机制定位new表达式可以通过自定义operator new和operator delete函数来控制内存分配过程. 但是有一个operator new函数不允许被用户重载: 1void *operator new(size_T, void*) 此形式的operator new(定位new)只供标准库使用,不允许用户重载.该函数并不分配内存,而是直接返回void*参数传入的指针;然后由new表达式负责在指定的地址初始化对象以完成整个工作.即定位new允许我们在一个特定的,预先分配的内存地址上构造对象.传给定位new表达式的指针可以是堆内存,也可以不是.]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>operator new</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[数组和字符指针]]></title>
+    <url>%2F2019%2F08%2F02%2F%E6%95%B0%E7%BB%84%E5%92%8C%E5%AD%97%E7%AC%A6%E6%8C%87%E9%92%88%2F</url>
+    <content type="text"><![CDATA[数组基本概念什么是数组?数组是一组类型相同元素的容器.数组中存放的对象没有名字,必须通过位置来访问.数组的大小确定不变, 一旦数组定义完成,不能再向数组中添加元素. 数组是一种复合类型.数组的声明形如a[d], 其中a是数组的名字,d是数组的维度.维度说明了数组中元素的个数,因此必须大于0. 数组中元素的个数也属于数组类型的一部分,编译时数组的维度必须是已知的. 适用所有数组类型 不能将数组的内容拷贝给其他数组作为其初始值，也不能用数组为其他数组赋值。 在大多数表达式中，使用数组类型的对象其实是使用一个指向该数组首元素的指针。当对数组名称使用decltype关键字时得到的是数组对象类型。 对数组执行下标运算其实是对指向数组元素的指针执行下标运算 内置的下标运算符不是无符号数,标准库类型如vector和string限定使用的下标必须是无符号数 因为数组本身是对象,可以定义数组的指针和数组的引用 适用于字符数组 当使用字符串常量对字符数组进行初始化时, 字符串数组最后一位会被加上一个’\0’空字符 但是使用strlen()计算该数组的长度时,该字符串末尾的空字符不计算在内 对字符数组进行列表初始化时,字符数组末尾没有空字符; 但是由于strlen()函数时是使用空字符来判断字符串结束的, 无法对这样的字符数组使用strlen()求长度 代码示例 字符数组初始化和求长度 字符数组初始化有两种方式,列表初始化和字符串常量初始化 字符串常量初始化时,字符串常量末尾的空字符也会拷贝到字符数组中去 12345678910111213141516void testCharArray() &#123; char a1[] = "danam"; // 计算c风格字符串的长度时,c风格字符串末尾的空字符不计算在内 cout &lt;&lt; "strlen(\"danam\"): " &lt;&lt; strlen("danam") &lt;&lt; endl; // a1的长度为6字节,字符串字面值的末尾是一个空字符,这个空字符也会像其他字符一样拷贝到字符数组中去 cout &lt;&lt; "a1:" &lt;&lt; a1 &lt;&lt; " sizeof(a1): " &lt;&lt; sizeof(a1) &lt;&lt; " strlen(a1): " &lt;&lt; strlen(a1) &lt;&lt; endl; //a1:danam sizeof(a1): 6 strlen(a1): 5 // 对字符数组进行列表初始化,没有空字符 char a2[] = &#123;'a', 'b', 'c'&#125;; cout &lt;&lt; "a2: " &lt;&lt; a2 &lt;&lt; " sizeof(a2): " &lt;&lt; sizeof(a2) &lt;&lt; endl; // a2的长度为3字节;无法对a2使用strlen函数 // a2: abcdanam sizeof(a2): 3&#125; 运行结果 123strlen("danam"): 5a1:danam sizeof(a1): 6 strlen(a1): 5a2: abcdanam sizeof(a2): 3 数组名和指针,迭代器 数组名通常会自动转换为指向数组首元素的指针 在表达式decltype(arr)时,不会发生自动转换,decltype(arr)的返回类型是一个数组类型,其元素类型和维度都与数组arr相同 1234567891011void testCharArray1() &#123; //===============数组名和指针================= int iarr[] = &#123;1, 2, 3, 4, 5&#125;; // ia是一个指针,在这里使用数组类型对象iarr时,编译器将其替换为一个指向数组首元素的指针 auto ia(iarr); ia = &amp;iarr[1]; // decltype(ia)是一个含有5个整形元素的数组对象,因此iarr2也是一个含有5个元素的数组 decltype(iarr) iarr2 = &#123;22, 33, 444, 55, 99&#125;; iarr2[2] = 1882;&#125; 运行结果 1nice to meet you alice 指针运算 对数组执行下标运算其实是对指向数组元素的指针执行下标运算.标准库类型使用的下标类型必须是无符号类型,内置的下标运算可以是带符号类型 可以从一个指针加上或减去一个整数值,结果仍是指针 指向同一个数组中元素(包括尾元素)的指针可以相减,两个指针相减的结果是一种名为ptrdiff_t的标准库类型.ptrdiff_t类型是一种带符号类型 123456789101112131415161718192021void testCharArray3() &#123; //=======================指针运算===================== string sarr[5] = &#123;"good", "day", "you", "know", "me"&#125;; // sarr[2]是一个使用了数组名字的表达式,对数组执行下标运算其实是对指向数组元素的指针执行下标运算 string s1 = sarr[2]; //sarr转换为指向数组首元素的指针,sarr[2]得到(sarr+2)所指向的元素 string *p = sarr; //sarr转换为指向数组首元素的指针 string s2 = *(p + 2); //等价于sarr[2] cout &lt;&lt; "s1: " &lt;&lt; s1 &lt;&lt; endl; cout &lt;&lt; "s2: " &lt;&lt; s2 &lt;&lt; endl; s2 = p[3]; cout &lt;&lt; "s2: " &lt;&lt; s2 &lt;&lt; endl; //=======只要指针指向的是数组中的元素(或者数组中尾元素的下一位置),都可以执行下标运算 //内置的下标运算符使用的不是无符号数,而标准库类型如vector和string限定使用的下标必须是无符号类型 string *p1 = &amp;sarr[2]; string s3 = p1[2]; string s4 = p1[-2]; cout &lt;&lt; "s3: " &lt;&lt; s3 &lt;&lt; endl; cout &lt;&lt; "s4: " &lt;&lt; s4 &lt;&lt; endl;&#125; 运行结果 12345s1: yous2: yous2: knows3: mes4: good 指针和迭代器 1234567891011121314151617181920void testCharArray2() &#123; //================指针也是迭代器======================== string sarr[5] = &#123;"nice", "to", "meet", "you", "alice"&#125;; //指针e指向sarr尾元素的下一位置的指针,该位置并不存在,因此不能对该指针进行解引用和递增操作 string *e = &amp;sarr[5]; for (string *b = sarr; b != e; b++) &#123; cout &lt;&lt; *b &lt;&lt; " "; &#125; cout &lt;&lt; endl; //=====================标准库begin和end函数====================== int ia1[] = &#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;; int *beg = begin(ia1); // 指向ia1首元素的指针 int *last = end(ia1); // 指向ia1尾元素的下一位置的指针 while (beg != last) &#123; cout &lt;&lt; *beg &lt;&lt; " "; ++beg; &#125; cout &lt;&lt; endl;&#125; 运行结果: 10 1 2 3 4 5 6 7 8 9]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+        <tag>字符指针</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[856. Score of Parentheses]]></title>
+    <url>%2F2019%2F07%2F31%2F856.Score-of-Parentheses%2F</url>
+    <content type="text"><![CDATA[Given a balanced parentheses string S, compute the score of the string based on the following rule: () has score 1 AB has score A + B, where A and B are balanced parentheses strings. (A) has score 2 * A, where A is a balanced parentheses string. Example 1: 12Input: &quot;()&quot;Output: 1 Example 2: 12Input: &quot;(())&quot;Output: 2 Example 3: 12Input: &quot;()()&quot;Output: 2 Example 4: 12Input: &quot;(()(()))&quot;Output: 6 Note: S is a balanced parentheses string, containing only ( and ). 2 &lt;= S.length &lt;= 50 解法1:分而治之首先把整个字符串S分成多个子串s1, s2, …,sn.score(S) = score(s1)+score(s1)+…+score(sn) 接下来,计算每个子串si&gt;的分数,子串si有两种可能: 长度为2: score(si)=1 长度大于2:score(si) = 2 * score(si[1:n-1])(假设n为si.size()) 栈count cores]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>括号</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Parentheses系列]]></title>
+    <url>%2F2019%2F07%2F31%2FParentheses%E7%B3%BB%E5%88%97%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>stack</tag>
+        <tag>Parentheses</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[纸牌博弈问题系列]]></title>
+    <url>%2F2019%2F07%2F31%2F%E7%BA%B8%E7%89%8C%E5%8D%9A%E5%BC%88%E9%97%AE%E9%A2%98%E7%B3%BB%E5%88%97%2F</url>
+    <content type="text"><![CDATA[几道同类题目: stone game 此题首先需要定义递归函数,写出最简朴的做法 如何确定循环变量i和j的遍历方向 是否可以进行空间压缩,如何可以,如何压缩 Predict the Winner 题号486 此题与上题几乎一模一样,但是需要注意,当player1与player2相等时的边界情况.]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>递归</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[内置指针]]></title>
+    <url>%2F2019%2F07%2F31%2F%E5%86%85%E7%BD%AE%E6%8C%87%E9%92%88%2F</url>
+    <content type="text"><![CDATA[什么是指针?指针是一种特殊的变量.它的值是一个对象的地址,也称指针指向该对象.对指针进行解引用可以获取该对象.指针本身是一个对象,可以赋值和拷贝. 指针中保存着它指向的对象的地址.直接输出指针的内容即指针指向的对象的地址.对指针进行解引用得到指针指向的对象 二级指针中保存一个指针的地址, 这个被指向的指针中才真正保存着对象的地址.直接输出指针得到指针指向的一级指针的地址.对二级指针进行解引用得到一级指针指向的最终对象的地址(即一级指针的值).对一级指针进行解引用,得到最终对象 关于指针有一些很容易混淆的地方,下面举几个例子辨析一下. 示例1 1234567int a = 10;int *p = &amp;a;int **pp = &amp;p; // pp是指向指针的指针，它指向指针p。解引用后是指针p。cout&lt;&lt;"pp:"&lt;&lt;(pp)&lt;&lt;" &amp;p"&lt;&lt;(&amp;p)&lt;&lt;endl; // pp是指向指针变量p的指针，所以，pp中存放着整形指针变量p的地址cout&lt;&lt;"*pp:"&lt;&lt;(*pp)&lt;&lt;" p"&lt;&lt;(p)&lt;&lt;endl; // pp是指向指针变量p的指针，*pp解引用pp会得到整形指针变量p，而p的值是一个整形变量a的地址cout&lt;&lt;"p:"&lt;&lt;p&lt;&lt;" &amp;a:"&lt;&lt;(&amp;a)&lt;&lt;endl; // p是指向整形变量a的指针，所以，p中存放着整形变量a的地址cout&lt;&lt;"*p:"&lt;&lt;p&lt;&lt;" a:"&lt;&lt;(a)&lt;&lt;endl; // p是指向整形变量a的指针。*p解引用整形指针p会得到一个整形数 运行结果 1234pp:0x7fff5ce9bf48 &amp;p0x7fff5ce9bf48*pp:0x7fff5ce9bf44 p0x7fff5ce9bf44p:0x7fff5ce9bf44 &amp;a:0x7fff5ce9bf44*p:0x7fff5ce9bf44 a:10 示例2 123456789101112131415161718192021int a[5] = &#123;1, 2, 3, 4, 5&#125;; int *p, **k; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *p:" &lt;&lt; *p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(p++):" &lt;&lt; *(p++) &lt;&lt; " "; cout &lt;&lt; "after p++" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(++p):" &lt;&lt; *(++p) &lt;&lt; " "; cout &lt;&lt; "after ++p" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; 运行结果 1234567891011a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *p:1k:0x7ffcd38cc920 *k:0x7ffcd38cc930 **k:1=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(p++):1 after p++0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(++p):2 after ++p0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2 可知, a是数组的名字,也是指向数组首元素的指针.p=a将指针p指向数组首元素.因此p的值是数组首元素的地址. p是数组首元素的值.**k表明k是指向指向指针的指针, k指向指针p,因此,k中保存这指针p的地址,\k是指针p的值,也就是指针指向的对象地址,这里就是数组a首元素的地址.**k就是*(p)就是指针p指向的对象的值.]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>指针</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[c++数据类型基础]]></title>
     <url>%2F2019%2F07%2F31%2Fc%2B%2B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%2F</url>
     <content type="text"><![CDATA[本文主要是总结一下C++语言常用的数据类型基础知识，如类型转换，整形的最大最小数值等。 无符号数示例1 1234unsigned int u = 0xFFFFFFFF;cout&lt;&lt;"u="&lt;&lt;u&lt;&lt;endl; //4294967295u -= 31;cout&lt;&lt;"u="&lt;&lt;u&lt;&lt;endl;//4294967264 无符号数0xFFFFFFFF是32位无符号数中的最大值。 示例2：无符号数和有符号数运算 12345unsigned int u = 10;int i = -42;cout&lt;&lt;"u="&lt;&lt;u&lt;&lt;endl; // 10cout&lt;&lt;"unsigned(i)="&lt;&lt;unsigned(i)&lt;&lt;endl;//4294967296 + (-42)cout&lt;&lt;"(i+u) ="&lt;&lt;(i+u)&lt;&lt;endl; // 4294967264 无符号数u和有符号数i相加前，把有符号数i转换为无符号数，结果等于两个无符号数相加。 示例3： 12345unsigned int u = 10;int i = -1;cout&lt;&lt;"u="&lt;&lt;u&lt;&lt;endl; //10cout&lt;&lt;"unsigned(i)="&lt;&lt;unsigned(i)&lt;&lt;endl;//4294967295cout&lt;&lt;"(i+u) ="&lt;&lt;(i+u)&lt;&lt;endl;//(4294967295 + 10) % (4294967296)，其中4294967296是2的32次方 两个无符号数相加结果超出它表示范围时，先对这个超出表示范围的结果进行取模(对2的n次方进行取模)，则得到了真正的结果。 示例4：无符号数都是整数。若给无符号赋值一个负数，则将该负数+2n得到最后的结果。 123456unsigned int x = 0xFFFFFFFF;unsigned int u = 10;unsigned int v = 42;cout&lt;&lt;"x:"&lt;&lt;x&lt;&lt;endl;cout&lt;&lt;"(v - u):"&lt;&lt;(v - u)&lt;&lt;endl; // 32cout&lt;&lt;"(u - v):"&lt;&lt;(u - v)&lt;&lt;endl; // 4294967264: (-32 + 4294967296) % 4294967296的结果 示例5：当表达式中既有带符号数又有无符号数时，当带符号数值为负数时会出现异常情况，这是因为带符号数会自动转换成无符号数。 123unsigned int x = 1;int y = -1;cout&lt;&lt;"x * y="&lt;&lt;(x * y)&lt;&lt;endl; //4294967295，y转换为无符号数(-1 + 4294967296) = 4294967295 16进制数0xffffffff0xffffffff是一个十六进制数。把它转换成2进制为：1111111..11(32个1)把它转成10进制无符号数是：0xffffffff = 16x10^7+ 16x10^6+….+16x10^1+16x10^0 = 4294967295把它转成10进制带符号整数为：111111111111111(32个1表示的补码形式)转化为源码形式为10…00001(中间30个0)，即-1。 1234unsigned int a = 0xffffffff;cout&lt;&lt;"a="&lt;&lt;a&lt;&lt;endl; // 4294967295int b = 0xffffffff; cout&lt;&lt;"b="&lt;&lt;b&lt;&lt;endl; // b = -1 异或运算异或运算满足交换律与结合律。C = A ^ B (^是异或运算符)，则 A = B ^ C, B = A ^ C 例1. A = 1011, B = 0101 , C= 1110若A和B在某一位上都是1， 则C在该位上为0，则A或B的该位与C的该位相与就是1；若A和B在某一位上都是0， 则C在该位上为0，则A或B的该位与C的该位相与就是0。若A在某一位为1， B在该位为0， 则C在该位上为1，则A的该位与C的该位相与就是0，B的该位与C的该位相与就是1。同理，A在该位为0，B在该位为1时可证成立。 按位取反~1234567int a = -2147483648;cout&lt;&lt;"a="&lt;&lt;a&lt;&lt;endl; // -2147483648cout&lt;&lt;" ~a="&lt;&lt;~a&lt;&lt;endl; // 2147483647bitset&lt;32&gt; b1(a); bitset&lt;32&gt; b2(~a); cout&lt;&lt;"a: "&lt;&lt;b1.to_string()&lt;&lt;endl;// 10..00cout&lt;&lt;" ~a: "&lt;&lt;b2.to_string()&lt;&lt;endl;// 011..11 补码、原码、求补运算负数的补码由其原码对除符号位外各位取反末位加1，同样，由补码求原码也是对补码除符号位外，各位取反末位加1。求补运算：不考虑符号位，对原码各位取反，并在末位加1。对一个数进行求补运算得到的是其相反数的补码。如对0111进行求补运算，0111的真值为7。其补数为1001（补码），补码1001对应的源码为1111，真值为-7。 n &amp;(~n+1)这个表达式常用来取n中最右侧的1。这是因为, ~n是对进行按位取反。例如：n = 1000，n=0111, ~n+1 = 1000, n &amp; (n+1)=1000，只有n中最右边为1的位置为1。n = 1010， n=0101，n+1=0110, n &amp; (~n+1)=0010。]]></content>
@@ -45,10 +141,10 @@
         <category>C++基础知识</category>
       </categories>
       <tags>
-        <tag>static_cast</tag>
         <tag>类型转换</tag>
         <tag>显示转换</tag>
         <tag>cast</tag>
+        <tag>static_cast</tag>
         <tag>const_cast</tag>
       </tags>
   </entry>
@@ -62,17 +158,6 @@
       <tags>
         <tag>指针</tag>
         <tag>常量</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[内置指针]]></title>
-    <url>%2F2019%2F07%2F31%2F%E5%86%85%E7%BD%AE%E6%8C%87%E9%92%88%2F</url>
-    <content type="text"><![CDATA[什么是指针?指针是一种特殊的变量.它的值是一个对象的地址,也称指针指向该对象.对指针进行解引用可以获取该对象.指针本身是一个对象,可以赋值和拷贝. 指针中保存着它指向的对象的地址.直接输出指针的内容即指针指向的对象的地址.对指针进行解引用得到指针指向的对象 二级指针中保存一个指针的地址, 这个被指向的指针中才真正保存着对象的地址.直接输出指针得到指针指向的一级指针的地址.对二级指针进行解引用得到一级指针指向的最终对象的地址(即一级指针的值).对一级指针进行解引用,得到最终对象 关于指针有一些很容易混淆的地方,下面举几个例子辨析一下. 示例1 1234567int a = 10;int *p = &amp;a;int **pp = &amp;p; // pp是指向指针的指针，它指向指针p。解引用后是指针p。cout&lt;&lt;"pp:"&lt;&lt;(pp)&lt;&lt;" &amp;p"&lt;&lt;(&amp;p)&lt;&lt;endl; // pp是指向指针变量p的指针，所以，pp中存放着整形指针变量p的地址cout&lt;&lt;"*pp:"&lt;&lt;(*pp)&lt;&lt;" p"&lt;&lt;(p)&lt;&lt;endl; // pp是指向指针变量p的指针，*pp解引用pp会得到整形指针变量p，而p的值是一个整形变量a的地址cout&lt;&lt;"p:"&lt;&lt;p&lt;&lt;" &amp;a:"&lt;&lt;(&amp;a)&lt;&lt;endl; // p是指向整形变量a的指针，所以，p中存放着整形变量a的地址cout&lt;&lt;"*p:"&lt;&lt;p&lt;&lt;" a:"&lt;&lt;(a)&lt;&lt;endl; // p是指向整形变量a的指针。*p解引用整形指针p会得到一个整形数 运行结果 1234pp:0x7fff5ce9bf48 &amp;p0x7fff5ce9bf48*pp:0x7fff5ce9bf44 p0x7fff5ce9bf44p:0x7fff5ce9bf44 &amp;a:0x7fff5ce9bf44*p:0x7fff5ce9bf44 a:10 示例2 123456789101112131415161718192021int a[5] = &#123;1, 2, 3, 4, 5&#125;; int *p, **k; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *p:" &lt;&lt; *p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(p++):" &lt;&lt; *(p++) &lt;&lt; " "; cout &lt;&lt; "after p++" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(++p):" &lt;&lt; *(++p) &lt;&lt; " "; cout &lt;&lt; "after ++p" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; 运行结果 1234567891011a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *p:1k:0x7ffcd38cc920 *k:0x7ffcd38cc930 **k:1=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(p++):1 after p++0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(++p):2 after ++p0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2 可知, a是数组的名字,也是指向数组首元素的指针.p=a将指针p指向数组首元素.因此p的值是数组首元素的地址. p是数组首元素的值.**k表明k是指向指向指针的指针, k指向指针p,因此,k中保存这指针p的地址,\k是指针p的值,也就是指针指向的对象地址,这里就是数组a首元素的地址.**k就是*(p)就是指针p指向的对象的值.]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>指针</tag>
       </tags>
   </entry>
   <entry>
@@ -95,20 +180,8 @@
         <category>C++基础知识</category>
       </categories>
       <tags>
-        <tag>void*指针</tag>
         <tag>static_cast</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[数组和字符指针]]></title>
-    <url>%2F2019%2F07%2F31%2F%E6%95%B0%E7%BB%84%E5%92%8C%E5%AD%97%E7%AC%A6%E6%8C%87%E9%92%88%2F</url>
-    <content type="text"><![CDATA[数组基本概念什么是数组?数组是一组类型相同元素的容器.数组中存放的对象没有名字,必须通过位置来访问.数组的大小确定不变, 一旦数组定义完成,不能再向数组中添加元素. 适用所有数组类型 不能将数组的内容拷贝给其他数组作为其初始值，也不能用数组为其他数组赋值。 在大多数表达式中，使用数组类型的对象其实是使用一个指向该数组首元素的指针。当对数组名称使用decltype关键字时得到的是数组对象类型。 对数组执行下标运算其实是对指向数组元素的指针执行下标运算 内置的下标运算符不是无符号数,标准库类型如vector和string限定使用的下标必须是无符号数 因为数组本身是对象,可以定义数组的指针和数组的引用 适用于字符数组 当使用字符串常量对字符数组进行初始化时, 字符串数组最后一位会被加上一个’\0’空字符 但是使用strlen()计算该数组的长度时,该字符串末尾的空字符不计算在内 对字符数组进行列表初始化时,字符数组末尾没有空字符; 但是由于strlen()函数时是使用空字符来判断字符串结束的, 无法对这样的字符数组使用strlen()求长度 代码示例 字符数组初始化和求长度 123456789101112131415void testCharArray() &#123; char a1[] = "danam"; // 计算c风格字符串的长度时,c风格字符串末尾的空字符不计算在内 cout &lt;&lt; "strlen(\"danam\"): " &lt;&lt; strlen("danam") &lt;&lt; endl; // a1的长度为6字节,字符串字面值的末尾是一个空字符,这个空字符也会像其他字符一样拷贝到字符数组中去 cout &lt;&lt; "a1:" &lt;&lt; a1 &lt;&lt; " sizeof(a1): " &lt;&lt; sizeof(a1) &lt;&lt; " strlen(a1): " &lt;&lt; strlen(a1) &lt;&lt; endl; //a1:danam sizeof(a1): 6 strlen(a1): 5 // 对字符数组进行列表初始化,没有空字符 char a2[] = &#123;'a', 'b', 'c'&#125;; cout &lt;&lt; "a2: " &lt;&lt; a2 &lt;&lt; " sizeof(a2): " &lt;&lt; sizeof(a2) &lt;&lt; endl; // a2的长度为3字节;无法对a2使用strlen函数 // a2: abcdanam sizeof(a2): 3&#125; 运行结果 123strlen("danam"): 5a1:danam sizeof(a1): 6 strlen(a1): 5a2: abcdanam sizeof(a2): 3 数组名和指针,迭代器 123456789101112131415161718192021222324252627282930void testCharArray1() &#123; //===============数组名和指针================= int iarr[] = &#123;1, 2, 3, 4, 5&#125;; // ia是一个指针,在这里使用数组类型对象iarr时,编译器将其替换为一个指向数组首元素的指针 auto ia(iarr); ia = &amp;iarr[1]; // decltype(ia)是一个含有5个整形元素的数组对象,因此iarr2也是一个含有5个元素的数组 decltype(iarr) iarr2 = &#123;22, 33, 444, 55, 99&#125;; iarr2[2] = 1882; //================指针也是迭代器======================== string sarr[5] = &#123;"nice", "to", "meet", "you", "alice"&#125;; //指针e指向sarr尾元素的下一位置的指针,该位置并不存在,因此不能对该指针进行解引用和递增操作 string *e = &amp;sarr[5]; for (string *b = sarr; b != e; b++) &#123; cout &lt;&lt; *b &lt;&lt; " "; &#125; cout &lt;&lt; endl; //=====================标准库begin和end函数====================== int ia1[] = &#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;; int *beg = begin(ia1); // 指向ia1首元素的指针 int *last = end(ia1); // 指向ia1尾元素的下一位置的指针 while (beg != last) &#123; cout &lt;&lt; *beg &lt;&lt; " "; ++beg; &#125; cout &lt;&lt; endl;&#125; 运行结果 12nice to meet you alice 0 1 2 3 4 5 6 7 8 9 指针运算 123456789101112131415161718192021void testCharArray2() &#123; //=======================指针运算===================== string sarr[5] = &#123;"good", "day", "you", "know", "me"&#125;; // sarr[2]是一个使用了数组名字的表达式,对数组执行下标运算其实是对指向数组元素的指针执行下标运算 string s1 = sarr[2]; //sarr转换为指向数组首元素的指针,sarr[2]得到(sarr+2)所指向的元素 string *p = sarr; //sarr转换为指向数组首元素的指针 string s2 = *(p + 2); //等价于sarr[2] cout &lt;&lt; "s1: " &lt;&lt; s1 &lt;&lt; endl; cout &lt;&lt; "s2: " &lt;&lt; s2 &lt;&lt; endl; s2 = p[3]; cout &lt;&lt; "s2: " &lt;&lt; s2 &lt;&lt; endl; //=======只要指针指向的是数组中的元素(或者数组中尾元素的下一位置),都可以执行下标运算 //内置的下标运算符使用的不是无符号数,而标准库类型如vector和string限定使用的下标必须是无符号类型 string *p1 = &amp;sarr[2]; string s3 = p1[2]; string s4 = p1[-2]; cout &lt;&lt; "s3: " &lt;&lt; s3 &lt;&lt; endl; cout &lt;&lt; "s4: " &lt;&lt; s4 &lt;&lt; endl;&#125; 运行结果 12345s1: yous2: yous2: knows3: mes4: good]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-        <tag>字符指针</tag>
+        <tag>void*指针</tag>
       </tags>
   </entry>
   <entry>
@@ -131,17 +204,6 @@
       </categories>
       <tags>
         <tag>指针</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[纸牌博弈问题系列]]></title>
-    <url>%2F2019%2F07%2F30%2F%E7%BA%B8%E7%89%8C%E5%8D%9A%E5%BC%88%E9%97%AE%E9%A2%98%E7%B3%BB%E5%88%97%2F</url>
-    <content type="text"><![CDATA[几道同类题目: stone game]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-      <tags>
-        <tag>递归</tag>
       </tags>
   </entry>
   <entry>
@@ -213,17 +275,6 @@
       </categories>
       <tags>
         <tag>dynamic programming</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[856. Score of Parentheses]]></title>
-    <url>%2F2019%2F07%2F17%2F856.Score-of-Parentheses%2F</url>
-    <content type="text"><![CDATA[Given a balanced parentheses string S, compute the score of the string based on the following rule: () has score 1 AB has score A + B, where A and B are balanced parentheses strings. (A) has score 2 * A, where A is a balanced parentheses string. Example 1: 12Input: &quot;()&quot;Output: 1 Example 2: 12Input: &quot;(())&quot;Output: 2 Example 3: 12Input: &quot;()()&quot;Output: 2 Example 4: 12Input: &quot;(()(()))&quot;Output: 6 Note: S is a balanced parentheses string, containing only ( and ). 2 &lt;= S.length &lt;= 50 思路 如何表示括号之间的包含关系 如何表示括号之间的平等关系]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-      <tags>
-        <tag>括号</tag>
       </tags>
   </entry>
   <entry>
@@ -348,8 +399,8 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>dynamic programming</tag>
         <tag>leetcode</tag>
+        <tag>dynamic programming</tag>
       </tags>
   </entry>
   <entry>
