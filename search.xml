@@ -1,6 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[字符串基础知识总结]]></title>
+    <url>%2F2019%2F08%2F12%2F%E5%AD%97%E7%AC%A6%E4%B8%B2%2F</url>
+    <content type="text"><![CDATA[有三种类型的字符串： c风格字符串， 字符串字面常量，string类型 c风格字符串 c风格字符串必须符合某种编码(如ASCII),并且除了字符串的末尾之外,字符串里面不能包含空字符(空字符是字符结束的标志).这些限制使得c风格字符串只能保存文本数据,而不能保存二进制数据(如图片,音频等) c风格字符串不保存自身长度,要获取一个c字符串的长度,需要遍历整个字符串,直到遇到代表字符串结尾的空字符为止,这个操作的时间复杂度为O(n)(n是字符串长度). c字符串容易造成缓冲区溢出 如使用strcat函数将src字符串中的内容拼接到字符串的末尾时, 1char *strcat(char* dest, const char* src) 由于c字符串不记录自身的长度,所以strcat假定用户在执行这个函数时,已经为dest分配了足够多的内存,可以容纳src字符串中的所有内容,但是万一这个假设不成立就会造成缓冲区溢出. c字符串修改字符串长度时需要进行内存重分配;内存重分配涉及复杂的算法,而且可能需要执行系统调用,通常来说比较耗时. 字符串,字符数组相关API c标准库string函数, 共有4个函数 strlen(p), strcmp(p1, p2), strcat(p1, p2), strcpy(p1, p2) 传入此类函数的指针必须指向以空字符结尾的数组不能使用strlen函数求”使用列表初始化的字符数组的长度 strlen计算c风格字符串的长度时,c风格字符串末尾的空字符不计算在内 123456789101112void testCharArray3() &#123; cout &lt;&lt; "strlen(\"danam\"): " &lt;&lt; strlen("danam") &lt;&lt; endl; // 允许使用以空字符结尾的字符数组类初始化string对象或为string对象赋值 string s("danam"); cout &lt;&lt; "s:" &lt;&lt; s &lt;&lt; " s.size():" &lt;&lt; s.size() &lt;&lt; endl; char c[] = "nice"; cout &lt;&lt; "strlen(c): " &lt;&lt; strlen(c) &lt;&lt; " c:" &lt;&lt; c &lt;&lt; endl; string s1(c); cout &lt;&lt; "s1.size():" &lt;&lt; s1.size() &lt;&lt; " s1:" &lt;&lt; s1 &lt;&lt; endl;&#125; 运行结果 1234strlen("danam"): 5s:danam s.size():5strlen(c): 4 c:nices1.size():4 s1:nice]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[数组和字符指针]]></title>
+    <url>%2F2019%2F08%2F12%2F%E6%95%B0%E7%BB%84%E5%92%8C%E5%AD%97%E7%AC%A6%E6%8C%87%E9%92%88%2F</url>
+    <content type="text"><![CDATA[数组基本概念什么是数组?数组是一组类型相同元素的容器.数组中存放的对象没有名字,必须通过位置来访问.数组的大小确定不变, 一旦数组定义完成,不能再向数组中添加元素. 数组是一种复合类型.数组的声明形如a[d], 其中a是数组的名字,d是数组的维度.维度说明了数组中元素的个数,因此必须大于0. 数组中元素的个数也属于数组类型的一部分,编译时数组的维度必须是已知的. 适用所有数组类型 不能将数组的内容拷贝给其他数组作为其初始值，也不能用数组为其他数组赋值。 在大多数表达式中，使用数组类型的对象其实是使用一个指向该数组首元素的指针。当对数组名称使用decltype关键字时得到的是数组对象类型。 对数组执行下标运算其实是对指向数组元素的指针执行下标运算 内置的下标运算符不是无符号数,标准库类型如vector和string限定使用的下标必须是无符号数 因为数组本身是对象,可以定义数组的指针和数组的引用 适用于字符数组 当使用字符串常量对字符数组进行初始化时, 字符串数组最后一位会被加上一个’\0’空字符但是使用strlen()计算该数组的长度时,该字符串末尾的空字符不计算在内 对字符数组进行列表初始化时,字符数组末尾没有空字符; 但是由于strlen()函数时是使用空字符来判断字符串结束的, 无法对这样的字符数组使用strlen()求长度 代码示例 字符数组初始化和求长度 字符数组初始化有两种方式,列表初始化和字符串常量初始化 字符串常量初始化时,字符串常量末尾的空字符也会拷贝到字符数组中去 12345678910111213141516void testCharArray() &#123; char a1[] = "danam"; // 计算c风格字符串的长度时,c风格字符串末尾的空字符不计算在内 cout &lt;&lt; "strlen(\"danam\"): " &lt;&lt; strlen("danam") &lt;&lt; endl; // a1的长度为6字节,字符串字面值的末尾是一个空字符,这个空字符也会像其他字符一样拷贝到字符数组中去 cout &lt;&lt; "a1:" &lt;&lt; a1 &lt;&lt; " sizeof(a1): " &lt;&lt; sizeof(a1) &lt;&lt; " strlen(a1): " &lt;&lt; strlen(a1) &lt;&lt; endl; //a1:danam sizeof(a1): 6 strlen(a1): 5 // 对字符数组进行列表初始化,没有空字符 char a2[] = &#123;'a', 'b', 'c'&#125;; cout &lt;&lt; "a2: " &lt;&lt; a2 &lt;&lt; " sizeof(a2): " &lt;&lt; sizeof(a2) &lt;&lt; endl; // a2的长度为3字节;无法对a2使用strlen函数 // a2: abcdanam sizeof(a2): 3&#125; 运行结果 123strlen("danam"): 5a1:danam sizeof(a1): 6 strlen(a1): 5a2: abcdanam sizeof(a2): 3 数组名和指针,迭代器 数组名通常会自动转换为指向数组首元素的指针 在表达式decltype(arr)时,不会发生自动转换,decltype(arr)的返回类型是一个数组类型,其元素类型和维度都与数组arr相同 1234567891011void testCharArray1() &#123; //===============数组名和指针================= int iarr[] = &#123;1, 2, 3, 4, 5&#125;; // ia是一个指针,在这里使用数组类型对象iarr时,编译器将其替换为一个指向数组首元素的指针 auto ia(iarr); ia = &amp;iarr[1]; // decltype(ia)是一个含有5个整形元素的数组对象,因此iarr2也是一个含有5个元素的数组 decltype(iarr) iarr2 = &#123;22, 33, 444, 55, 99&#125;; iarr2[2] = 1882;&#125; 运行结果 1nice to meet you alice 指针运算 对数组执行下标运算其实是对指向数组元素的指针执行下标运算.标准库类型使用的下标类型必须是无符号类型,内置的下标运算可以是带符号类型 可以从一个指针加上或减去一个整数值,结果仍是指针 指向同一个数组中元素(包括尾元素)的指针可以相减,两个指针相减的结果是一种名为ptrdiff_t的标准库类型.ptrdiff_t类型是一种带符号类型 123456789101112131415161718192021void testCharArray3() &#123; //=======================指针运算===================== string sarr[5] = &#123;"good", "day", "you", "know", "me"&#125;; // sarr[2]是一个使用了数组名字的表达式,对数组执行下标运算其实是对指向数组元素的指针执行下标运算 string s1 = sarr[2]; //sarr转换为指向数组首元素的指针,sarr[2]得到(sarr+2)所指向的元素 string *p = sarr; //sarr转换为指向数组首元素的指针 string s2 = *(p + 2); //等价于sarr[2] cout &lt;&lt; "s1: " &lt;&lt; s1 &lt;&lt; endl; cout &lt;&lt; "s2: " &lt;&lt; s2 &lt;&lt; endl; s2 = p[3]; cout &lt;&lt; "s2: " &lt;&lt; s2 &lt;&lt; endl; //=======只要指针指向的是数组中的元素(或者数组中尾元素的下一位置),都可以执行下标运算 //内置的下标运算符使用的不是无符号数,而标准库类型如vector和string限定使用的下标必须是无符号类型 string *p1 = &amp;sarr[2]; string s3 = p1[2]; string s4 = p1[-2]; cout &lt;&lt; "s3: " &lt;&lt; s3 &lt;&lt; endl; cout &lt;&lt; "s4: " &lt;&lt; s4 &lt;&lt; endl;&#125; 运行结果 12345s1: yous2: yous2: knows3: mes4: good 指针和迭代器 1234567891011121314151617181920void testCharArray2() &#123; //================指针也是迭代器======================== string sarr[5] = &#123;"nice", "to", "meet", "you", "alice"&#125;; //指针e指向sarr尾元素的下一位置的指针,该位置并不存在,因此不能对该指针进行解引用和递增操作 string *e = &amp;sarr[5]; for (string *b = sarr; b != e; b++) &#123; cout &lt;&lt; *b &lt;&lt; " "; &#125; cout &lt;&lt; endl; //=====================标准库begin和end函数====================== int ia1[] = &#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;; int *beg = begin(ia1); // 指向ia1首元素的指针 int *last = end(ia1); // 指向ia1尾元素的下一位置的指针 while (beg != last) &#123; cout &lt;&lt; *beg &lt;&lt; " "; ++beg; &#125; cout &lt;&lt; endl;&#125; 运行结果: 10 1 2 3 4 5 6 7 8 9]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+        <tag>字符指针</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Parentheses系列]]></title>
+    <url>%2F2019%2F08%2F12%2FParentheses%E7%B3%BB%E5%88%97%2F</url>
+    <content type="text"><![CDATA[Generate ParenthesesGiven n pairs of parentheses, write a function to generate all combinations of well-formed parentheses. For example, given n = 3, a solution set is: 1234567[ &quot;((()))&quot;, &quot;(()())&quot;, &quot;(())()&quot;, &quot;()(())&quot;, &quot;()()()&quot;] 题目链接 解法1:暴力法依次枚举每个位置上的字符: 对于任意位置i,先将该位置上的字符设为’(‘,然后继续枚举下一个位置,直到所有位置都被枚举完成,判断形成的字符是否有效.处理完第i位上为’(‘之后,继续枚举第i位上为’)’.只需从第0位开始枚举, 将每个位置上都枚举完成,所有可能的字符串都枚举完成,也找出了所有有效的字符串.显然需要递归实现上述思路. 1234567891011121314151617181920212223242526272829bool vaild(string &amp;res) &#123; int bal = 0; for (int i = 0; i &lt; res.size(); ++i) &#123; bal += res[i] == '(' ? 1 : -1; if (bal &lt; 0) &#123; return false; &#125; &#125; return bal == 0;&#125;void generate(string &amp;res, int n) &#123; if (res.size() == n * 2) &#123; if (vaild(res)) &#123; for (auto c : res) &#123; cout &lt;&lt; c; &#125; cout &lt;&lt; endl; &#125; &#125; else &#123; res.push_back('('); generate(res, n); res.pop_back(); res.push_back(')'); generate(res, n); res.pop_back(); &#125;&#125; 复杂度分析 时间复杂度 当给出n时, 所有可能的字符串有22 * n个. 这是因为共2 * n 个位置上,每个位置上有两种可能. 对于每一个字符串,枚举该字符串并检查该字符串的有效性的时间复杂度为O(n), 因此总的时间复杂度为O(n* 22 * n) 空间复杂度 如上所示,整个递归过程中,只用了一个string,在这个string中,最多只会存放长度为2n的字符串,因此,空间复杂度为O(n) 解法2: 改进版本在上述解法中,当已经能够被枚举的字符串无效时仍然继续枚举下一位置,因此浪费了很多时间.例如,对n=1,当位置0上的字符被设为’)’时,无论后续如何枚举,由这个’)’开始的字符串都是无效的.因此,提前退出枚举过程以减少运行时间. 12345678910111213141516171819void generate(string &amp;res, int n, int bal, vector&lt;string&gt; &amp;ans) &#123; if (res.size() == 2 * n) &#123; if (bal == 0) &#123; ans.push_back(res); &#125; &#125; else &#123; res.push_back('('); generate(res, n, bal + 1, ans); res.pop_back(); // 当我们能确定,被枚举的字符串不可能有效时,提前退出 // 换言之,只有当我们认为被枚举的字符串可能有效时,才继续枚举 if (bal &gt; 0) &#123; res.push_back(')'); generate(res, n, bal - 1, ans); res.pop_back(); &#125; &#125;&#125; 解法3: 闭合数将有效字符串表示为不相交子集的总和.考虑有效括号序列S的闭包数, 至少存在index&gt;=0, 使得S[0], S[1],…,S[2*index+1]是有效的.显然,每个括号序列都有唯一一个的闭包号. 对于每个闭合数c,起始和结束号位于索引0和2c+1.然后位于1-2\c之间的序列和位于2*c+1和2*n之间的序列都是有效序列. 123456789101112131415161718// 生成n对括号的有效序列vector&lt;string&gt; generate(int n) &#123; vector&lt;string&gt; ans; string res = ""; if (n == 0) &#123; ans.push_back(res); &#125; else &#123; for (int i = 0; i &lt; n; ++i) &#123; for (string left: generate(i)) &#123; for (string right: generate(n - 1 - i)) &#123; string tmp = '(' + left + ')' + right; ans.push_back(tmp); &#125; &#125; &#125; &#125; return ans;&#125; valid Parathesis stringGiven a string containing only three types of characters: ‘(‘, ‘)’ and ‘*’, write a function to check whether this string is valid. We define the validity of a string by these rules: Any left parenthesis &#39;(&#39; must have a corresponding right parenthesis &#39;)&#39;. Any right parenthesis &#39;)&#39; must have a corresponding left parenthesis &#39;(&#39;. Left parenthesis &#39;(&#39; must go before the corresponding right parenthesis &#39;)&#39;. &#39;*&#39; could be treated as a single right parenthesis &#39;)&#39; or a single left parenthesis &#39;(&#39; or an empty string. An empty string is also valid. Example 1: 12Input: &quot;()&quot;Output: True Example 2: 12Input: &quot;(*)&quot;Output: True Example 3: 12Input: &quot;(*))&quot;Output: True Note: The string size will be in the range [1, 100]. 解法 1:对每个*进行枚举1234567891011121314151617181920212223242526272829303132333435363738class Solution &#123;public: bool checkValidString(string s) &#123; return checkValidStringCore(s, 0); &#125; bool checkValidStringCore(string&amp; s,int pos)&#123; if(pos == s.size())&#123; return valid(s); &#125; if(s[pos]=='*')&#123; string tmp ="()*"; for(int j=0;j&lt;tmp.size();++j)&#123; s[pos] = tmp[j]; if(checkValidStringCore(s, pos+1))&#123; return true; &#125; &#125; s[pos] = '*'; return false; &#125;else&#123; return checkValidStringCore(s, pos+1); &#125; &#125; bool valid(string s)&#123; int bal = 0; for(int i=0;i&lt;s.size();++i)&#123; if(s[i]=='(')&#123; ++bal; &#125;else if(s[i]==')')&#123; --bal; &#125; if(bal &lt; 0)&#123; return false; &#125; &#125; return bal == 0; &#125;&#125;; 解法2:动态规划 dp[i][j]表示字符串i到j位置上的子串是否有效.若i&gt;j为空串, dp[i][j]=true若i == j, dp[i][j]是否有效取决于字符串i位置上的字符是否为*, 即dp[i][j] = (s[i]==’‘)若i+1==j,则dp[i][j]会在四种情况下有效:s[i] == ‘(‘ &amp;&amp; s[j] == ‘)’s[i] == ‘(‘ &amp;&amp; s[j] == ‘\‘ s[i] == ‘*‘ &amp;&amp; s[j] == ‘)’s[i] == ‘*‘ &amp;&amp; s[j] == ‘*‘ 其余情况下为false若i+1&lt;jdp[i][j] = true只在一种情况下成立,即存在i&lt;k&lt;=j, s[i]和s[k]满足上述四种情况之一,且dp[i][k]=true &amp;&amp; dp[k+1][j]=true 12 复杂度分析 时间复杂度 空间复杂度 解法3: 贪心lo,hi分别表示尚未匹配的左括号的最少和最大数量.尚未匹配的左括号的最少数量在仅把左括号当做左括号时取得.最大数量在把所有*都当做右括号时取得. 当hi&lt;0时,说明即使把所有*都当做左括号也无法满足左括号和右括号之间的匹配关系,因此,此字符串无效. 当hi&gt;0, 而lo&lt;0时,说明将部分*当做左括号才能满足左括号和右括号之间的匹配关系. 当hi&gt;0, 而lo&gt;0时, 说明左括号的数量多于右括号的数量.尚未匹配的左括号的最少数量还是lo. 当hi=0,lo=0时,说明左括号和右括号的数量相等.]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>stack</tag>
+        <tag>Parentheses</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[sizeof]]></title>
+    <url>%2F2019%2F08%2F11%2Fsizeof%E8%BF%90%E7%AE%97%E7%AC%A6%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>sizeof</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[重载和重写]]></title>
+    <url>%2F2019%2F08%2F08%2F%E9%87%8D%E8%BD%BD%E5%92%8C%E9%87%8D%E5%86%99%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>重载</tag>
+        <tag>重写</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[类型转换系列1]]></title>
+    <url>%2F2019%2F08%2F07%2Fc%2B%2B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%BA%8C)%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%2F</url>
+    <content type="text"><![CDATA[显式转换旧式转型:T(expression)(T)expression 四种新式转型: cast-name&lt;type&gt;(expression): type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。 const_cast通常被用来将对象的常量性移除. dynamic_cast主要用来执行“安全向下转型”,也就是用来决定某对象是否归属继承体系中的某个类型.它是唯一无法由旧式语法执行的动作,也是唯一可能耗费重大运行成本的转型动作. reinterpret_cast意图执行低级转型,实际动作(及结果)可能取决于编译器,这也就表示它不可移植.例如将一个pointer to int转型为一个int. 这一类型在低级代码以外很少见. static_cast用来强迫隐式转换.例如将non-const对象转为const对象, 或将int转为double等等.它也可以用来执行上述多种转换的反向转换.例如将void*指针转为typed指针,将point-to-base转为pointer-to-derived.但它无法将const转为non-const,这个只有const_cast才办得到.]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>static_cast</tag>
+        <tag>类型转换</tag>
+        <tag>显示转换</tag>
+        <tag>cast</tag>
+        <tag>const_cast</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[智能指针]]></title>
+    <url>%2F2019%2F08%2F05%2F%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%2F</url>
+    <content type="text"><![CDATA[智能指针有三类: shared_ptr, unique_ptr, weak_ptr.其中shared_ptr可以和其他shared_ptr共享内存,指向同一块内存区域,引用计数用于记录指向该内存的shared_ptr个数. unique_ptr只能独占内存.任意时刻,都只有一个unique_ptr指向一个给定对象.当unique_ptr被销毁时, 它所指向的对象也会被销毁. weak_ptr是一种弱引用,指向shared_ptr所管理的对象. shared_ptr 初始化shared_ptr有三种初始化方式: 使用make_shared&lt;T&gt;(obj)初始化 使用同类型内置指针对shared_ptr进行初始化 使用另一个智能指针进行初始化 reset将一个新的内置指针赋予shared_ptr use_count引用计数 默认情况下,一个用来初始化智能指针的内置指针必须指向动态内存,因为智能指针默认使用delete释放它所关联的对象.我们也可以将智能指针绑定一个指向其他类型对象的指针上,但是此时必须提供自己的操作来代替delete.这个自己的操作就是删除器函数,即,我们必须定义一个自己的函数作为新的删除器函数. 1234567891011121314void f1()&#123; // 使用对象初始化智能指针 shared_ptr&lt;int&gt; p = make_shared&lt;int&gt;(12); cout &lt;&lt; *p &lt;&lt; " " &lt;&lt; p.use_count() &lt;&lt; endl; // 使用智能指针初始化智能指针 shared_ptr&lt;int&gt; p2(p); cout &lt;&lt; *p2 &lt;&lt; " " &lt;&lt; p2.use_count() &lt;&lt; endl; // 使用内置指针初始化智能指针 int *p3 = new int(193); shared_ptr&lt;int&gt; p4(p3); cout &lt;&lt; *p4 &lt;&lt; " " &lt;&lt; p4.use_count() &lt;&lt; endl;&#125; 运行结果 12312 112 2193 1 reset和use_count的使用 调用p.reset(q)时, 若是p是唯一一个指向其对象的shared_ptr,则reset会释放此对象.若传递了可选的参数内置指针q, 会令p指向q, 否则将p置空.reset会更新p的引用计数. 123456789101112131415161718void f2()&#123; shared_ptr&lt;int&gt; p4(new int(28)); cout &lt;&lt; "*p4: " &lt;&lt; *p4 &lt;&lt; " p4.use_count(): " &lt;&lt; p4.use_count() &lt;&lt; endl; shared_ptr&lt;int&gt; p5(new int(109)); cout &lt;&lt; "*p5:" &lt;&lt; *p5 &lt;&lt; " p5.use_count: " &lt;&lt; p5.use_count() &lt;&lt; endl; // 调用智能指针类的赋值运算符函数 p4 = p5; cout &lt;&lt; "*p4: " &lt;&lt; *p4 &lt;&lt; " p4.use_count(): " &lt;&lt; p4.use_count() &lt;&lt; endl; // p5不是唯一一个指向其所指对象的shared_ptr,因此,重新制作一份该对象的副本并修改该对象的值 if (!p5.unique()) &#123; p5.reset(new int(*p5)); *p5 += 100; &#125; cout &lt;&lt; "*p5:" &lt;&lt; *p5 &lt;&lt; " p5.use_count: " &lt;&lt; p5.use_count() &lt;&lt; endl;&#125; 运行结果 1234*p4: 28 p4.use_count(): 1*p5:109 p5.use_count: 1*p4: 109 p4.use_count(): 2*p5:209 p5.use_count: 1]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>shared_ptr</tag>
+        <tag>unique_ptr</tag>
+        <tag>weak_ptr</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[重载new和delete]]></title>
+    <url>%2F2019%2F08%2F05%2F%E9%87%8D%E8%BD%BDnew%E5%92%8Cdelete%2F</url>
+    <content type="text"><![CDATA[当应用程序对于内存分配有特殊要求时,需要重载operator new和operator delete运算符. new表达式的工作机制 new表达式的工作机理 当我们使用一条new表达式时,实际执行了三步操作. 第一步,调用名为operator new(或operator new[])的标准库函数, 分配一块足够大的, 原始的, 未命名的内存空间以便存储特定类型的对象(或对象数组). 运行相应的构造函数构造这些对象,并初始化这些对象 对象被分配了空间并构造完成,返回一个指向该对象的指针. delete表达式的工作机理 当我们使用一条delete表达式时,实际执行了两步操作. 对delete表达式中指针所指向的对象执行相应的析构函数 调用名为operator delete(或operator delete[])的标准库函数释放对象内存空间 定位new表达式可以通过自定义operator new和operator delete函数来控制内存分配过程. 但是有一个operator new函数不允许被用户重载: 1void *operator new(size_T, void*) 此形式的operator new(定位new)只供标准库使用,不允许用户重载.该函数并不分配内存,而是直接返回void参数传入的指针;然后由new表达式负责在指定的地址初始化对象以完成整个工作.即*定位new允许我们在一个特定的,预先分配的内存地址上构造对象**.传给定位new表达式的指针可以是堆内存,也可以不是. 使用定位new表达式定位new表达式的形式: new (place_address) type [n] {initializer list}其中,place-address是一个指针,指向已经分配好的内存地址, type表示要构造的对象的类型, n可选参数,表示要构造的对象的个数, {initializer list}为初始化列表用于初始化对象. 指针place_address指向的是堆内存 1234567891011void f1()&#123; double *p3, *p4; p3 = new double[N]; // 堆内存,p3指向动态分配的空间 p4 = new(p3) double[N]&#123;1.1, 2.2, 3.0, 4.6, 6.9&#125;; // 定位new允许我们在一个特定的,预先分配的内存地址上构造对象 for (int i = 0; i &lt; N; i++) &#123; cout &lt;&lt; p4[i] &lt;&lt; " "; &#125; cout &lt;&lt; endl;&#125; 运行结果 11.1 2.2 3 4.6 6.9 指针place_address指向的是静态内存 1234567891011121314151617const int BUF = 512;const int N = 5;char buffer[BUF];void f2()&#123; int *p; p = new(buffer) int[N]; // buffer是静态内存, 定义在任何函数之外的变量 for (int i = 0; i &lt; N; ++i) &#123; p[i] = i * 4; &#125; cout &lt;&lt; "静态分配的地址buffer:" &lt;&lt; (void *) buffer &lt;&lt; endl; cout &lt;&lt; "直接使用placement new的p2地址" &lt;&lt; p &lt;&lt; endl; for (int i = 0; i &lt; N; ++i) &#123; cout&lt;&lt; p[i] &lt;&lt; " "; &#125; cout &lt;&lt; endl;&#125; 运行结果 123静态分配的地址buffer: 0x556ab55fd140直接使用placement_new的p2地址: 0x556ab55fd1400 4 8 12 16 指针place_address指向的是栈内存 123456789void f3()&#123; string arr[N]; // 栈内存, arr中保存着定义在函数内的非static对象 string *p; p = new(arr) string[N]&#123;"hello", "world", "a", "good", "day"&#125;; for (int i = 0; i &lt; N; i++) &#123; cout &lt;&lt; p[i] &lt;&lt; " "; &#125; cout &lt;&lt; endl;&#125; 运行结果 1hello world a good day]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>operator new</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[内置指针]]></title>
     <url>%2F2019%2F08%2F05%2F%E5%86%85%E7%BD%AE%E6%8C%87%E9%92%88%2F</url>
     <content type="text"><![CDATA[什么是指针?指针是一种特殊的变量.它的值是一个对象的地址,也称指针指向该对象.对指针进行解引用可以获取该对象.指针本身是一个对象,可以赋值和拷贝. 指针中保存着它指向的对象的地址.直接输出指针的内容即指针指向的对象的地址.对指针进行解引用得到指针指向的对象 二级指针中保存一个指针的地址, 这个被指向的指针中才真正保存着对象的地址.直接输出指针得到指针指向的一级指针的地址.对二级指针进行解引用得到一级指针指向的最终对象的地址(即一级指针的值).对一级指针进行解引用,得到最终对象 关于指针有一些很容易混淆的地方,下面举几个例子辨析一下. 示例1 1234567int a = 10;int *p = &amp;a;int **pp = &amp;p; // pp是指向指针的指针，它指向指针p。解引用后是指针p。cout&lt;&lt;"pp:"&lt;&lt;(pp)&lt;&lt;" &amp;p"&lt;&lt;(&amp;p)&lt;&lt;endl; // pp是指向指针变量p的指针，所以，pp中存放着整形指针变量p的地址cout&lt;&lt;"*pp:"&lt;&lt;(*pp)&lt;&lt;" p"&lt;&lt;(p)&lt;&lt;endl; // pp是指向指针变量p的指针，*pp解引用pp会得到整形指针变量p，而p的值是一个整形变量a的地址cout&lt;&lt;"p:"&lt;&lt;p&lt;&lt;" &amp;a:"&lt;&lt;(&amp;a)&lt;&lt;endl; // p是指向整形变量a的指针，所以，p中存放着整形变量a的地址cout&lt;&lt;"*p:"&lt;&lt;p&lt;&lt;" a:"&lt;&lt;(a)&lt;&lt;endl; // p是指向整形变量a的指针。*p解引用整形指针p会得到一个整形数 运行结果 1234pp:0x7fff5ce9bf48 &amp;p0x7fff5ce9bf48*pp:0x7fff5ce9bf44 p0x7fff5ce9bf44p:0x7fff5ce9bf44 &amp;a:0x7fff5ce9bf44*p:0x7fff5ce9bf44 a:10 示例2 123456789101112131415161718192021int a[5] = &#123;1, 2, 3, 4, 5&#125;; int *p, **k; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *p:" &lt;&lt; *p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(p++):" &lt;&lt; *(p++) &lt;&lt; " "; cout &lt;&lt; "after p++" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(++p):" &lt;&lt; *(++p) &lt;&lt; " "; cout &lt;&lt; "after ++p" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; 运行结果 1234567891011a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *p:1k:0x7ffcd38cc920 *k:0x7ffcd38cc930 **k:1=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(p++):1 after p++0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(++p):2 after ++p0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2 可知, a是数组的名字,也是指向数组首元素的指针.p=a将指针p指向数组首元素.因此p的值是数组首元素的地址. p是数组首元素的值.\*k表明k是指向指向指针的指针, k指向指针p,因此,k中保存这指针p的地址,*k是指针p的值,也就是指针指向的对象地址,这里就是数组a首元素的地址.**k就是*(p)就是指针p指向的对象的值.]]></content>
@@ -25,44 +116,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[类型转换系列1]]></title>
-    <url>%2F2019%2F08%2F04%2Fc%2B%2B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%BA%8C)%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%2F</url>
-    <content type="text"><![CDATA[显式转换cast-name&lt;type&gt;(expression): type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>类型转换</tag>
-        <tag>显示转换</tag>
-        <tag>cast</tag>
-        <tag>static_cast</tag>
-        <tag>const_cast</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[重载new和delete]]></title>
-    <url>%2F2019%2F08%2F02%2F%E9%87%8D%E8%BD%BDnew%E5%92%8Cdelete%2F</url>
-    <content type="text"><![CDATA[当应用程序对于内存分配有特殊要求时,需要重载operator new和operator delete运算符. new表达式的工作机制定位new表达式可以通过自定义operator new和operator delete函数来控制内存分配过程. 但是有一个operator new函数不允许被用户重载: 1void *operator new(size_T, void*) 此形式的operator new(定位new)只供标准库使用,不允许用户重载.该函数并不分配内存,而是直接返回void*参数传入的指针;然后由new表达式负责在指定的地址初始化对象以完成整个工作.即定位new允许我们在一个特定的,预先分配的内存地址上构造对象.传给定位new表达式的指针可以是堆内存,也可以不是.]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>operator new</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[数组和字符指针]]></title>
-    <url>%2F2019%2F08%2F02%2F%E6%95%B0%E7%BB%84%E5%92%8C%E5%AD%97%E7%AC%A6%E6%8C%87%E9%92%88%2F</url>
-    <content type="text"><![CDATA[数组基本概念什么是数组?数组是一组类型相同元素的容器.数组中存放的对象没有名字,必须通过位置来访问.数组的大小确定不变, 一旦数组定义完成,不能再向数组中添加元素. 数组是一种复合类型.数组的声明形如a[d], 其中a是数组的名字,d是数组的维度.维度说明了数组中元素的个数,因此必须大于0. 数组中元素的个数也属于数组类型的一部分,编译时数组的维度必须是已知的. 适用所有数组类型 不能将数组的内容拷贝给其他数组作为其初始值，也不能用数组为其他数组赋值。 在大多数表达式中，使用数组类型的对象其实是使用一个指向该数组首元素的指针。当对数组名称使用decltype关键字时得到的是数组对象类型。 对数组执行下标运算其实是对指向数组元素的指针执行下标运算 内置的下标运算符不是无符号数,标准库类型如vector和string限定使用的下标必须是无符号数 因为数组本身是对象,可以定义数组的指针和数组的引用 适用于字符数组 当使用字符串常量对字符数组进行初始化时, 字符串数组最后一位会被加上一个’\0’空字符 但是使用strlen()计算该数组的长度时,该字符串末尾的空字符不计算在内 对字符数组进行列表初始化时,字符数组末尾没有空字符; 但是由于strlen()函数时是使用空字符来判断字符串结束的, 无法对这样的字符数组使用strlen()求长度 代码示例 字符数组初始化和求长度 字符数组初始化有两种方式,列表初始化和字符串常量初始化 字符串常量初始化时,字符串常量末尾的空字符也会拷贝到字符数组中去 12345678910111213141516void testCharArray() &#123; char a1[] = "danam"; // 计算c风格字符串的长度时,c风格字符串末尾的空字符不计算在内 cout &lt;&lt; "strlen(\"danam\"): " &lt;&lt; strlen("danam") &lt;&lt; endl; // a1的长度为6字节,字符串字面值的末尾是一个空字符,这个空字符也会像其他字符一样拷贝到字符数组中去 cout &lt;&lt; "a1:" &lt;&lt; a1 &lt;&lt; " sizeof(a1): " &lt;&lt; sizeof(a1) &lt;&lt; " strlen(a1): " &lt;&lt; strlen(a1) &lt;&lt; endl; //a1:danam sizeof(a1): 6 strlen(a1): 5 // 对字符数组进行列表初始化,没有空字符 char a2[] = &#123;'a', 'b', 'c'&#125;; cout &lt;&lt; "a2: " &lt;&lt; a2 &lt;&lt; " sizeof(a2): " &lt;&lt; sizeof(a2) &lt;&lt; endl; // a2的长度为3字节;无法对a2使用strlen函数 // a2: abcdanam sizeof(a2): 3&#125; 运行结果 123strlen("danam"): 5a1:danam sizeof(a1): 6 strlen(a1): 5a2: abcdanam sizeof(a2): 3 数组名和指针,迭代器 数组名通常会自动转换为指向数组首元素的指针 在表达式decltype(arr)时,不会发生自动转换,decltype(arr)的返回类型是一个数组类型,其元素类型和维度都与数组arr相同 1234567891011void testCharArray1() &#123; //===============数组名和指针================= int iarr[] = &#123;1, 2, 3, 4, 5&#125;; // ia是一个指针,在这里使用数组类型对象iarr时,编译器将其替换为一个指向数组首元素的指针 auto ia(iarr); ia = &amp;iarr[1]; // decltype(ia)是一个含有5个整形元素的数组对象,因此iarr2也是一个含有5个元素的数组 decltype(iarr) iarr2 = &#123;22, 33, 444, 55, 99&#125;; iarr2[2] = 1882;&#125; 运行结果 1nice to meet you alice 指针运算 对数组执行下标运算其实是对指向数组元素的指针执行下标运算.标准库类型使用的下标类型必须是无符号类型,内置的下标运算可以是带符号类型 可以从一个指针加上或减去一个整数值,结果仍是指针 指向同一个数组中元素(包括尾元素)的指针可以相减,两个指针相减的结果是一种名为ptrdiff_t的标准库类型.ptrdiff_t类型是一种带符号类型 123456789101112131415161718192021void testCharArray3() &#123; //=======================指针运算===================== string sarr[5] = &#123;"good", "day", "you", "know", "me"&#125;; // sarr[2]是一个使用了数组名字的表达式,对数组执行下标运算其实是对指向数组元素的指针执行下标运算 string s1 = sarr[2]; //sarr转换为指向数组首元素的指针,sarr[2]得到(sarr+2)所指向的元素 string *p = sarr; //sarr转换为指向数组首元素的指针 string s2 = *(p + 2); //等价于sarr[2] cout &lt;&lt; "s1: " &lt;&lt; s1 &lt;&lt; endl; cout &lt;&lt; "s2: " &lt;&lt; s2 &lt;&lt; endl; s2 = p[3]; cout &lt;&lt; "s2: " &lt;&lt; s2 &lt;&lt; endl; //=======只要指针指向的是数组中的元素(或者数组中尾元素的下一位置),都可以执行下标运算 //内置的下标运算符使用的不是无符号数,而标准库类型如vector和string限定使用的下标必须是无符号类型 string *p1 = &amp;sarr[2]; string s3 = p1[2]; string s4 = p1[-2]; cout &lt;&lt; "s3: " &lt;&lt; s3 &lt;&lt; endl; cout &lt;&lt; "s4: " &lt;&lt; s4 &lt;&lt; endl;&#125; 运行结果 12345s1: yous2: yous2: knows3: mes4: good 指针和迭代器 1234567891011121314151617181920void testCharArray2() &#123; //================指针也是迭代器======================== string sarr[5] = &#123;"nice", "to", "meet", "you", "alice"&#125;; //指针e指向sarr尾元素的下一位置的指针,该位置并不存在,因此不能对该指针进行解引用和递增操作 string *e = &amp;sarr[5]; for (string *b = sarr; b != e; b++) &#123; cout &lt;&lt; *b &lt;&lt; " "; &#125; cout &lt;&lt; endl; //=====================标准库begin和end函数====================== int ia1[] = &#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;; int *beg = begin(ia1); // 指向ia1首元素的指针 int *last = end(ia1); // 指向ia1尾元素的下一位置的指针 while (beg != last) &#123; cout &lt;&lt; *beg &lt;&lt; " "; ++beg; &#125; cout &lt;&lt; endl;&#125; 运行结果: 10 1 2 3 4 5 6 7 8 9]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-        <tag>字符指针</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[856. Score of Parentheses]]></title>
     <url>%2F2019%2F07%2F31%2F856.Score-of-Parentheses%2F</url>
     <content type="text"><![CDATA[Given a balanced parentheses string S, compute the score of the string based on the following rule: () has score 1 AB has score A + B, where A and B are balanced parentheses strings. (A) has score 2 * A, where A is a balanced parentheses string. Example 1: 12Input: &quot;()&quot;Output: 1 Example 2: 12Input: &quot;(())&quot;Output: 2 Example 3: 12Input: &quot;()()&quot;Output: 2 Example 4: 12Input: &quot;(()(()))&quot;Output: 6 Note: S is a balanced parentheses string, containing only ( and ). 2 &lt;= S.length &lt;= 50 解法1:分而治之首先把整个字符串S分成多个子串s1, s2, …,sn.score(S) = score(s1)+score(s1)+…+score(sn) 接下来,计算每个子串si&gt;的分数,子串si有两种可能: 长度为2: score(si)=1 长度大于2:score(si) = 2 * score(si[1:n-1])(假设n为si.size()) 栈count cores]]></content>
@@ -71,18 +124,6 @@
       </categories>
       <tags>
         <tag>括号</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Parentheses系列]]></title>
-    <url>%2F2019%2F07%2F31%2FParentheses%E7%B3%BB%E5%88%97%2F</url>
-    <content type="text"></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-      <tags>
-        <tag>stack</tag>
-        <tag>Parentheses</tag>
       </tags>
   </entry>
   <entry>
@@ -128,10 +169,10 @@
         <category>C++基础知识</category>
       </categories>
       <tags>
+        <tag>static_cast</tag>
         <tag>类型转换</tag>
         <tag>显示转换</tag>
         <tag>cast</tag>
-        <tag>static_cast</tag>
         <tag>const_cast</tag>
       </tags>
   </entry>
@@ -167,8 +208,8 @@
         <category>C++基础知识</category>
       </categories>
       <tags>
-        <tag>static_cast</tag>
         <tag>void*指针</tag>
+        <tag>static_cast</tag>
       </tags>
   </entry>
   <entry>
@@ -386,8 +427,8 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>leetcode</tag>
         <tag>dynamic programming</tag>
+        <tag>leetcode</tag>
       </tags>
   </entry>
   <entry>
@@ -417,11 +458,6 @@
         <tag>liunx系统</tag>
         <tag>常用工具</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[字符串基础知识总结]]></title>
-    <url>%2F2019%2F07%2F17%2F%E5%AD%97%E7%AC%A6%E4%B8%B2%2F</url>
-    <content type="text"><![CDATA[有三种类型的字符串： c风格字符串， 字符串字面常量，string类型 c风格字符串 c风格字符串必须符合某种编码(如ASCII),并且除了字符串的末尾之外,字符串里面不能包含空字符(空字符是字符结束的标志).这些限制使得c风格字符串只能保存文本数据,而不能保存二进制数据(如图片,音频等) c风格字符串不保存自身长度,要获取一个c字符串的长度,需要遍历整个字符串,直到遇到代表字符串结尾的空字符为止,这个操作的时间复杂度为O(n)(n是字符串长度). c字符串容易造成缓冲区溢出 如使用strcat函数将src字符串中的内容拼接到字符串的末尾时, 1char *strcat(char* dest, const char* src) 由于c字符串不记录自身的长度,所以strcat假定用户在执行这个函数时,已经为dest分配了足够多的内存,可以容纳src字符串中的所有内容,但是万一这个假设不成立就会造成缓冲区溢出. c字符串修改字符串长度时需要进行内存重分配;内存重分配涉及复杂的算法,而且可能需要执行系统调用,通常来说比较耗时. 字符串,字符数组相关API c标准库string函数, 共有4个函数 strlen(p), strcmp(p1, p2), strcat(p1, p2), strcpy(p1, p2) 传入此类函数的指针必须指向以空字符结尾的数组 strlen计算c风格字符串的长度时,c风格字符串末尾的空字符不计算在内 123456789101112void testCharArray3() &#123; cout &lt;&lt; "strlen(\"danam\"): " &lt;&lt; strlen("danam") &lt;&lt; endl; // 允许使用以空字符结尾的字符数组类初始化string对象或为string对象赋值 string s("danam"); cout &lt;&lt; "s:" &lt;&lt; s &lt;&lt; " s.size():" &lt;&lt; s.size() &lt;&lt; endl; char c[] = "nice"; cout &lt;&lt; "strlen(c): " &lt;&lt; strlen(c) &lt;&lt; " c:" &lt;&lt; c &lt;&lt; endl; string s1(c); cout &lt;&lt; "s1.size():" &lt;&lt; s1.size() &lt;&lt; " s1:" &lt;&lt; s1 &lt;&lt; endl;&#125; 运行结果 1234strlen("danam"): 5s:danam s.size():5strlen(c): 4 c:nices1.size():4 s1:nice]]></content>
   </entry>
   <entry>
     <title><![CDATA[桶排序和计数排序]]></title>
