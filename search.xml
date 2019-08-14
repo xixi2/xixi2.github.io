@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[404. Sum of Left Leaves]]></title>
+    <url>%2F2019%2F08%2F14%2F404.-Sum-of-Left-Leaves%2F</url>
+    <content type="text"><![CDATA[题目链接 Find the sum of all left leaves in a given binary tree. Example: 1234567 3 / \ 9 20 / \ 15 7There are two left leaves in the binary tree, with values 9 and 15 respectively. Return 24. 如何确定左叶子节点，首先该节点必须是一个叶子节点，其次它必须位于其父节点的左子树上．当使用先序遍历时，该节点存在于左子树上且是一个叶子节点． 12345678910111213141516171819202122232425class Solution &#123;public: int sumOfLeftLeaves(TreeNode* root) &#123; return sumOfLeftLeavesCore(root); &#125; int sumOfLeftLeavesCore(TreeNode* root)&#123; int sum = 0; stack&lt;TreeNode*&gt; st; TreeNode* cur = root; while(cur!=nullptr || !st.empty())&#123; if(cur == nullptr)&#123; cur = st.top(); st.pop(); cur = cur-&gt;right; &#125;else&#123; st.push(cur); cur = cur-&gt;left; if(cur &amp;&amp; cur-&gt;left == nullptr &amp;&amp; cur-&gt;right == nullptr)&#123; sum += cur-&gt;val; &#125; &#125; &#125; return sum; &#125;&#125;;]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>二叉树</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[函数指针]]></title>
+    <url>%2F2019%2F08%2F14%2F%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%2F</url>
+    <content type="text"><![CDATA[函数指针指向的是函数而非对象.和其他指针一样,函数指针指向某种特定类型.函数的类型由它的返回类型和形参类型共同决定,与函数名无关. 123456789101112131415161718bool lengthCompare(const string &amp;a, const string &amp;b) &#123; return a.size() &lt; b.size();&#125;bool (*pf)(const string &amp;a, const string &amp;b); // pf是一个未初始化的函数指针bool (*pf1)(const string &amp;a, const string &amp;b); // pf1是一个未初始化的函数指针int main()&#123; // 以下两种写法都是等价的 pf = lengthCompare; pf1 = &amp;lengthCompare; // 以下是三个等价的调用 bool fa = pf("hello", "goodbye"); bool fb = pf1("hello", "goodbye"); bool fc = lengthCompare("hello", "goodbye"); return 0; &#125; 当把函数名作为一个值使用时,该函数自动转换为指针,所以, pf = lengthCompare和 pf1 = &amp;lengthCompare是等价的. 函数指针作为实参不能定义函数类型的形参,但是形参可以是指向函数的指针 12345// 第三个形参是函数类型,它会自动转换为指向函数的指针void useBigger(const string &amp;s1, const string &amp;s2, bool pf(const string &amp;, const string &amp;));// 显式地将形参定义为指向函数的指针void useBigger(const string &amp;s1, const string &amp;s2, bool (*pf)(const string &amp;, const string &amp;)); 定义函数类型别名和函数指针类型别名decltype返回函数类型,不会将函数类型自动转换为指针类型 12345678// Func和Func2是函数类型typedef bool Func(const string &amp;, const string &amp;);typedef decltype(lengthCompare) Func2; // 等价的类型// FuncP和FuncP2是指向函数的指针typedef bool (*FuncP)(const string &amp;, const string &amp;);typedef decltype(lengthCompare) *FuncP2; useBigger的另外两种等价的声明(使用了类型别名) 12void useBigger(const string &amp;s1, const string &amp;s2,Func);void useBigger(const string &amp;s1, const string &amp;s2,FuncP2); 返回函数指针12using F = int(int*, int); // F是函数类型,不是指针using PF = int(*)(int*,int); // PF是指针类型 使用类型别名定义返回类型为函数指针的函数 1234567PF f1(int); // PF是指向函数的指针,f1返回指向函数的指针F f1(int); // F是函数类型,f1不能返回一个函数类型F* f1(int); // F*是函数类型int (*f1(int))(int *,int); // 直接声明f1// 尾置返回类型auto f1(int) -&gt; int(*)(int *,int); 首先f1有形参列表,所以,f1是个函数,f1的返回值是一个指针.该指针也有形参列表,所以,该指针指向函数.该函数的形参是int和int,返回int.所以,f1是一个返回一个函数int(\)(int *,int)的函数. 一个复杂点的例子 12345678910111213141516171819202122232425262728293031string::size_type sumLength(const string &amp;a, const string &amp;b) &#123; return a.size() + b.size();&#125;string::size_type largerLength(const string &amp;a, const string &amp;b) &#123; return a.size() &gt; b.size() ? a.size() : b.size();&#125;decltype(sumLength) *getFcn(const string &amp;s) &#123; if (s == "+") &#123; return sumLength; &#125; else &#123; return largerLength; &#125;&#125;int main()&#123; typedef string::size_type (*Func)(const string &amp;, const string &amp;); Func fcn = getFcn("+"); // fcn是一个函数指针 // 一种等价形式// auto fcn = getFcn("+"); string::size_type sz = fcn("hello", "good"); cout &lt;&lt; sz &lt;&lt; endl; fcn = getFcn("-"); sz = fcn("hello", "good"); cout &lt;&lt; sz &lt;&lt; endl; return 0;&#125; 由于函数的类型由它的返回类型和形参类型决定,而与函数名无关,可知sumLength和largerLength属于相同的类型.所以,我们可以向getFcn传入参数,获取指向同一种函数类型的不同的函数指针.]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>函数</tag>
+        <tag>函数指针</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[智能指针]]></title>
     <url>%2F2019%2F08%2F14%2F%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%2F</url>
     <content type="text"><![CDATA[智能指针有三类: shared_ptr, unique_ptr, weak_ptr.其中shared_ptr可以和其他shared_ptr共享内存,指向同一块内存区域,引用计数用于记录指向该内存的shared_ptr个数. unique_ptr只能独占内存.任意时刻,都只有一个unique_ptr指向一个给定对象.当unique_ptr被销毁时, 它所指向的对象也会被销毁. weak_ptr是一种弱引用,指向shared_ptr所管理的对象. shared_ptr 初始化shared_ptr有三种初始化方式: 使用make_shared&lt;T&gt;(obj)初始化 使用同类型内置指针对shared_ptr进行初始化 使用另一个智能指针进行初始化 reset将一个新的内置指针赋予shared_ptr use_count引用计数 默认情况下,一个用来初始化智能指针的内置指针必须指向动态内存,因为智能指针默认使用delete释放它所关联的对象.我们也可以将智能指针绑定一个指向其他类型对象的指针上,但是此时必须提供自己的操作来代替delete.这个自己的操作就是删除器函数,即,我们必须定义一个自己的函数作为新的删除器函数. 1234567891011121314void f1()&#123; // 使用对象初始化智能指针 shared_ptr&lt;int&gt; p = make_shared&lt;int&gt;(12); cout &lt;&lt; *p &lt;&lt; " " &lt;&lt; p.use_count() &lt;&lt; endl; // 使用智能指针初始化智能指针 shared_ptr&lt;int&gt; p2(p); cout &lt;&lt; *p2 &lt;&lt; " " &lt;&lt; p2.use_count() &lt;&lt; endl; // 使用内置指针初始化智能指针 int *p3 = new int(193); shared_ptr&lt;int&gt; p4(p3); cout &lt;&lt; *p4 &lt;&lt; " " &lt;&lt; p4.use_count() &lt;&lt; endl;&#125; 运行结果 12312 112 2193 1 reset和use_count的使用 调用p.reset(q)时, 若是p是唯一一个指向其对象的shared_ptr,则reset会释放此对象.若传递了可选的参数内置指针q, 会令p指向q所指的内存空间, 否则将p置空.reset会更新p的引用计数. 123456789101112131415161718void f2()&#123; shared_ptr&lt;int&gt; p4(new int(28)); cout &lt;&lt; "*p4: " &lt;&lt; *p4 &lt;&lt; " p4.use_count(): " &lt;&lt; p4.use_count() &lt;&lt; endl; shared_ptr&lt;int&gt; p5(new int(109)); cout &lt;&lt; "*p5:" &lt;&lt; *p5 &lt;&lt; " p5.use_count: " &lt;&lt; p5.use_count() &lt;&lt; endl; // 调用智能指针类的赋值运算符函数 p4 = p5; cout &lt;&lt; "*p4: " &lt;&lt; *p4 &lt;&lt; " p4.use_count(): " &lt;&lt; p4.use_count() &lt;&lt; endl; // p5不是唯一一个指向其所指对象的shared_ptr,因此,重新制作一份该对象的副本并修改该对象的值 if (!p5.unique()) &#123; p5.reset(new int(*p5)); *p5 += 100; &#125; cout &lt;&lt; "*p5:" &lt;&lt; *p5 &lt;&lt; " p5.use_count: " &lt;&lt; p5.use_count() &lt;&lt; endl;&#125; 运行结果 1234*p4: 28 p4.use_count(): 1*p5:109 p5.use_count: 1*p4: 109 p4.use_count(): 2*p5:209 p5.use_count: 1 unique_ptrweak_ptr]]></content>
@@ -215,18 +238,6 @@
       <tags>
         <tag>指针</tag>
         <tag>常量</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[函数指针]]></title>
-    <url>%2F2019%2F07%2F31%2F%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%2F</url>
-    <content type="text"><![CDATA[函数指针指向的是函数而非对象.和其他指针一样,函数指针指向某种特定类型.函数的类型由它的返回类型和形参类型共同决定,与函数名无关. 123456789101112131415161718bool lengthCompare(const string &amp;a, const string &amp;b) &#123; return a.size() &lt; b.size();&#125;bool (*pf)(const string &amp;a, const string &amp;b); // pf是一个未初始化的函数指针bool (*pf1)(const string &amp;a, const string &amp;b); // pf是一个未初始化的函数指针int main()&#123; // 以下两种写法都是等价的 pf = lengthCompare; pf1 = &amp;lengthCompare; // 以下是三个等价的调用 bool fa = pf("hello", "goodbye"); bool fb = pf1("hello", "goodbye"); bool fc = lengthCompare("hello", "goodbye"); return 0; &#125; 当把函数名作为一个值使用时,该函数自动转换为指针,所以, pf = lengthCompare和 pf1 = &amp;lengthCompare是等价的. 函数指针作为实参不能定义函数类型的形参,但是&lt;形参可以使指向函数的指针 12345// 第三个形参是函数类型,它会自动转换为指向函数的指针void useBigger(const string &amp;s1, const string &amp;s2, bool pf(const string &amp;, const string &amp;));// 显式地将形参定义为指向函数的指针void useBigger(const string &amp;s1, const string &amp;s2, bool (*pf)(const string &amp;, const string &amp;)); 定义函数类型别名和函数指针类型别名decltype返回函数类型,不会将函数类型自动转换为指针类型 12345678// Func和Func2是函数类型typedef bool Func(const string &amp;, const string &amp;);typedef decltype(lengthCompare) Func2; // 等价的类型// FuncP和FuncP2是指向函数的指针typedef bool (*FuncP)(const string &amp;, const string &amp;);typedef decltype(lengthCompare) *FuncP2; useBigger的另外两种等价的声明(使用了类型别名) 12void useBigger(const string &amp;s1, const string &amp;s2,Func);void useBigger(const string &amp;s1, const string &amp;s2,FuncP2); 返回函数指针12using F = int(int*, int); // F是函数类型,不是指针using PF = int(*)(int*,int); // PF是指针类型 使用类型别名定义返回类型为函数指针的函数 1234567PF f1(int); // PF是指向函数的指针,f1返回指向函数的指针F f1(int); // F是函数类型,f1不能返回一个函数类型F* f1(int); // F*是函数类型int (*f1(int))(int *,int); // 直接声明f1// 尾置返回类型auto f1(int) -&gt; int(*)(int *,int); 首先f1有形参列表,所以,f1是个函数,f1的返回值是一个指针.该指针也有形参列表,所以,该指针指向函数.该函数的形参是int和int,返回int.所以,f1是一个返回一个函数int(\)(int *,int)的函数. 一个复杂点的例子 12345678910111213141516171819202122232425262728293031string::size_type sumLength(const string &amp;a, const string &amp;b) &#123; return a.size() + b.size();&#125;string::size_type largerLength(const string &amp;a, const string &amp;b) &#123; return a.size() &gt; b.size() ? a.size() : b.size();&#125;decltype(sumLength) *getFcn(const string &amp;s) &#123; if (s == "+") &#123; return sumLength; &#125; else &#123; return largerLength; &#125;&#125;int main()&#123; typedef string::size_type (*Func)(const string &amp;, const string &amp;); Func fcn = getFcn("+"); // fcn是一个函数指针 // 一种等价形式// auto fcn = getFcn("+"); string::size_type sz = fcn("hello", "good"); cout &lt;&lt; sz &lt;&lt; endl; fcn = getFcn("-"); sz = fcn("hello", "good"); cout &lt;&lt; sz &lt;&lt; endl; return 0;&#125; 由于函数的类型由它的返回类型和形参类型决定,而与函数名无关,可知sumLength和largerLength属于相同的类型.所以,我们可以向getFcn传入参数,获取指向同一种函数类型的不同的函数指针.]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>函数</tag>
-        <tag>函数指针</tag>
       </tags>
   </entry>
   <entry>
@@ -456,8 +467,8 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>leetcode</tag>
         <tag>dynamic programming</tag>
+        <tag>leetcode</tag>
       </tags>
   </entry>
   <entry>
@@ -550,8 +561,8 @@
     <url>%2F2019%2F06%2F14%2F%E6%9C%AA%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%B4%AF%E5%8A%A0%E5%92%8C%E4%B8%BA%E7%BB%99%E5%AE%9A%E5%80%BC%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E6%95%B0%E7%BB%84%E7%B3%BB%E5%88%97%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[原题给定一个无序数组,其中元素可正,可负,可0.给定一个整数k,求arr所有的子数组中累加和为k的最长子数组长度. 12345678910111213141516171819int maxLength(vector&lt;int&gt; &amp;arr, int k) &#123; if (arr.empty()) &#123; return 0; &#125; map&lt;int, int&gt; mp; mp[0] = -1; int len = 0; int sum = 0; for (int i = 0; i &lt; arr.size(); i++) &#123; sum += arr[i]; if (mp.find(sum - k) != mp.end()) &#123; len = max(len, i - mp[sum - k]); &#125; if (mp.find(sum) == mp.end()) &#123; mp[sum] = i; &#125; &#125; return len;&#125; 补充题1补充题2类似题138. 子数组之和给定一个整数数组，找到和为零的子数组。你的代码应该返回满足要求的子数组的起始位置和结束位置 样例 样例 1: 123输入: [-3, 1, 2, -3, 4]输出: [0,2] 或 [1,3] 样例解释： 返回任意一段和为0的区间即可。 样例 2: 12输入: [-3, 1, -4, 2, -3, 4]输出: [1,5] 样例 3: 12输入: [3,4,5,6,-3,-4,-5,-6]输出: [0,7] 样例 4: 12输入: [1,0,-1]输出: [1,1] 注意事项: 至少有一个子数组的和为 0 1234567891011121314151617181920212223242526272829303132class Solution &#123;public: /** * @param nums: A list of integers * @return: A list of integers includes the index of the first number and the index of the last number */ vector&lt;int&gt; subarraySum(vector&lt;int&gt; &amp;nums) &#123; // write your code here if(nums.empty())&#123; return &#123;&#125;; &#125; int sum = 0; vector&lt;int&gt; res; map&lt;int, int&gt; mp; for(int i=0;i&lt;nums.size();++i)&#123; sum += nums[i]; if(sum == 0)&#123; res.push_back(0); res.push_back(i); return res; &#125; if(mp.find(sum)!=mp.end())&#123; res.push_back(mp[sum]+1); res.push_back(i); return res; &#125; mp[sum] = i; &#125; return res; &#125;&#125;; 此题与上题的相似之处在于:需要用到相同的结论:s[i]= arr[0] + arr[1] +…+arr[i]s[j]= arr[0] + arr[1] +…+arr[j]假设i &gt; j,则s[i] - s[j] = arr[j+1] + arr[j+2] + … + arr[i] 复杂度分析 理论上, 时间复杂度为O(n).但实际实现时,时间复杂度为O(nlogn).因为map的find方法查找一个数的时间复杂度为O(logn)空间复杂度为O(n) 题目来源: leetcode 560. Subarray Sum Equals K930 binary subarrays with sum另有使用三指针的解法,可以尝试看看试用否,三指针解法时间复杂度为O(n),空间复杂度为O(1),是最优解法]]></content>
       <tags>
-        <tag>leetcode</tag>
         <tag>累积和</tag>
+        <tag>leetcode</tag>
         <tag>程序员代码面试指南</tag>
       </tags>
   </entry>
