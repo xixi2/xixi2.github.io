@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[网络编程和套接字]]></title>
+    <url>%2F2019%2F08%2F14%2F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%92%8C%E5%A5%97%E6%8E%A5%E5%AD%97%2F</url>
+    <content type="text"><![CDATA[首先实现一个简单的服务器端和客户端通信的小例子．服务器端代码 12 服务器端调用步骤： 调用socket函数创建套接字 调用bind函数分配IP地址和端口号 调用listen函数将套接字转为可接收连接状态 调用accept函数受理连接请求．如果在没有连接请求的情况下调用该函数，则不会返回，直到有连接请求为止． 使用write函数用于向客户端传输数据． 创建socket 1int socket(int domain, int type, int protocol) socket函数成功时返回一个文件描述符(见相关知识)，失败则返回-1. domain: 套接字中使用的协议族信息 PF_INET表示IPV4互联网协议族 type: 套接字数据传输类型信息 SOCK_STREAM表示面向连接的套接字 SOCK_DGRAM表示面向消息的套接字． 创建TCP套接字和UDP套接字： 12tcp_socket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);udp_socket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP); protocol: 计算机间通信中使用的协议信息 描述socket 接下来代码描述socket文件，包括socket文件的大小，接受的内容等 1234memset(&amp;serv_addr, ０, sizeof(serv_addr));serv_addr.sin_family = AF_INET;serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);serv_addr.sin_port = htons(atoi(argv[1])); sin_family: 地址族 每种协议族适用的地址族不同．IPV4使用4字节地址族．IPV6使用16字节地址族． AF_INET IPV4网络协议中使用的地址族 AF_INET6 IPV6网络协议中使用的地址族 sin_port: 该成员保存16位端口号，它以网络字节序保存 sin_addr: 该成员保存32位IP地址信息，且也以网络字节序保存． htonl和htons htonl(INADDR_ANY) 告诉系统，这个socket监听所有的网络，即指定地址为0.0.0.0htons(atoi(argv[1]))告诉系统监听的端口，该端口由服务器程序使用者输入htonl将主机数转换成无符号长整形的网络字节顺序．本函数将一个32位数从主机字节顺序转换成网络字节顺序．htons将整形变量从主机字节顺序转变成网络字节顺序．即整数在地址空间存储方式变为高位字节存放在内存的低地址处．htonl和htons代表了将本地的字符串字节序转化为网络字节序，防止因为本地的大小端存放问题导致出错． （地址）绑定 给套接字分配地址信息（IP地址和端口号） 监听 绑定了地址信息后，只需要最后一步接收来自客户的连接请求了．这就是让套接字变成监听状态，之后，只要客户端向服务器发送请求，服务器就可以接收到了． 接受连接 1int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen); accept函数成功时返回文件描述符，失败时返回-1 一个服务器端socket可以接收很多客户端的连接请求．当客户端发起连接请求时，服务器端需要调用accept函数受理客户端的请求．同时来自不同客户端的连接也会当成不同的socket文件，返回不同的文件描述符． 相关知识 文件描述符 对linux来说，一切皆文件．套接字和本地的文件都是文件． 文件描述符是系统分配给文件或套接字的整数．是为了方便称呼操作系统分配的文件或套接字． 结构体sockaddr_in 参考文献[1] TCP/IP网络编程：https://blog.csdn.net/u011675745/article/details/78555250]]></content>
+      <categories>
+        <category>TCP/IP网络编程</category>
+      </categories>
+      <tags>
+        <tag>套接字</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[404. Sum of Left Leaves]]></title>
     <url>%2F2019%2F08%2F14%2F404.-Sum-of-Left-Leaves%2F</url>
     <content type="text"><![CDATA[题目链接 Find the sum of all left leaves in a given binary tree. Example: 1234567 3 / \ 9 20 / \ 15 7There are two left leaves in the binary tree, with values 9 and 15 respectively. Return 24. 如何确定左叶子节点，首先该节点必须是一个叶子节点，其次它必须位于其父节点的左子树上．当使用先序遍历时，该节点存在于左子树上且是一个叶子节点． 12345678910111213141516171819202122232425class Solution &#123;public: int sumOfLeftLeaves(TreeNode* root) &#123; return sumOfLeftLeavesCore(root); &#125; int sumOfLeftLeavesCore(TreeNode* root)&#123; int sum = 0; stack&lt;TreeNode*&gt; st; TreeNode* cur = root; while(cur!=nullptr || !st.empty())&#123; if(cur == nullptr)&#123; cur = st.top(); st.pop(); cur = cur-&gt;right; &#125;else&#123; st.push(cur); cur = cur-&gt;left; if(cur &amp;&amp; cur-&gt;left == nullptr &amp;&amp; cur-&gt;right == nullptr)&#123; sum += cur-&gt;val; &#125; &#125; &#125; return sum; &#125;&#125;;]]></content>
@@ -60,17 +71,6 @@
     <content type="text"><![CDATA[二分查找是一种十分重要的查找算法．通常在有序数组中查找某个指定的数． Find peak Element: https://leetcode.com/problems/find-peak-element 从有序数组中大于等于某个数的元素第一次出现的位置123456789101112131415int getLessIndex(vector&lt;int&gt; &amp;help, int num) &#123; // 从有序数组中找出大于某个值的元素第一次出现的位置 int l = 0, r = help.size() - 1; int index = -1; while (l &lt;= r) &#123; int mid = (l + r) / 2; if (help[mid] &gt;= num) &#123; index = mid; r = mid - 1; &#125; else &#123; l = mid + 1; &#125; &#125; return index;&#125; 测试用例: 1234[1, 3, 3, 3, 3] // 1, 元素3(最早出现的元素3)[1, 2, 4, 5, 6] // 2, 元素4[1, 2, 2, 2, 2] // -1, 所有元素都比3小[4, 5, 6, 9, 12] // 0, 所有元素都比3大 从有重复元素的有序数组中找出某个元素第一次出现的位置123456789101112131415int getLessIndex(vector&lt;int&gt; &amp;help, int num) &#123; // 从有序数组中找出某个值第一次出现的位置 int l = 0, r = help.size() - 1; int index = -1; while (l &lt;= r) &#123; int mid = (l + r) / 2; if (help[mid] &gt;= num) &#123; index = mid; r = mid - 1; &#125; else &#123; l = mid + 1; &#125; &#125; return index;&#125; 测试用例 123[1, 3, 3, 3, 3] // 1, 第一个元素3[-1, 1, 2, 3, 5] //3, 元素3[1, 2, 4, 5, 6] // -1, 不存在元素3 题目https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/submissions/]]></content>
       <tags>
         <tag>二分查找</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[网络编程和套接字]]></title>
-    <url>%2F2019%2F08%2F13%2F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%92%8C%E5%A5%97%E6%8E%A5%E5%AD%97%2F</url>
-    <content type="text"><![CDATA[首先实现一个简单的服务器端和客户端通信的小例子．服务器端代码 12 服务器端调用步骤： 调用socket函数创建套接字 调用bind函数分配IP地址和端口号 调用listen函数将套接字转为可接收连接状态 调用accept函数受理连接请求．如果在没有连接请求的情况下调用该函数，则不会返回，直到有连接请求为止． 使用write函数用于向客户端传输数据． 创建socket 1int socket(int domain, int type, int protocol) socket函数成功时返回一个文件描述符(见相关知识)，失败则返回-1. 描述socket 接下来代码描述socket文件，包括socket文件的大小，接受的内容等 1234memset(&amp;serv_addr, ０, sizeof(serv_addr));serv_addr.sin_family = AF_INET;serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);serv_addr.sin_port = htons(atoi(argv[1])); AF_INET IPV4网络协议的套接字类型 htonl(INADDR_ANY) 告诉系统，这个socket监听所有的网络，即指定地址为0.0.0.0 htons(atoi(argv[1]))告诉系统监听的端口，该端口由服务器程序使用者输入 htonl将主机数转换成无符号长整形的网络字节顺序．本函数将一个32位数从主机字节顺序转换成网络字节顺序． htons将整形变量从主机字节顺序转变成网络字节顺序．即整数在地址空间存储方式变为高位字节存放在内存的低地址处． htonl和htons代表了将本地的字符串字节序转化为网络字节序，防止因为本地的大小端存放问题导致出错． （地址）绑定 给套接字分配地址信息（IP地址和端口号） 监听 绑定了地址信息后，只需要最后一步接收来自客户的连接请求了．这就是让套接字变成监听状态，之后，只要客户端向服务器发送请求，服务器就可以接收到了． 接受连接 1int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen); accept函数成功时返回文件描述符，失败时返回-1 一个服务器端socket可以接收很多客户端的连接请求．当客户端发起连接请求时，服务器端需要调用accept函数受理客户端的请求．同时来自不同客户端的连接也会当成不同的socket文件，返回不同的文件描述符． 相关知识 文件描述符 对linux来说，一切皆文件．套接字和本地的文件都是文件． 文件描述符是系统分配给文件或套接字的整数．是为了方便称呼操作系统分配的文件或套接字． 结构体sockaddr_in 参考文献[1] TCP/IP网络编程：https://blog.csdn.net/u011675745/article/details/78555250]]></content>
-      <categories>
-        <category>TCP/IP网络编程</category>
-      </categories>
-      <tags>
-        <tag>套接字</tag>
       </tags>
   </entry>
   <entry>
