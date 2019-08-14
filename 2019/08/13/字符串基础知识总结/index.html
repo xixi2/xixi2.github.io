@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="类型转换,显示转换,cast,static_cast,const_cast,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="显式转换cast-name&amp;lt;type&amp;gt;(expression):  type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。">
-<meta name="keywords" content="类型转换,显示转换,cast,static_cast,const_cast">
+<meta name="description" content="有几种不同类型的字符串： c风格字符串(包括字符串字面常量和指向以空字符结尾的字符数组的指针)，string类型(类类型)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="类型转换系列1">
-<meta property="og:url" content="http://yoursite.com/2019/07/31/类型转换系列1/index.html">
+<meta property="og:title" content="字符串基础知识总结">
+<meta property="og:url" content="http://yoursite.com/2019/08/13/字符串基础知识总结/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="显式转换cast-name&amp;lt;type&amp;gt;(expression):  type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。">
+<meta property="og:description" content="有几种不同类型的字符串： c风格字符串(包括字符串字面常量和指向以空字符结尾的字符数组的指针)，string类型(类类型)">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-31T11:18:52.026Z">
+<meta property="og:updated_time" content="2019-08-13T13:37:17.947Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="类型转换系列1">
-<meta name="twitter:description" content="显式转换cast-name&amp;lt;type&amp;gt;(expression):  type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。">
+<meta name="twitter:title" content="字符串基础知识总结">
+<meta name="twitter:description" content="有几种不同类型的字符串： c风格字符串(包括字符串字面常量和指向以空字符结尾的字符数组的指针)，string类型(类类型)">
 
 
 
@@ -120,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/31/类型转换系列1/">
+  <link rel="canonical" href="http://yoursite.com/2019/08/13/字符串基础知识总结/">
 
 
 
 
 
-  <title>类型转换系列1 | xixi2</title>
+  <title>字符串基础知识总结 | xixi2</title>
   
 
 
@@ -295,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/31/类型转换系列1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/13/字符串基础知识总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -312,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">类型转换系列1</h1>
+          <h1 class="post-title" itemprop="name headline">字符串基础知识总结</h1>
         
 
         <div class="post-meta">
@@ -324,8 +323,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-31T19:18:52+08:00">
-                2019-07-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-13T21:37:17+08:00">
+                2019-08-13
               </time>
             
 
@@ -334,28 +333,6 @@
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C-基础知识/" itemprop="url" rel="index">
-                    <span itemprop="name">C++基础知识</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -389,9 +366,58 @@
       
 
       
-        <h1 id="显式转换"><a href="#显式转换" class="headerlink" title="显式转换"></a>显式转换</h1><p><strong>cast-name&lt;type&gt;(expression)</strong>:  type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。</p>
+        <p>有几种不同类型的字符串： c风格字符串(包括字符串字面常量和指向以空字符结尾的字符数组的指针)，string类型(类类型)</p>
 <a id="more"></a>
 
+<h1 id="c风格字符串"><a href="#c风格字符串" class="headerlink" title="c风格字符串"></a>c风格字符串</h1><ul>
+<li><p>c风格字符串必须符合某种编码(如ASCII),并且除了字符串的末尾之外,字符串里面不能包含空字符(空字符是字符结束的标志).这些限制使得c风格字符串只能保存文本数据,而不能保存二进制数据(如图片,音频等)</p>
+</li>
+<li><p>c风格字符串不保存自身长度,要获取一个c字符串的长度,需要遍历整个字符串,直到遇到代表字符串结尾的空字符为止,这个操作的时间复杂度为O(n)(n是字符串长度).</p>
+</li>
+<li><p>c字符串容易造成缓冲区溢出</p>
+<ul>
+<li><p>如使用strcat函数将src字符串中的内容拼接到字符串的末尾时,</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">strcat</span><span class="params">(<span class="keyword">char</span>* dest, <span class="keyword">const</span> <span class="keyword">char</span>* src)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>由于c字符串不记录自身的长度,所以strcat假定用户在执行这个函数时,已经为dest分配了足够多的内存,可以容纳src字符串中的所有内容,但是万一这个假设不成立就会造成缓冲区溢出.</p>
+</li>
+</ul>
+</li>
+<li><p>c字符串修改字符串长度时需要进行内存重分配;内存重分配涉及复杂的算法,而且可能需要执行系统调用,通常来说比较耗时.</p>
+</li>
+</ul>
+<h1 id="字符串-字符数组相关API"><a href="#字符串-字符数组相关API" class="headerlink" title="字符串,字符数组相关API"></a>字符串,字符数组相关API</h1><ul>
+<li>c标准库string函数, 共有4个函数<ul>
+<li>strlen(p), strcmp(p1, p2), strcat(p1, p2), strcpy(p1, p2)</li>
+<li>传入此类函数的指针必须指向以空字符结尾的数组<br><span style="color:blue">不能使用strlen函数求”使用列表初始化的字符数组的长度</span></li>
+<li>strlen计算c风格字符串的长度时,c风格字符串末尾的空字符不计算在内</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">testCharArray3</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"strlen(\"danam\"): "</span> &lt;&lt; <span class="built_in">strlen</span>(<span class="string">"danam"</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 允许使用以空字符结尾的字符数组类初始化string对象或为string对象赋值</span></span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">s</span><span class="params">(<span class="string">"danam"</span>)</span></span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"s:"</span> &lt;&lt; s &lt;&lt; <span class="string">" s.size():"</span> &lt;&lt; s.size() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span> c[] = <span class="string">"nice"</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"strlen(c): "</span> &lt;&lt; <span class="built_in">strlen</span>(c) &lt;&lt; <span class="string">" c:"</span> &lt;&lt; c &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">s1</span><span class="params">(c)</span></span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"s1.size():"</span> &lt;&lt; s1.size() &lt;&lt; <span class="string">" s1:"</span> &lt;&lt; s1 &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">strlen("danam"): 5</span><br><span class="line">s:danam s.size():5</span><br><span class="line">strlen(c): 4 c:nice</span><br><span class="line">s1.size():4 s1:nice</span><br></pre></td></tr></table></figure>
+
+<h1 id="memset和memstcpy-fill"><a href="#memset和memstcpy-fill" class="headerlink" title="memset和memstcpy fill"></a>memset和memstcpy fill</h1><ul>
+<li>memset<ul>
+<li>头文件string.h（c++头文件cstring）</li>
+<li>memset可以对数组中每个元素赋以相同的值．但是因为memset按字节赋值，即对每个字节赋相同的值，一般只用来填充char型数组（char类型占一个字节），如果填充int数组最好只在要对数组赋值０或-1时使用memset．</li>
+<li>memset函数的格式为：memset(数组名，值，sizeof(数组名))</li>
+<li>与fill相比，memset执行速度较快．</li>
+</ul>
+</li>
+<li>fill<ul>
+<li>头文件algorithm</li>
+<li>fill()函数可以将数组或者容器中的某一段区间赋为某个相同的值．和memset不同，这里的赋值可以是数组类型对应范围的任意值．</li>
+<li>fill函数格式：<ul>
+<li>fill(arr, arr+n, 0) (其中arr为指向数组首元素的指针，arr+n为指向数组尾元素的指针, 0为要赋的值)　</li>
+<li>fill(vec.begin(), vec.end(), 0) (vec.begin()和vec.end()为迭代器表示的范围)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
       
     </div>
@@ -407,20 +433,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/类型转换/" rel="tag"># 类型转换</a>
-          
-            <a href="/tags/显示转换/" rel="tag"># 显示转换</a>
-          
-            <a href="/tags/cast/" rel="tag"># cast</a>
-          
-            <a href="/tags/static-cast/" rel="tag"># static_cast</a>
-          
-            <a href="/tags/const-cast/" rel="tag"># const_cast</a>
-          
-        </div>
-      
 
       
       
@@ -430,8 +442,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/31/c++-易混淆概念之常量指针/" rel="next" title="c++ 易混淆概念之常量指针">
-                <i class="fa fa-chevron-left"></i> c++ 易混淆概念之常量指针
+              <a href="/2019/08/13/二分查找各种不同的应用场景/" rel="next" title="二分查找各种不同的应用场景">
+                <i class="fa fa-chevron-left"></i> 二分查找各种不同的应用场景
               </a>
             
           </div>
@@ -440,8 +452,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/07/31/类型转换系列2/" rel="prev" title="类型转换系列2">
-                类型转换系列2 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/08/14/linux常用命令/" rel="prev" title="linux常用命令">
+                linux常用命令 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -521,7 +533,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-count">60</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -532,7 +544,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -543,7 +555,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-count">76</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -576,7 +588,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#显式转换"><span class="nav-number">1.</span> <span class="nav-text">显式转换</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#c风格字符串"><span class="nav-number">1.</span> <span class="nav-text">c风格字符串</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#字符串-字符数组相关API"><span class="nav-number">2.</span> <span class="nav-text">字符串,字符数组相关API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#memset和memstcpy-fill"><span class="nav-number">3.</span> <span class="nav-text">memset和memstcpy fill</span></a></li></ol></div>
             
 
           </div>
