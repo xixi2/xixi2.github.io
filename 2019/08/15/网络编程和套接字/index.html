@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="首先实现一个简单的服务器端和客户端通信的小例子．服务器端代码 12  服务器端调用步骤：  调用socket函数创建套接字 调用bind函数分配IP地址和端口号 调用listen函数将套接字转为可接收连接状态 调用accept函数受理连接请求．如果在没有连接请求的情况下调用该函数，则不会返回，直到有连接请求为止． 使用write函数用于向客户端传输数据．   创建socket 1int socke">
+<meta name="description" content="首先实现一个简单的服务器端和客户端通信的小例子．">
 <meta name="keywords" content="套接字">
 <meta property="og:type" content="article">
 <meta property="og:title" content="网络编程和套接字">
-<meta property="og:url" content="http://yoursite.com/2019/08/14/网络编程和套接字/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/08/15/网络编程和套接字/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="首先实现一个简单的服务器端和客户端通信的小例子．服务器端代码 12  服务器端调用步骤：  调用socket函数创建套接字 调用bind函数分配IP地址和端口号 调用listen函数将套接字转为可接收连接状态 调用accept函数受理连接请求．如果在没有连接请求的情况下调用该函数，则不会返回，直到有连接请求为止． 使用write函数用于向客户端传输数据．   创建socket 1int socke">
+<meta property="og:description" content="首先实现一个简单的服务器端和客户端通信的小例子．">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-14T11:07:02.493Z">
+<meta property="og:updated_time" content="2019-08-15T13:05:19.094Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网络编程和套接字">
-<meta name="twitter:description" content="首先实现一个简单的服务器端和客户端通信的小例子．服务器端代码 12  服务器端调用步骤：  调用socket函数创建套接字 调用bind函数分配IP地址和端口号 调用listen函数将套接字转为可接收连接状态 调用accept函数受理连接请求．如果在没有连接请求的情况下调用该函数，则不会返回，直到有连接请求为止． 使用write函数用于向客户端传输数据．   创建socket 1int socke">
+<meta name="twitter:description" content="首先实现一个简单的服务器端和客户端通信的小例子．">
 
 
 
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/08/14/网络编程和套接字/">
+  <link rel="canonical" href="http://yoursite.com/2019/08/15/网络编程和套接字/">
 
 
 
@@ -295,7 +295,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/14/网络编程和套接字/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/15/网络编程和套接字/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -324,8 +324,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-14T19:07:02+08:00">
-                2019-08-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-15T21:05:19+08:00">
+                2019-08-15
               </time>
             
 
@@ -389,7 +389,9 @@
       
 
       
-        <p>首先实现一个简单的服务器端和客户端通信的小例子．<br>服务器端代码</p>
+        <p>首先实现一个简单的服务器端和客户端通信的小例子．</p>
+<a id="more"></a>
+<p>服务器端代码</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>服务器端调用步骤：</p>
@@ -444,9 +446,6 @@
 <li><p>sin_port: 该成员保存16位端口号，它以网络字节序保存</p>
 </li>
 <li><p>sin_addr: 该成员保存32位IP地址信息，且也以网络字节序保存．</p>
-</li>
-<li><p>htonl和htons</p>
-<p>htonl(INADDR_ANY) 告诉系统，这个socket监听所有的网络，即指定地址为0.0.0.0<br>htons(atoi(argv[1]))告诉系统监听的端口，该端口由服务器程序使用者输入<br>htonl将主机数转换成无符号长整形的网络字节顺序．本函数将一个32位数从主机字节顺序转换成网络字节顺序．htons将整形变量从主机字节顺序转变成网络字节顺序．即整数在地址空间存储方式变为高位字节存放在内存的低地址处．htonl和htons代表了将本地的字符串字节序转化为网络字节序，防止因为本地的大小端存放问题导致出错．</p>
 </li>
 </ul>
 </li>
@@ -508,8 +507,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08/14/404.-Sum-of-Left-Leaves/" rel="next" title="404. Sum of Left Leaves">
-                <i class="fa fa-chevron-left"></i> 404. Sum of Left Leaves
+              <a href="/2019/08/14/字符串基础知识总结/" rel="next" title="字符串基础知识总结">
+                <i class="fa fa-chevron-left"></i> 字符串基础知识总结
               </a>
             
           </div>

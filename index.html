@@ -294,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/14/网络编程和套接字/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/15/网络编程和套接字/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -313,7 +313,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/14/网络编程和套接字/" itemprop="url">网络编程和套接字</a></h1>
+                <a class="post-title-link" href="/2019/08/15/网络编程和套接字/" itemprop="url">网络编程和套接字</a></h1>
         
 
         <div class="post-meta">
@@ -325,8 +325,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-14T19:07:02+08:00">
-                2019-08-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-15T21:05:19+08:00">
+                2019-08-15
               </time>
             
 
@@ -386,98 +386,138 @@
 
       
         
+          <p>首先实现一个简单的服务器端和客户端通信的小例子．</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/08/15/网络编程和套接字/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/14/字符串基础知识总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xixi2">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixi2">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/14/字符串基础知识总结/" itemprop="url">字符串基础知识总结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-14T20:04:10+08:00">
+                2019-08-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-            <p>首先实现一个简单的服务器端和客户端通信的小例子．<br>服务器端代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>服务器端调用步骤：</p>
-<ol>
-<li>调用socket函数创建套接字</li>
-<li>调用bind函数分配IP地址和端口号</li>
-<li>调用listen函数将套接字转为可接收连接状态</li>
-<li>调用accept函数受理连接请求．如果在没有连接请求的情况下调用该函数，则不会返回，直到有连接请求为止．</li>
-<li>使用write函数用于向客户端传输数据．</li>
-</ol>
-<ul>
-<li><p>创建socket</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">socket</span><span class="params">(<span class="keyword">int</span> domain, <span class="keyword">int</span> type, <span class="keyword">int</span> protocol)</span></span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>socket函数成功时返回一个文件描述符(见<a href>相关知识</a>)，失败则返回-1.</p>
-</li>
-<li><p>domain: 套接字中使用的协议族信息</p>
-<ul>
-<li>PF_INET表示IPV4互联网协议族</li>
-</ul>
-</li>
-<li><p>type: 套接字数据传输类型信息</p>
-<ul>
-<li><p>SOCK_STREAM表示面向连接的套接字</p>
-</li>
-<li><p>SOCK_DGRAM表示面向消息的套接字．</p>
-</li>
-<li><p>创建TCP套接字和UDP套接字：　</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tcp_socket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);</span><br><span class="line">udp_socket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>protocol: 计算机间通信中使用的协议信息</p>
-</li>
-</ul>
-</li>
-<li><p>描述socket</p>
-<ul>
-<li>接下来代码描述socket文件，包括socket文件的大小，接受的内容等</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">memset</span>(&amp;serv_addr, ０, <span class="keyword">sizeof</span>(serv_addr));</span><br><span class="line">serv_addr.sin_family = AF_INET;</span><br><span class="line">serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">serv_addr.sin_port = htons(atoi(argv[<span class="number">1</span>]));</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>sin_family: 地址族</p>
-<p>每种协议族适用的地址族不同．IPV4使用4字节地址族．IPV6使用16字节地址族．</p>
-<ul>
-<li><strong>AF_INET</strong>　IPV4网络协议中使用的地址族</li>
-<li>AF_INET6  IPV6网络协议中使用的地址族</li>
-</ul>
-</li>
-<li><p>sin_port: 该成员保存16位端口号，它以网络字节序保存</p>
-</li>
-<li><p>sin_addr: 该成员保存32位IP地址信息，且也以网络字节序保存．</p>
-</li>
-<li><p>htonl和htons</p>
-<p>htonl(INADDR_ANY) 告诉系统，这个socket监听所有的网络，即指定地址为0.0.0.0<br>htons(atoi(argv[1]))告诉系统监听的端口，该端口由服务器程序使用者输入<br>htonl将主机数转换成无符号长整形的网络字节顺序．本函数将一个32位数从主机字节顺序转换成网络字节顺序．htons将整形变量从主机字节顺序转变成网络字节顺序．即整数在地址空间存储方式变为高位字节存放在内存的低地址处．htonl和htons代表了将本地的字符串字节序转化为网络字节序，防止因为本地的大小端存放问题导致出错．</p>
-</li>
-</ul>
-</li>
-<li><p>（地址）绑定</p>
-<ul>
-<li>给套接字分配地址信息（IP地址和端口号）</li>
-</ul>
-</li>
-<li><p>监听</p>
-<ul>
-<li>绑定了地址信息后，只需要最后一步接收来自客户的连接请求了．这就是让套接字变成监听状态，之后，只要客户端向服务器发送请求，服务器就可以接收到了．</li>
-</ul>
-</li>
-<li><p>接受连接</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">accept</span><span class="params">(<span class="keyword">int</span> sockfd, struct sockaddr *addr, <span class="keyword">socklen_t</span> *addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>accept函数成功时返回文件描述符，失败时返回-1</li>
-<li>一个服务器端socket可以接收很多客户端的连接请求．当客户端发起连接请求时，服务器端需要调用accept函数受理客户端的请求．同时来自不同客户端的连接也会当成不同的socket文件，返回不同的文件描述符．</li>
-</ul>
-</li>
-</ul>
-<h1 id="相关知识"><a href="#相关知识" class="headerlink" title="相关知识"></a>相关知识</h1><ul>
-<li>文件描述符<ul>
-<li>对linux来说，一切皆文件．套接字和本地的文件都是文件．</li>
-<li>文件描述符是系统分配给文件或套接字的整数．是为了方便称呼操作系统分配的文件或套接字．</li>
-</ul>
-</li>
-<li>结构体sockaddr_in</li>
-</ul>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] TCP/IP网络编程：<a href="https://blog.csdn.net/u011675745/article/details/78555250" target="_blank" rel="noopener">https://blog.csdn.net/u011675745/article/details/78555250</a></p>
 
           
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>有几种不同类型的字符串： c风格字符串(包括字符串字面常量和指向以空字符结尾的字符数组的指针)，string类型(类类型)</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/08/14/字符串基础知识总结/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1061,130 +1101,6 @@
 </ul>
 
           
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/13/字符串基础知识总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="xixi2">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixi2">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/13/字符串基础知识总结/" itemprop="url">字符串基础知识总结</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-13T21:37:17+08:00">
-                2019-08-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>有几种不同类型的字符串： c风格字符串(包括字符串字面常量和指向以空字符结尾的字符数组的指针)，string类型(类类型)</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/08/13/字符串基础知识总结/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
