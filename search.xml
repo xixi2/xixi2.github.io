@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[leetcode题目分类总结]]></title>
+    <url>%2F2019%2F08%2F19%2Fleetcode%E9%A2%98%E7%9B%AE%E5%88%86%E7%B1%BB%E6%80%BB%E7%BB%93%2F</url>
+    <content type="text"><![CDATA[纸牌博弈问题系列几道同类题目: Nim Game 此题较简单 stone game 此题首先需要定义递归函数,写出最简朴的做法 如何确定循环变量i和j的遍历方向 是否可以进行空间压缩,如何可以,如何压缩 stone game II 和stone game相比,有什么区别与联系 Predict the Winner 题号486 此题与上题几乎一模一样,但是需要注意,当player1与player2相等时的边界情况. Can I win 与上面两题之间有什么的联系与区别? 排列系列 Permutation Sequence 线段树系列 Range Sum Query - Mutable Count of Smaller Numbers After Self]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>递归</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[线段树]]></title>
+    <url>%2F2019%2F08%2F19%2F%E7%BA%BF%E6%AE%B5%E6%A0%91%2F</url>
+    <content type="text"><![CDATA[线段树结构 线段树每个节点存储了一个区间上的元素之和． 线段树可以做什么？ 线段树可以在线维护以及查询区间上的最值，求和． 可以扩展到二维线段树（矩阵树）和三维线段树（空间树） 对于一维线段树来说，每次更新以及查询的时间复杂度为O(logn) 线段树中存储树结构所需要的空间大小 无优化的线段树需要2*2k（2k-1&lt;n&lt;2k）空间,一般会开到4*n的空间防止RE Count of Smaller Numbers After Self建立一个线段树，每个节点表示在某个范围内的元素的个数． 参考文献[1] https://www.cnblogs.com/xenny/p/9801703.html[2] 线段树详解: https://leetcode.com/articles/a-recursive-approach-to-segment-trees-range-sum-queries-lazy-propagation/]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>线段树</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[排列]]></title>
+    <url>%2F2019%2F08%2F19%2F%E6%8E%92%E5%88%97%2F</url>
+    <content type="text"><![CDATA[Permutation SequenceNext permutation当整个是逆序时，无法找到下一个更大的排列了．如[3,2,1],此时按照题目要求，直接将序列逆序，变成[1,2,3]首先找到数组连续的一对数a[i]与a[i-1]，a[i] &gt; a[i-1].之后从a[i,…,n-1]中找出一个比a[i-1]大的最小的数arr[j]与a[i-1]交换．在交换之前，序列arr[i,…,n-1]满足逆序，由于arr[i-1] &lt; arr[j]小，交换之后的序列仍然满足逆序．reverse(arr[i,..n-1])注意：数组中存在重复元素时的情形．当arr[i,..n-1]满足逆序时，若数组arr[i,..n-1]中存在重复元素，则这两个重复元素必然相邻．交换两个相等元素，显然无用，因此，在前面寻找可交换元素的过程中，没有将两个相等元素作为寻找目标．但是此时，若这两个相等元素正是arr[i,..n-1]中比arr[i-1]大的最小的元素，那么此时该选择哪一个元素呢？答案是选择索引较大的那一个．因为索引较大的那一个目前处在较低位上，reverse之后处在较高位上． Next Permutation 视频：https://www.bilibili.com/video/av52421617?from=search&amp;seid=9609389838434247675&gt;]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>深度优先搜索</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[c++数据类型基础]]></title>
+    <url>%2F2019%2F08%2F17%2Fc%2B%2B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%9F%BA%E7%A1%80%2F</url>
+    <content type="text"><![CDATA[本文主要是总结一下C++语言常用的数据类型基础知识，如类型转换，整形的最大最小数值等。 无符号数示例1 1234unsigned int u = 0xFFFFFFFF;cout&lt;&lt;"u="&lt;&lt;u&lt;&lt;endl; //4294967295u -= 31;cout&lt;&lt;"u="&lt;&lt;u&lt;&lt;endl;//4294967264 无符号数0xFFFFFFFF是32位无符号数中的最大值。 示例2：无符号数和有符号数运算 12345unsigned int u = 10;int i = -42;cout&lt;&lt;"u="&lt;&lt;u&lt;&lt;endl; // 10cout&lt;&lt;"unsigned(i)="&lt;&lt;unsigned(i)&lt;&lt;endl;//4294967296 + (-42)cout&lt;&lt;"(i+u) ="&lt;&lt;(i+u)&lt;&lt;endl; // 4294967264 无符号数u和有符号数i相加前，把有符号数i转换为无符号数，结果等于两个无符号数相加。 示例3： 12345unsigned int u = 10;int i = -1;cout&lt;&lt;"u="&lt;&lt;u&lt;&lt;endl; //10cout&lt;&lt;"unsigned(i)="&lt;&lt;unsigned(i)&lt;&lt;endl;//4294967295cout&lt;&lt;"(i+u) ="&lt;&lt;(i+u)&lt;&lt;endl;//(4294967295 + 10) % (4294967296)，其中4294967296是2的32次方 两个无符号数相加结果超出它表示范围时，先对这个超出表示范围的结果进行取模(对2的n次方进行取模)，则得到了真正的结果。 示例4：无符号数都是整数。若给无符号赋值一个负数，则将该负数+2n得到最后的结果。 123456unsigned int x = 0xFFFFFFFF;unsigned int u = 10;unsigned int v = 42;cout&lt;&lt;"x:"&lt;&lt;x&lt;&lt;endl;cout&lt;&lt;"(v - u):"&lt;&lt;(v - u)&lt;&lt;endl; // 32cout&lt;&lt;"(u - v):"&lt;&lt;(u - v)&lt;&lt;endl; // 4294967264: (-32 + 4294967296) % 4294967296的结果 示例5：当表达式中既有带符号数又有无符号数时，当带符号数值为负数时会出现异常情况，这是因为带符号数会自动转换成无符号数。 123unsigned int x = 1;int y = -1;cout&lt;&lt;"x * y="&lt;&lt;(x * y)&lt;&lt;endl; //4294967295，y转换为无符号数(-1 + 4294967296) = 4294967295 常用的一些16进制数 0xffffffff 0xffffffff是一个十六进制数。把它转换成2进制为：1111111..11(32个1)把它转成10进制无符号数是：0xffffffff = 16x10^7+ 16x10^6+….+16x10^1+16x10^0 = 4294967295把它转成10进制带符号整数为：111111111111111(32个1表示的补码形式)转化为源码形式为10…00001(中间30个0)，即-1。 1234unsigned int a = 0xffffffff;cout&lt;&lt;"a="&lt;&lt;a&lt;&lt;endl; // 4294967295int b = 0xffffffff; cout&lt;&lt;"b="&lt;&lt;b&lt;&lt;endl; // b = -1 0x3f3f3f3f 0x3f3f3f3f用于表示无穷大．它具有诸多优良性质．无穷大 + 无穷大 ＝ 无穷大无穷大 + 常数 = 无穷大 异或运算异或运算满足交换律与结合律。C = A ^ B (^是异或运算符)，则 A = B ^ C, B = A ^ C 例1. A = 1011, B = 0101 , C= 1110若A和B在某一位上都是1， 则C在该位上为0，则A或B的该位与C的该位相与就是1；若A和B在某一位上都是0， 则C在该位上为0，则A或B的该位与C的该位相与就是0。若A在某一位为1， B在该位为0， 则C在该位上为1，则A的该位与C的该位相与就是0，B的该位与C的该位相与就是1。同理，A在该位为0，B在该位为1时可证成立。 按位取反~1234567int a = -2147483648;cout&lt;&lt;"a="&lt;&lt;a&lt;&lt;endl; // -2147483648cout&lt;&lt;" ~a="&lt;&lt;~a&lt;&lt;endl; // 2147483647bitset&lt;32&gt; b1(a); bitset&lt;32&gt; b2(~a); cout&lt;&lt;"a: "&lt;&lt;b1.to_string()&lt;&lt;endl;// 10..00cout&lt;&lt;" ~a: "&lt;&lt;b2.to_string()&lt;&lt;endl;// 011..11 补码、原码、求补运算负数的补码由其原码对除符号位外各位取反末位加1，同样，由补码求原码也是对补码除符号位外，各位取反末位加1。求补运算：不考虑符号位，对原码各位取反，并在末位加1。对一个数进行求补运算得到的是其相反数的补码。如对0111进行求补运算，0111的真值为7。其补数为1001（补码），补码1001对应的源码为1111，真值为-7。 n &amp;(~n+1)这个表达式常用来取n中最右侧的1。这是因为, ~n是对进行按位取反。例如：n = 1000，n=0111, ~n+1 = 1000, n &amp; (n+1)=1000，只有n中最右边为1的位置为1。n = 1010， n=0101，n+1=0110, n &amp; (~n+1)=0010。 参考文献[1] 0x3f3f3f3f: https://blog.csdn.net/hzh_0000/article/details/9468377]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>无符号数</tag>
+        <tag>补码</tag>
+        <tag>原码</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[网络编程和套接字]]></title>
     <url>%2F2019%2F08%2F15%2F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%92%8C%E5%A5%97%E6%8E%A5%E5%AD%97%2F</url>
     <content type="text"><![CDATA[首先实现一个简单的服务器端和客户端通信的小例子． 服务器端代码 12 服务器端调用步骤： 调用socket函数创建套接字 调用bind函数分配IP地址和端口号 调用listen函数将套接字转为可接收连接状态 调用accept函数受理连接请求．如果在没有连接请求的情况下调用该函数，则不会返回，直到有连接请求为止． 使用write函数用于向客户端传输数据． 创建socket 1int socket(int domain, int type, int protocol) socket函数成功时返回一个文件描述符(见相关知识)，失败则返回-1. domain: 套接字中使用的协议族信息 PF_INET表示IPV4互联网协议族 type: 套接字数据传输类型信息 SOCK_STREAM表示面向连接的套接字 SOCK_DGRAM表示面向消息的套接字． 创建TCP套接字和UDP套接字： 12tcp_socket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);udp_socket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP); protocol: 计算机间通信中使用的协议信息 描述socket 接下来代码描述socket文件，包括socket文件的大小，接受的内容等 1234memset(&amp;serv_addr, ０, sizeof(serv_addr));serv_addr.sin_family = AF_INET;serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);serv_addr.sin_port = htons(atoi(argv[1])); sin_family: 地址族 每种协议族适用的地址族不同．IPV4使用4字节地址族．IPV6使用16字节地址族． AF_INET IPV4网络协议中使用的地址族 AF_INET6 IPV6网络协议中使用的地址族 sin_port: 该成员保存16位端口号，它以网络字节序保存 sin_addr: 该成员保存32位IP地址信息，且也以网络字节序保存． （地址）绑定 给套接字分配地址信息（IP地址和端口号） 监听 绑定了地址信息后，只需要最后一步接收来自客户的连接请求了．这就是让套接字变成监听状态，之后，只要客户端向服务器发送请求，服务器就可以接收到了． 接受连接 1int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen); accept函数成功时返回文件描述符，失败时返回-1 一个服务器端socket可以接收很多客户端的连接请求．当客户端发起连接请求时，服务器端需要调用accept函数受理客户端的请求．同时来自不同客户端的连接也会当成不同的socket文件，返回不同的文件描述符． 相关知识 文件描述符 对linux来说，一切皆文件．套接字和本地的文件都是文件． 文件描述符是系统分配给文件或套接字的整数．是为了方便称呼操作系统分配的文件或套接字． 结构体sockaddr_in 参考文献[1] TCP/IP网络编程：https://blog.csdn.net/u011675745/article/details/78555250]]></content>
@@ -113,17 +159,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[纸牌博弈问题系列]]></title>
-    <url>%2F2019%2F08%2F13%2F%E7%BA%B8%E7%89%8C%E5%8D%9A%E5%BC%88%E9%97%AE%E9%A2%98%E7%B3%BB%E5%88%97%2F</url>
-    <content type="text"><![CDATA[几道同类题目: Nim Game 此题较简单 stone game 此题首先需要定义递归函数,写出最简朴的做法 如何确定循环变量i和j的遍历方向 是否可以进行空间压缩,如何可以,如何压缩 stone game II 和stone game相比,有什么区别与联系 Predict the Winner 题号486 此题与上题几乎一模一样,但是需要注意,当player1与player2相等时的边界情况. Can I win 与上面两题之间有什么的联系与区别?]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-      <tags>
-        <tag>递归</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[sizeof]]></title>
     <url>%2F2019%2F08%2F12%2Fsizeof%E8%BF%90%E7%AE%97%E7%AC%A6%2F</url>
     <content type="text"><![CDATA[sizeof运算符返回一条表达式或一个类型所占的字节数.sizeof运算符的结果是一个size_t类型的值. sizeof运算符满足右结合律.因此,表达式sizeof p等价于sizeof(\p). 这是因为sizeof满足右结合律且与*运算符的优先级相同.所以表达式会按照从右向左的顺序组合. sizoef运算符并不实际求其运算对象的值.因此,sizeof运算可以对一个无效指针进行运算. 以下是各种内置数据类型在64位机器上所占空间大小: 12345678910111213141516171819cout &lt;&lt; "sizeof(int):" &lt;&lt; sizeof(int) &lt;&lt; endl; // 4cout &lt;&lt; "sizeof(float):" &lt;&lt; sizeof(float) &lt;&lt; endl; // 4cout &lt;&lt; "sizeof(double):" &lt;&lt; sizeof(double) &lt;&lt; endl;// 8cout &lt;&lt; "sizeof(char):" &lt;&lt; sizeof(char) &lt;&lt; endl; // 1int *p = 0;// 8, 指针本身所占内存空间的大小cout &lt;&lt; "sizeof(p):" &lt;&lt; sizeof(p) &lt;&lt; endl;// 4, 指针指向的对象所占内存空间的大小cout &lt;&lt; "sizeof(*p):" &lt;&lt; sizeof(*p) &lt;&lt; endl;p = new int&#123;12&#125;;// 8, 指针本身所占内存空间的大小cout &lt;&lt; "sizeof(p):" &lt;&lt; sizeof(p) &lt;&lt; endl;// 4, 指针指向的对象所占内存空间的大小cout &lt;&lt; "sizeof(*p):" &lt;&lt; sizeof(*p) &lt;&lt; endl; sizeof运算符与数组 对数组执行sizeof运算得到整个数组所占空间的大小.sizeof运算不会把数组名转成指针来处理 可以利用sizeof运算符来求数组中元素个数. 12345int arr[] = &#123;1, 2, 3&#125;;cout &lt;&lt; "sizeof(arr):" &lt;&lt; sizeof(arr) &lt;&lt; endl; // 12(4x3)int n = sizeof(arr) / sizeof(*arr);cout &lt;&lt; "n=" &lt;&lt; n &lt;&lt; endl; // 3,数组中元素个数 对string对象或vector对象执行sizeof运算只返回该类型固定部分的大小,不会计算对象中的元素占用了多少空间 1234vector&lt;int&gt; arr&#123;1, 3, 7, 3&#125;;vector&lt;int&gt; brr(100, 0);cout &lt;&lt; "sizeof(arr):" &lt;&lt; sizeof(arr) &lt;&lt; endl; // 24cout &lt;&lt; "sizeof(brr):" &lt;&lt; sizeof(brr) &lt;&lt; endl; // 24]]></content>
@@ -202,19 +237,6 @@
       </categories>
       <tags>
         <tag>括号</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[c++数据类型基础]]></title>
-    <url>%2F2019%2F07%2F31%2Fc%2B%2B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%9F%BA%E7%A1%80%2F</url>
-    <content type="text"><![CDATA[本文主要是总结一下C++语言常用的数据类型基础知识，如类型转换，整形的最大最小数值等。 无符号数示例1 1234unsigned int u = 0xFFFFFFFF;cout&lt;&lt;"u="&lt;&lt;u&lt;&lt;endl; //4294967295u -= 31;cout&lt;&lt;"u="&lt;&lt;u&lt;&lt;endl;//4294967264 无符号数0xFFFFFFFF是32位无符号数中的最大值。 示例2：无符号数和有符号数运算 12345unsigned int u = 10;int i = -42;cout&lt;&lt;"u="&lt;&lt;u&lt;&lt;endl; // 10cout&lt;&lt;"unsigned(i)="&lt;&lt;unsigned(i)&lt;&lt;endl;//4294967296 + (-42)cout&lt;&lt;"(i+u) ="&lt;&lt;(i+u)&lt;&lt;endl; // 4294967264 无符号数u和有符号数i相加前，把有符号数i转换为无符号数，结果等于两个无符号数相加。 示例3： 12345unsigned int u = 10;int i = -1;cout&lt;&lt;"u="&lt;&lt;u&lt;&lt;endl; //10cout&lt;&lt;"unsigned(i)="&lt;&lt;unsigned(i)&lt;&lt;endl;//4294967295cout&lt;&lt;"(i+u) ="&lt;&lt;(i+u)&lt;&lt;endl;//(4294967295 + 10) % (4294967296)，其中4294967296是2的32次方 两个无符号数相加结果超出它表示范围时，先对这个超出表示范围的结果进行取模(对2的n次方进行取模)，则得到了真正的结果。 示例4：无符号数都是整数。若给无符号赋值一个负数，则将该负数+2n得到最后的结果。 123456unsigned int x = 0xFFFFFFFF;unsigned int u = 10;unsigned int v = 42;cout&lt;&lt;"x:"&lt;&lt;x&lt;&lt;endl;cout&lt;&lt;"(v - u):"&lt;&lt;(v - u)&lt;&lt;endl; // 32cout&lt;&lt;"(u - v):"&lt;&lt;(u - v)&lt;&lt;endl; // 4294967264: (-32 + 4294967296) % 4294967296的结果 示例5：当表达式中既有带符号数又有无符号数时，当带符号数值为负数时会出现异常情况，这是因为带符号数会自动转换成无符号数。 123unsigned int x = 1;int y = -1;cout&lt;&lt;"x * y="&lt;&lt;(x * y)&lt;&lt;endl; //4294967295，y转换为无符号数(-1 + 4294967296) = 4294967295 16进制数0xffffffff0xffffffff是一个十六进制数。把它转换成2进制为：1111111..11(32个1)把它转成10进制无符号数是：0xffffffff = 16x10^7+ 16x10^6+….+16x10^1+16x10^0 = 4294967295把它转成10进制带符号整数为：111111111111111(32个1表示的补码形式)转化为源码形式为10…00001(中间30个0)，即-1。 1234unsigned int a = 0xffffffff;cout&lt;&lt;"a="&lt;&lt;a&lt;&lt;endl; // 4294967295int b = 0xffffffff; cout&lt;&lt;"b="&lt;&lt;b&lt;&lt;endl; // b = -1 异或运算异或运算满足交换律与结合律。C = A ^ B (^是异或运算符)，则 A = B ^ C, B = A ^ C 例1. A = 1011, B = 0101 , C= 1110若A和B在某一位上都是1， 则C在该位上为0，则A或B的该位与C的该位相与就是1；若A和B在某一位上都是0， 则C在该位上为0，则A或B的该位与C的该位相与就是0。若A在某一位为1， B在该位为0， 则C在该位上为1，则A的该位与C的该位相与就是0，B的该位与C的该位相与就是1。同理，A在该位为0，B在该位为1时可证成立。 按位取反~1234567int a = -2147483648;cout&lt;&lt;"a="&lt;&lt;a&lt;&lt;endl; // -2147483648cout&lt;&lt;" ~a="&lt;&lt;~a&lt;&lt;endl; // 2147483647bitset&lt;32&gt; b1(a); bitset&lt;32&gt; b2(~a); cout&lt;&lt;"a: "&lt;&lt;b1.to_string()&lt;&lt;endl;// 10..00cout&lt;&lt;" ~a: "&lt;&lt;b2.to_string()&lt;&lt;endl;// 011..11 补码、原码、求补运算负数的补码由其原码对除符号位外各位取反末位加1，同样，由补码求原码也是对补码除符号位外，各位取反末位加1。求补运算：不考虑符号位，对原码各位取反，并在末位加1。对一个数进行求补运算得到的是其相反数的补码。如对0111进行求补运算，0111的真值为7。其补数为1001（补码），补码1001对应的源码为1111，真值为-7。 n &amp;(~n+1)这个表达式常用来取n中最右侧的1。这是因为, ~n是对进行按位取反。例如：n = 1000，n=0111, ~n+1 = 1000, n &amp; (n+1)=1000，只有n中最右边为1的位置为1。n = 1010， n=0101，n+1=0110, n &amp; (~n+1)=0010。]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>无符号数</tag>
-        <tag>补码</tag>
-        <tag>原码</tag>
       </tags>
   </entry>
   <entry>
