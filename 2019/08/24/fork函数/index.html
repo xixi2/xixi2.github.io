@@ -82,14 +82,16 @@
 <meta name="description" content="fork基本概念一个进程, 包括代码, 数据和分配给该进程的资源. fork()通过系统调用创建一个与原来进程几乎完全相同的进程.也就是两个进程做完全相同的事.但是如果初始参数或者传入的变量不同,两个进程也可以做不同的事情.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="fork函数">
-<meta property="og:url" content="http://yoursite.com/2019/07/17/fork函数/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/08/24/fork函数/index.html">
 <meta property="og:site_name" content="xixi2">
 <meta property="og:description" content="fork基本概念一个进程, 包括代码, 数据和分配给该进程的资源. fork()通过系统调用创建一个与原来进程几乎完全相同的进程.也就是两个进程做完全相同的事.但是如果初始参数或者传入的变量不同,两个进程也可以做不同的事情.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-17T15:38:51.091Z">
+<meta property="og:image" content="http://yoursite.com/home/xixi2/.config/Typora/typora-user-images/1566478650926.png">
+<meta property="og:updated_time" content="2019-08-24T09:36:32.136Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="fork函数">
 <meta name="twitter:description" content="fork基本概念一个进程, 包括代码, 数据和分配给该进程的资源. fork()通过系统调用创建一个与原来进程几乎完全相同的进程.也就是两个进程做完全相同的事.但是如果初始参数或者传入的变量不同,两个进程也可以做不同的事情.">
+<meta name="twitter:image" content="http://yoursite.com/home/xixi2/.config/Typora/typora-user-images/1566478650926.png">
 
 
 
@@ -119,7 +121,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/17/fork函数/">
+  <link rel="canonical" href="http://yoursite.com/2019/08/24/fork函数/">
 
 
 
@@ -294,7 +296,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/17/fork函数/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/24/fork函数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -323,8 +325,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-17T23:38:51+08:00">
-                2019-07-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-24T17:36:32+08:00">
+                2019-08-24
               </time>
             
 
@@ -449,7 +451,7 @@
 <p>执行结果</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">loop=0 我是进程5947 父进程id=19893 我刚刚fork了子进程 pid=5948</span><br><span class="line">loop=0 我是进程5948 父进程id=5947 我刚刚fork了子进程 pid=0</span><br><span class="line">loop=1 我是进程5948 父进程id=5947 我刚刚fork了子进程 pid=5949</span><br><span class="line">loop=1 我是进程5949 父进程id=5948 我刚刚fork了子进程 pid=0</span><br><span class="line">loop=1 我是进程5947 父进程id=19893 我刚刚fork了子进程 pid=5952</span><br><span class="line">loop=1 我是进程5952 父进程id=5947 我刚刚fork了子进程 pid=0</span><br></pre></td></tr></table></figure>
 
-<p>过程解释</p>
+<p>过程解释<br><img src="/home/xixi2/.config/Typora/typora-user-images/1566478650926.png" alt="1566478650926"></p>
 <ol>
 <li>进程5947使用fork产生一个子进程5948. fork执行时loop=0.因此子进程5948中loop=0.</li>
 <li>子进程5948第一次调用fork的返回值pid是0,表明进程5948是子进程, 因此直接打印出”loop=0 我是进程5948 父进程id=5947 我刚刚fork了子进程 pid=0”; 当进程5948第二次调用fork时, 产生一个新的子进程5949. 在进程5948中,调用fork函数前, loop=1,因此在新的子进程5949中loop=1. 也因此子进程5949只会调用一次fork(就会因为loop&gt;=2而跳出循环). 在子进程5949的运行过程中只会打印出”loop=1 我是进程5949 父进程id=5948 我刚刚fork了子进程 pid=0”</li>
@@ -480,8 +482,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/17/946. Validate Stack Sequences/" rel="next" title="Validate Stack Sequences(946)">
-                <i class="fa fa-chevron-left"></i> Validate Stack Sequences(946)
+              <a href="/2019/08/24/关于基础排序算法/" rel="next" title="关于基础排序算法">
+                <i class="fa fa-chevron-left"></i> 关于基础排序算法
               </a>
             
           </div>
@@ -490,8 +492,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/07/17/redis使用过程中遇到的问题/" rel="prev" title="redis使用过程中遇到的问题">
-                redis使用过程中遇到的问题 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/08/26/桶排序和计数排序/" rel="prev" title="桶排序和计数排序">
+                桶排序和计数排序 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -571,7 +573,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-count">69</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -593,7 +595,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">79</span>
+                  <span class="site-state-item-count">80</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

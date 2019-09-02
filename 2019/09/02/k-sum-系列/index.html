@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="static_cast,类型转换,显示转换,cast,const_cast,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="显式转换旧式转型:T(expression)(T)expression 四种新式转型: cast-name&amp;lt;type&amp;gt;(expression):  type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。">
-<meta name="keywords" content="static_cast,类型转换,显示转换,cast,const_cast">
+<meta name="description" content="two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum">
 <meta property="og:type" content="article">
-<meta property="og:title" content="类型转换系列1">
-<meta property="og:url" content="http://yoursite.com/2019/08/13/类型转换系列１/index.html">
+<meta property="og:title" content="k sum 系列">
+<meta property="og:url" content="http://yoursite.com/2019/09/02/k-sum-系列/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="显式转换旧式转型:T(expression)(T)expression 四种新式转型: cast-name&amp;lt;type&amp;gt;(expression):  type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。">
+<meta property="og:description" content="two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-07T02:18:54.668Z">
+<meta property="og:updated_time" content="2019-09-02T07:47:57.657Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="类型转换系列1">
-<meta name="twitter:description" content="显式转换旧式转型:T(expression)(T)expression 四种新式转型: cast-name&amp;lt;type&amp;gt;(expression):  type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。">
+<meta name="twitter:title" content="k sum 系列">
+<meta name="twitter:description" content="two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum">
 
 
 
@@ -120,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/08/13/类型转换系列１/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/02/k-sum-系列/">
 
 
 
 
 
-  <title>类型转换系列1 | xixi2</title>
+  <title>k sum 系列 | xixi2</title>
   
 
 
@@ -295,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/13/类型转换系列１/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/02/k-sum-系列/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -312,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">类型转换系列1</h1>
+          <h1 class="post-title" itemprop="name headline">k sum 系列</h1>
         
 
         <div class="post-meta">
@@ -324,8 +323,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-13T12:20:19+08:00">
-                2019-08-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-02T15:47:57+08:00">
+                2019-09-02
               </time>
             
 
@@ -347,8 +346,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C-基础知识/" itemprop="url" rel="index">
-                    <span itemprop="name">C++基础知识</span>
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
                   </a>
                 </span>
 
@@ -389,17 +388,7 @@
       
 
       
-        <h1 id="显式转换"><a href="#显式转换" class="headerlink" title="显式转换"></a>显式转换</h1><p>旧式转型:<br>T(expression)<br>(T)expression</p>
-<p>四种新式转型: <strong>cast-name&lt;type&gt;(expression)</strong>:  type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。</p>
-<a id="more"></a>
-
-<ul>
-<li>const_cast通常被用来将对象的常量性移除.</li>
-<li>dynamic_cast主要用来执行<strong>“安全向下转型”</strong>,也就是用来决定某对象是否归属继承体系中的某个类型.它是唯一无法由旧式语法执行的动作,也是唯一可能耗费重大运行成本的转型动作.</li>
-<li>reinterpret_cast意图执行低级转型,实际动作(及结果)可能取决于编译器,这也就表示它不可移植.例如将一个pointer to int转型为一个int. 这一类型在低级代码以外很少见.</li>
-<li>static_cast用来强迫<strong>隐式转换</strong>.例如将non-const对象转为const对象, 或将int转为double等等.它也可以用来执行上述多种转换的反向转换.例如将void*指针转为typed指针,将point-to-base转为pointer-to-derived.但它无法将const转为non-const,这个只有const_cast才办得到.</li>
-<li></li>
-</ul>
+        <p><a href="https://leetcode.com/problems/two-sum" target="_blank" rel="noopener">two sum</a><br><a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted" target="_blank" rel="noopener">Two Sum II - Input array is sorted</a><br><a href="https://leetcode.com/problems/3sum" target="_blank" rel="noopener">3Sum</a><br><a href="https://leetcode.com/problems/4sum" target="_blank" rel="noopener">4Sum</a><br><a href="https://leetcode.com/problems/4sum-ii" target="_blank" rel="noopener">4Sum II</a><br><a href="https://www.lintcode.com/problem/k-sum/description" target="_blank" rel="noopener">k sum</a></p>
 
       
     </div>
@@ -415,20 +404,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/static-cast/" rel="tag"># static_cast</a>
-          
-            <a href="/tags/类型转换/" rel="tag"># 类型转换</a>
-          
-            <a href="/tags/显示转换/" rel="tag"># 显示转换</a>
-          
-            <a href="/tags/cast/" rel="tag"># cast</a>
-          
-            <a href="/tags/const-cast/" rel="tag"># const_cast</a>
-          
-        </div>
-      
 
       
       
@@ -438,8 +413,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08/13/传参/" rel="next" title="传参">
-                <i class="fa fa-chevron-left"></i> 传参
+              <a href="/2019/09/02/c++面经：/" rel="next" title>
+                <i class="fa fa-chevron-left"></i> 
               </a>
             
           </div>
@@ -448,8 +423,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/08/13/二分查找各种不同的应用场景/" rel="prev" title="二分查找各种不同的应用场景">
-                二分查找各种不同的应用场景 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/09/02/排列/" rel="prev" title="排列">
+                排列 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -502,17 +477,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -529,7 +495,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-count">69</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -551,7 +517,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">79</span>
+                  <span class="site-state-item-count">80</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -574,22 +540,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#显式转换"><span class="nav-number">1.</span> <span class="nav-text">显式转换</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

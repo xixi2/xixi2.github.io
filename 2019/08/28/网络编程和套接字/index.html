@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="括号,">
+  <meta name="keywords" content="套接字,">
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Given a balanced parentheses string S, compute the score of the string based on the following rule:  () has score 1 AB has score A + B, where A and B are balanced parentheses strings. (A) has score 2">
-<meta name="keywords" content="括号">
+<meta name="description" content="首先实现一个简单的服务器端和客户端通信的小例子．">
+<meta name="keywords" content="套接字">
 <meta property="og:type" content="article">
-<meta property="og:title" content="856. Score of Parentheses">
-<meta property="og:url" content="http://yoursite.com/2019/07/31/856.Score-of-Parentheses/index.html">
+<meta property="og:title" content="网络编程和套接字">
+<meta property="og:url" content="http://yoursite.com/2019/08/28/网络编程和套接字/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="Given a balanced parentheses string S, compute the score of the string based on the following rule:  () has score 1 AB has score A + B, where A and B are balanced parentheses strings. (A) has score 2">
+<meta property="og:description" content="首先实现一个简单的服务器端和客户端通信的小例子．">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-31T13:51:44.017Z">
+<meta property="og:updated_time" content="2019-08-28T05:03:59.281Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="856. Score of Parentheses">
-<meta name="twitter:description" content="Given a balanced parentheses string S, compute the score of the string based on the following rule:  () has score 1 AB has score A + B, where A and B are balanced parentheses strings. (A) has score 2">
+<meta name="twitter:title" content="网络编程和套接字">
+<meta name="twitter:description" content="首先实现一个简单的服务器端和客户端通信的小例子．">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/31/856.Score-of-Parentheses/">
+  <link rel="canonical" href="http://yoursite.com/2019/08/28/网络编程和套接字/">
 
 
 
 
 
-  <title>856. Score of Parentheses | xixi2</title>
+  <title>网络编程和套接字 | xixi2</title>
   
 
 
@@ -295,7 +295,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/31/856.Score-of-Parentheses/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/28/网络编程和套接字/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -312,7 +312,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">856. Score of Parentheses</h1>
+          <h1 class="post-title" itemprop="name headline">网络编程和套接字</h1>
         
 
         <div class="post-meta">
@@ -324,8 +324,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-31T21:51:44+08:00">
-                2019-07-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-28T13:03:59+08:00">
+                2019-08-28
               </time>
             
 
@@ -347,8 +347,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
+                  <a href="/categories/TCP-IP网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">TCP/IP网络编程</span>
                   </a>
                 </span>
 
@@ -389,40 +389,165 @@
       
 
       
-        <p>Given a balanced parentheses string <code>S</code>, compute the score of the string based on the following rule:</p>
-<ul>
-<li><code>()</code> has score 1</li>
-<li><code>AB</code> has score <code>A + B</code>, where A and B are balanced parentheses strings.</li>
-<li><code>(A)</code> has score <code>2 * A</code>, where A is a balanced parentheses string.</li>
-</ul>
-<a id="more"></a> 
+        <p>首先实现一个简单的服务器端和客户端通信的小例子．</p>
+<a id="more"></a>
+<p>服务器端代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: &quot;()&quot;</span><br><span class="line">Output: 1</span><br></pre></td></tr></table></figure>
-
-<p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: &quot;(())&quot;</span><br><span class="line">Output: 2</span><br></pre></td></tr></table></figure>
-
-<p><strong>Example 3:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: &quot;()()&quot;</span><br><span class="line">Output: 2</span><br></pre></td></tr></table></figure>
-
-<p><strong>Example 4:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: &quot;(()(()))&quot;</span><br><span class="line">Output: 6</span><br></pre></td></tr></table></figure>
-
-
-
-<p><strong>Note:</strong></p>
+<p>服务器端调用步骤：</p>
 <ol>
-<li><code>S</code> is a balanced parentheses string, containing only <code>(</code> and <code>)</code>.</li>
-<li><code>2 &lt;= S.length &lt;= 50</code></li>
+<li>调用socket函数创建套接字</li>
+<li>调用bind函数分配IP地址和端口号</li>
+<li>调用listen函数将套接字转为可接收连接状态</li>
+<li>调用accept函数受理连接请求．如果在没有连接请求的情况下调用该函数，则不会返回，直到有连接请求为止．</li>
+<li>使用write函数用于向客户端传输数据．</li>
 </ol>
-<h2 id="解法1-分而治之"><a href="#解法1-分而治之" class="headerlink" title="解法1:分而治之"></a>解法1:分而治之</h2><p>首先把整个字符串S分成多个子串s<sub>1</sub>, s<sub>2</sub>, …,s<sub>n</sub>.score(S) = score(s<sub>1</sub>)+score(s<sub>1</sub>)+…+score(s<sub>n</sub>)</p>
-<p>接下来,计算每个子串s<sub>i&gt;的</sub>分数,子串s<sub>i</sub>有两种可能:</p>
+<h1 id="相关API"><a href="#相关API" class="headerlink" title="相关API"></a>相关API</h1><h2 id="创建socket"><a href="#创建socket" class="headerlink" title="创建socket"></a>创建socket</h2><p>函数原型如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">socket</span><span class="params">(<span class="keyword">int</span> domain, <span class="keyword">int</span> type, <span class="keyword">int</span> protocol)</span></span></span><br></pre></td></tr></table></figure>
+
 <ul>
-<li>长度为2: score(s<sub>i</sub>)=1</li>
-<li>长度大于2:score(s<sub>i</sub>) = 2 * score(s<sub>i</sub>[1:n-1])(假设n为s<sub>i</sub>.size())</li>
+<li><p>socket函数成功时返回一个文件描述符(见后续<a href>其他相关知识</a>)，失败则返回-1.</p>
+</li>
+<li><p>domain: 套接字中使用的协议族信息</p>
+<ul>
+<li>PF_INET表示IPV4互联网协议族</li>
 </ul>
-<h1 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h1><h1 id="count-cores"><a href="#count-cores" class="headerlink" title="count cores"></a>count cores</h1>
+</li>
+<li><p>type: 套接字数据传输类型信息</p>
+<ul>
+<li><p>SOCK_STREAM表示面向连接的套接字</p>
+</li>
+<li><p>SOCK_DGRAM表示面向消息的套接字．</p>
+</li>
+<li><p>创建TCP套接字和UDP套接字：　</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tcp_socket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);</span><br><span class="line">udp_socket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>protocol: 计算机间通信中使用的协议信息</p>
+</li>
+<li><p>描述socket</p>
+<ul>
+<li>接下来代码描述socket文件，包括socket文件的大小，接受的内容等</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">memset</span>(&amp;serv_addr, ０, <span class="keyword">sizeof</span>(serv_addr));</span><br><span class="line">serv_addr.sin_family = AF_INET;</span><br><span class="line">serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">serv_addr.sin_port = htons(atoi(argv[<span class="number">1</span>]));</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>sin_family: 地址族</p>
+<p>每种协议族适用的地址族不同．IPV4使用4字节地址族．IPV6使用16字节地址族．</p>
+<ul>
+<li><strong>AF_INET</strong>　IPV4网络协议中使用的地址族</li>
+<li>AF_INET6  IPV6网络协议中使用的地址族</li>
+</ul>
+</li>
+<li><p>sin_port: 该成员保存16位端口号，它以网络字节序保存</p>
+</li>
+<li><p>sin_addr: 该成员保存32位IP地址信息，且也以网络字节序保存．</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="地址绑定"><a href="#地址绑定" class="headerlink" title="地址绑定"></a>地址绑定</h2><p>给套接字分配地址信息（IP地址和端口号）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bind</span><span class="params">(<span class="keyword">int</span> sockfd, struct sockaddr* myaddr, <span class="keyword">socklen_t</span> addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>成功时返回0,失败时返回-1.<br>sockfd: 要分配地址(IP地址和端口号)的套接字文件描述符<br>myaddr: 存有地址信息的结构体变量地址值<br>addrlen:  第二个结构体变量的长度</p>
+<h2 id="监听"><a href="#监听" class="headerlink" title="监听"></a>监听</h2><ul>
+<li><p>绑定了地址信息后，只需要最后一步接收来自客户的连接请求了．这就是让套接字变成监听状态，之后，只要客户端向服务器发送请求，服务器就可以接收到了．<br>通过listen函数进入等待连接请求状态．只有调用了listen函数，客户端才能进入可发出连接请求的状态．换言之，这时客户端才能调用connect函数(若提前调用将发生错误)．</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">listen</span><span class="params">(<span class="keyword">int</span> sock, <span class="keyword">int</span> backlog)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>成功时返回0,失败时返回-1.<br>sock：希望进入等待连接请求状态的套接字文件描述符，传递的描述符套接字参数成为服务器端套接字(监听套接字)<br>backlog:  连接请求等待队列的长度, 若为5，则队列长度为5,表示最多使5个连接请求进入队列．</p>
+</li>
+<li><p><strong>等待连接请求状态</strong>：</p>
+<ul>
+<li>服务端处于等待连接请求状态是指，客户端请求连接时，受理连接前一直使请求处于等待状态．</li>
+<li>连接请求队列：允许的连接请求的客户端个数　</li>
+</ul>
+</li>
+</ul>
+<h2 id="接受连接"><a href="#接受连接" class="headerlink" title="接受连接"></a>接受连接</h2><p>函数原型如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">accept</span><span class="params">(<span class="keyword">int</span> sockfd, struct sockaddr *addr, <span class="keyword">socklen_t</span> *addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>sock: 服务器套接字的文件描述符</p>
+</li>
+<li><p>addr: 保存发起连接请求的<strong>客户端地址</strong>信息的变量地址值，调用函数后向传递来的地址变量参数填充客户端地址信息．</p>
+</li>
+<li><p>addrlen: 第二个参数addr结构体的长度，但是存有长度的变量地址．函数调用完成后，该变量即被填入客户端地址长度．</p>
+</li>
+<li><p>返回值：accept函数成功时返回文件描述符，失败时返回-1</p>
+</li>
+</ul>
+<ul>
+<li><p>accept函数受理连接请求队列中待处理的客户端连接请求．函数调用成功时，accept函数内部将产生<strong>用于数据IO的套接字</strong>，并返回其文件描述符．<strong>套接字是自动创建的，并自动与发起连接请求的客户端建立连接</strong></p>
+</li>
+<li><p>一个服务器端socket可以接收很多客户端的连接请求．当客户端发起连接请求时，服务器端需要调用accept函数受理客户端的请求．同时来自不同客户端的连接也会当成不同的socket文件，返回不同的文件描述符．</p>
+</li>
+</ul>
+<h2 id="connect"><a href="#connect" class="headerlink" title="connect"></a>connect</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">connect</span><span class="params">(<span class="keyword">int</span> sock, struct sockaddr* servaddr, <span class="keyword">socklen_t</span> addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>功能：　客户端调用connect函数后，发生以下情况之一才会返回(完成函数调用)<ul>
+<li>服务器接收连接请求<ul>
+<li>注意：接收连接请求并不意味着服务器调用accept函数，而是指服务器把连接请求信息记录到等待队列．</li>
+<li>所以，connect函数返回后并不立即进行数据交换</li>
+</ul>
+</li>
+<li>发生断网等异常情况而中断连接请求</li>
+</ul>
+</li>
+<li>sock: <strong>客户端</strong>套接字文件描述符</li>
+<li>servaddr: 保存<strong>目标服务端地址</strong>信息的变量地址值</li>
+<li>addrlen: 以字节为单位传递已传递给第二个结构体参数servaddr的地址变量长度</li>
+</ul>
+<h2 id="read和write"><a href="#read和write" class="headerlink" title="read和write"></a>read和write</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ssize_t</span> read(<span class="keyword">int</span> fd, <span class="keyword">void</span>* buf, <span class="keyword">size_t</span> nbytes);</span><br></pre></td></tr></table></figure>
+
+<p>成功时返回接收的字节数(但遇到文件结尾则返回0)，失败时返回-1.<br>fd: 显示数据接收对象的文件描述符．<br>buf: 要保存接收数据的缓冲地址值．<br>nbytes: 要接收数据的最大字节数．</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ssize_t</span> write(<span class="keyword">int</span> fd, <span class="keyword">const</span> <span class="keyword">void</span>* buf, <span class="keyword">size_t</span> nbytes);</span><br></pre></td></tr></table></figure>
+
+<p>成功时返回写入的字节数，失败时返回-1.<br>fd: 显示数据传输对象的文件描述符．<br>buf: 要保存传输数据的缓冲地址值．<br>nbytes: 要传输数据的最大字节数．</p>
+<h2 id="fread"><a href="#fread" class="headerlink" title="fread"></a>fread</h2><p><strong>size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)</strong></p>
+<ul>
+<li>功能：从给定流 <strong>stream</strong> 读取数据到 <strong>ptr</strong> 所指向的数组中</li>
+<li><strong>ptr</strong> – 这是指向带有最小尺寸 <em>size\</em>nmemb* 字节的内存块的指针。</li>
+<li><strong>size</strong> – 这是要读取的每个元素的大小，以字节为单位。</li>
+<li><strong>nmemb</strong> – 这是元素的个数，每个元素的大小为 size 字节。</li>
+<li><strong>stream</strong> – 这是指向 FILE 对象的指针，该 FILE 对象指定了一个输入流。</li>
+</ul>
+<h2 id="fgets"><a href="#fgets" class="headerlink" title="fgets"></a>fgets</h2><p>函数原型为：char *fgets(char *str, int n, FILE *stream)</p>
+<ul>
+<li><p>功能：从指定的流 stream 读取一行，并把它存储在 str 所指向的字符串内。fgets会把读到字符写到s指向的字符串里，直到出现下面某种情况：</p>
+<ul>
+<li>遇到换行符</li>
+<li>已经传输了n-1个字节</li>
+<li>到达文件尾</li>
+</ul>
+<p>它会把遇到的换行符也保存到s中．最后在s末尾加上一个表示结尾的空字符\0．一次调用最多只能传输n-1个字符，因为它必须把空字符加到字符串表示结尾．</p>
+</li>
+<li><p>gets函数类似于fgets，但是它从标准输入流中取数据并丢弃遇到的换行符．它在接收字符串的尾部加上一个空字节(一个字符占一个字节)．</p>
+</li>
+</ul>
+<h1 id="fgetc"><a href="#fgetc" class="headerlink" title="fgetc"></a>fgetc</h1><p>fgetc从文件指针stream指向的文件中读取一个字符，读取一个字节后，光标位置后移一个字节。</p>
+<h1 id="fputc"><a href="#fputc" class="headerlink" title="fputc"></a>fputc</h1><p>功能：把一个字符写到一个输出文件流中．它返回写入的值，如果失败，则返回EOF．<br>putc函数的作用相当于fputc，但它可能被实现为一个宏．<br>putchar相当于putc(c, stdout)，但它把单个字符写到标准输出．注意：putchar和getchar都是把字符当做int类型而不是char类型来使用的．这就允许文件尾标识取值-1，这是一个超出字符数字编码范围的值．</p>
+<h1 id="fopen"><a href="#fopen" class="headerlink" title="fopen"></a>fopen</h1><p><a href="https://blog.csdn.net/hairetz/article/details/4150193&gt;" target="_blank" rel="noopener">https://blog.csdn.net/hairetz/article/details/4150193&gt;</a></p>
+<h1 id="sigaction"><a href="#sigaction" class="headerlink" title="sigaction"></a>sigaction</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sigaction(<span class="keyword">int</span> signo, <span class="keyword">const</span> sigaction* act, struct sigaction *oldact);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>功能：</li>
+<li>signo：与signal函数相同，传递信号信息</li>
+<li>act：对应于第一个参数的信号处理函数(信号处理器)信息</li>
+<li>oldact：通过此参数获取之前注册的信号处理函数指针，若不需要则传递0</li>
+<li>返回值：成功时返回0,失败时返回-1</li>
+</ul>
+<h1 id="其他相关知识"><a href="#其他相关知识" class="headerlink" title="其他相关知识"></a>其他相关知识</h1><ul>
+<li>文件描述符<ul>
+<li>对linux来说，一切皆文件．套接字和本地的文件都是文件．</li>
+<li>文件描述符是系统分配给文件或套接字的整数．是为了方便称呼操作系统分配的文件或套接字．</li>
+</ul>
+</li>
+<li>结构体sockaddr_in</li>
+</ul>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] TCP/IP网络编程：<a href="https://blog.csdn.net/u011675745/article/details/78555250" target="_blank" rel="noopener">https://blog.csdn.net/u011675745/article/details/78555250</a></p>
+
       
     </div>
     
@@ -439,7 +564,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/括号/" rel="tag"># 括号</a>
+            <a href="/tags/套接字/" rel="tag"># 套接字</a>
           
         </div>
       
@@ -452,8 +577,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/31/类型转换系列2/" rel="next" title="类型转换系列2">
-                <i class="fa fa-chevron-left"></i> 类型转换系列2
+              <a href="/2019/08/27/Parentheses系列/" rel="next" title="Parentheses系列">
+                <i class="fa fa-chevron-left"></i> Parentheses系列
               </a>
             
           </div>
@@ -462,8 +587,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/08/04/模板实参推断和引用/" rel="prev" title="模板实参推断和引用">
-                模板实参推断和引用 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/08/28/旋转数组/" rel="prev" title="旋转数组">
+                旋转数组 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -543,7 +668,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-count">69</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -565,7 +690,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">79</span>
+                  <span class="site-state-item-count">80</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -598,7 +723,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#解法1-分而治之"><span class="nav-number">1.</span> <span class="nav-text">解法1:分而治之</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#栈"><span class="nav-number"></span> <span class="nav-text">栈</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#count-cores"><span class="nav-number"></span> <span class="nav-text">count cores</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#相关API"><span class="nav-number">1.</span> <span class="nav-text">相关API</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建socket"><span class="nav-number">1.1.</span> <span class="nav-text">创建socket</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#地址绑定"><span class="nav-number">1.2.</span> <span class="nav-text">地址绑定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#监听"><span class="nav-number">1.3.</span> <span class="nav-text">监听</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接受连接"><span class="nav-number">1.4.</span> <span class="nav-text">接受连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#connect"><span class="nav-number">1.5.</span> <span class="nav-text">connect</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#read和write"><span class="nav-number">1.6.</span> <span class="nav-text">read和write</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fread"><span class="nav-number">1.7.</span> <span class="nav-text">fread</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fgets"><span class="nav-number">1.8.</span> <span class="nav-text">fgets</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#fgetc"><span class="nav-number">2.</span> <span class="nav-text">fgetc</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#fputc"><span class="nav-number">3.</span> <span class="nav-text">fputc</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#fopen"><span class="nav-number">4.</span> <span class="nav-text">fopen</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sigaction"><span class="nav-number">5.</span> <span class="nav-text">sigaction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他相关知识"><span class="nav-number">6.</span> <span class="nav-text">其他相关知识</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">7.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>
