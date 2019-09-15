@@ -1,24 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[指针和引用]]></title>
-    <url>%2F2019%2F09%2F15%2F%E6%8C%87%E9%92%88%E5%92%8C%E5%BC%95%E7%94%A8%2F</url>
-    <content type="text"><![CDATA[什么是引用？ 引用和指针的区别与联系指针和引用的异同点 指针 引用 指针本身是对象 引用本身不是对象,只是对象的别名 允许对指针本身进行赋值和拷贝,在指针的生命期内可以指向不同的对象(只要指针不是常量指针) 引用定义时就和一个对象绑定,且始终和这个对象绑定,无法令引用重新绑定到另一个对象 指针无须在定义时赋初值,在块作用域内的指针如果没有被初始化,将拥有一个不确定的值. 引用必须初始化. 可以定义指向指针的指针 无法定义引用的引用 引用的常见用途引用通常不用于声明变量，而用于参数类型和返回类型的描述． 12345678910void func1(Cls* pobj)&#123; pobj-&gt;xxx();&#125;void func2(Cls obj)&#123;obj.xxx();&#125;void func3(Cls&amp; obj)&#123;obj.xxx();&#125;Cls obj;func1(&amp;obj); // 接口不同// 调用端口相同func2(obj);func3(obj); 以下两个函数被视为”same signature”(所以二者不能同时存在)： 12double imag(const double&amp; im)&#123;...&#125;double imag(const double im)&#123;...&#125; // Ambiguity Q：const是不是函数签名的一部分？A：是的，两个函数，一个函数有const，另一个没有，则可以看做函数重载．]]></content>
+    <title><![CDATA[数组和字符指针]]></title>
+    <url>%2F2019%2F09%2F15%2F%E6%95%B0%E7%BB%84%E5%92%8C%E5%AD%97%E7%AC%A6%E6%8C%87%E9%92%88%2F</url>
+    <content type="text"><![CDATA[数组基本概念什么是数组?数组是一组类型相同元素的容器.数组中存放的对象没有名字,必须通过位置来访问.数组的大小确定不变, 一旦数组定义完成,不能再向数组中添加元素. 数组是一种复合类型.数组的声明形如a[d], 其中a是数组的名字,d是数组的维度.维度说明了数组中元素的个数,因此必须大于0. 数组中元素的个数也属于数组类型的一部分,编译时数组的维度必须是已知的. 适用所有数组类型 不能将数组的内容拷贝给其他数组作为其初始值，也不能用数组为其他数组赋值。 在大多数表达式中，使用数组类型的对象其实是使用一个指向该数组首元素的指针。当对数组名称使用decltype关键字时得到的是数组对象类型。 对数组执行下标运算其实是对指向数组元素的指针执行下标运算 内置的下标运算符不是无符号数,标准库类型如vector和string限定使用的下标必须是无符号数 因为数组本身是对象,可以定义数组的指针和数组的引用 适用于字符数组 当使用字符串常量对字符数组进行初始化时, 字符串数组最后一位会被加上一个’\0’空字符但是使用strlen()计算该数组的长度时,该字符串末尾的空字符不计算在内 对字符数组进行列表初始化时,字符数组末尾没有空字符; 但是由于strlen()函数时是使用空字符来判断字符串结束的, 无法对这样的字符数组使用strlen()求长度 代码示例 字符数组初始化和求长度 字符数组初始化有两种方式,列表初始化和字符串常量初始化 字符串常量初始化时,字符串常量末尾的空字符也会拷贝到字符数组中去 12345678910111213141516void testCharArray() &#123; char a1[] = "danam"; // 计算c风格字符串的长度时,c风格字符串末尾的空字符不计算在内 cout &lt;&lt; "strlen(\"danam\"): " &lt;&lt; strlen("danam") &lt;&lt; endl; // a1的长度为6字节,字符串字面值的末尾是一个空字符,这个空字符也会像其他字符一样拷贝到字符数组中去 cout &lt;&lt; "a1:" &lt;&lt; a1 &lt;&lt; " sizeof(a1): " &lt;&lt; sizeof(a1) &lt;&lt; " strlen(a1): " &lt;&lt; strlen(a1) &lt;&lt; endl; //a1:danam sizeof(a1): 6 strlen(a1): 5 // 对字符数组进行列表初始化,没有空字符 char a2[] = &#123;'a', 'b', 'c'&#125;; cout &lt;&lt; "a2: " &lt;&lt; a2 &lt;&lt; " sizeof(a2): " &lt;&lt; sizeof(a2) &lt;&lt; endl; // a2的长度为3字节;无法对a2使用strlen函数 // a2: abcdanam sizeof(a2): 3&#125; 运行结果 123strlen("danam"): 5a1:danam sizeof(a1): 6 strlen(a1): 5a2: abcdanam sizeof(a2): 3 数组名和指针,迭代器 数组名通常会自动转换为指向数组首元素的指针 在表达式decltype(arr)时,不会发生自动转换,decltype(arr)的返回类型是一个数组类型,其元素类型和维度都与数组arr相同 1234567891011void testCharArray1() &#123; //===============数组名和指针================= int iarr[] = &#123;1, 2, 3, 4, 5&#125;; // ia是一个指针,在这里使用数组类型对象iarr时,编译器将其替换为一个指向数组首元素的指针 auto ia(iarr); ia = &amp;iarr[1]; // decltype(ia)是一个含有5个整形元素的数组对象,因此iarr2也是一个含有5个元素的数组 decltype(iarr) iarr2 = &#123;22, 33, 444, 55, 99&#125;; iarr2[2] = 1882;&#125; 运行结果 1nice to meet you alice 指针运算 对数组执行下标运算其实是对指向数组元素的指针执行下标运算.标准库类型使用的下标类型必须是无符号类型,内置的下标运算可以是带符号类型 可以从一个指针加上或减去一个整数值,结果仍是指针 指向同一个数组中元素(包括尾元素)的指针可以相减,两个指针相减的结果是一种名为ptrdiff_t的标准库类型.ptrdiff_t类型是一种带符号类型 123456789101112131415161718192021void testCharArray3() &#123; //=======================指针运算===================== string sarr[5] = &#123;"good", "day", "you", "know", "me"&#125;; // sarr[2]是一个使用了数组名字的表达式,对数组执行下标运算其实是对指向数组元素的指针执行下标运算 string s1 = sarr[2]; //sarr转换为指向数组首元素的指针,sarr[2]得到(sarr+2)所指向的元素 string *p = sarr; //sarr转换为指向数组首元素的指针 string s2 = *(p + 2); //等价于sarr[2] cout &lt;&lt; "s1: " &lt;&lt; s1 &lt;&lt; endl; cout &lt;&lt; "s2: " &lt;&lt; s2 &lt;&lt; endl; s2 = p[3]; cout &lt;&lt; "s2: " &lt;&lt; s2 &lt;&lt; endl; //=======只要指针指向的是数组中的元素(或者数组中尾元素的下一位置),都可以执行下标运算 //内置的下标运算符使用的不是无符号数,而标准库类型如vector和string限定使用的下标必须是无符号类型 string *p1 = &amp;sarr[2]; string s3 = p1[2]; string s4 = p1[-2]; cout &lt;&lt; "s3: " &lt;&lt; s3 &lt;&lt; endl; cout &lt;&lt; "s4: " &lt;&lt; s4 &lt;&lt; endl;&#125; 运行结果 12345s1: yous2: yous2: knows3: mes4: good 指针和迭代器 1234567891011121314151617181920void testCharArray2() &#123; //================指针也是迭代器======================== string sarr[5] = &#123;"nice", "to", "meet", "you", "alice"&#125;; //指针e指向sarr尾元素的下一位置的指针,该位置并不存在,因此不能对该指针进行解引用和递增操作 string *e = &amp;sarr[5]; for (string *b = sarr; b != e; b++) &#123; cout &lt;&lt; *b &lt;&lt; " "; &#125; cout &lt;&lt; endl; //=====================标准库begin和end函数====================== int ia1[] = &#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;; int *beg = begin(ia1); // 指向ia1首元素的指针 int *last = end(ia1); // 指向ia1尾元素的下一位置的指针 while (beg != last) &#123; cout &lt;&lt; *beg &lt;&lt; " "; ++beg; &#125; cout &lt;&lt; endl;&#125; 运行结果: 10 1 2 3 4 5 6 7 8 9]]></content>
       <categories>
-        <category>C++基础知识</category>
+        <category>指针</category>
       </categories>
+      <tags>
+        <tag>数组</tag>
+        <tag>字符指针</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[内置指针]]></title>
+    <url>%2F2019%2F09%2F15%2F%E5%86%85%E7%BD%AE%E6%8C%87%E9%92%88%2F</url>
+    <content type="text"><![CDATA[什么是指针?指针是一种特殊的变量.它的值是一个对象的地址,也称指针指向该对象.对指针进行解引用可以获取该对象.指针本身是一个对象,可以赋值和拷贝. 指针中保存着它指向的对象的地址.直接输出指针的内容即指针指向的对象的地址.对指针进行解引用得到指针指向的对象 二级指针中保存一个指针的地址, 这个被指向的指针中才真正保存着对象的地址.直接输出指针得到指针指向的一级指针的地址.对二级指针进行解引用得到一级指针指向的最终对象的地址(即一级指针的值).对一级指针进行解引用,得到最终对象 关于指针有一些很容易混淆的地方,下面举几个例子辨析一下. 示例1 1234567int a = 10;int *p = &amp;a;int **pp = &amp;p; // pp是指向指针的指针，它指向指针p。解引用后是指针p。cout&lt;&lt;"pp:"&lt;&lt;(pp)&lt;&lt;" &amp;p"&lt;&lt;(&amp;p)&lt;&lt;endl; // pp是指向指针变量p的指针，所以，pp中存放着整形指针变量p的地址cout&lt;&lt;"*pp:"&lt;&lt;(*pp)&lt;&lt;" p"&lt;&lt;(p)&lt;&lt;endl; // pp是指向指针变量p的指针，*pp解引用pp会得到整形指针变量p，而p的值是一个整形变量a的地址cout&lt;&lt;"p:"&lt;&lt;p&lt;&lt;" &amp;a:"&lt;&lt;(&amp;a)&lt;&lt;endl; // p是指向整形变量a的指针，所以，p中存放着整形变量a的地址cout&lt;&lt;"*p:"&lt;&lt;p&lt;&lt;" a:"&lt;&lt;(a)&lt;&lt;endl; // p是指向整形变量a的指针。*p解引用整形指针p会得到一个整形数 运行结果 1234pp:0x7fff5ce9bf48 &amp;p0x7fff5ce9bf48*pp:0x7fff5ce9bf44 p0x7fff5ce9bf44p:0x7fff5ce9bf44 &amp;a:0x7fff5ce9bf44*p:0x7fff5ce9bf44 a:10 示例2 123456789101112131415161718192021int a[5] = &#123;1, 2, 3, 4, 5&#125;; int *p, **k; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *p:" &lt;&lt; *p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(p++):" &lt;&lt; *(p++) &lt;&lt; " "; cout &lt;&lt; "after p++" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(++p):" &lt;&lt; *(++p) &lt;&lt; " "; cout &lt;&lt; "after ++p" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; 运行结果 1234567891011a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *p:1k:0x7ffcd38cc920 *k:0x7ffcd38cc930 **k:1=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(p++):1 after p++0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(++p):2 after ++p0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2 可知, a是数组的名字,也是指向数组首元素的指针.p=a将指针p指向数组首元素.因此p的值是数组首元素的地址. p是数组首元素的值.\*k表明k是指向指向指针的指针, k指向指针p,因此,k中保存这指针p的地址,*k是指针p的值,也就是指针指向的对象地址,这里就是数组a首元素的地址.**k就是*(p)就是指针p指向的对象的值.]]></content>
+      <categories>
+        <category>指针</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[函数指针]]></title>
+    <url>%2F2019%2F09%2F15%2F%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%2F</url>
+    <content type="text"><![CDATA[函数指针指向的是函数而非对象.和其他指针一样,函数指针指向某种特定类型.函数的类型由它的返回类型和形参类型共同决定,与函数名无关. 123456789101112131415161718bool lengthCompare(const string &amp;a, const string &amp;b) &#123; return a.size() &lt; b.size();&#125;bool (*pf)(const string &amp;a, const string &amp;b); // pf是一个未初始化的函数指针bool (*pf1)(const string &amp;a, const string &amp;b); // pf1是一个未初始化的函数指针int main()&#123; // 以下两种写法都是等价的 pf = lengthCompare; pf1 = &amp;lengthCompare; // 以下是三个等价的调用 bool fa = pf("hello", "goodbye"); bool fb = pf1("hello", "goodbye"); bool fc = lengthCompare("hello", "goodbye"); return 0; &#125; 当把函数名作为一个值使用时,该函数自动转换为指针,所以, pf = lengthCompare和 pf1 = &amp;lengthCompare是等价的. 函数指针作为实参不能定义函数类型的形参,但是形参可以是指向函数的指针 12345// 第三个形参是函数类型,它会自动转换为指向函数的指针void useBigger(const string &amp;s1, const string &amp;s2, bool pf(const string &amp;, const string &amp;));// 显式地将形参定义为指向函数的指针void useBigger(const string &amp;s1, const string &amp;s2, bool (*pf)(const string &amp;, const string &amp;)); 定义函数类型别名和函数指针类型别名decltype返回函数类型,不会将函数类型自动转换为指针类型 12345678// Func和Func2是函数类型typedef bool Func(const string &amp;, const string &amp;);typedef decltype(lengthCompare) Func2; // 等价的类型// FuncP和FuncP2是指向函数的指针typedef bool (*FuncP)(const string &amp;, const string &amp;);typedef decltype(lengthCompare) *FuncP2; useBigger的另外两种等价的声明(使用了类型别名) 12void useBigger(const string &amp;s1, const string &amp;s2,Func);void useBigger(const string &amp;s1, const string &amp;s2,FuncP2); 返回函数指针12using F = int(int*, int); // F是函数类型,不是指针using PF = int(*)(int*,int); // PF是指针类型 使用类型别名定义返回类型为函数指针的函数 1234567PF f1(int); // PF是指向函数的指针,f1返回指向函数的指针F f1(int); // F是函数类型,f1不能返回一个函数类型F* f1(int); // F*是函数类型int (*f1(int))(int *,int); // 直接声明f1// 尾置返回类型auto f1(int) -&gt; int(*)(int *,int); 首先f1有形参列表,所以,f1是个函数,f1的返回值是一个指针.该指针也有形参列表,所以,该指针指向函数.该函数的形参是int和int,返回int.所以,f1是一个返回一个函数int(\)(int *,int)的函数. 一个复杂点的例子 12345678910111213141516171819202122232425262728293031string::size_type sumLength(const string &amp;a, const string &amp;b) &#123; return a.size() + b.size();&#125;string::size_type largerLength(const string &amp;a, const string &amp;b) &#123; return a.size() &gt; b.size() ? a.size() : b.size();&#125;decltype(sumLength) *getFcn(const string &amp;s) &#123; if (s == "+") &#123; return sumLength; &#125; else &#123; return largerLength; &#125;&#125;int main()&#123; typedef string::size_type (*Func)(const string &amp;, const string &amp;); Func fcn = getFcn("+"); // fcn是一个函数指针 // 一种等价形式// auto fcn = getFcn("+"); string::size_type sz = fcn("hello", "good"); cout &lt;&lt; sz &lt;&lt; endl; fcn = getFcn("-"); sz = fcn("hello", "good"); cout &lt;&lt; sz &lt;&lt; endl; return 0;&#125; 由于函数的类型由它的返回类型和形参类型决定,而与函数名无关,可知sumLength和largerLength属于相同的类型.所以,我们可以向getFcn传入参数,获取指向同一种函数类型的不同的函数指针.]]></content>
+      <categories>
+        <category>指针</category>
+      </categories>
+      <tags>
+        <tag>函数</tag>
+        <tag>函数指针</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[c++ 易混淆概念之常量指针]]></title>
     <url>%2F2019%2F09%2F15%2F%E5%B8%B8%E9%87%8F%E6%8C%87%E9%92%88%2F</url>
     <content type="text"><![CDATA[指向常量的指针常量是这样一种变量:它的值不能被改变,因此,常量必须初始化. 指向常量的指针,可以指向常量或者非常量.但是要想用指针来存放常量对象的地址,只能用指向常量的指针.指向常量的指针仅仅要求不能通过该指针改变对象的值,而没有规定该对象的值不能通过其他方式改变.可以这样想: 指向常量的指针, 自以为是地以为自己指向了常量,所以自觉地不去改变该对象的值.同样,可以认为指向非常量的指针,会认为自己指向的是非常量,因此,可能会改变自己指向的变量,因此不能用指向非常量的指针保存常量对象的地址.因为,指向非常量的指针可能会试图改变其指向的常量对象的值. 非常量可以转化为常量.反之则不行. 123456const double pi = 3.14;const double *pip = &amp;pi; // 正确:指向常量的指针const double pi1 = 3.1415;pip = &amp;pi; // 使指向常量的指针pip指向另一个常量double pi2 = 3.1415926;pip = &amp;pi2; // 指向常量的指针pip指向一个非常量 常量指针常量指针是指指针本身是常量,即指针一旦指向某个对象就不能再改变(指针中保存的那个地址就不再改变了).因此同常量一样,常量指针必须初始化. 指针本身是常量只规定了指针不能指向其他对象,而并没有规定不能通过指针修改其所指向对象的值,能否只有做完全取决于所指对象的类型.常量指针既可以指向常量也可以指向非常量,具体指向的是常量还是非常量,取决于定义该指针时所指向对象的基本数据类型. 12345int errNumb = 0;int *const curErr = &amp;errNumb; // 指向非常量的常量指针 curErr常量指针,始终指向errNumb*curErr = 1; // 通过指向非常量的常量指针修改其所指向对象的值const double pi = 3.14;const double *const pip = &amp;pi; // 指向常量的常量指针pip 常量指针this类的成员函数调用时,用请求该函数的对象地址初始化this.在整个调用过程中,this所指向的都是发起该调用的对象.默认情况下,this的类型是指向非常量版本的常量指针.如类类型的名为sales_data, 则this指针的类型是sales_data *const. 又如果想要用指针来保存常量对象的地址,只能使用指向常量的指针, 所以,我们不能把类型为sales_data const的this指向一个常量对象.也因此,不能在一个常量对象上调用普通的成员函数.如果想要常量对象也能调用该成员函数,那么必须要把this指针的类型设置成指向常量的常量指针,即*const sales_data const*声明成员函数时,紧随参数列表的const的作用就是将this指针的类型声明成指向常量的常量指针.像这样使用construction的成员函数被称作常量成员函数,常量成员函数内部不能改变this指针所指向的对象的内容(即调用此成员函数的对象的内容). 1234class sales_data&#123; void f(); // 常量对象不能调用此函数 void f() const; // 此函数是常量成员函数,常量对象也可以调用,this指针指向的是常量对象(也可以是非常量对象)&#125;]]></content>
       <categories>
+        <category>指针</category>
+      </categories>
+      <tags>
+        <tag>常量</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[void*指针]]></title>
+    <url>%2F2019%2F09%2F15%2Fvoid*%E6%8C%87%E9%92%88%2F</url>
+    <content type="text"><![CDATA[void*是一种特殊的指针类型,可以用于存放任意类型的对象地址.但是我们不知道该指针着存放的地址指向的对象的类型. 1234int d = 102;void *p = &amp;d;int *pa = static_cast&lt;int *&gt;(p);cout &lt;&lt; *pa &lt;&lt; endl; // 102 将指针p强制为int*类型,强制转换过程中应该确保指针的值即指针指向的对象地址不变; 因此我们进行强制转换时,必须确保转换的目标类型就是指针所指的类型,否则,将产生未定义的结果. 那么什么时候使用void*指针呢?未完待续]]></content>
+      <categories>
+        <category>指针</category>
+      </categories>
+      <tags>
+        <tag>void*指针</tag>
+        <tag>static_cast</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[指针和引用]]></title>
+    <url>%2F2019%2F09%2F15%2F%E6%8C%87%E9%92%88%E5%92%8C%E5%BC%95%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[什么是引用？ 引用和指针的区别与联系指针和引用的异同点 指针 引用 指针本身是对象 引用本身不是对象,只是对象的别名 允许对指针本身进行赋值和拷贝,在指针的生命期内可以指向不同的对象(只要指针不是常量指针) 引用定义时就和一个对象绑定,且始终和这个对象绑定,无法令引用重新绑定到另一个对象 指针无须在定义时赋初值,在块作用域内的指针如果没有被初始化,将拥有一个不确定的值. 引用必须初始化. 可以定义指向指针的指针 无法定义引用的引用 引用的常见用途引用通常不用于声明变量，而用于参数类型和返回类型的描述． 12345678910void func1(Cls* pobj)&#123; pobj-&gt;xxx();&#125;void func2(Cls obj)&#123;obj.xxx();&#125;void func3(Cls&amp; obj)&#123;obj.xxx();&#125;Cls obj;func1(&amp;obj); // 接口不同// 调用端口相同func2(obj);func3(obj); 以下两个函数被视为”same signature”(所以二者不能同时存在)： 12double imag(const double&amp; im)&#123;...&#125;double imag(const double im)&#123;...&#125; // Ambiguity Q：const是不是函数签名的一部分？A：是的，两个函数，一个函数有const，另一个没有，则可以看做函数重载．]]></content>
+      <categories>
         <category>C++基础知识</category>
       </categories>
       <tags>
         <tag>指针</tag>
-        <tag>常量</tag>
+        <tag>引用</tag>
       </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[智能指针]]></title>
+    <url>%2F2019%2F09%2F15%2F%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%2F</url>
+    <content type="text"><![CDATA[智能指针有三类: shared_ptr, unique_ptr, weak_ptr.其中shared_ptr可以和其他shared_ptr共享内存,指向同一块内存区域,引用计数用于记录指向该内存的shared_ptr个数. unique_ptr只能独占内存.任意时刻,都只有一个unique_ptr指向一个给定对象.当unique_ptr被销毁时, 它所指向的对象也会被销毁. weak_ptr是一种弱引用,指向shared_ptr所管理的对象. shared_ptr 初始化shared_ptr有三种初始化方式: 使用make_shared&lt;T&gt;(obj)初始化 使用同类型内置指针对shared_ptr进行初始化 使用另一个智能指针进行初始化 reset将一个新的内置指针赋予shared_ptr use_count引用计数 默认情况下,一个用来初始化智能指针的内置指针必须指向动态内存,因为智能指针默认使用delete释放它所关联的对象.我们也可以将智能指针绑定一个指向其他类型对象的指针上,但是此时必须提供自己的操作来代替delete.这个自己的操作就是删除器函数,即,我们必须定义一个自己的函数作为新的删除器函数. 1234567891011121314void f1()&#123; // 使用对象初始化智能指针 shared_ptr&lt;int&gt; p = make_shared&lt;int&gt;(12); cout &lt;&lt; *p &lt;&lt; " " &lt;&lt; p.use_count() &lt;&lt; endl; // 使用智能指针初始化智能指针 shared_ptr&lt;int&gt; p2(p); cout &lt;&lt; *p2 &lt;&lt; " " &lt;&lt; p2.use_count() &lt;&lt; endl; // 使用内置指针初始化智能指针 int *p3 = new int(193); shared_ptr&lt;int&gt; p4(p3); cout &lt;&lt; *p4 &lt;&lt; " " &lt;&lt; p4.use_count() &lt;&lt; endl;&#125; 运行结果 12312 112 2193 1 reset和use_count的使用 调用p.reset(q)时, 若是p是唯一一个指向其对象的shared_ptr,则reset会释放此对象.若传递了可选的参数内置指针q, 会令p指向q所指的内存空间, 否则将p置空.reset会更新p的引用计数. 123456789101112131415161718void f2()&#123; shared_ptr&lt;int&gt; p4(new int(28)); cout &lt;&lt; "*p4: " &lt;&lt; *p4 &lt;&lt; " p4.use_count(): " &lt;&lt; p4.use_count() &lt;&lt; endl; shared_ptr&lt;int&gt; p5(new int(109)); cout &lt;&lt; "*p5:" &lt;&lt; *p5 &lt;&lt; " p5.use_count: " &lt;&lt; p5.use_count() &lt;&lt; endl; // 调用智能指针类的赋值运算符函数 p4 = p5; cout &lt;&lt; "*p4: " &lt;&lt; *p4 &lt;&lt; " p4.use_count(): " &lt;&lt; p4.use_count() &lt;&lt; endl; // p5不是唯一一个指向其所指对象的shared_ptr,因此,重新制作一份该对象的副本并修改该对象的值 if (!p5.unique()) &#123; p5.reset(new int(*p5)); *p5 += 100; &#125; cout &lt;&lt; "*p5:" &lt;&lt; *p5 &lt;&lt; " p5.use_count: " &lt;&lt; p5.use_count() &lt;&lt; endl;&#125; 运行结果 1234*p4: 28 p4.use_count(): 1*p5:109 p5.use_count: 1*p4: 109 p4.use_count(): 2*p5:209 p5.use_count: 1 unique_ptrweak_ptr]]></content>
+      <categories>
+        <category>指针</category>
+      </categories>
+      <tags>
+        <tag>shared_ptr</tag>
+        <tag>unique_ptr</tag>
+        <tag>weak_ptr</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[const关键字的妙用]]></title>
+    <url>%2F2019%2F09%2F15%2Fconst%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%A6%99%E7%94%A8%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
   </entry>
   <entry>
     <title><![CDATA[对象模型]]></title>
@@ -342,31 +410,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[函数指针]]></title>
-    <url>%2F2019%2F08%2F14%2F%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%2F</url>
-    <content type="text"><![CDATA[函数指针指向的是函数而非对象.和其他指针一样,函数指针指向某种特定类型.函数的类型由它的返回类型和形参类型共同决定,与函数名无关. 123456789101112131415161718bool lengthCompare(const string &amp;a, const string &amp;b) &#123; return a.size() &lt; b.size();&#125;bool (*pf)(const string &amp;a, const string &amp;b); // pf是一个未初始化的函数指针bool (*pf1)(const string &amp;a, const string &amp;b); // pf1是一个未初始化的函数指针int main()&#123; // 以下两种写法都是等价的 pf = lengthCompare; pf1 = &amp;lengthCompare; // 以下是三个等价的调用 bool fa = pf("hello", "goodbye"); bool fb = pf1("hello", "goodbye"); bool fc = lengthCompare("hello", "goodbye"); return 0; &#125; 当把函数名作为一个值使用时,该函数自动转换为指针,所以, pf = lengthCompare和 pf1 = &amp;lengthCompare是等价的. 函数指针作为实参不能定义函数类型的形参,但是形参可以是指向函数的指针 12345// 第三个形参是函数类型,它会自动转换为指向函数的指针void useBigger(const string &amp;s1, const string &amp;s2, bool pf(const string &amp;, const string &amp;));// 显式地将形参定义为指向函数的指针void useBigger(const string &amp;s1, const string &amp;s2, bool (*pf)(const string &amp;, const string &amp;)); 定义函数类型别名和函数指针类型别名decltype返回函数类型,不会将函数类型自动转换为指针类型 12345678// Func和Func2是函数类型typedef bool Func(const string &amp;, const string &amp;);typedef decltype(lengthCompare) Func2; // 等价的类型// FuncP和FuncP2是指向函数的指针typedef bool (*FuncP)(const string &amp;, const string &amp;);typedef decltype(lengthCompare) *FuncP2; useBigger的另外两种等价的声明(使用了类型别名) 12void useBigger(const string &amp;s1, const string &amp;s2,Func);void useBigger(const string &amp;s1, const string &amp;s2,FuncP2); 返回函数指针12using F = int(int*, int); // F是函数类型,不是指针using PF = int(*)(int*,int); // PF是指针类型 使用类型别名定义返回类型为函数指针的函数 1234567PF f1(int); // PF是指向函数的指针,f1返回指向函数的指针F f1(int); // F是函数类型,f1不能返回一个函数类型F* f1(int); // F*是函数类型int (*f1(int))(int *,int); // 直接声明f1// 尾置返回类型auto f1(int) -&gt; int(*)(int *,int); 首先f1有形参列表,所以,f1是个函数,f1的返回值是一个指针.该指针也有形参列表,所以,该指针指向函数.该函数的形参是int和int,返回int.所以,f1是一个返回一个函数int(\)(int *,int)的函数. 一个复杂点的例子 12345678910111213141516171819202122232425262728293031string::size_type sumLength(const string &amp;a, const string &amp;b) &#123; return a.size() + b.size();&#125;string::size_type largerLength(const string &amp;a, const string &amp;b) &#123; return a.size() &gt; b.size() ? a.size() : b.size();&#125;decltype(sumLength) *getFcn(const string &amp;s) &#123; if (s == "+") &#123; return sumLength; &#125; else &#123; return largerLength; &#125;&#125;int main()&#123; typedef string::size_type (*Func)(const string &amp;, const string &amp;); Func fcn = getFcn("+"); // fcn是一个函数指针 // 一种等价形式// auto fcn = getFcn("+"); string::size_type sz = fcn("hello", "good"); cout &lt;&lt; sz &lt;&lt; endl; fcn = getFcn("-"); sz = fcn("hello", "good"); cout &lt;&lt; sz &lt;&lt; endl; return 0;&#125; 由于函数的类型由它的返回类型和形参类型决定,而与函数名无关,可知sumLength和largerLength属于相同的类型.所以,我们可以向getFcn传入参数,获取指向同一种函数类型的不同的函数指针.]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>函数</tag>
-        <tag>函数指针</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[智能指针]]></title>
-    <url>%2F2019%2F08%2F14%2F%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%2F</url>
-    <content type="text"><![CDATA[智能指针有三类: shared_ptr, unique_ptr, weak_ptr.其中shared_ptr可以和其他shared_ptr共享内存,指向同一块内存区域,引用计数用于记录指向该内存的shared_ptr个数. unique_ptr只能独占内存.任意时刻,都只有一个unique_ptr指向一个给定对象.当unique_ptr被销毁时, 它所指向的对象也会被销毁. weak_ptr是一种弱引用,指向shared_ptr所管理的对象. shared_ptr 初始化shared_ptr有三种初始化方式: 使用make_shared&lt;T&gt;(obj)初始化 使用同类型内置指针对shared_ptr进行初始化 使用另一个智能指针进行初始化 reset将一个新的内置指针赋予shared_ptr use_count引用计数 默认情况下,一个用来初始化智能指针的内置指针必须指向动态内存,因为智能指针默认使用delete释放它所关联的对象.我们也可以将智能指针绑定一个指向其他类型对象的指针上,但是此时必须提供自己的操作来代替delete.这个自己的操作就是删除器函数,即,我们必须定义一个自己的函数作为新的删除器函数. 1234567891011121314void f1()&#123; // 使用对象初始化智能指针 shared_ptr&lt;int&gt; p = make_shared&lt;int&gt;(12); cout &lt;&lt; *p &lt;&lt; " " &lt;&lt; p.use_count() &lt;&lt; endl; // 使用智能指针初始化智能指针 shared_ptr&lt;int&gt; p2(p); cout &lt;&lt; *p2 &lt;&lt; " " &lt;&lt; p2.use_count() &lt;&lt; endl; // 使用内置指针初始化智能指针 int *p3 = new int(193); shared_ptr&lt;int&gt; p4(p3); cout &lt;&lt; *p4 &lt;&lt; " " &lt;&lt; p4.use_count() &lt;&lt; endl;&#125; 运行结果 12312 112 2193 1 reset和use_count的使用 调用p.reset(q)时, 若是p是唯一一个指向其对象的shared_ptr,则reset会释放此对象.若传递了可选的参数内置指针q, 会令p指向q所指的内存空间, 否则将p置空.reset会更新p的引用计数. 123456789101112131415161718void f2()&#123; shared_ptr&lt;int&gt; p4(new int(28)); cout &lt;&lt; "*p4: " &lt;&lt; *p4 &lt;&lt; " p4.use_count(): " &lt;&lt; p4.use_count() &lt;&lt; endl; shared_ptr&lt;int&gt; p5(new int(109)); cout &lt;&lt; "*p5:" &lt;&lt; *p5 &lt;&lt; " p5.use_count: " &lt;&lt; p5.use_count() &lt;&lt; endl; // 调用智能指针类的赋值运算符函数 p4 = p5; cout &lt;&lt; "*p4: " &lt;&lt; *p4 &lt;&lt; " p4.use_count(): " &lt;&lt; p4.use_count() &lt;&lt; endl; // p5不是唯一一个指向其所指对象的shared_ptr,因此,重新制作一份该对象的副本并修改该对象的值 if (!p5.unique()) &#123; p5.reset(new int(*p5)); *p5 += 100; &#125; cout &lt;&lt; "*p5:" &lt;&lt; *p5 &lt;&lt; " p5.use_count: " &lt;&lt; p5.use_count() &lt;&lt; endl;&#125; 运行结果 1234*p4: 28 p4.use_count(): 1*p5:109 p5.use_count: 1*p4: 109 p4.use_count(): 2*p5:209 p5.use_count: 1 unique_ptrweak_ptr]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>shared_ptr</tag>
-        <tag>unique_ptr</tag>
-        <tag>weak_ptr</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[传参]]></title>
     <url>%2F2019%2F08%2F13%2F%E4%BC%A0%E5%8F%82%2F</url>
     <content type="text"><![CDATA[传参有值传递和引用传递两种方式．值传递用在参数较小的情况下，值传递过程中，形参和实参独立．对形参的修改不会影响实参．引用传递用在：传递的参数较大或者不支持拷贝时．引用传递可以避免拷贝实参，但对形参的修改会直接影响实参． 数组形参数组的两个特殊性质对我们定义和使用作用在数组上的函数有影响．这两个特殊性质是： 不允许拷贝数组 使用数组时通常会将数组名转换为指向数组首元素的指针 因为不能拷贝数组，所以我们不能以值传递的方式使用数组参数．因为数组会被转换为指针，所以当我们为函数传递一个数组时，实际上传递的是一个指向数组首元素的指针（传入的数组的大小对函数调用没有影响）．三个形式不同但等价的函数声明： 123void print(const int*);void print(const int[]);void print(const int[10]); // 这里的维度表示我们希望数组含有多少个元素，但实际情况不一定 尽管形式不同，但上面三个函数是等价的：每个函数的唯一形参都是const int*类型的．当编译器处理对print函数的调用时，只检查传入的参数是否是const int *类型的(这里的const是底层的，是表示指针指向的是常量对象)．]]></content>
@@ -387,18 +430,6 @@
       </categories>
       <tags>
         <tag>sizeof</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[数组和字符指针]]></title>
-    <url>%2F2019%2F08%2F12%2F%E6%95%B0%E7%BB%84%E5%92%8C%E5%AD%97%E7%AC%A6%E6%8C%87%E9%92%88%2F</url>
-    <content type="text"><![CDATA[数组基本概念什么是数组?数组是一组类型相同元素的容器.数组中存放的对象没有名字,必须通过位置来访问.数组的大小确定不变, 一旦数组定义完成,不能再向数组中添加元素. 数组是一种复合类型.数组的声明形如a[d], 其中a是数组的名字,d是数组的维度.维度说明了数组中元素的个数,因此必须大于0. 数组中元素的个数也属于数组类型的一部分,编译时数组的维度必须是已知的. 适用所有数组类型 不能将数组的内容拷贝给其他数组作为其初始值，也不能用数组为其他数组赋值。 在大多数表达式中，使用数组类型的对象其实是使用一个指向该数组首元素的指针。当对数组名称使用decltype关键字时得到的是数组对象类型。 对数组执行下标运算其实是对指向数组元素的指针执行下标运算 内置的下标运算符不是无符号数,标准库类型如vector和string限定使用的下标必须是无符号数 因为数组本身是对象,可以定义数组的指针和数组的引用 适用于字符数组 当使用字符串常量对字符数组进行初始化时, 字符串数组最后一位会被加上一个’\0’空字符但是使用strlen()计算该数组的长度时,该字符串末尾的空字符不计算在内 对字符数组进行列表初始化时,字符数组末尾没有空字符; 但是由于strlen()函数时是使用空字符来判断字符串结束的, 无法对这样的字符数组使用strlen()求长度 代码示例 字符数组初始化和求长度 字符数组初始化有两种方式,列表初始化和字符串常量初始化 字符串常量初始化时,字符串常量末尾的空字符也会拷贝到字符数组中去 12345678910111213141516void testCharArray() &#123; char a1[] = "danam"; // 计算c风格字符串的长度时,c风格字符串末尾的空字符不计算在内 cout &lt;&lt; "strlen(\"danam\"): " &lt;&lt; strlen("danam") &lt;&lt; endl; // a1的长度为6字节,字符串字面值的末尾是一个空字符,这个空字符也会像其他字符一样拷贝到字符数组中去 cout &lt;&lt; "a1:" &lt;&lt; a1 &lt;&lt; " sizeof(a1): " &lt;&lt; sizeof(a1) &lt;&lt; " strlen(a1): " &lt;&lt; strlen(a1) &lt;&lt; endl; //a1:danam sizeof(a1): 6 strlen(a1): 5 // 对字符数组进行列表初始化,没有空字符 char a2[] = &#123;'a', 'b', 'c'&#125;; cout &lt;&lt; "a2: " &lt;&lt; a2 &lt;&lt; " sizeof(a2): " &lt;&lt; sizeof(a2) &lt;&lt; endl; // a2的长度为3字节;无法对a2使用strlen函数 // a2: abcdanam sizeof(a2): 3&#125; 运行结果 123strlen("danam"): 5a1:danam sizeof(a1): 6 strlen(a1): 5a2: abcdanam sizeof(a2): 3 数组名和指针,迭代器 数组名通常会自动转换为指向数组首元素的指针 在表达式decltype(arr)时,不会发生自动转换,decltype(arr)的返回类型是一个数组类型,其元素类型和维度都与数组arr相同 1234567891011void testCharArray1() &#123; //===============数组名和指针================= int iarr[] = &#123;1, 2, 3, 4, 5&#125;; // ia是一个指针,在这里使用数组类型对象iarr时,编译器将其替换为一个指向数组首元素的指针 auto ia(iarr); ia = &amp;iarr[1]; // decltype(ia)是一个含有5个整形元素的数组对象,因此iarr2也是一个含有5个元素的数组 decltype(iarr) iarr2 = &#123;22, 33, 444, 55, 99&#125;; iarr2[2] = 1882;&#125; 运行结果 1nice to meet you alice 指针运算 对数组执行下标运算其实是对指向数组元素的指针执行下标运算.标准库类型使用的下标类型必须是无符号类型,内置的下标运算可以是带符号类型 可以从一个指针加上或减去一个整数值,结果仍是指针 指向同一个数组中元素(包括尾元素)的指针可以相减,两个指针相减的结果是一种名为ptrdiff_t的标准库类型.ptrdiff_t类型是一种带符号类型 123456789101112131415161718192021void testCharArray3() &#123; //=======================指针运算===================== string sarr[5] = &#123;"good", "day", "you", "know", "me"&#125;; // sarr[2]是一个使用了数组名字的表达式,对数组执行下标运算其实是对指向数组元素的指针执行下标运算 string s1 = sarr[2]; //sarr转换为指向数组首元素的指针,sarr[2]得到(sarr+2)所指向的元素 string *p = sarr; //sarr转换为指向数组首元素的指针 string s2 = *(p + 2); //等价于sarr[2] cout &lt;&lt; "s1: " &lt;&lt; s1 &lt;&lt; endl; cout &lt;&lt; "s2: " &lt;&lt; s2 &lt;&lt; endl; s2 = p[3]; cout &lt;&lt; "s2: " &lt;&lt; s2 &lt;&lt; endl; //=======只要指针指向的是数组中的元素(或者数组中尾元素的下一位置),都可以执行下标运算 //内置的下标运算符使用的不是无符号数,而标准库类型如vector和string限定使用的下标必须是无符号类型 string *p1 = &amp;sarr[2]; string s3 = p1[2]; string s4 = p1[-2]; cout &lt;&lt; "s3: " &lt;&lt; s3 &lt;&lt; endl; cout &lt;&lt; "s4: " &lt;&lt; s4 &lt;&lt; endl;&#125; 运行结果 12345s1: yous2: yous2: knows3: mes4: good 指针和迭代器 1234567891011121314151617181920void testCharArray2() &#123; //================指针也是迭代器======================== string sarr[5] = &#123;"nice", "to", "meet", "you", "alice"&#125;; //指针e指向sarr尾元素的下一位置的指针,该位置并不存在,因此不能对该指针进行解引用和递增操作 string *e = &amp;sarr[5]; for (string *b = sarr; b != e; b++) &#123; cout &lt;&lt; *b &lt;&lt; " "; &#125; cout &lt;&lt; endl; //=====================标准库begin和end函数====================== int ia1[] = &#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;; int *beg = begin(ia1); // 指向ia1首元素的指针 int *last = end(ia1); // 指向ia1尾元素的下一位置的指针 while (beg != last) &#123; cout &lt;&lt; *beg &lt;&lt; " "; ++beg; &#125; cout &lt;&lt; endl;&#125; 运行结果: 10 1 2 3 4 5 6 7 8 9]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-        <tag>字符指针</tag>
       </tags>
   </entry>
   <entry>
@@ -425,17 +456,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[内置指针]]></title>
-    <url>%2F2019%2F08%2F05%2F%E5%86%85%E7%BD%AE%E6%8C%87%E9%92%88%2F</url>
-    <content type="text"><![CDATA[什么是指针?指针是一种特殊的变量.它的值是一个对象的地址,也称指针指向该对象.对指针进行解引用可以获取该对象.指针本身是一个对象,可以赋值和拷贝. 指针中保存着它指向的对象的地址.直接输出指针的内容即指针指向的对象的地址.对指针进行解引用得到指针指向的对象 二级指针中保存一个指针的地址, 这个被指向的指针中才真正保存着对象的地址.直接输出指针得到指针指向的一级指针的地址.对二级指针进行解引用得到一级指针指向的最终对象的地址(即一级指针的值).对一级指针进行解引用,得到最终对象 关于指针有一些很容易混淆的地方,下面举几个例子辨析一下. 示例1 1234567int a = 10;int *p = &amp;a;int **pp = &amp;p; // pp是指向指针的指针，它指向指针p。解引用后是指针p。cout&lt;&lt;"pp:"&lt;&lt;(pp)&lt;&lt;" &amp;p"&lt;&lt;(&amp;p)&lt;&lt;endl; // pp是指向指针变量p的指针，所以，pp中存放着整形指针变量p的地址cout&lt;&lt;"*pp:"&lt;&lt;(*pp)&lt;&lt;" p"&lt;&lt;(p)&lt;&lt;endl; // pp是指向指针变量p的指针，*pp解引用pp会得到整形指针变量p，而p的值是一个整形变量a的地址cout&lt;&lt;"p:"&lt;&lt;p&lt;&lt;" &amp;a:"&lt;&lt;(&amp;a)&lt;&lt;endl; // p是指向整形变量a的指针，所以，p中存放着整形变量a的地址cout&lt;&lt;"*p:"&lt;&lt;p&lt;&lt;" a:"&lt;&lt;(a)&lt;&lt;endl; // p是指向整形变量a的指针。*p解引用整形指针p会得到一个整形数 运行结果 1234pp:0x7fff5ce9bf48 &amp;p0x7fff5ce9bf48*pp:0x7fff5ce9bf44 p0x7fff5ce9bf44p:0x7fff5ce9bf44 &amp;a:0x7fff5ce9bf44*p:0x7fff5ce9bf44 a:10 示例2 123456789101112131415161718192021int a[5] = &#123;1, 2, 3, 4, 5&#125;; int *p, **k; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *p:" &lt;&lt; *p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(p++):" &lt;&lt; *(p++) &lt;&lt; " "; cout &lt;&lt; "after p++" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(++p):" &lt;&lt; *(++p) &lt;&lt; " "; cout &lt;&lt; "after ++p" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; 运行结果 1234567891011a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *p:1k:0x7ffcd38cc920 *k:0x7ffcd38cc930 **k:1=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(p++):1 after p++0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(++p):2 after ++p0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2 可知, a是数组的名字,也是指向数组首元素的指针.p=a将指针p指向数组首元素.因此p的值是数组首元素的地址. p是数组首元素的值.\*k表明k是指向指向指针的指针, k指向指针p,因此,k中保存这指针p的地址,*k是指针p的值,也就是指针指向的对象地址,这里就是数组a首元素的地址.**k就是*(p)就是指针p指向的对象的值.]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>指针</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[模板实参推断和引用]]></title>
     <url>%2F2019%2F08%2F04%2F%E6%A8%A1%E6%9D%BF%E5%AE%9E%E5%8F%82%E6%8E%A8%E6%96%AD%E5%92%8C%E5%BC%95%E7%94%A8%2F</url>
     <content type="text"><![CDATA[从左值引用函数参数推断类型从右值引用函数参数推断类型]]></content>
@@ -457,18 +477,6 @@
       </categories>
       <tags>
         <tag>类类型隐式转换</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[void*指针]]></title>
-    <url>%2F2019%2F07%2F31%2Fvoid*%E6%8C%87%E9%92%88%2F</url>
-    <content type="text"><![CDATA[void*是一种特殊的指针类型,可以用于存放任意类型的对象地址.但是我们不知道该指针着存放的地址指向的对象的类型. 1234int d = 102;void *p = &amp;d;int *pa = static_cast&lt;int *&gt;(p);cout &lt;&lt; *pa &lt;&lt; endl; // 102 将指针p强制为int*类型,强制转换过程中应该确保指针的值即指针指向的对象地址不变; 因此我们进行强制转换时,必须确保转换的目标类型就是指针所指的类型,否则,将产生未定义的结果. 那么什么时候使用void*指针呢?未完待续]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>void*指针</tag>
-        <tag>static_cast</tag>
       </tags>
   </entry>
   <entry>
