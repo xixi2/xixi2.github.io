@@ -294,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/15/可变模板参数/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/15/对象模型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -313,7 +313,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/15/可变模板参数/" itemprop="url">可变模板参数(c++11新特性)</a></h1>
+                <a class="post-title-link" href="/2019/09/15/对象模型/" itemprop="url">对象模型</a></h1>
         
 
         <div class="post-meta">
@@ -325,7 +325,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-15T16:09:04+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-15T16:41:21+08:00">
                 2019-09-15
               </time>
             
@@ -387,9 +387,7 @@
       
         
           
-            <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span>... Types&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">const</span> T &amp;firstArg, <span class="keyword">const</span> Types &amp;... args)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// firstArg是包中第一个元素的引用，输出包中剩余元素个数</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>...(args) &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; firstArg &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    print(args...);         <span class="comment">// 当args为空时，调用的是非模板函数print</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
+            
           
         
       
