@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[221.Maximal Square]]></title>
+    <url>%2F2019%2F09%2F15%2F221.Maximal%20Square%2F</url>
+    <content type="text"><![CDATA[Maximal Square Given a 2D binary matrix filled with 0’s and 1’s, find the largest square containing only 1’s and return its area. Example: 12345678Input: 1 0 1 0 01 0 1 1 11 1 1 1 11 0 0 1 0Output: 4 解法1:单调栈解法详见程序员代码面试指南：求最大子矩阵的大小 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849class Solution &#123;public: int maximalSquare(vector&lt;vector&lt;char&gt;&gt;&amp; matrix) &#123; if(matrix.empty() || matrix[0].empty())&#123; return 0; &#125; int maxArea = 0; int row = matrix.size(); // 1 int col = matrix[0].size(); // 1 vector&lt;int&gt; height(col, 0); for(int i=0;i&lt;row;++i)&#123; for(int j=0;j&lt;col;++j)&#123; height[j] = (matrix[i][j] == '0') ? 0 : height[j] + 1; &#125; auto res = getLessThan(height); for(int j=0;j&lt;col;++j)&#123; int w = res[j][1] - res[j][0] - 1; int l = min(w, height[j]); maxArea = max(maxArea, l * l); &#125; &#125; return maxArea; &#125; vector&lt;vector&lt;int&gt;&gt; getLessThan(vector&lt;int&gt;&amp; nums)&#123; vector&lt;vector&lt;int&gt;&gt; res(nums.size(), vector&lt;int&gt;(2, -1)); stack&lt;int&gt; s1; for(int i=0;i&lt;nums.size();++i)&#123; int r = i; while(!s1.empty() &amp;&amp; nums[s1.top()] &gt;= nums[i])&#123; int index = s1.top(); s1.pop(); int l = s1.empty() ? -1 : s1.top(); res[index][0] = l; res[index][1] = r; &#125; s1.push(i); &#125; int r = nums.size(); while(!s1.empty())&#123; int index = s1.top(); s1.pop(); int l = s1.empty() ? -1 : s1.top(); res[index][0] = l; res[index][1] = r; &#125; return res; &#125;&#125;; 解法2:动态规划]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>单调栈</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[冒泡排序的优化和鸡尾酒排序]]></title>
     <url>%2F2019%2F09%2F15%2F%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%E7%9A%84%E4%BC%98%E5%8C%96%E5%92%8C%E9%B8%A1%E5%B0%BE%E9%85%92%E6%8E%92%E5%BA%8F%2F</url>
     <content type="text"><![CDATA[冒泡排序的优化有设置哨兵来表示当前整个数组已经有序，以及设置有序区间，下一次只对有序区间进行排序（尚未完全理解）． 详情可见 鸡尾酒排序鸡尾酒排序算法适用于大部分元素已经有序的情况．它能够在特定条件下，减少排序的回合数；但是缺点是代码量几乎扩大了一倍． 鸡尾酒排序 未进行优化的鸡尾酒排序 12345678910111213141516171819202122232425262728293031323334353637383940414243void clockTailSort(vector&lt;int&gt; &amp;nums) &#123; // 未进行优化的鸡尾酒排序 int tmp = 0; for (int i = 0; i &lt; nums.size() / 2 - 1; ++i) &#123; // 有序标记，每一轮的初始值是true bool isSorted = true; // 奇数轮:从做向右比较和交换 // 奇数轮：区间内最大的数会被冒泡到最右 for (int j = i; j &lt; nums.size() - i - 1; ++j) &#123; if (nums[j] &gt; nums[j + 1]) &#123; tmp = nums[j]; nums[j] = nums[j + 1]; nums[j + 1] = tmp; // 有元素交换，所以，不是有序，标记变为false isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; isSorted = true; // 8 1 2 3 4 // 偶数轮，从右向左比较和交换 // 偶数轮，最小的数会被冒泡到最左边 for (int j = nums.size() - i - 1; j &gt; i; j--) &#123; if (nums[j] &lt; nums[j - 1]) &#123; tmp = nums[j]; nums[j] = nums[j - 1]; nums[j - 1] = tmp; isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; &#125;&#125; 进行优化的鸡尾酒排序优化方法：]]></content>
@@ -77,18 +89,6 @@
       </categories>
       <tags>
         <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title></title>
-    <url>%2F2019%2F09%2F12%2F221.Maximal%20Square%2F</url>
-    <content type="text"><![CDATA[Maximal Square Given a 2D binary matrix filled with 0’s and 1’s, find the largest square containing only 1’s and return its area. Example: 12345678Input: 1 0 1 0 01 0 1 1 11 1 1 1 11 0 0 1 0Output: 4 解法1:单调栈解法详见程序员代码面试指南：求最大子矩阵的大小 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849class Solution &#123;public: int maximalSquare(vector&lt;vector&lt;char&gt;&gt;&amp; matrix) &#123; if(matrix.empty() || matrix[0].empty())&#123; return 0; &#125; int maxArea = 0; int row = matrix.size(); // 1 int col = matrix[0].size(); // 1 vector&lt;int&gt; height(col, 0); for(int i=0;i&lt;row;++i)&#123; for(int j=0;j&lt;col;++j)&#123; height[j] = (matrix[i][j] == '0') ? 0 : height[j] + 1; &#125; auto res = getLessThan(height); for(int j=0;j&lt;col;++j)&#123; int w = res[j][1] - res[j][0] - 1; int l = min(w, height[j]); maxArea = max(maxArea, l * l); &#125; &#125; return maxArea; &#125; vector&lt;vector&lt;int&gt;&gt; getLessThan(vector&lt;int&gt;&amp; nums)&#123; vector&lt;vector&lt;int&gt;&gt; res(nums.size(), vector&lt;int&gt;(2, -1)); stack&lt;int&gt; s1; for(int i=0;i&lt;nums.size();++i)&#123; int r = i; while(!s1.empty() &amp;&amp; nums[s1.top()] &gt;= nums[i])&#123; int index = s1.top(); s1.pop(); int l = s1.empty() ? -1 : s1.top(); res[index][0] = l; res[index][1] = r; &#125; s1.push(i); &#125; int r = nums.size(); while(!s1.empty())&#123; int index = s1.top(); s1.pop(); int l = s1.empty() ? -1 : s1.top(); res[index][0] = l; res[index][1] = r; &#125; return res; &#125;&#125;; 解法2:动态规划]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-      <tags>
-        <tag>单调栈</tag>
-        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
