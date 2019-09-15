@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[const关键字的妙用]]></title>
+    <url>%2F2019%2F09%2F15%2Fconst%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%A6%99%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[用于成员函数的const当成员函数的const和non-const版本同时存在，const object只会(只能)调用const版本，non-const object只会(只能)调用non-const版本． const object(data members不得变动) non-const object(data members可变动) const member functions(保证不更改data members) yes yes non-const member functions(不保证data members不变) no yes]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[数组和字符指针]]></title>
     <url>%2F2019%2F09%2F15%2F%E6%95%B0%E7%BB%84%E5%92%8C%E5%AD%97%E7%AC%A6%E6%8C%87%E9%92%88%2F</url>
     <content type="text"><![CDATA[数组基本概念什么是数组?数组是一组类型相同元素的容器.数组中存放的对象没有名字,必须通过位置来访问.数组的大小确定不变, 一旦数组定义完成,不能再向数组中添加元素. 数组是一种复合类型.数组的声明形如a[d], 其中a是数组的名字,d是数组的维度.维度说明了数组中元素的个数,因此必须大于0. 数组中元素的个数也属于数组类型的一部分,编译时数组的维度必须是已知的. 适用所有数组类型 不能将数组的内容拷贝给其他数组作为其初始值，也不能用数组为其他数组赋值。 在大多数表达式中，使用数组类型的对象其实是使用一个指向该数组首元素的指针。当对数组名称使用decltype关键字时得到的是数组对象类型。 对数组执行下标运算其实是对指向数组元素的指针执行下标运算 内置的下标运算符不是无符号数,标准库类型如vector和string限定使用的下标必须是无符号数 因为数组本身是对象,可以定义数组的指针和数组的引用 适用于字符数组 当使用字符串常量对字符数组进行初始化时, 字符串数组最后一位会被加上一个’\0’空字符但是使用strlen()计算该数组的长度时,该字符串末尾的空字符不计算在内 对字符数组进行列表初始化时,字符数组末尾没有空字符; 但是由于strlen()函数时是使用空字符来判断字符串结束的, 无法对这样的字符数组使用strlen()求长度 代码示例 字符数组初始化和求长度 字符数组初始化有两种方式,列表初始化和字符串常量初始化 字符串常量初始化时,字符串常量末尾的空字符也会拷贝到字符数组中去 12345678910111213141516void testCharArray() &#123; char a1[] = "danam"; // 计算c风格字符串的长度时,c风格字符串末尾的空字符不计算在内 cout &lt;&lt; "strlen(\"danam\"): " &lt;&lt; strlen("danam") &lt;&lt; endl; // a1的长度为6字节,字符串字面值的末尾是一个空字符,这个空字符也会像其他字符一样拷贝到字符数组中去 cout &lt;&lt; "a1:" &lt;&lt; a1 &lt;&lt; " sizeof(a1): " &lt;&lt; sizeof(a1) &lt;&lt; " strlen(a1): " &lt;&lt; strlen(a1) &lt;&lt; endl; //a1:danam sizeof(a1): 6 strlen(a1): 5 // 对字符数组进行列表初始化,没有空字符 char a2[] = &#123;'a', 'b', 'c'&#125;; cout &lt;&lt; "a2: " &lt;&lt; a2 &lt;&lt; " sizeof(a2): " &lt;&lt; sizeof(a2) &lt;&lt; endl; // a2的长度为3字节;无法对a2使用strlen函数 // a2: abcdanam sizeof(a2): 3&#125; 运行结果 123strlen("danam"): 5a1:danam sizeof(a1): 6 strlen(a1): 5a2: abcdanam sizeof(a2): 3 数组名和指针,迭代器 数组名通常会自动转换为指向数组首元素的指针 在表达式decltype(arr)时,不会发生自动转换,decltype(arr)的返回类型是一个数组类型,其元素类型和维度都与数组arr相同 1234567891011void testCharArray1() &#123; //===============数组名和指针================= int iarr[] = &#123;1, 2, 3, 4, 5&#125;; // ia是一个指针,在这里使用数组类型对象iarr时,编译器将其替换为一个指向数组首元素的指针 auto ia(iarr); ia = &amp;iarr[1]; // decltype(ia)是一个含有5个整形元素的数组对象,因此iarr2也是一个含有5个元素的数组 decltype(iarr) iarr2 = &#123;22, 33, 444, 55, 99&#125;; iarr2[2] = 1882;&#125; 运行结果 1nice to meet you alice 指针运算 对数组执行下标运算其实是对指向数组元素的指针执行下标运算.标准库类型使用的下标类型必须是无符号类型,内置的下标运算可以是带符号类型 可以从一个指针加上或减去一个整数值,结果仍是指针 指向同一个数组中元素(包括尾元素)的指针可以相减,两个指针相减的结果是一种名为ptrdiff_t的标准库类型.ptrdiff_t类型是一种带符号类型 123456789101112131415161718192021void testCharArray3() &#123; //=======================指针运算===================== string sarr[5] = &#123;"good", "day", "you", "know", "me"&#125;; // sarr[2]是一个使用了数组名字的表达式,对数组执行下标运算其实是对指向数组元素的指针执行下标运算 string s1 = sarr[2]; //sarr转换为指向数组首元素的指针,sarr[2]得到(sarr+2)所指向的元素 string *p = sarr; //sarr转换为指向数组首元素的指针 string s2 = *(p + 2); //等价于sarr[2] cout &lt;&lt; "s1: " &lt;&lt; s1 &lt;&lt; endl; cout &lt;&lt; "s2: " &lt;&lt; s2 &lt;&lt; endl; s2 = p[3]; cout &lt;&lt; "s2: " &lt;&lt; s2 &lt;&lt; endl; //=======只要指针指向的是数组中的元素(或者数组中尾元素的下一位置),都可以执行下标运算 //内置的下标运算符使用的不是无符号数,而标准库类型如vector和string限定使用的下标必须是无符号类型 string *p1 = &amp;sarr[2]; string s3 = p1[2]; string s4 = p1[-2]; cout &lt;&lt; "s3: " &lt;&lt; s3 &lt;&lt; endl; cout &lt;&lt; "s4: " &lt;&lt; s4 &lt;&lt; endl;&#125; 运行结果 12345s1: yous2: yous2: knows3: mes4: good 指针和迭代器 1234567891011121314151617181920void testCharArray2() &#123; //================指针也是迭代器======================== string sarr[5] = &#123;"nice", "to", "meet", "you", "alice"&#125;; //指针e指向sarr尾元素的下一位置的指针,该位置并不存在,因此不能对该指针进行解引用和递增操作 string *e = &amp;sarr[5]; for (string *b = sarr; b != e; b++) &#123; cout &lt;&lt; *b &lt;&lt; " "; &#125; cout &lt;&lt; endl; //=====================标准库begin和end函数====================== int ia1[] = &#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;; int *beg = begin(ia1); // 指向ia1首元素的指针 int *last = end(ia1); // 指向ia1尾元素的下一位置的指针 while (beg != last) &#123; cout &lt;&lt; *beg &lt;&lt; " "; ++beg; &#125; cout &lt;&lt; endl;&#125; 运行结果: 10 1 2 3 4 5 6 7 8 9]]></content>
@@ -79,14 +87,6 @@
         <tag>unique_ptr</tag>
         <tag>weak_ptr</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[const关键字的妙用]]></title>
-    <url>%2F2019%2F09%2F15%2Fconst%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%A6%99%E7%94%A8%2F</url>
-    <content type="text"></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
   </entry>
   <entry>
     <title><![CDATA[对象模型]]></title>
