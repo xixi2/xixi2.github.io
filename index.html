@@ -294,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/02/leetcode题目分类总结/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/12/unix-高级环境编程系列2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -313,7 +313,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/02/leetcode题目分类总结/" itemprop="url">leetcode题目分类总结</a></h1>
+                <a class="post-title-link" href="/2019/09/12/unix-高级环境编程系列2/" itemprop="url">unix 高级环境编程系列2</a></h1>
         
 
         <div class="post-meta">
@@ -325,8 +325,289 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-02T15:51:14+08:00">
-                2019-09-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-12T16:14:38+08:00">
+                2019-09-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/unix-高级环境编程/" itemprop="url" rel="index">
+                    <span itemprop="name">unix 高级环境编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="IO"><a href="#IO" class="headerlink" title="IO"></a>IO</h1><h2 id="fgetc"><a href="#fgetc" class="headerlink" title="fgetc"></a>fgetc</h2><p>fgetc从文件指针stream指向的文件中读取一个字符，读取一个字节后，光标位置后移一个字节。</p>
+<h2 id="fputc"><a href="#fputc" class="headerlink" title="fputc"></a>fputc</h2><p>功能：把一个字符写到一个输出文件流中．它返回写入的值，如果失败，则返回EOF．<br>putc函数的作用相当于fputc，但它可能被实现为一个宏．<br>putchar相当于putc(c, stdout)，但它把单个字符写到标准输出．注意：putchar和getchar都是把字符当做int类型而不是char类型来使用的．这就允许文件尾标识取值-1，这是一个超出字符数字编码范围的值．</p>
+<h2 id="fopen"><a href="#fopen" class="headerlink" title="fopen"></a>fopen</h2><p><a href="https://blog.csdn.net/hairetz/article/details/4150193" target="_blank" rel="noopener">https://blog.csdn.net/hairetz/article/details/4150193</a></p>
+<h2 id="read"><a href="#read" class="headerlink" title="read"></a>read</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ssize_t</span> read(<span class="keyword">int</span> fd, <span class="keyword">void</span>* buf, <span class="keyword">size_t</span> nbytes);</span><br></pre></td></tr></table></figure>
+
+<p>成功时返回接收的字节数(但遇到文件结尾则返回0)，失败时返回-1.<br>fd: 显示数据接收对象的文件描述符．<br>buf: 要保存接收数据的缓冲地址值．<br>nbytes: 要接收数据的最大字节数．</p>
+<h2 id="write"><a href="#write" class="headerlink" title="write"></a>write</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ssize_t</span> write(<span class="keyword">int</span> fd, <span class="keyword">const</span> <span class="keyword">void</span>* buf, <span class="keyword">size_t</span> nbytes);</span><br></pre></td></tr></table></figure>
+
+<p>成功时返回写入的字节数，失败时返回-1.<br>fd: 显示数据传输对象的文件描述符．<br>buf: 要保存传输数据的缓冲地址值．<br>nbytes: 要传输数据的最大字节数．</p>
+<h2 id="fread"><a href="#fread" class="headerlink" title="fread"></a>fread</h2><p><strong>size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)</strong></p>
+<ul>
+<li>功能：从给定流 <strong>stream</strong> 读取数据到 <strong>ptr</strong> 所指向的数组中</li>
+<li><strong>ptr</strong> – 这是指向带有最小尺寸 <em>size\</em>nmemb* 字节的内存块的指针。</li>
+<li><strong>size</strong> – 这是要读取的每个元素的大小，以字节为单位。</li>
+<li><strong>nmemb</strong> – 这是元素的个数，每个元素的大小为 size 字节。</li>
+<li><strong>stream</strong> – 这是指向 FILE 对象的指针，该 FILE 对象指定了一个输入流。</li>
+</ul>
+<h2 id="fgets"><a href="#fgets" class="headerlink" title="fgets"></a>fgets</h2><p>函数原型为：char *fgets(char *str, int n, FILE *stream)</p>
+<ul>
+<li><p>功能：从指定的流 stream 读取一行，并把它存储在 str 所指向的字符串内。fgets会把读到字符写到s指向的字符串里，直到出现下面某种情况：</p>
+<ul>
+<li>遇到换行符</li>
+<li>已经传输了n-1个字节</li>
+<li>到达文件尾</li>
+</ul>
+<p>它会把遇到的换行符也保存到s中．最后在s末尾加上一个表示结尾的空字符\0．一次调用最多只能传输n-1个字符，因为它必须把空字符加到字符串表示结尾．</p>
+</li>
+<li><p>gets函数类似于fgets，但是它从标准输入流中取数据并丢弃遇到的换行符．它在接收字符串的尾部加上一个空字节(一个字符占一个字节)．</p>
+</li>
+</ul>
+<h2 id="puts"><a href="#puts" class="headerlink" title="puts"></a>puts</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">puts</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *s)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>功能：将字符串输出到屏幕。输出时只有遇到 ‘\0’ 也就是字符串结束标志符才会停止。</p>
+<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><h2 id="opendir"><a href="#opendir" class="headerlink" title="opendir"></a>opendir</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;   </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;dirent.h&gt;</span></span></span><br><span class="line"><span class="function">DIR * <span class="title">opendir</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> * name)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>功能：opendir()用来打开参数name指定的目录，并返回DIR*形态的目录流．接下来对目录的读取和搜索都要使用此返回值．</li>
+<li>返回值：成功则返回DIR*型态的目录流，打开失败则返回nullptr.</li>
+<li>错误代码：<ul>
+<li>EACCESS 权限不足</li>
+<li>EMFILE 已达到进程可同时打开的文件数上限</li>
+<li>ENFILE 已达到系统可同时打开的文件数上限</li>
+<li>ENOTDIR 参数name 非真正的目录</li>
+<li>ENOENT 参数name 指定的目录不存在, 或是参数name 为一空字符串</li>
+<li>ENOMEM 核心内存不足</li>
+</ul>
+</li>
+</ul>
+<h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><h2 id="fork"><a href="#fork" class="headerlink" title="fork"></a>fork</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="vfork"><a href="#vfork" class="headerlink" title="vfork"></a>vfork</h2><p>函数原型</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>功能：vfork函数用于创建一个新进程．新进程的目的是exec一个新程序．<ul>
+<li>vfork和fork一样都创建一个子进程，但是它并不将父进程的地址空间完全复制到子进程中．因为子进程会立即调用exec(exit)，于是也就不会引用该地址空间．但是在子进程调用exec或exit之前，它在父进程的空间中运行．</li>
+<li>vfork和fork之间的另一个区别是：vfork保证子进程先运行．在它调用exec或exit之后父进程才可能被调度运行．当子进程调用这两个函数中的任意一个时，父进程会恢复运行．如果在调用这两个函数之前子进程依赖于父进程的进一步动作，会导致死锁．</li>
+</ul>
+</li>
+</ul>
+<h2 id="wait"><a href="#wait" class="headerlink" title="wait"></a>wait</h2><p>在父进程中通过调用wait函数来让父进程等待子进程的结束．wait系统调用将阻塞父进程直到它的子进程结束．这个调用返回子进程的PID，它通常是已经结束运行的子进程的PID．状态信息允许父进程了解子进程的退出状态，即子进程的main函数返回的值或子进程中exit函数的退出码．如果stat_loc不是空指针，那么状态信息就会被写入它所指向的位置．<br>如果调用wait的进程有多个子进程，那么在其某一子进程终止时，wait就立即返回．</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"><span class="keyword">pid_t</span> wait(<span class="keyword">int</span> *stat_loc)</span><br></pre></td></tr></table></figure>
+
+<p>头文件sys/wait.h中定义的宏来解释状态信息．</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WIFEXITED(stat_val);		<span class="comment">// 如果子进程正常结束，它就取一个非零值</span></span><br><span class="line">WEXITSTATUS(stat_val);		<span class="comment">// 如果WIFEXITED非零，它返回子进程的退出码</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="waitpid"><a href="#waitpid" class="headerlink" title="waitpid"></a>waitpid</h2><p>函数原型</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/type.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"><span class="keyword">pid_t</span> waitpid(<span class="keyword">pid_t</span> pid, <span class="keyword">int</span> *stat_loc, <span class="keyword">int</span> options)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>功能：waitpid用来等待某个特定进程的结束．</li>
+<li>pid参数用于指定需要等待的子进程的PID．如果它的值为-1，waitpid将返回任一子进程的信息．</li>
+<li>如果stat_loc不是空指针，waitpid将状态信息写入到stat_loc指定的位置．</li>
+<li>option参数可用来改变waitpid的行为，其中一个最有用的选项是WNOHANG，它的作用是防止waitpid调用将调用者的执行挂起．可以使用这个选项来查找是否有子进程已经结束，如果没有，程序将继续执行．其他的选项和wait调用的选项相同．</li>
+<li>返回值：如果子进程没有结束或意外终止，返回0；否则返回child_pid．如果waitpid失败，它将返回-1并设置errno．失败的情况包括：没有子进程(errno设置为ECHILD)，调用被某个信号中断(EINTR)，或选项参数无效(EINVAL)．</li>
+</ul>
+<h2 id="exec函数族"><a href="#exec函数族" class="headerlink" title="exec函数族"></a>exec函数族</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">execl</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>*path, <span class="keyword">const</span> <span class="keyword">char</span> *arg,...)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>exec函数族的函数执行成功后不会返回，调用失败时，会设置errno并返回-1，然后从原程序的调用点接着往下执行<br><strong>参数</strong><br>path：可执行文件的路径名字<br>arg：可执行程序所带的参数，第一个参数为可执行文件的名字，没有带路径且arg必须以空指针结束</p>
+<p><a href="https://blog.csdn.net/u014530704/article/details/73848573" target="_blank" rel="noopener">https://blog.csdn.net/u014530704/article/details/73848573</a></p>
+<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><h2 id="pthread-create"><a href="#pthread-create" class="headerlink" title="pthread_create"></a>pthread_create</h2><p>函数原型</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_create</span><span class="params">(<span class="keyword">pthread_t</span> *thread, <span class="keyword">pthread_attr_t</span> *attr, <span class="keyword">void</span> *(*start_routine)(<span class="keyword">void</span>*), <span class="keyword">void</span>* arg)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>功能：创建一个新线程</li>
+<li>第一个参数指向一个pthread_t 类型的指针，线程被创建时，这个指针指向的变量中将被写入一个标识符，我们用该标识符来引用新线程．</li>
+<li>第二个参数用于设置线程的属性；一般不需要特殊的属性，因此令该参数为NULL</li>
+<li>第三个参数一个函数指针，告诉线程将要启动执行的函数</li>
+<li>第四个参数是传递给该函数的参数</li>
+<li>成功时，返回0；失败时，返回错误代码</li>
+</ul>
+<h2 id="pthread-join"><a href="#pthread-join" class="headerlink" title="pthread_join"></a>pthread_join</h2><p>函数原型</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_join</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>功能：pthread_join等价于进程中用来收集子进程信息的wait函数．调用进程将一直阻塞，直到指定的线程调用thread_exit或者从启动例程(即被调用的函数)中返回，或被取消．</li>
+</ul>
+<h2 id="pthread-exit"><a href="#pthread-exit" class="headerlink" title="pthread_exit"></a>pthread_exit</h2><p>函数原型</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_exit</span><span class="params">(<span class="keyword">void</span> * rval_ptr)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><h2 id="用于线程的信号量"><a href="#用于线程的信号量" class="headerlink" title="用于线程的信号量"></a>用于线程的信号量</h2></li>
+</ul>
+<p>有两组接口函数用于信号量．一组取自POSIX的实时扩展，用于线程．另一组被成为系统V信号量，常用于进程的同步．<br><strong>信号量是一个特殊类型的变量，它可以被增加或减少，但对其的关键访问被保证是原子操作</strong>．
+在多线程程序中，如果一个程序中有两个(或多个)线程试图改变一个信号量的值，系统将保证所有的操作都依次进行．<br>信号量有二进制信号量和计数信号量．<br><strong>信号量一般用来保护一段代码，使其每次只能被一个执行线程运行，使用二进制信号量来完成这个工作</strong>．
+允许有限数目的线程执行一段指定的代码，这时需要计数信号量．</p>
+<h3 id="sem-init"><a href="#sem-init" class="headerlink" title="sem_init"></a>sem_init</h3><p>函数原型</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sem_init</span><span class="params">(<span class="keyword">sem_t</span> *sem, <span class="keyword">int</span> pshared, <span class="keyword">unsigned</span> <span class="keyword">int</span> value)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>功能：创建信号量；信号量由一个sem_t类型指针指定，设置该信号量对象的共享选项，并给它一个初始的整数值．</li>
+<li>第一个参数为指向sem_t类型的信号量对象的指针．</li>
+<li>pshared表示该信号量对象的共享选项，若为0表示该信号量是<strong>当前进程的局部信号量</strong>，否则，这个信号量就可以在多个进程之间共享．</li>
+</ul>
+<h3 id="sem-wait"><a href="#sem-wait" class="headerlink" title="sem_wait"></a>sem_wait</h3><p>函数原型</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sem_wait</span><span class="params">(<span class="keyword">sem_t</span>* sem)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>功能：以原子操作的方式给信号量的值减1.但是它会等待直到信号量有个非零值才会开始减法操作．</li>
+</ul>
+<h3 id="sem-post"><a href="#sem-post" class="headerlink" title="sem_post"></a>sem_post</h3><p>函数原型</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sem_post</span><span class="params">(<span class="keyword">sem_t</span>* sem)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>功能：以原子操作的方式给信号量的值加1.</li>
+</ul>
+<h2 id="互斥量"><a href="#互斥量" class="headerlink" title="互斥量"></a>互斥量</h2><p>另一种用在多线程程序中的同步访问方法是使用互斥量．它允许程序锁住某个对象，使得每次只能有一个线程访问它．为了控制对关键代码的访问，必须在进入这段代码之前锁住一个互斥量，然后在完成操作之后解锁它．</p>
+<p>以下这些用于互斥量的基本函数成功时返回0，失败时返回错误代码，但是这些函数并不设置errno，必须对函数的返回代码进行检查．</p>
+<h3 id="pthread-mutex-init"><a href="#pthread-mutex-init" class="headerlink" title="pthread_mutex_init"></a>pthread_mutex_init</h3><p>函数原型</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_mutex_init</span><span class="params">(<span class="keyword">pthread_mutext_t</span> *mutex, <span class="keyword">const</span> <span class="keyword">pthread_mutexattr_t</span> *mutexattr)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="pthread-mutex-lock"><a href="#pthread-mutex-lock" class="headerlink" title="pthread_mutex_lock"></a>pthread_mutex_lock</h3><p>函数原型</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_mutex_lock</span><span class="params">(<span class="keyword">pthread_mutex_t</span> *mutex)</span></span></span><br></pre></td></tr></table></figure>
+
+<h3 id="pthread-mutex-unlock"><a href="#pthread-mutex-unlock" class="headerlink" title="pthread_mutex_unlock"></a>pthread_mutex_unlock</h3><p>函数原型</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_mutex_unlock</span><span class="params">(<span class="keyword">pthread_mutex_t</span> *mutex)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="pthread-mutex-destroy"><a href="#pthread-mutex-destroy" class="headerlink" title="pthread_mutex_destroy"></a>pthread_mutex_destroy</h3><p>函数原型</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_mutex_destroy</span><span class="params">(<span class="keyword">pthread_mutex_t</span> *mutex)</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="用于进程的信号量"><a href="#用于进程的信号量" class="headerlink" title="用于进程的信号量"></a>用于进程的信号量</h2>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/12/从数组中找重复数字系列/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xixi2">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixi2">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/12/从数组中找重复数字系列/" itemprop="url">从数组中找重复数字系列</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-12T15:31:07+08:00">
+                2019-09-12
               </time>
             
 
@@ -386,10 +667,162 @@
 
       
         
-          <p>这里将leetcode上刷的题目做一下分类．</p>
+          
+            <p><a href="https://leetcode.com/problems/find-the-duplicate-number" target="_blank" rel="noopener">287. Find the Duplicate Number</a></p>
+<ul>
+<li>方法一：排序，将整个数组进行排序．排序的时间复杂度和空间复杂度取决于使用的排序算法．<br>这里要求额外空间排序度为O(1)，那么只能用堆排序．</li>
+<li>方法二：使用set</li>
+<li>方法三<ul>
+<li>前面方法一都会修改数组，不满足要求．方法二的额外空间复杂度是O(n)，同样不满足要求．</li>
+<li><a href="https://leetcode.com/problems/find-the-duplicate-number/" target="_blank" rel="noopener">https://leetcode.com/problems/find-the-duplicate-number/</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/12/221.Maximal Square/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xixi2">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixi2">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/12/221.Maximal Square/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-12T15:29:17+08:00">
+                2019-09-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><a href="https://leetcode.com/problems/maximal-square" target="_blank" rel="noopener">Maximal Square</a></p>
+<p>Given a 2D binary matrix filled with 0’s and 1’s, find the largest square containing only 1’s and return its area.</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/09/02/leetcode题目分类总结/#more" rel="contents">
+            <a class="btn" href="/2019/09/12/221.Maximal Square/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -440,7 +873,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/02/排列/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/12/单调栈/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -459,7 +892,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/02/排列/" itemprop="url">排列</a></h1>
+                <a class="post-title-link" href="/2019/09/12/单调栈/" itemprop="url">单调栈</a></h1>
         
 
         <div class="post-meta">
@@ -471,8 +904,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-02T15:49:17+08:00">
-                2019-09-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-12T15:24:31+08:00">
+                2019-09-12
               </time>
             
 
@@ -532,10 +965,158 @@
 
       
         
-          <h1 id="Permutation-Sequence"><a href="#Permutation-Sequence" class="headerlink" title="Permutation Sequence"></a>Permutation Sequence</h1><h1 id="Next-permutation"><a href="#Next-permutation" class="headerlink" title="Next permutation"></a>Next permutation</h1>
+          
+            <h1 id="单调栈"><a href="#单调栈" class="headerlink" title="单调栈"></a>单调栈</h1><p>什么是单调栈？</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 对于不含重复元素的数组求其中每个元素左边和右边小于该元素且距离该元素最近的位置</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; getNearLessNoRepeat(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;arr) &#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; res(arr.size(), <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(<span class="number">2</span>, <span class="number">-1</span>));</span><br><span class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; s1;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; arr.size(); ++i) &#123;</span><br><span class="line">        <span class="keyword">while</span> (!s1.empty() &amp;&amp; arr[s1.top()] &gt; arr[i]) &#123;</span><br><span class="line">            <span class="keyword">int</span> popIndex = s1.top();</span><br><span class="line">            s1.pop();</span><br><span class="line">            <span class="keyword">int</span> left = s1.empty() ? <span class="number">-1</span> : s1.top();</span><br><span class="line">            res[popIndex][<span class="number">0</span>] = left;</span><br><span class="line">            res[popIndex][<span class="number">1</span>] = i;</span><br><span class="line">        &#125;</span><br><span class="line">        s1.push(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (!s1.empty()) &#123;</span><br><span class="line">        <span class="keyword">int</span> popIndex = s1.top();</span><br><span class="line">        s1.pop();</span><br><span class="line">        <span class="keyword">int</span> left = s1.empty() ? <span class="number">-1</span> : s1.top();</span><br><span class="line">        res[popIndex][<span class="number">0</span>] = left;</span><br><span class="line">        res[popIndex][<span class="number">1</span>] = <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 对于含重复元素的数组求其中每个元素左边和右边小于该元素且距离该元素最近的位置</span></span><br><span class="line"><span class="comment"> * 方法１：把所有相等元素放到一个vector中</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; getNearLess(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;arr) &#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; res(arr.size(), <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(<span class="number">2</span>, <span class="number">-1</span>));</span><br><span class="line">    <span class="built_in">stack</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; s1;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; arr.size(); ++i) &#123;</span><br><span class="line">        <span class="keyword">while</span> (!s1.empty() &amp;&amp; arr[s1.top()[<span class="number">0</span>]] &gt; arr[i]) &#123;</span><br><span class="line">            <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; popIs = s1.top();</span><br><span class="line">            s1.pop();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span> left = s1.empty() ? <span class="number">-1</span> : s1.top()[s1.top().size() - <span class="number">1</span>];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> popi : popIs) &#123;</span><br><span class="line">                res[popi][<span class="number">0</span>] = left;</span><br><span class="line">                res[popi][<span class="number">1</span>] = i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!s1.empty() &amp;&amp; arr[s1.top()[s1.top().size() - <span class="number">1</span>]] == arr[i]) &#123;</span><br><span class="line">            s1.top().push_back(i);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tmp&#123;i&#125;;</span><br><span class="line">            s1.push(tmp);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (!s1.empty()) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; popIs = s1.top();</span><br><span class="line">        s1.pop();</span><br><span class="line">        <span class="keyword">int</span> left = s1.empty() ? <span class="number">-1</span> : s1.top()[s1.top().size() - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> popi: popIs) &#123;</span><br><span class="line">            res[popi][<span class="number">0</span>] = left;</span><br><span class="line">            res[popi][<span class="number">1</span>] = <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 对于含重复元素的数组求其中每个元素左边和右边小于该元素且距离该元素最近的位置</span></span><br><span class="line"><span class="comment"> * 方法2：对于每个元素从栈中退出时才统计与其相等的元素</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; getNearLess2(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;arr) &#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; res(arr.size(), <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(<span class="number">2</span>, <span class="number">-1</span>));</span><br><span class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; s1;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; arr.size(); ++i) &#123;</span><br><span class="line">        <span class="keyword">int</span> right = i;</span><br><span class="line">        <span class="keyword">while</span> (!s1.empty() &amp;&amp; arr[s1.top()] &gt; arr[i]) &#123;</span><br><span class="line">            <span class="keyword">int</span> idx = s1.top();</span><br><span class="line">            <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tmp&#123;idx&#125;;</span><br><span class="line">            <span class="keyword">while</span> (!s1.empty() &amp;&amp; arr[s1.top()] == arr[idx]) &#123;</span><br><span class="line">                tmp.push_back(s1.top());</span><br><span class="line">                s1.pop();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> left = s1.empty() ? <span class="number">-1</span> : s1.top();</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">auto</span> index : tmp) &#123;</span><br><span class="line">                res[index][<span class="number">0</span>] = left;</span><br><span class="line">                res[index][<span class="number">1</span>] = right;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        s1.push(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> right = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span> (!s1.empty()) &#123;</span><br><span class="line">        <span class="keyword">int</span> idx = s1.top();</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tmp&#123;idx&#125;;</span><br><span class="line">        <span class="keyword">while</span> (!s1.empty() &amp;&amp; arr[idx] == arr[s1.top()]) &#123;</span><br><span class="line">            tmp.push_back(s1.top());</span><br><span class="line">            s1.pop();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> left = s1.empty() ? <span class="number">-1</span> : s1.top();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> index:tmp) &#123;</span><br><span class="line">            res[index][<span class="number">0</span>] = left;</span><br><span class="line">            res[index][<span class="number">1</span>] = right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; arr&#123;<span class="number">3</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">2</span>&#125;;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; res1 = getNearLess(arr);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; res2 = getNearLess2(arr);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; arr.size(); ++i) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; arr[i] &lt;&lt; <span class="string">" "</span> &lt;&lt; res1[i][<span class="number">0</span>] &lt;&lt; <span class="string">" "</span> &lt;&lt; res1[i][<span class="number">1</span>] &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; arr.size(); ++i) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; arr[i] &lt;&lt; <span class="string">" "</span> &lt;&lt; res2[i][<span class="number">0</span>] &lt;&lt; <span class="string">" "</span> &lt;&lt; res2[i][<span class="number">1</span>] &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="单调栈的应用"><a href="#单调栈的应用" class="headerlink" title="单调栈的应用"></a>单调栈的应用</h1><ul>
+<li><a href="https://leetcode.com/problems/maximal-square" target="_blank" rel="noopener">Maximal Square</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/12/907.Sum-of-Subarray-Minimums/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xixi2">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixi2">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/12/907.Sum-of-Subarray-Minimums/" itemprop="url">907. Sum of Subarray Minimums</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-12T14:13:46+08:00">
+                2019-09-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Given an array of integers <code>A</code>, find the sum of <code>min(B)</code>, where <code>B</code> ranges over every (contiguous) subarray of <code>A</code>.</p>
+<p>Since the answer may be large, <strong>return the answer modulo 10^9 + 7.</strong></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/09/02/排列/#more" rel="contents">
+            <a class="btn" href="/2019/09/12/907.Sum-of-Subarray-Minimums/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -586,7 +1167,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/02/k-sum-系列/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/12/单调序列/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -605,7 +1186,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/02/k-sum-系列/" itemprop="url">k sum 系列</a></h1>
+                <a class="post-title-link" href="/2019/09/12/单调序列/" itemprop="url">单调序列</a></h1>
         
 
         <div class="post-meta">
@@ -617,8 +1198,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-02T15:47:57+08:00">
-                2019-09-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-12T12:49:36+08:00">
+                2019-09-12
               </time>
             
 
@@ -678,445 +1259,15 @@
 
       
         
-          
-            <p><a href="https://leetcode.com/problems/two-sum" target="_blank" rel="noopener">two sum</a><br><a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted" target="_blank" rel="noopener">Two Sum II - Input array is sorted</a><br><a href="https://leetcode.com/problems/3sum" target="_blank" rel="noopener">3Sum</a><br><a href="https://leetcode.com/problems/4sum" target="_blank" rel="noopener">4Sum</a><br><a href="https://leetcode.com/problems/4sum-ii" target="_blank" rel="noopener">4Sum II</a><br><a href="https://www.lintcode.com/problem/k-sum/description" target="_blank" rel="noopener">k sum</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/01/Target-Sum-系列/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="xixi2">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixi2">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/01/Target-Sum-系列/" itemprop="url">Target Sum 系列</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-01T22:37:12+08:00">
-                2019-09-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="https://leetcode.com/problems/combination-sum" target="_blank" rel="noopener">combination sum</a><br><a href="https://leetcode.com/problems/combination-sum-ii" target="_blank" rel="noopener">Combination Sum II</a><br><a href="https://leetcode.com/problems/combination-sum-iii" target="_blank" rel="noopener">Combination Sum III</a><br><a href="https://leetcode.com/problems/combination-sum-iv" target="_blank" rel="noopener">Combination Sum IV</a></p>
-<p><a href="https://leetcode.com/problems/3sum" target="_blank" rel="noopener">3Sum</a><br><a href="https://leetcode.com/problems/4sum" target="_blank" rel="noopener">4Sum</a><br><a href="https://leetcode.com/problems/4sum-ii" target="_blank" rel="noopener">4Sum II</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/01/类型转换系列１/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="xixi2">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixi2">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/01/类型转换系列１/" itemprop="url">类型转换系列1</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-01T22:03:33+08:00">
-                2019-09-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C-基础知识/" itemprop="url" rel="index">
-                    <span itemprop="name">C++基础知识</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="显式转换"><a href="#显式转换" class="headerlink" title="显式转换"></a>显式转换</h1><p>旧式转型:<br>T(expression)<br>(T)expression</p>
-<p>四种新式转型: <strong>cast-name&lt;type&gt;(expression)</strong>:  type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/01/类型转换系列１/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/28/旋转数组/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="xixi2">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixi2">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/28/旋转数组/" itemprop="url">旋转数组</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-28T19:15:15+08:00">
-                2019-08-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <ol start="189">
-<li>Rotate Array<br><a href="https://leetcode.com/problems/rotate-array/" target="_blank" rel="noopener">旋转数组</a></li>
+          <ol start="896">
+<li>Monotonic Array</li>
 </ol>
-<p>Given an array, rotate the array to the right by <em>k</em> steps, where <em>k</em> is non-negative.</p>
+<p>An array is <em>monotonic</em> if it is either monotone increasing or monotone decreasing.</p>
+<p>An array <code>A</code> is monotone increasing if for all <code>i &lt;= j</code>, <code>A[i] &lt;= A[j]</code>.  An array <code>A</code> is monotone decreasing if for all <code>i &lt;= j</code>, <code>A[i] &gt;= A[j]</code>.</p>
+<p>Return <code>true</code> if and only if the given array <code>A</code> is monotonic.</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/08/28/旋转数组/#more" rel="contents">
+            <a class="btn" href="/2019/09/12/单调序列/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1167,7 +1318,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/28/网络编程和套接字/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/10/linux常用命令/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -1186,7 +1337,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/28/网络编程和套接字/" itemprop="url">网络编程和套接字</a></h1>
+                <a class="post-title-link" href="/2019/09/10/linux常用命令/" itemprop="url">linux常用命令</a></h1>
         
 
         <div class="post-meta">
@@ -1198,8 +1349,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-28T13:03:59+08:00">
-                2019-08-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T23:12:27+08:00">
+                2019-09-10
               </time>
             
 
@@ -1221,8 +1372,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/TCP-IP网络编程/" itemprop="url" rel="index">
-                    <span itemprop="name">TCP/IP网络编程</span>
+                  <a href="/categories/linux基础/" itemprop="url" rel="index">
+                    <span itemprop="name">linux基础</span>
                   </a>
                 </span>
 
@@ -1259,10 +1410,336 @@
 
       
         
-          <p>首先实现一个简单的服务器端和客户端通信的小例子．</p>
+          
+            <h1 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h1><ul>
+<li>grep –color选项，高亮要查找的字符串．<br>如，在/etc/passwd文件中查找某个字符串出现的行</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xixi2@xixi2:~$ grep --color "la" /etc/passwd</span><br><span class="line">gdm:x:121:125:Gnome Display Manager:/var/lib/gdm3:/bin/false  # 在我的机器上的结果</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>grep -v选项，实现反查效果，显示出所有不包含被查询字符串的行．</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">grep -v "la" /etc/passwd</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 在我的机器上的执行结果</span><br><span class="line">sshd:x:123:65534::/run/sshd:/usr/sbin/nologin</span><br><span class="line">nvidia-persistenced:x:124:129:NVIDIA Persistence Daemon,,,:/nonexistent:/sbin/nologin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>grep 展示行号和统计行数</p>
+<ul>
+<li>使用-n选项，grep不仅能搜索到字符串，还能展示出它们位于文件的第几行．</li>
+<li>使用-c选项，grep可以统计搜索结果中的总行数</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">xixi2@xixi2:~$ grep -n "la" /etc/passwd</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 行首的40表示出现的行号</span><br><span class="line">40:gdm:x:121:125:Gnome Display Manager:/var/lib/gdm3:/bin/false</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">xixi2@xixi2:~$ grep -c "la" /etc/passwd</span><br><span class="line">1</span><br><span class="line">xixi2@xixi2:~$ grep -c "var" /etc/passwd</span><br><span class="line">22</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>grep可以环顾四周</p>
+<ul>
+<li>在输出时，同时输出搜索结果相邻的行也输出出来．</li>
+<li>-A number 表示输出搜索结果下面的行(number表示要输出的行数)<ul>
+<li>A是after的缩写</li>
+</ul>
+</li>
+<li>-B number 表示输出搜索结果上面的行(number表示要输出的行数)<ul>
+<li>B是before的缩写</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">xixi2@xixi2:~$ grep -A 1 "la" /etc/passwd</span><br><span class="line">gdm:x:121:125:Gnome Display Manager:/var/lib/gdm3:/bin/false</span><br><span class="line">xixi2:x:1000:1000:xixi2,,,:/home/xixi2:/bin/bash</span><br><span class="line"></span><br><span class="line">xixi2@xixi2:~$ grep -n -A 2 "la" /etc/passwd</span><br><span class="line">40:gdm:x:121:125:Gnome Display Manager:/var/lib/gdm3:/bin/false</span><br><span class="line">41-xixi2:x:1000:1000:xixi2,,,:/home/xixi2:/bin/bash</span><br><span class="line">42-redis:x:122:128::/var/lib/redis:/usr/sbin/nologin</span><br><span class="line"></span><br><span class="line">xixi2@xixi2:~$ grep -n -A 1 -B 1  "la" /etc/passwd</span><br><span class="line">39-gnome-initial-setup:x:120:65534::/run/gnome-initial-setup/:/bin/false</span><br><span class="line">40:gdm:x:121:125:Gnome Display Manager:/var/lib/gdm3:/bin/false</span><br><span class="line">41-xixi2:x:1000:1000:xixi2,,,:/home/xixi2:/bin/bash</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>grep 不区分大小写</p>
+<ul>
+<li>grep -i选项不区分大小写，提高搜索命中的概率</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xixi2@xixi2:~$ grep --color "LA" /etc/passwd</span><br><span class="line">xixi2@xixi2:~$ grep --color -i "LA" /etc/passwd</span><br><span class="line">gdm:x:121:125:Gnome Display Manager:/var/lib/gdm3:/bin/false</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>grep处理多文件</p>
+<ul>
+<li>grep可以一次处理多个文件，最长使用的一个场景是:从大量文件中找出含有特定字符的文件．</li>
+<li>grep -l “query key word” *.txt从多个文件中查找含有被查询的关键词的文件有哪些，应该得到一个文件列表</li>
+<li>grep -L “query key word” <em>.txt反向选项，从多个文件中查找*</em>不包含**被查询的关键词的文件有哪些，应该得到一个文件列表</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 当前目录下有三个文件</span><br><span class="line">[roc@roclinux ~]$ ll</span><br><span class="line">total 12</span><br><span class="line">-rw-rw-r-- 1 roc roc 58 Mar 15 17:47 1.txt</span><br><span class="line">-rw-rw-r-- 1 roc roc 59 Mar 15 17:51 2.txt</span><br><span class="line">-rw-rw-r-- 1 roc roc 58 Mar 15 17:52 3.txt</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span> 1.txt文件的内容如下</span><br><span class="line">[roc@roclinux ~]$ cat 1.txt</span><br><span class="line">this first file</span><br><span class="line">this file contain some import infomation.</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span> 2.txt文件的内容如下</span><br><span class="line">[roc@roclinux ~]$ cat 2.txt</span><br><span class="line">this second file</span><br><span class="line">this file contain some import infomation.</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span> 3.txt文件的内容如下</span><br><span class="line">[roc@roclinux ~]$ cat 3.txt</span><br><span class="line">this third file</span><br><span class="line">this file contain some import infomation.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 使用-l选项</span><br><span class="line">[roc@roclinux ~]$ grep -l "first" *.txt</span><br><span class="line">1.txt</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[roc@roclinux ~]$ grep -L "first" *.txt</span><br><span class="line">2.txt</span><br><span class="line">3.txt</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h1><p>awk命令是一个非常棒的数据处理工具．sed命令一次处理一整行，awk命令一次处理一整行，但将每行的内容分成多个字段来处理．</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]grep: <a href="http://c.biancheng.net/linux/grep.html" target="_blank" rel="noopener">http://c.biancheng.net/linux/grep.html</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/09/进程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xixi2">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixi2">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/09/进程/" itemprop="url">进程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-09T22:00:57+08:00">
+                2019-09-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/unix-高级环境编程/" itemprop="url" rel="index">
+                    <span itemprop="name">unix 高级环境编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li><p>什么是孤儿进程，僵尸进程</p>
+<p>子进程是在父进程调用fork函数后生成的．子进程将其终止状态返回给父进程．但是如果父进程在子进程之前终止，那么会发生什么呢？对于父进程已经终止的所有进程，他们的父进程都会变成init进程，称这些进程被init进程收养．</p>
+<p>操作过程大致为：在一个进程终止时，内核逐个检查所有活动进程，以判断它是否是正要终止进程的子进程，如果是，将该进程的父进程ID改为1(init进程的ID)．</p>
+<p>子进程终止时，它与父进程之间的关联还会保持，<strong>直到父进程也正常终止或父进程调用wait才告结束</strong>．尽管它已经不再运行了，但是它仍然存在于系统中．内核为每个终止子进程保存了一些信息，当终止进程的父进程调用wait或waitpid时，可以得到这些信息．这些信息包括进程ID，该进程的终止状态以及进程使用的CPU时间总量．</p>
+<p>这样一个已经终止，但其父进程尚未对其进程善后处理(获取终止子进程的有关信息，释放它仍占用的资源)的进程被称为僵尸进程．</p>
+<p>如果子进程先于父进程终止，那么子进程会成为一个僵尸进程．</p>
+<p><img src="/home/xixi2/.config/Typora/typora-user-images/1567771331060.png" alt="1567771331060"></p>
+</li>
+<li><p>进程同步与进程互斥的区别与联系<br><a href="https://zhuanlan.zhihu.com/p/69581607" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/69581607</a></p>
+</li>
+<li><p>互斥量，信号量，锁等概念</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/二分查找各种不同的应用场景/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xixi2">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixi2">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/08/二分查找各种不同的应用场景/" itemprop="url">二分查找各种不同的应用场景</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-08T11:23:57+08:00">
+                2019-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>二分查找是一种十分重要的查找算法．通常在有序数组中查找某个指定的数．</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/08/28/网络编程和套接字/#more" rel="contents">
+            <a class="btn" href="/2019/09/08/二分查找各种不同的应用场景/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1313,7 +1790,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/27/Parentheses系列/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/字符串基础知识总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -1332,7 +1809,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/27/Parentheses系列/" itemprop="url">Parentheses系列</a></h1>
+                <a class="post-title-link" href="/2019/09/04/字符串基础知识总结/" itemprop="url">字符串基础知识总结</a></h1>
         
 
         <div class="post-meta">
@@ -1344,8 +1821,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-27T20:24:53+08:00">
-                2019-08-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-04T14:48:51+08:00">
+                2019-09-04
               </time>
             
 
@@ -1354,28 +1831,6 @@
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -1405,306 +1860,14 @@
 
       
         
-          <h1 id="Generate-Parentheses"><a href="#Generate-Parentheses" class="headerlink" title="Generate Parentheses"></a>Generate Parentheses</h1><p>Given <em>n</em> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.</p>
-<p>For example, given <em>n</em> = 3, a solution set is:</p>
+          <p>有几种不同类型的字符串： c风格字符串(包括字符串字面常量和指向以空字符结尾的字符数组的指针)，string类型(类类型)</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/08/27/Parentheses系列/#more" rel="contents">
+            <a class="btn" href="/2019/09/04/字符串基础知识总结/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
           <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/27/冒泡排序的优化和鸡尾酒排序/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="xixi2">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixi2">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/27/冒泡排序的优化和鸡尾酒排序/" itemprop="url">冒泡排序的优化和鸡尾酒排序</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-27T16:59:05+08:00">
-                2019-08-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>冒泡排序的优化有设置哨兵来表示当前整个数组已经有序，以及设置有序区间，下一次只对有序区间进行排序（尚未完全理解）．<br><a href="https://mp.weixin.qq.com/s?__biz=MzIxMjE5MTE1Nw==&mid=2653194666&idx=1&sn=69ce32870c0b981c40b1e124fbb6bba8&chksm=8c99fb70bbee72668cad223892ad362525d215e7f936458f99dd289eb82981099359310e9e54&mpshare=1&scene=1&srcid=0827eu8ODMkQMvHC6PKmDSob&sharer_sharetime=1566893819014&sharer_shareid=98e442f4afad129e8b911831ba1d924a&pass_ticket=wlK6HX0WGb6xix96kwFa%2FytUsJwJ%2BgHZk5Wk3fqgAm2G2cDDQ6awlP9AtfQe4oaw#rd" target="_blank" rel="noopener">详情可见</a></p>
-<h1 id="鸡尾酒排序"><a href="#鸡尾酒排序" class="headerlink" title="鸡尾酒排序"></a>鸡尾酒排序</h1><p>鸡尾酒排序算法适用于大部分元素已经有序的情况．它能够在特定条件下，减少排序的回合数；但是缺点是代码量几乎扩大了一倍．</p>
-<p><a href="https://mp.weixin.qq.com/s?__biz=MzIxMjE5MTE1Nw==&mid=2653194915&idx=1&sn=398071ef86653dd606404da5b03f90d7&chksm=8c99f879bbee716f3075810370b76c02cda595b04137b79aa3a27048e99ec654175f084bf6bf&mpshare=1&scene=1&srcid=0827hTlJxKAzZLXW4BRys0WQ&sharer_sharetime=1566894737468&sharer_shareid=98e442f4afad129e8b911831ba1d924a&pass_ticket=wlK6HX0WGb6xix96kwFa%2FytUsJwJ%2BgHZk5Wk3fqgAm2G2cDDQ6awlP9AtfQe4oaw#rd" target="_blank" rel="noopener">鸡尾酒排序</a></p>
-<p>未进行优化的鸡尾酒排序</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">clockTailSort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 未进行优化的鸡尾酒排序</span></span><br><span class="line">    <span class="keyword">int</span> tmp = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.size() / <span class="number">2</span> - <span class="number">1</span>; ++i) &#123;</span><br><span class="line">        <span class="comment">// 有序标记，每一轮的初始值是true</span></span><br><span class="line">        <span class="keyword">bool</span> isSorted = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 奇数轮:从做向右比较和交换</span></span><br><span class="line">        <span class="comment">// 奇数轮：区间内最大的数会被冒泡到最右</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt; nums.size() - i - <span class="number">1</span>; ++j) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[j] &gt; nums[j + <span class="number">1</span>]) &#123;</span><br><span class="line">                tmp = nums[j];</span><br><span class="line">                nums[j] = nums[j + <span class="number">1</span>];</span><br><span class="line">                nums[j + <span class="number">1</span>] = tmp;</span><br><span class="line">                </span><br><span class="line">            	<span class="comment">// 有元素交换，所以，不是有序，标记变为false</span></span><br><span class="line">            	isSorted = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (isSorted) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        isSorted = <span class="literal">true</span>;        <span class="comment">// 8 1 2 3 4</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 偶数轮，从右向左比较和交换</span></span><br><span class="line">        <span class="comment">// 偶数轮，最小的数会被冒泡到最左边</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = nums.size() - i - <span class="number">1</span>; j &gt; i; j--) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[j] &lt; nums[j - <span class="number">1</span>]) &#123;</span><br><span class="line">                tmp = nums[j];</span><br><span class="line">                nums[j] = nums[j - <span class="number">1</span>];</span><br><span class="line">                nums[j - <span class="number">1</span>] = tmp;</span><br><span class="line"></span><br><span class="line">                isSorted = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (isSorted) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>进行优化的鸡尾酒排序<br>优化方法：</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/26/字典树/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="xixi2">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixi2">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/26/字典树/" itemprop="url">字典树</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T21:22:02+08:00">
-                2019-08-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>字典树又称为单词查找树．主要应用于字符串的统计和排序，经常被搜索引擎用于文本词频统计．</p>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] 字典树的C++实现 Implement of trie tree: <a href="https://blog.csdn.net/pyang1989/article/details/22834653" target="_blank" rel="noopener">https://blog.csdn.net/pyang1989/article/details/22834653</a></p>
-
-          
         
       
     </div>
@@ -1742,7 +1905,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1790,7 +1953,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">68</span>
+                  <span class="site-state-item-count">75</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1801,7 +1964,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1812,7 +1975,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">80</span>
+                  <span class="site-state-item-count">86</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
