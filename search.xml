@@ -1,12 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[快速排序算法]]></title>
-    <url>%2F2019%2F09%2F15%2F%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%2F</url>
-    <content type="text"><![CDATA[对于快速排序过程中一个的问题：为什么在qsort中递归时，需要将递归范围改为[lo, pos-1]而不是[lo, pos]? 以下看一个具体例子： 123456789101112131415161718192021222324252627282930313233343536373839#include &lt;iostream&gt;using namespace std;int partition(vector&lt;int&gt; &amp;arr, int lo, int hi) &#123; int i = lo - 1; int key = arr[hi]; for (int j = lo; j &lt; hi; ++j) &#123; if (arr[j] &lt;= key) &#123; ++i; int temp = arr[j]; arr[j] = arr[i]; arr[i] = temp; &#125; &#125; arr[hi] = arr[i + 1]; arr[i + 1] = key; return i + 1;&#125;void qsort(vector&lt;int&gt; &amp;arr, int lo, int hi) &#123; if (lo &gt;= hi) &#123; return; &#125; int pos = partition(arr, lo, hi); // 这里返回了pos=5,所以出现了递归调用，而且这个递归调用和之前的调用一模一样 qsort(arr, lo, pos - 1); qsort(arr, pos + 1, hi);&#125;int main() &#123; vector&lt;int&gt; arr&#123;12, 34, 11, 46, 12, 89&#125;; qsort(arr, 0, arr.size() - 1); for (auto c:arr) &#123; cout &lt;&lt; c &lt;&lt; " "; &#125; cout &lt;&lt; endl; return 0;&#125; 在归并排序过程中，递归的两个子范围为[lo, mid]和[mid+1, hi].那是因为[lo, mid]区间必然是[lo, hi]区间的子区间，而不会和区间[lo, hi]重叠．而这里的pos是通过partition函数返回的，表示在数组中小于等于key的元素范围，pos有可能等于hi,这是区间[lo, pos]和区间[lo, hi]重叠．]]></content>
+    <title><![CDATA[指针和引用]]></title>
+    <url>%2F2019%2F09%2F15%2F%E6%8C%87%E9%92%88%E5%92%8C%E5%BC%95%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[什么是引用？ 引用和指针的区别与联系指针和引用的异同点 指针 引用 指针本身是对象 引用本身不是对象,只是对象的别名 允许对指针本身进行赋值和拷贝,在指针的生命期内可以指向不同的对象(只要指针不是常量指针) 引用定义时就和一个对象绑定,且始终和这个对象绑定,无法令引用重新绑定到另一个对象 指针无须在定义时赋初值,在块作用域内的指针如果没有被初始化,将拥有一个不确定的值. 引用必须初始化. 可以定义指向指针的指针 无法定义引用的引用 引用的常见用途引用通常不用于声明变量，而用于参数类型和返回类型的描述． 12345678910void func1(Cls* pobj)&#123; pobj-&gt;xxx();&#125;void func2(Cls obj)&#123;obj.xxx();&#125;void func3(Cls&amp; obj)&#123;obj.xxx();&#125;Cls obj;func1(&amp;obj); // 接口不同// 调用端口相同func2(obj);func3(obj); 以下两个函数被视为”same signature”(所以二者不能同时存在)： 12double imag(const double&amp; im)&#123;...&#125;double imag(const double im)&#123;...&#125; // Ambiguity Q：const是不是函数签名的一部分？A：是的，两个函数，一个函数有const，另一个没有，则可以看做函数重载．]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[c++ 易混淆概念之常量指针]]></title>
+    <url>%2F2019%2F09%2F15%2F%E5%B8%B8%E9%87%8F%E6%8C%87%E9%92%88%2F</url>
+    <content type="text"><![CDATA[指向常量的指针常量是这样一种变量:它的值不能被改变,因此,常量必须初始化. 指向常量的指针,可以指向常量或者非常量.但是要想用指针来存放常量对象的地址,只能用指向常量的指针.指向常量的指针仅仅要求不能通过该指针改变对象的值,而没有规定该对象的值不能通过其他方式改变.可以这样想: 指向常量的指针, 自以为是地以为自己指向了常量,所以自觉地不去改变该对象的值.同样,可以认为指向非常量的指针,会认为自己指向的是非常量,因此,可能会改变自己指向的变量,因此不能用指向非常量的指针保存常量对象的地址.因为,指向非常量的指针可能会试图改变其指向的常量对象的值. 非常量可以转化为常量.反之则不行. 123456const double pi = 3.14;const double *pip = &amp;pi; // 正确:指向常量的指针const double pi1 = 3.1415;pip = &amp;pi; // 使指向常量的指针pip指向另一个常量double pi2 = 3.1415926;pip = &amp;pi2; // 指向常量的指针pip指向一个非常量 常量指针常量指针是指指针本身是常量,即指针一旦指向某个对象就不能再改变(指针中保存的那个地址就不再改变了).因此同常量一样,常量指针必须初始化. 指针本身是常量只规定了指针不能指向其他对象,而并没有规定不能通过指针修改其所指向对象的值,能否只有做完全取决于所指对象的类型.常量指针既可以指向常量也可以指向非常量,具体指向的是常量还是非常量,取决于定义该指针时所指向对象的基本数据类型. 12345int errNumb = 0;int *const curErr = &amp;errNumb; // 指向非常量的常量指针 curErr常量指针,始终指向errNumb*curErr = 1; // 通过指向非常量的常量指针修改其所指向对象的值const double pi = 3.14;const double *const pip = &amp;pi; // 指向常量的常量指针pip 常量指针this类的成员函数调用时,用请求该函数的对象地址初始化this.在整个调用过程中,this所指向的都是发起该调用的对象.默认情况下,this的类型是指向非常量版本的常量指针.如类类型的名为sales_data, 则this指针的类型是sales_data *const. 又如果想要用指针来保存常量对象的地址,只能使用指向常量的指针, 所以,我们不能把类型为sales_data const的this指向一个常量对象.也因此,不能在一个常量对象上调用普通的成员函数.如果想要常量对象也能调用该成员函数,那么必须要把this指针的类型设置成指向常量的常量指针,即*const sales_data const*声明成员函数时,紧随参数列表的const的作用就是将this指针的类型声明成指向常量的常量指针.像这样使用construction的成员函数被称作常量成员函数,常量成员函数内部不能改变this指针所指向的对象的内容(即调用此成员函数的对象的内容). 1234class sales_data&#123; void f(); // 常量对象不能调用此函数 void f() const; // 此函数是常量成员函数,常量对象也可以调用,this指针指向的是常量对象(也可以是非常量对象)&#125;]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>指针</tag>
+        <tag>常量</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[对象模型]]></title>
+    <url>%2F2019%2F09%2F15%2F%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[c++11新特性]]></title>
+    <url>%2F2019%2F09%2F15%2Fc%2B%2B11%E6%96%B0%E7%89%B9%E6%80%A7%2F</url>
+    <content type="text"><![CDATA[此文档整理c++11中新特性． autoauto和decltype的区别与联系variadic templatesrange base for]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>c++11新特性</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[可变模板参数(c++11新特性)]]></title>
+    <url>%2F2019%2F09%2F15%2F%E5%8F%AF%E5%8F%98%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0%2F</url>
+    <content type="text"><![CDATA[123456789void print() &#123;&#125;template&lt;typename T, typename... Types&gt;void print(const T &amp;firstArg, const Types &amp;... args) &#123; // firstArg是包中第一个元素的引用，输出包中剩余元素个数 cout &lt;&lt; sizeof...(args) &lt;&lt; " "; cout &lt;&lt; firstArg &lt;&lt; endl; print(args...); // 当args为空时，调用的是非模板函数print&#125;]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>variadic templates</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[模板特化]]></title>
+    <url>%2F2019%2F09%2F15%2F%E6%A8%A1%E6%9D%BF%E7%89%B9%E5%8C%96%2F</url>
+    <content type="text"><![CDATA[什么是特化？什么是偏特化？偏特化有两种，第一种是个数上的偏．第二种是范围上的偏． 对于个数上的偏，如，模板共有2个模板参数，但是只指定1个模板参数，那么这就是偏特化．范围上的偏，如第一个模板参数，表示指向任意类型，当我们想要表示指向任意类型的指针，那么这就是范围上的偏． 123456789101112131415// code 1template&lt;typename T&gt;class C&#123;&#125;;// code 2// 范围上的偏template&lt;typename T&gt;class C&lt;T*&gt;&#123; &#125;;C&lt;string&gt; obj1; // 使用code 1C&lt;string*&gt; obj2; // 使用code 2]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>specialization</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[从数组中找重复数字系列]]></title>
+    <url>%2F2019%2F09%2F15%2F%E4%BB%8E%E6%95%B0%E7%BB%84%E4%B8%AD%E6%89%BE%E9%87%8D%E5%A4%8D%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97%2F</url>
+    <content type="text"><![CDATA[287. Find the Duplicate Number 方法一：排序，将整个数组进行排序．排序的时间复杂度和空间复杂度取决于使用的排序算法．这里要求额外空间排序度为O(1)，那么只能用堆排序． 方法二：使用set 方法三 前面方法一都会修改数组，不满足要求．方法二的额外空间复杂度是O(n)，同样不满足要求． https://leetcode.com/problems/find-the-duplicate-number/]]></content>
       <categories>
         <category>leetcode</category>
       </categories>
+      <tags>
+        <tag>数组</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[221.Maximal Square]]></title>
@@ -19,6 +83,22 @@
         <tag>单调栈</tag>
         <tag>动态规划</tag>
       </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[快速排序算法]]></title>
+    <url>%2F2019%2F09%2F15%2F%E5%85%B3%E4%BA%8E%E5%9F%BA%E7%A1%80%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[对于快速排序过程中一个的问题：为什么在qsort中递归时，需要将递归范围改为[lo, pos-1]而不是[lo, pos]? 以下看一个具体例子： 123456789101112131415161718192021222324252627282930313233343536373839#include &lt;iostream&gt;using namespace std;int partition(vector&lt;int&gt; &amp;arr, int lo, int hi) &#123; int i = lo - 1; int key = arr[hi]; for (int j = lo; j &lt; hi; ++j) &#123; if (arr[j] &lt;= key) &#123; ++i; int temp = arr[j]; arr[j] = arr[i]; arr[i] = temp; &#125; &#125; arr[hi] = arr[i + 1]; arr[i + 1] = key; return i + 1;&#125;void qsort(vector&lt;int&gt; &amp;arr, int lo, int hi) &#123; if (lo &gt;= hi) &#123; return; &#125; int pos = partition(arr, lo, hi); // 这里返回了pos=5,所以出现了递归调用，而且这个递归调用和之前的调用一模一样 qsort(arr, lo, pos - 1); qsort(arr, pos + 1, hi);&#125;int main() &#123; vector&lt;int&gt; arr&#123;12, 34, 11, 46, 12, 89&#125;; qsort(arr, 0, arr.size() - 1); for (auto c:arr) &#123; cout &lt;&lt; c &lt;&lt; " "; &#125; cout &lt;&lt; endl; return 0;&#125; 在归并排序过程中，递归的两个子范围为[lo, mid]和[mid+1, hi].那是因为[lo, mid]区间必然是[lo, hi]区间的子区间，而不会和区间[lo, hi]重叠．而这里的pos是通过partition函数返回的，表示在数组中小于等于key的元素范围，pos有可能等于hi,这是区间[lo, pos]和区间[lo, hi]重叠．]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[快速排序算法]]></title>
+    <url>%2F2019%2F09%2F15%2F%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[对于快速排序过程中一个的问题：为什么在qsort中递归时，需要将递归范围改为[lo, pos-1]而不是[lo, pos]? 以下看一个具体例子： 123456789101112131415161718192021222324252627282930313233343536373839#include &lt;iostream&gt;using namespace std;int partition(vector&lt;int&gt; &amp;arr, int lo, int hi) &#123; int i = lo - 1; int key = arr[hi]; for (int j = lo; j &lt; hi; ++j) &#123; if (arr[j] &lt;= key) &#123; ++i; int temp = arr[j]; arr[j] = arr[i]; arr[i] = temp; &#125; &#125; arr[hi] = arr[i + 1]; arr[i + 1] = key; return i + 1;&#125;void qsort(vector&lt;int&gt; &amp;arr, int lo, int hi) &#123; if (lo &gt;= hi) &#123; return; &#125; int pos = partition(arr, lo, hi); // 这里返回了pos=5,所以出现了递归调用，而且这个递归调用和之前的调用一模一样 qsort(arr, lo, pos - 1); qsort(arr, pos + 1, hi);&#125;int main() &#123; vector&lt;int&gt; arr&#123;12, 34, 11, 46, 12, 89&#125;; qsort(arr, 0, arr.size() - 1); for (auto c:arr) &#123; cout &lt;&lt; c &lt;&lt; " "; &#125; cout &lt;&lt; endl; return 0;&#125; 在归并排序过程中，递归的两个子范围为[lo, mid]和[mid+1, hi].那是因为[lo, mid]区间必然是[lo, hi]区间的子区间，而不会和区间[lo, hi]重叠．而这里的pos是通过partition函数返回的，表示在数组中小于等于key的元素范围，pos有可能等于hi,这是区间[lo, pos]和区间[lo, hi]重叠．]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
   </entry>
   <entry>
     <title><![CDATA[冒泡排序的优化和鸡尾酒排序]]></title>
@@ -86,17 +166,6 @@
       </categories>
       <tags>
         <tag>环境配置</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[从数组中找重复数字系列]]></title>
-    <url>%2F2019%2F09%2F12%2F%E4%BB%8E%E6%95%B0%E7%BB%84%E4%B8%AD%E6%89%BE%E9%87%8D%E5%A4%8D%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97%2F</url>
-    <content type="text"><![CDATA[287. Find the Duplicate Number 方法一：排序，将整个数组进行排序．排序的时间复杂度和空间复杂度取决于使用的排序算法．这里要求额外空间排序度为O(1)，那么只能用堆排序． 方法二：使用set 方法三 前面方法一都会修改数组，不满足要求．方法二的额外空间复杂度是O(n)，同样不满足要求． https://leetcode.com/problems/find-the-duplicate-number/]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
       </tags>
   </entry>
   <entry>
@@ -391,18 +460,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[c++ 易混淆概念之常量指针]]></title>
-    <url>%2F2019%2F07%2F31%2Fc%2B%2B-%E6%98%93%E6%B7%B7%E6%B7%86%E6%A6%82%E5%BF%B5%E4%B9%8B%E5%B8%B8%E9%87%8F%E6%8C%87%E9%92%88%2F</url>
-    <content type="text"><![CDATA[指向常量的指针常量是这样一种变量:它的值不能被改变,因此,常量必须初始化. 指向常量的指针,可以指向常量或者非常量.但是要想用指针来存放常量对象的地址,只能用指向常量的指针.指向常量的指针仅仅要求不能通过该指针改变对象的值,而没有规定该对象的值不能通过其他方式改变.可以这样想: 指向常量的指针, 自以为是地以为自己指向了常量,所以自觉地不去改变该对象的值.同样,可以认为指向非常量的指针,会认为自己指向的是非常量,因此,可能会改变自己指向的变量,因此不能用指向非常量的指针保存常量对象的地址.因为,指向非常量的指针可能会试图改变其指向的常量对象的值. 非常量可以转化为常量.反之则不行. 123456const double pi = 3.14;const double *pip = &amp;pi; // 正确:指向常量的指针const double pi1 = 3.1415;pip = &amp;pi; // 使指向常量的指针pip指向另一个常量double pi2 = 3.1415926;pip = &amp;pi2; // 指向常量的指针pip指向一个非常量 常量指针常量指针是指指针本身是常量,即指针一旦指向某个对象就不能再改变(指针中保存的那个地址就不再改变了).因此同常量一样,常量指针必须初始化. 指针本身是常量只规定了指针不能指向其他对象,而并没有规定不能通过指针修改其所指向对象的值,能否只有做完全取决于所指对象的类型.常量指针既可以指向常量也可以指向非常量,具体指向的是常量还是非常量,取决于定义该指针时所指向对象的基本数据类型. 12345int errNumb = 0;int *const curErr = &amp;errNumb; // 指向非常量的常量指针 curErr常量指针,始终指向errNumb*curErr = 1; // 通过指向非常量的常量指针修改其所指向对象的值const double pi = 3.14;const double *const pip = &amp;pi; // 指向常量的常量指针pip 常量指针this类的成员函数调用时,用请求该函数的对象地址初始化this.在整个调用过程中,this所指向的都是发起该调用的对象.默认情况下,this的类型是指向非常量版本的常量指针.如类类型的名为sales_data, 则this指针的类型是sales_data *const. 又如果想要用指针来保存常量对象的地址,只能使用指向常量的指针, 所以,我们不能把类型为sales_data const的this指向一个常量对象.也因此,不能在一个常量对象上调用普通的成员函数.如果想要常量对象也能调用该成员函数,那么必须要把this指针的类型设置成指向常量的常量指针,即*const sales_data const*声明成员函数时,紧随参数列表的const的作用就是将this指针的类型声明成指向常量的常量指针.像这样使用construction的成员函数被称作常量成员函数,常量成员函数内部不能改变this指针所指向的对象的内容(即调用此成员函数的对象的内容). 1234class sales_data&#123; void f(); // 常量对象不能调用此函数 void f() const; // 此函数是常量成员函数,常量对象也可以调用,this指针指向的是常量对象(也可以是非常量对象)&#125;]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>指针</tag>
-        <tag>常量</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[void*指针]]></title>
     <url>%2F2019%2F07%2F31%2Fvoid*%E6%8C%87%E9%92%88%2F</url>
     <content type="text"><![CDATA[void*是一种特殊的指针类型,可以用于存放任意类型的对象地址.但是我们不知道该指针着存放的地址指向的对象的类型. 1234int d = 102;void *p = &amp;d;int *pa = static_cast&lt;int *&gt;(p);cout &lt;&lt; *pa &lt;&lt; endl; // 102 将指针p强制为int*类型,强制转换过程中应该确保指针的值即指针指向的对象地址不变; 因此我们进行强制转换时,必须确保转换的目标类型就是指针所指的类型,否则,将产生未定义的结果. 那么什么时候使用void*指针呢?未完待续]]></content>
@@ -423,17 +480,6 @@
       </categories>
       <tags>
         <tag>可调用对象</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[内置指针]]></title>
-    <url>%2F2019%2F07%2F31%2Fc%2B%2B%E6%8C%87%E9%92%88%E5%9F%BA%E7%A1%80%2F</url>
-    <content type="text"><![CDATA[什么是指针?指针是一种特殊的变量.它的值是一个对象的地址,也称指针指向该对象.对指针进行解引用可以获取该对象.指针本身是一个对象,可以赋值和拷贝. 指针中保存着它指向的对象的地址.直接输出指针的内容即指针指向的对象的地址.对指针进行解引用得到指针指向的对象 二级指针中保存一个指针的地址, 这个被指向的指针中才真正保存着对象的地址.直接输出指针得到指针指向的一级指针的地址.对二级指针进行解引用得到一级指针指向的最终对象的地址(即一级指针的值).对一级指针进行解引用,得到最终对象 关于指针有一些很容易混淆的地方,下面举几个例子辨析一下. 示例1 1234567int a = 10;int *p = &amp;a;int **pp = &amp;p; // pp是指向指针的指针，它指向指针p。解引用后是指针p。cout&lt;&lt;"pp:"&lt;&lt;(pp)&lt;&lt;" &amp;p"&lt;&lt;(&amp;p)&lt;&lt;endl; // pp是指向指针变量p的指针，所以，pp中存放着整形指针变量p的地址cout&lt;&lt;"*pp:"&lt;&lt;(*pp)&lt;&lt;" p"&lt;&lt;(p)&lt;&lt;endl; // pp是指向指针变量p的指针，*pp解引用pp会得到整形指针变量p，而p的值是一个整形变量a的地址cout&lt;&lt;"p:"&lt;&lt;p&lt;&lt;" &amp;a:"&lt;&lt;(&amp;a)&lt;&lt;endl; // p是指向整形变量a的指针，所以，p中存放着整形变量a的地址cout&lt;&lt;"*p:"&lt;&lt;p&lt;&lt;" a:"&lt;&lt;(a)&lt;&lt;endl; // p是指向整形变量a的指针。*p解引用整形指针p会得到一个整形数 运行结果 1234pp:0x7fff5ce9bf48 &amp;p0x7fff5ce9bf48*pp:0x7fff5ce9bf44 p0x7fff5ce9bf44p:0x7fff5ce9bf44 &amp;a:0x7fff5ce9bf44*p:0x7fff5ce9bf44 a:10 示例2 123456789101112131415161718192021int a[5] = &#123;1, 2, 3, 4, 5&#125;; int *p, **k; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *p:" &lt;&lt; *p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(p++):" &lt;&lt; *(p++) &lt;&lt; " "; cout &lt;&lt; "after p++" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(++p):" &lt;&lt; *(++p) &lt;&lt; " "; cout &lt;&lt; "after ++p" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; 运行结果 1234567891011a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *p:1k:0x7ffcd38cc920 *k:0x7ffcd38cc930 **k:1=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(p++):1 after p++0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(++p):2 after ++p0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2 可知, a是数组的名字,也是指向数组首元素的指针.p=a将指针p指向数组首元素.因此p的值是数组首元素的地址. p是数组首元素的值.**k表明k是指向指向指针的指针, k指向指针p,因此,k中保存这指针p的地址,\k是指针p的值,也就是指针指向的对象地址,这里就是数组a首元素的地址.**k就是*(p)就是指针p指向的对象的值.]]></content>
-      <categories>
-        <category>C++基础</category>
-      </categories>
-      <tags>
-        <tag>指针</tag>
       </tags>
   </entry>
   <entry>
