@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="此文档主要整理并记录liunx中常用的api． IOfgetcfgetc从文件指针stream指向的文件中读取一个字符，读取一个字节后，光标位置后移一个字节。 fputc功能：把一个字符写到一个输出文件流中．它返回写入的值，如果失败，则返回EOF．putc函数的作用相当于fputc，但它可能被实现为一个宏．putchar相当于putc(c, stdout)，但它把单个字符写到标准输出．注意：put">
+<meta name="description" content="此文档主要整理并记录liunx中常用的api．">
 <meta name="keywords" content="API">
 <meta property="og:type" content="article">
 <meta property="og:title" content="unix 高级环境编程系列2">
 <meta property="og:url" content="http://yoursite.com/2019/09/15/unix-高级环境编程系列2/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="此文档主要整理并记录liunx中常用的api． IOfgetcfgetc从文件指针stream指向的文件中读取一个字符，读取一个字节后，光标位置后移一个字节。 fputc功能：把一个字符写到一个输出文件流中．它返回写入的值，如果失败，则返回EOF．putc函数的作用相当于fputc，但它可能被实现为一个宏．putchar相当于putc(c, stdout)，但它把单个字符写到标准输出．注意：put">
+<meta property="og:description" content="此文档主要整理并记录liunx中常用的api．">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-15T05:12:04.071Z">
+<meta property="og:updated_time" content="2019-09-15T05:14:11.227Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="unix 高级环境编程系列2">
-<meta name="twitter:description" content="此文档主要整理并记录liunx中常用的api． IOfgetcfgetc从文件指针stream指向的文件中读取一个字符，读取一个字节后，光标位置后移一个字节。 fputc功能：把一个字符写到一个输出文件流中．它返回写入的值，如果失败，则返回EOF．putc函数的作用相当于fputc，但它可能被实现为一个宏．putchar相当于putc(c, stdout)，但它把单个字符写到标准输出．注意：put">
+<meta name="twitter:description" content="此文档主要整理并记录liunx中常用的api．">
 
 
 
@@ -324,7 +324,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-15T13:12:04+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-15T13:14:11+08:00">
                 2019-09-15
               </time>
             
@@ -390,6 +390,8 @@
 
       
         <p>此文档主要整理并记录liunx中常用的api．</p>
+<a id="more"></a>
+
 <h1 id="IO"><a href="#IO" class="headerlink" title="IO"></a>IO</h1><h2 id="fgetc"><a href="#fgetc" class="headerlink" title="fgetc"></a>fgetc</h2><p>fgetc从文件指针stream指向的文件中读取一个字符，读取一个字节后，光标位置后移一个字节。</p>
 <h2 id="fputc"><a href="#fputc" class="headerlink" title="fputc"></a>fputc</h2><p>功能：把一个字符写到一个输出文件流中．它返回写入的值，如果失败，则返回EOF．<br>putc函数的作用相当于fputc，但它可能被实现为一个宏．<br>putchar相当于putc(c, stdout)，但它把单个字符写到标准输出．注意：putchar和getchar都是把字符当做int类型而不是char类型来使用的．这就允许文件尾标识取值-1，这是一个超出字符数字编码范围的值．</p>
 <h2 id="fopen"><a href="#fopen" class="headerlink" title="fopen"></a>fopen</h2><p><a href="https://blog.csdn.net/hairetz/article/details/4150193" target="_blank" rel="noopener">https://blog.csdn.net/hairetz/article/details/4150193</a></p>
