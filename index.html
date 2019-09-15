@@ -294,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/12/unix-高级环境编程系列2/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/15/unix-高级环境编程系列2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -313,7 +313,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/12/unix-高级环境编程系列2/" itemprop="url">unix 高级环境编程系列2</a></h1>
+                <a class="post-title-link" href="/2019/09/15/unix-高级环境编程系列2/" itemprop="url">unix 高级环境编程系列2</a></h1>
         
 
         <div class="post-meta">
@@ -325,8 +325,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-12T16:14:38+08:00">
-                2019-09-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-15T13:12:04+08:00">
+                2019-09-15
               </time>
             
 
@@ -387,7 +387,8 @@
       
         
           
-            <h1 id="IO"><a href="#IO" class="headerlink" title="IO"></a>IO</h1><h2 id="fgetc"><a href="#fgetc" class="headerlink" title="fgetc"></a>fgetc</h2><p>fgetc从文件指针stream指向的文件中读取一个字符，读取一个字节后，光标位置后移一个字节。</p>
+            <p>此文档主要整理并记录liunx中常用的api．</p>
+<h1 id="IO"><a href="#IO" class="headerlink" title="IO"></a>IO</h1><h2 id="fgetc"><a href="#fgetc" class="headerlink" title="fgetc"></a>fgetc</h2><p>fgetc从文件指针stream指向的文件中读取一个字符，读取一个字节后，光标位置后移一个字节。</p>
 <h2 id="fputc"><a href="#fputc" class="headerlink" title="fputc"></a>fputc</h2><p>功能：把一个字符写到一个输出文件流中．它返回写入的值，如果失败，则返回EOF．<br>putc函数的作用相当于fputc，但它可能被实现为一个宏．<br>putchar相当于putc(c, stdout)，但它把单个字符写到标准输出．注意：putchar和getchar都是把字符当做int类型而不是char类型来使用的．这就允许文件尾标识取值-1，这是一个超出字符数字编码范围的值．</p>
 <h2 id="fopen"><a href="#fopen" class="headerlink" title="fopen"></a>fopen</h2><p><a href="https://blog.csdn.net/hairetz/article/details/4150193" target="_blank" rel="noopener">https://blog.csdn.net/hairetz/article/details/4150193</a></p>
 <h2 id="read"><a href="#read" class="headerlink" title="read"></a>read</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ssize_t</span> read(<span class="keyword">int</span> fd, <span class="keyword">void</span>* buf, <span class="keyword">size_t</span> nbytes);</span><br></pre></td></tr></table></figure>
@@ -529,6 +530,152 @@
 
 <h2 id="用于进程的信号量"><a href="#用于进程的信号量" class="headerlink" title="用于进程的信号量"></a>用于进程的信号量</h2>
           
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/15/unix-高级环境编程1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xixi2">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixi2">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/15/unix-高级环境编程1/" itemprop="url">unix 高级环境编程系列1</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-15T13:11:23+08:00">
+                2019-09-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/unix-高级环境编程/" itemprop="url" rel="index">
+                    <span itemprop="name">unix 高级环境编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>此文档主要记录学习过程中出现的一些问题．</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/09/15/unix-高级环境编程1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1740,130 +1887,6 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/09/08/二分查找各种不同的应用场景/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/字符串基础知识总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="xixi2">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixi2">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/04/字符串基础知识总结/" itemprop="url">字符串基础知识总结</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-04T14:48:51+08:00">
-                2019-09-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>有几种不同类型的字符串： c风格字符串(包括字符串字面常量和指向以空字符结尾的字符数组的指针)，string类型(类类型)</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/04/字符串基础知识总结/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
