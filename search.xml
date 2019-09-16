@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[模板特化]]></title>
+    <url>%2F2019%2F09%2F16%2F%E6%A8%A1%E6%9D%BF%E7%89%B9%E5%8C%96%2F</url>
+    <content type="text"><![CDATA[什么是特化？什么是偏特化？偏特化有两种，第一种是个数上的偏．第二种是范围上的偏． 对于个数上的偏，如，模板共有2个模板参数，但是只指定1个模板参数，那么这就是偏特化．范围上的偏，如第一个模板参数，表示指向任意类型，当我们想要表示指向任意类型的指针，那么这就是范围上的偏． 1234567891011121314151617181920template&lt;typename T&gt;class C &#123; public: C() &#123; cout &lt;&lt; "generic version" &lt;&lt; endl; &#125;&#125;;template&lt;typename T&gt;class C&lt;T *&gt; &#123; public: C() &#123; cout &lt;&lt; "pointer version" &lt;&lt; endl; &#125;&#125;;void test_parial_specialization() &#123; C&lt;string&gt; obj1; // 使用泛华版本 C&lt;string *&gt; obj2; // 使用指向任意类型的指针类型&#125; 运行结果： 12generic versionpointer version]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>specialization</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[类之间的关系]]></title>
     <url>%2F2019%2F09%2F16%2F%E7%B1%BB%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB%2F</url>
     <content type="text"><![CDATA[类之间的关系有composition(has-a)，delegation(委托)等． Composition 构造由内而外，如Container中包含Component，那么Container的构造函数首先调用Conponent的default构造函数，然后才执行自己．析构由外而内，Container的析构函数首先执行自己，然后调用Component的析构函数． Delegation 两个类之间用指针相连，称之为delegation． 1234567891011121314151617181920212223242526272829303132// handle/Body: file1为handle，file2为Body// file1 String.hpp：对外接口class StringRep;class String &#123;public: String(); String(const char *s); String(const String &amp;s); String &amp;operator=(const String &amp;s); ~String();private: StringRep *rep; // pimpl：pointer to implementation&#125;;// file2 String.cpp：字符串真正的实现在这里class StringRep &#123; friend class String; StringRep(const char *s); ~StringRep(); int count; char *rep;&#125;; 无论字符串的实现如何变化，都不影响客户端代码．String中的StringRep也可以指向不同的StringRep的实现，如可以指向StringRep的子类． 三个string共享一个字符串hello，所以共享计数n=3表示有三个String对象共享hello． 继承 继承有三种方式：public，private，protected．其中public表示is-a关系．构造由内而外．Derived的构造函数首先调用Base的default构造函数，然后才执行自己．析构由外而内．Derived的析构函数首先执行自己，然后才调用Base的析构函数． 函数的继承继承的是调用权．当一个类B以public方式继承另一个类A，那么在类A中所有的public方法在类B中也会变成public，但是当B以private方式继承类A，那么类A中所有的public方法在类B方法中变成private方法．]]></content>
@@ -150,17 +161,6 @@
       <categories>
         <category>C++基础知识</category>
       </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[模板特化]]></title>
-    <url>%2F2019%2F09%2F15%2F%E6%A8%A1%E6%9D%BF%E7%89%B9%E5%8C%96%2F</url>
-    <content type="text"><![CDATA[什么是特化？什么是偏特化？偏特化有两种，第一种是个数上的偏．第二种是范围上的偏． 对于个数上的偏，如，模板共有2个模板参数，但是只指定1个模板参数，那么这就是偏特化．范围上的偏，如第一个模板参数，表示指向任意类型，当我们想要表示指向任意类型的指针，那么这就是范围上的偏． 123456789101112131415// code 1template&lt;typename T&gt;class C&#123;&#125;;// code 2// 范围上的偏template&lt;typename T&gt;class C&lt;T*&gt;&#123; &#125;;C&lt;string&gt; obj1; // 使用code 1C&lt;string*&gt; obj2; // 使用code 2]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>specialization</tag>
-      </tags>
   </entry>
   <entry>
     <title><![CDATA[从数组中找重复数字系列]]></title>
