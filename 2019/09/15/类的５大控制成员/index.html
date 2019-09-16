@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="xixi2">
 <meta property="og:description" content="类的5大控制成员包括：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-15T14:28:04.940Z">
+<meta property="og:updated_time" content="2019-09-15T14:59:09.677Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="类的5大控制成员">
 <meta name="twitter:description" content="类的5大控制成员包括：">
@@ -324,7 +324,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-15T22:28:04+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-15T22:59:09+08:00">
                 2019-09-15
               </time>
             
@@ -429,7 +429,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">String &amp;String::<span class="keyword">operator</span>=(<span class="keyword">const</span> String &amp;str) &#123;</span><br><span class="line">    <span class="comment">// 检测自我赋值</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> == &amp;str) &#123;</span><br><span class="line">        <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//清除旧的数据，为新的数据分配空间，令m_data指向新分配的数据</span></span><br><span class="line">    <span class="keyword">delete</span> m_data;</span><br><span class="line">    m_data = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="built_in">strlen</span>(str.m_data) + <span class="number">1</span>];</span><br><span class="line">    <span class="built_in">strcpy</span>(m_data, str.m_data);</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>上面的代码尽管避免了自我赋值，却不具备异常安全性．具体而言，<br>*<em>m_data = new char[strlen(str.m_data) + 1]; *</em><br>可能会因为内存不足等原因而出错．一旦出错，就会导致，m_data指向一块已经被释放的内存空间．</p>
-<p>仍然，我们需要拷贝如何实现异常安全性．</p>
+<p>因此我们仍然需要考虑如何实现异常安全性．</p>
 <p>第二版：防止在内存分配成功之前释放旧的内存空间</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">String &amp;String::<span class="keyword">operator</span>=(<span class="keyword">const</span> String &amp;str) &#123;</span><br><span class="line">    <span class="keyword">char</span> *m_old = m_data;</span><br><span class="line">    m_data = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="built_in">strlen</span>(str.m_data) + <span class="number">1</span>];</span><br><span class="line">    <span class="built_in">strcpy</span>(m_data, str.m_data);</span><br><span class="line">    <span class="keyword">delete</span> m_old;</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -498,6 +498,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/16/重载new和delete/" rel="prev" title="重载new和delete">
+                重载new和delete <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -587,7 +591,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -598,7 +602,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">91</span>
+                  <span class="site-state-item-count">88</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
