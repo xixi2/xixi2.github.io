@@ -86,10 +86,12 @@
 <meta property="og:site_name" content="xixi2">
 <meta property="og:description" content="当应用程序对于内存分配有特殊要求时,需要重载operator new和operator delete运算符.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-19T13:00:17.574Z">
+<meta property="og:image" content="http://yoursite.com/home/xixi2/.config/Typora/typora-user-images/1568898674216.png">
+<meta property="og:updated_time" content="2019-09-19T13:19:03.485Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="重载new和delete">
 <meta name="twitter:description" content="当应用程序对于内存分配有特殊要求时,需要重载operator new和operator delete运算符.">
+<meta name="twitter:image" content="http://yoursite.com/home/xixi2/.config/Typora/typora-user-images/1568898674216.png">
 
 
 
@@ -323,7 +325,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-19T21:00:17+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-19T21:19:03+08:00">
                 2019-09-19
               </time>
             
@@ -450,15 +452,20 @@
 <p>在64位系统上，string占32个字节，int占4个字节，long占8个字节．因此，sizeof(Foo)=32+4+8=44，又因为44不是8的倍数，因此，在Foo中添加一些padding，最后sizeof(Foo)=48字节．<br>最后的运行结果为：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">custom <span class="keyword">operator</span> <span class="keyword">new</span> size = <span class="number">48</span></span><br><span class="line"><span class="keyword">default</span> ctor.<span class="keyword">this</span>=<span class="number">0x55bda8d2be70</span> id=<span class="number">0</span></span><br><span class="line">dtor.<span class="keyword">this</span>=<span class="number">0x55bda8d2be70</span> id=<span class="number">0</span></span><br><span class="line">custom <span class="keyword">operator</span> <span class="keyword">delete</span> size = <span class="number">48</span></span><br><span class="line"></span><br><span class="line">custom <span class="keyword">operator</span> <span class="keyword">new</span>[] size = <span class="number">56</span></span><br><span class="line"><span class="keyword">default</span> ctor.<span class="keyword">this</span>=<span class="number">0x55bda8d2be78</span> id=<span class="number">0</span></span><br><span class="line">dtor.<span class="keyword">this</span>=<span class="number">0x55bda8d2be78</span> id=<span class="number">0</span></span><br><span class="line">custom <span class="keyword">operator</span> <span class="keyword">delete</span>[] size = <span class="number">56</span></span><br><span class="line"></span><br><span class="line">custom <span class="keyword">operator</span> <span class="keyword">new</span>[] size = <span class="number">104</span></span><br><span class="line"><span class="keyword">default</span> ctor.<span class="keyword">this</span>=<span class="number">0x55bda8d2c2c8</span> id=<span class="number">0</span></span><br><span class="line"><span class="keyword">default</span> ctor.<span class="keyword">this</span>=<span class="number">0x55bda8d2c2f8</span> id=<span class="number">0</span></span><br><span class="line">dtor.<span class="keyword">this</span>=<span class="number">0x55bda8d2c2f8</span> id=<span class="number">0</span></span><br><span class="line">dtor.<span class="keyword">this</span>=<span class="number">0x55bda8d2c2c8</span> id=<span class="number">0</span></span><br><span class="line">custom <span class="keyword">operator</span> <span class="keyword">delete</span>[] size = <span class="number">104</span></span><br></pre></td></tr></table></figure>
 
-<p>可以看到，这里调用了自定义的operator new和operator delete函数．此外，分别使用new Foo和new Foo[1]动态分配一个Foo对象时，打印出的size不同，这是因为在operator new[]中分配的内存的最上面有一个额外内存用于记录数组中元素的个数，以备记录调用delete []时，需要调用析构函数的次数．<br>当new Foo[2]时：size=104．首先两个Foo对象占用内存为48 * 2 = 96字节, 而在分配内存的最前端有一个counter记录数组中元素个数，因此，最后size = 96 + 8 = 104．<br>此外，可以看到，在delete[]表达式中调用析构函数是逆序调用的，即数组中最后一个元素首先调用析构函数，然后倒数第二个，依次类推，直到第一个元素．</p>
+<p>可以看到，这里调用了自定义的operator new和operator delete函数．此外，分别使用new Foo和new Foo[1]动态分配一个Foo对象时，打印出的size不同，这是因为在operator new[]中分配的内存的最上面有一个额外内存用于记录数组中元素的个数，以备记录调用delete []时，需要调用析构函数的次数．<br>当new Foo[2]时：size=104．首先两个Foo对象占用内存为48 * 2 = 96字节, 而在分配内存的最前端有一个counter记录数组中元素个数，因此，最后size = 96 + 8 = 104．即这个动态分配的数组在占用内存如下图所示：</p>
+<p><img src="/home/xixi2/.config/Typora/typora-user-images/1568898674216.png" alt="1568898674216"></p>
+<p>此外，可以看到，在delete[]表达式中调用析构函数是逆序调用的，即数组中最后一个元素首先调用析构函数，然后倒数第二个，依次类推，直到第一个元素．</p>
 <p><strong>强制调用全局operator new和operator delete</strong></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test_foo2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 强制使用globals</span></span><br><span class="line">    Foo *pf = ::<span class="keyword">new</span> Foo;</span><br><span class="line">    ::<span class="keyword">delete</span> pf;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    Foo *parr = ::<span class="keyword">new</span> Foo[<span class="number">2</span>];</span><br><span class="line">    ::<span class="keyword">delete</span>[] parr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>运行结果：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">default</span> ctor.<span class="keyword">this</span>=<span class="number">0x55e231ba2e70</span> id=<span class="number">0</span></span><br><span class="line">dtor.<span class="keyword">this</span>=<span class="number">0x55e231ba2e70</span> id=<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">default</span> ctor.<span class="keyword">this</span>=<span class="number">0x55e231ba32c8</span> id=<span class="number">0</span></span><br><span class="line"><span class="keyword">default</span> ctor.<span class="keyword">this</span>=<span class="number">0x55e231ba32f8</span> id=<span class="number">0</span></span><br><span class="line">dtor.<span class="keyword">this</span>=<span class="number">0x55e231ba32f8</span> id=<span class="number">0</span></span><br><span class="line">dtor.<span class="keyword">this</span>=<span class="number">0x55e231ba32c8</span> id=<span class="number">0</span></span><br></pre></td></tr></table></figure>
 
-<p><strong>new表达式的作用域查找规则</strong>：</p>
+<h2 id="重载placement-new"><a href="#重载placement-new" class="headerlink" title="重载placement new"></a>重载placement new</h2><p>我们可以重载class member operator new()，写出多个版本，前提是每一版本的声明都必须有独特的参数列，<strong>其中第一参数必须是size_t</strong>，其余参数是以new所指定的placement arguments为初值．出现于new(…)小括号内的便是所谓placement arguments．</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Foo* pf = <span class="keyword">new</span> (<span class="number">300</span>, <span class="string">'c'</span>)Foo;</span><br></pre></td></tr></table></figure>
 
+<p>我们也可以重载class member operator delete()（或者称此为placement operator delete），写出多个版本．但它们绝不会被delete调用．只有当new所调用的ctor抛出exception时，才会调用这些重载版的operator delete()．它只能这样被调用，主要用来归还未能完全创建成功的object所占用的memory．</p>
+<h1 id="new表达式的作用域查找规则"><a href="#new表达式的作用域查找规则" class="headerlink" title="new表达式的作用域查找规则"></a>new表达式的作用域查找规则</h1>
       
     </div>
     
@@ -482,8 +489,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/19/c++标准库/" rel="next" title="c++标准库">
-                <i class="fa fa-chevron-left"></i> c++标准库
+              <a href="/2019/09/19/bind与函数适配器/" rel="next" title="bind与函数适配器">
+                <i class="fa fa-chevron-left"></i> bind与函数适配器
               </a>
             
           </div>
@@ -491,6 +498,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/19/传参/" rel="prev" title="传参">
+                传参 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -569,7 +580,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">86</span>
+                  <span class="site-state-item-count">91</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -580,7 +591,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -624,7 +635,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#new表达式的工作机制"><span class="nav-number">1.</span> <span class="nav-text">new表达式的工作机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#几个疑问"><span class="nav-number">1.1.</span> <span class="nav-text">几个疑问</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#定位new表达式"><span class="nav-number">2.</span> <span class="nav-text">定位new表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用定位new表达式"><span class="nav-number">2.1.</span> <span class="nav-text">使用定位new表达式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重载operator-new和operator-delete"><span class="nav-number">3.</span> <span class="nav-text">重载operator new和operator delete</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#重载类的operator-new和operator-delete"><span class="nav-number">3.1.</span> <span class="nav-text">重载类的operator new和operator delete</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#new表达式的工作机制"><span class="nav-number">1.</span> <span class="nav-text">new表达式的工作机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#几个疑问"><span class="nav-number">1.1.</span> <span class="nav-text">几个疑问</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#定位new表达式"><span class="nav-number">2.</span> <span class="nav-text">定位new表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用定位new表达式"><span class="nav-number">2.1.</span> <span class="nav-text">使用定位new表达式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重载operator-new和operator-delete"><span class="nav-number">3.</span> <span class="nav-text">重载operator new和operator delete</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#重载类的operator-new和operator-delete"><span class="nav-number">3.1.</span> <span class="nav-text">重载类的operator new和operator delete</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重载placement-new"><span class="nav-number">3.2.</span> <span class="nav-text">重载placement new</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#new表达式的作用域查找规则"><span class="nav-number">4.</span> <span class="nav-text">new表达式的作用域查找规则</span></a></li></ol></div>
             
 
           </div>
