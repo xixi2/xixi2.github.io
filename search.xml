@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[类型转换系列1]]></title>
+    <url>%2F2019%2F09%2F23%2F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%97%EF%BC%91%2F</url>
+    <content type="text"><![CDATA[显式转换旧式转型:T(expression)(T)expression 四种新式转型: cast-name&lt;type&gt;(expression): type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。 旧式转换表面上功能强大，但是转化时不够明确，不能进行错误检查，容易出错． const_cast通常被用来将对象的常量性移除.即将const对象转为非const对象． dynamic_cast 主要用来执行“安全向下转型”,也就是用来决定某对象是否归属继承体系中的某个类型. 用于动态类型转换，只能用于含有虚函数的类，用于类层次间的向上和向下转化．只能转指针或引用．向下转化时，如果是非法的，对于指针返回nullptr，对于引用抛出异常． 向上转换：子类向基类的转换 向下转换：基类向子类的转换 它通过判断在执行到该语句的时候变量的运行时类型和要转换的类型是否相同来判断是否能够进行向下转换． 它是唯一无法由旧式语法执行的动作,也是唯一可能耗费重大运行成本的转型动作. reinterpret_cast意图执行低级转型,实际动作(及结果)可能取决于编译器,这也就表示它不可移植.例如将一个pointer to int转型为一个int. 这一类型在低级代码以外很少见. static_cast用来强迫隐式转换. 将non-const对象转为const对象 (不能隐式地将一个左值转换为一个右值引用，但是可以)使用static_cast可以显式地将一个左值转换为一个右值引用 或将int转为double 用于多态向上转化，如果向下转型能成功但是不安全，结果未知． 也可以用来执行上述多种转换的反向转换 将void*指针转为typed指针, 将point-to-base转为pointer-to-derived. 但它无法将const转为non-const,这个只有const_cast才办得到.]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>static_cast</tag>
+        <tag>类型转换</tag>
+        <tag>显示转换</tag>
+        <tag>cast</tag>
+        <tag>const_cast</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[move]]></title>
     <url>%2F2019%2F09%2F23%2Fmove%2F</url>
     <content type="text"><![CDATA[std::move 右值与右值引用临时对象是一种右值．字面常量是一种右值．右值不可以放在赋值号的左边，即右值不可以被赋值．不可以对右值取地址． 一个左值引用是某个对象的另一个名字．返回左值引用的函数，赋值，下标，解引用和前置递增/递减运算符都是返回左值的表达式的例子．注意：尽管常量无法改变，但是常量是一个左值． 右值引用是必须绑定到右值的引用．不能将一个右值引用绑定到一个左值上．返回非引用类型的函数，包括算术，关系，位及递增/递减运算符，都生成右值．我们不能将一个左值引用绑定到这类表达式上，但是可以将一个const的左值引用或一个右值引用绑定到这类表达式(返回右值的表达式)上． 123456int i = 42; int &amp;r = i; // 正确，r是一个左值引用，绑定到一个左值上int &amp;&amp;rr = i; // 错误，rr是一个右值引用，，不能将一个右值引用绑定到一个左值上int &amp;r2 = i * 42; // 错误，不能将一个左值引用绑定到一个右值上const int &amp;r3 = 42; // 正确，r2是一个const的左值引用，可以将一个const的左值引用绑定到一个右值上int &amp;&amp;rr2 = i * 42; // 正确，可以将一个右值引用绑定到一个右值上 由于右值引用只能绑定到临时对象，所以：右值引用的对象将要销毁，且该对象没有其他用户．因此使用右值引用的代码可以自由地接管所引用的对象的资源． 变量是左值，可以把变量看做是只有一个运算对象而没有运算符的表达式，变量表达式都是右值．因此不能将一个右值引用绑定到一个右值引用类型的变量上． 12int &amp;&amp;rr1 = 42; // 正确，rr1是一个右值引用类型的变量，绑定到一个右值42int &amp;&amp;rr2 = rr1; // 错误，rr1是一个变量，它的类型是右值引用类型，但是rr1是一个变量，是左值，因此，不能将右值引用绑定到rr1上 move尽管不能将一个右值引用直接绑定到一个左值上，但是可以显式地将一个左值转换为对应的右值引用类型．通过调用标准库的move函数来获得绑定到左值上的右值引用．我们可以销毁一个移后源对象，也可以赋予它新值，但不能使用一个移后源对象的值．移后源对象必须可析构，并且移后源对象必须仍然是有效的．对象有效是指可以安全地为其赋予新值或者可以安全地使用而不依赖其当前值． forward(完美转发)]]></content>
@@ -497,21 +512,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[类型转换系列1]]></title>
-    <url>%2F2019%2F09%2F01%2F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%97%EF%BC%91%2F</url>
-    <content type="text"><![CDATA[显式转换旧式转型:T(expression)(T)expression 四种新式转型: cast-name&lt;type&gt;(expression): type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。 旧式转换表面上功能强大，但是转化时不够明确，不能进行错误检查，容易出错． const_cast通常被用来将对象的常量性移除.即将const对象转为非const对象． dynamic_cast 主要用来执行“安全向下转型”,也就是用来决定某对象是否归属继承体系中的某个类型. 用于动态类型转换，只能用于含有虚函数的类，用于类层次间的向上和向下转化．只能转指针或引用．向下转化时，如果是非法的，对于指针返回nullptr，对于引用抛出异常． 向上转换：子类向基类的转换 向下转换：基类向子类的转换 它通过判断在执行到该语句的时候变量的运行时类型和要转换的类型是否相同来判断是否能够进行向下转换． 它是唯一无法由旧式语法执行的动作,也是唯一可能耗费重大运行成本的转型动作. reinterpret_cast意图执行低级转型,实际动作(及结果)可能取决于编译器,这也就表示它不可移植.例如将一个pointer to int转型为一个int. 这一类型在低级代码以外很少见. static_cast用来强迫隐式转换. 将non-const对象转为const对象 或将int转为double 用于多台向上转化，如果向下转型能成功但是不安全，结果未知． 也可以用来执行上述多种转换的反向转换 将void*指针转为typed指针, 将point-to-base转为pointer-to-derived. 但它无法将const转为non-const,这个只有const_cast才办得到.]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>static_cast</tag>
-        <tag>类型转换</tag>
-        <tag>显示转换</tag>
-        <tag>cast</tag>
-        <tag>const_cast</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[旋转数组]]></title>
     <url>%2F2019%2F08%2F28%2F%E6%97%8B%E8%BD%AC%E6%95%B0%E7%BB%84%2F</url>
     <content type="text"><![CDATA[Rotate Array旋转数组 Given an array, rotate the array to the right by k steps, where k is non-negative. Example 1: 123456Input: [1,2,3,4,5,6,7] and k = 3Output: [5,6,7,1,2,3,4]Explanation:rotate 1 steps to the right: [7,1,2,3,4,5,6]rotate 2 steps to the right: [6,7,1,2,3,4,5]rotate 3 steps to the right: [5,6,7,1,2,3,4] Example 2: 12345Input: [-1,-100,3,99] and k = 2Output: [3,99,-1,-100]Explanation: rotate 1 steps to the right: [99,-1,-100,3]rotate 2 steps to the right: [3,99,-1,-100] Note: Try to come up as many solutions as you can, there are at least 3 different ways to solve this problem. Could you do it in-place with O(1) extra space? 方法一：暴力破解方法二：使用额外空间方法三：循环移动1234567891011121314151617181920void rotate(vector&lt;int&gt; &amp;nums, int k) &#123; k = k % nums.size(); int count = 0; for (int start = 0; count &lt; nums.size(); start++) &#123; int current = start; int prev = nums[start]; // 如果移动的数量正好等于nums.size()时，每个元素移动后的位置都是移动前的位置 // 那么这个循环的唯一目的就是为了count++ // nums: [0,1,2,3], k=4 do &#123; int next = (current + k) % nums.size(); int temp = nums[next]; nums[next] = prev; prev = temp; current = next; count++; &#125; while (start != current); &#125;&#125; 具体过程[0,1,2,3,4,5,6] , k = 3时，start = 0, 0-3,3-6,6-2, 2-5, 5-1, 1-4, 4-0，此时count=7，start=0，current = 0, 故退出内层循环退出内层循环，又因为count==nums.size()，故退出外层循环．[0,1,2,3,4,5], k = 2时，start = 0, 0-2, 2-4, 4-0, current = 0, start = 0, count = 3,故退出内层循环．start = 1, 1-3, 3- 5, 5 - 1, current = 1, start = 1, 故退出内层循环．count = 6, 故退出外层循环． 时间复杂度: O(n)空间复杂度: O(1) 方法四：数组逆转123456789101112131415void reverse(vector&lt;int&gt; &amp;nums, int start, int end) &#123; while (start &lt; end) &#123; int temp = nums[start]; nums[start] = nums[end]; nums[end] = temp; ++start, --end; &#125;&#125;void rotate1(vector&lt;int&gt; &amp;nums, int k) &#123; k = k % nums.size(); reverse(nums, 0, nums.size() - 1); reverse(nums, 0, k - 1); reverse(nums, k, nums.size() - 1);&#125;]]></content>
@@ -876,8 +876,8 @@
     <url>%2F2019%2F06%2F06%2F%E5%8F%98%E5%BD%A2%E8%AF%8D%E7%B3%BB%E5%88%97%2F</url>
     <content type="text"><![CDATA[此类题比较麻烦，但其实并不难。 242. Valid Anagram49. Group Anagrams找出可以通过改变一个字母变成其他单词的单词许多单词都和另外一些单词想死。例如，通过改变第1个字母，单词wine可以变成dine，fine，line，mine，pine或vine。通过改变第3个字母可以变成wide，wife，wipe或wire以及其他一些单词。通过改变第4个字母可以变成wind，wing，wink或wins以及其他一些单词。我们想要编写一个程序来找出通过单个字母的替换变成至少15个其他单词的单词。假设有一本字典，由大约89000个各种长度的不同单词组成。大部分单词在6到11个字母之间。其中6字母单词8205个，7字母单词11989个，8字母单词13672个，9字母单词13014个，10字母单词11297个，11字母单词8617个。题目来源：数据结构与算法分析(c++语言描述，第4版) p144。]]></content>
       <tags>
-        <tag>字符串</tag>
         <tag>leetcode</tag>
+        <tag>字符串</tag>
       </tags>
   </entry>
   <entry>
