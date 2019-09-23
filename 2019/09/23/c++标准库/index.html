@@ -79,22 +79,22 @@
 
 
 
-<meta name="description" content="几个可以参考的网站：http://www.cplusplus.comhttps://en.cppreference.com/whttps://gcc.gnu.org 如何学习标准库． 标准库源码：gnu c++ 2.9.1版本．如何找到gnu c++2.9.1版本代码？ OOP: 将data和methods关联起来；GP: 将data和methods分开来． 模板分为： 分配器先谈一谈operat">
+<meta name="description" content="几个可以参考的网站：http://www.cplusplus.comhttps://en.cppreference.com/whttps://gcc.gnu.org 如何学习标准库． 标准库源码：gnu c++ 2.9.1版本．如何找到gnu c++2.9.1版本代码？">
 <meta property="og:type" content="article">
 <meta property="og:title" content="c++标准库">
-<meta property="og:url" content="http://yoursite.com/2019/09/20/c++标准库/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/09/23/c++标准库/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="几个可以参考的网站：http://www.cplusplus.comhttps://en.cppreference.com/whttps://gcc.gnu.org 如何学习标准库． 标准库源码：gnu c++ 2.9.1版本．如何找到gnu c++2.9.1版本代码？ OOP: 将data和methods关联起来；GP: 将data和methods分开来． 模板分为： 分配器先谈一谈operat">
+<meta property="og:description" content="几个可以参考的网站：http://www.cplusplus.comhttps://en.cppreference.com/whttps://gcc.gnu.org 如何学习标准库． 标准库源码：gnu c++ 2.9.1版本．如何找到gnu c++2.9.1版本代码？">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/home/xixi2/.config/Typora/typora-user-images/1568792176139.png">
 <meta property="og:image" content="http://yoursite.com/home/xixi2/.config/Typora/typora-user-images/1568792151484.png">
 <meta property="og:image" content="http://yoursite.com/home/xixi2/.config/Typora/typora-user-images/1568792347185.png">
 <meta property="og:image" content="http://yoursite.com/home/xixi2/.config/Typora/typora-user-images/1568793668051.png">
 <meta property="og:image" content="http://yoursite.com/home/xixi2/.config/Typora/typora-user-images/1568793713183.png">
-<meta property="og:updated_time" content="2019-09-20T05:20:28.242Z">
+<meta property="og:updated_time" content="2019-09-23T02:11:34.020Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="c++标准库">
-<meta name="twitter:description" content="几个可以参考的网站：http://www.cplusplus.comhttps://en.cppreference.com/whttps://gcc.gnu.org 如何学习标准库． 标准库源码：gnu c++ 2.9.1版本．如何找到gnu c++2.9.1版本代码？ OOP: 将data和methods关联起来；GP: 将data和methods分开来． 模板分为： 分配器先谈一谈operat">
+<meta name="twitter:description" content="几个可以参考的网站：http://www.cplusplus.comhttps://en.cppreference.com/whttps://gcc.gnu.org 如何学习标准库． 标准库源码：gnu c++ 2.9.1版本．如何找到gnu c++2.9.1版本代码？">
 <meta name="twitter:image" content="http://yoursite.com/home/xixi2/.config/Typora/typora-user-images/1568792176139.png">
 
 
@@ -125,7 +125,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/09/20/c++标准库/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/23/c++标准库/">
 
 
 
@@ -300,7 +300,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/20/c++标准库/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/23/c++标准库/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -329,8 +329,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-20T13:20:28+08:00">
-                2019-09-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-23T10:11:34+08:00">
+                2019-09-23
               </time>
             
 
@@ -397,6 +397,8 @@
         <p>几个可以参考的网站：<br><a href="http://www.cplusplus.com" target="_blank" rel="noopener">http://www.cplusplus.com</a><br><a href="https://en.cppreference.com/w" target="_blank" rel="noopener">https://en.cppreference.com/w</a><br><a href="https://gcc.gnu.org" target="_blank" rel="noopener">https://gcc.gnu.org</a></p>
 <p>如何学习标准库．</p>
 <p>标准库源码：gnu c++ 2.9.1版本．如何找到gnu c++2.9.1版本代码？</p>
+<a id="more"></a>
+
 <p>OOP: 将data和methods关联起来；<br>GP: 将data和methods分开来．</p>
 <p>模板分为：</p>
 <h1 id="分配器"><a href="#分配器" class="headerlink" title="分配器"></a>分配器</h1><p>先谈一谈operator new()和malloc()<br>标准库中allocator的实现往往是使用operator new和operator delete，而operator new和operator delete又调用malloc和free来分配和释放内存．<br>SGI主要使用的是alloc．尽量减少调用malloc的次数．当使用自由链表来保存内存空间的大小时，不再需要在</p>
@@ -517,8 +519,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/20/linux常用命令/" rel="next" title="linux常用命令">
-                <i class="fa fa-chevron-left"></i> linux常用命令
+              <a href="/2019/09/23/可变模板参数/" rel="next" title="可变模板参数(c++11新特性)">
+                <i class="fa fa-chevron-left"></i> 可变模板参数(c++11新特性)
               </a>
             
           </div>
@@ -527,8 +529,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/09/20/完全二叉树/" rel="prev" title="完全二叉树">
-                完全二叉树 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/09/23/对象模型/" rel="prev" title="对象模型">
+                对象模型 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -608,7 +610,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">92</span>
+                  <span class="site-state-item-count">91</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
