@@ -876,8 +876,8 @@
     <url>%2F2019%2F06%2F06%2F%E5%8F%98%E5%BD%A2%E8%AF%8D%E7%B3%BB%E5%88%97%2F</url>
     <content type="text"><![CDATA[此类题比较麻烦，但其实并不难。 242. Valid Anagram49. Group Anagrams找出可以通过改变一个字母变成其他单词的单词许多单词都和另外一些单词想死。例如，通过改变第1个字母，单词wine可以变成dine，fine，line，mine，pine或vine。通过改变第3个字母可以变成wide，wife，wipe或wire以及其他一些单词。通过改变第4个字母可以变成wind，wing，wink或wins以及其他一些单词。我们想要编写一个程序来找出通过单个字母的替换变成至少15个其他单词的单词。假设有一本字典，由大约89000个各种长度的不同单词组成。大部分单词在6到11个字母之间。其中6字母单词8205个，7字母单词11989个，8字母单词13672个，9字母单词13014个，10字母单词11297个，11字母单词8617个。题目来源：数据结构与算法分析(c++语言描述，第4版) p144。]]></content>
       <tags>
-        <tag>leetcode</tag>
         <tag>字符串</tag>
+        <tag>leetcode</tag>
       </tags>
   </entry>
   <entry>

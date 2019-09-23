@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="xixi2">
 <meta property="og:description" content="std::move">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-23T09:08:09.998Z">
+<meta property="og:updated_time" content="2019-09-23T09:15:57.466Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="move">
 <meta name="twitter:description" content="std::move">
@@ -323,7 +323,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-23T17:08:09+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-23T17:15:57+08:00">
                 2019-09-23
               </time>
             
@@ -400,8 +400,8 @@
 <p><span style="color:royalblue">变量是左值</span>，可以把变量看做是只有一个运算对象而没有运算符的表达式，变量表达式都是右值．因此不能将一个右值引用绑定到一个右值引用类型的变量上．</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> &amp;&amp;rr1 = <span class="number">42</span>;		<span class="comment">// 正确，rr1是一个右值引用类型的变量，绑定到一个右值42</span></span><br><span class="line"><span class="keyword">int</span> &amp;&amp;rr2 = rr1;	<span class="comment">// 错误，rr1是一个变量，它的类型是右值引用类型，但是rr1是一个变量，是左值，因此，不能将右值引用绑定到rr1上</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="move"><a href="#move" class="headerlink" title="move"></a>move</h2><p>尽管不能将一个右值引用直接绑定到一个左值上，但是可以<span style="color:royalblue">显式地将一个左值转换为对应的右值引用类型</span>．通过调用标准库的move函数来获得绑定到左值上的右值引用．<br>我们可以销毁一个移后源对象，也可以赋予它新值，但不能使用一个移后源对象的值．<br>移后源对象必须可析构，并且移后源对象必须仍然是有效的．对象有效是指可以安全地为其赋予新值或者可以安全地使用而不依赖其当前值．</p>
-<h2 id="forward-完美转发"><a href="#forward-完美转发" class="headerlink" title="forward(完美转发)"></a>forward(完美转发)</h2>
+<h1 id="move"><a href="#move" class="headerlink" title="move"></a>move</h1><p>尽管不能将一个右值引用直接绑定到一个左值上，但是可以<span style="color:royalblue">显式地将一个左值转换为对应的右值引用类型</span>．通过调用标准库的move函数来获得绑定到左值上的右值引用．<br>我们可以销毁一个移后源对象，也可以赋予它新值，但不能使用一个移后源对象的值．<br>移后源对象必须可析构，并且移后源对象必须仍然是有效的．对象有效是指可以安全地为其赋予新值或者可以安全地使用而不依赖其当前值．</p>
+<h1 id="forward-完美转发"><a href="#forward-完美转发" class="headerlink" title="forward(完美转发)"></a>forward(完美转发)</h1>
       
     </div>
     
@@ -567,7 +567,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#右值与右值引用"><span class="nav-number">1.</span> <span class="nav-text">右值与右值引用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#move"><span class="nav-number">1.1.</span> <span class="nav-text">move</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#forward-完美转发"><span class="nav-number">1.2.</span> <span class="nav-text">forward(完美转发)</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#右值与右值引用"><span class="nav-number">1.</span> <span class="nav-text">右值与右值引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#move"><span class="nav-number">2.</span> <span class="nav-text">move</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#forward-完美转发"><span class="nav-number">3.</span> <span class="nav-text">forward(完美转发)</span></a></li></ol></div>
             
 
           </div>
