@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="下面自己实现了字符串类，命名为String．然后分为类实现移动构造函数(mctor)和移动赋值运算符函数(masgn)．并且对比在该类有mctor和masgn与没有这两个函数时的效率差异．">
+<meta property="og:type" content="article">
+<meta property="og:title" content="move对效率的影响">
+<meta property="og:url" content="http://yoursite.com/2019/09/27/move对效率的影响/index.html">
+<meta property="og:site_name" content="xixi2">
+<meta property="og:description" content="下面自己实现了字符串类，命名为String．然后分为类实现移动构造函数(mctor)和移动赋值运算符函数(masgn)．并且对比在该类有mctor和masgn与没有这两个函数时的效率差异．">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-27T15:06:32.350Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="move对效率的影响">
+<meta name="twitter:description" content="下面自己实现了字符串类，命名为String．然后分为类实现移动构造函数(mctor)和移动赋值运算符函数(masgn)．并且对比在该类有mctor和masgn与没有这两个函数时的效率差异．">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/27/move对效率的影响/">
+
+
+
+
+
+  <title>move对效率的影响 | xixi2</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xixi2</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/27/move对效率的影响/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xixi2">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixi2">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">move对效率的影响</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T23:06:32+08:00">
+                2019-09-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C-基础知识/" itemprop="url" rel="index">
+                    <span itemprop="name">C++基础知识</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>下面自己实现了字符串类，命名为String．然后分为类实现移动构造函数(mctor)和移动赋值运算符函数(masgn)．并且对比在该类有mctor和masgn与没有这两个函数时的效率差异．</p>
+<a id="more"></a>
+
+<h1 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xixi2 on 19-9-15.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * string的实现可以有两种方法：</span></span><br><span class="line"><span class="comment"> * 第一种是以特定字符为结束符</span></span><br><span class="line"><span class="comment"> * 第二种是包含长度</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * class with pointer members</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">String</span> &#123;</span></span><br><span class="line"><span class="comment">//    friend std::ostream &amp;operator&lt;&lt;(std::ostream &amp;out, const String &amp;rhs);</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">size_t</span> dctor;        <span class="comment">// 累计默认构造函数调用次数</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">size_t</span> ctor;         <span class="comment">// 累计ctor调用次数</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">size_t</span> cctor;        <span class="comment">// 累计copy-ctor调用次数</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">size_t</span> casgn;        <span class="comment">// 累计copy-asgn调用次数</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">size_t</span> mctor;        <span class="comment">// 累计move-cotr调用次数</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">size_t</span> masgn;        <span class="comment">// 累计move-asgn调用次数</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">size_t</span> dtor;         <span class="comment">// 累计析构函数调用次数</span></span><br><span class="line"></span><br><span class="line">    String() : _data(<span class="literal">nullptr</span>), _len(<span class="number">0</span>) &#123;</span><br><span class="line">        ++dctor;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">String</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *p)</span></span>;</span><br><span class="line"></span><br><span class="line">    String(<span class="keyword">const</span> String &amp;str);</span><br><span class="line"></span><br><span class="line">    String(String &amp;&amp;str) <span class="keyword">noexcept</span>;</span><br><span class="line"></span><br><span class="line">    String &amp;<span class="keyword">operator</span>=(<span class="keyword">const</span> String &amp;str);</span><br><span class="line"></span><br><span class="line">    String &amp;<span class="keyword">operator</span>=(String &amp;&amp;str) <span class="keyword">noexcept</span>;        <span class="comment">// 移动构造函数</span></span><br><span class="line"></span><br><span class="line">    ~String();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">char</span> *<span class="title">get_c_str</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> _data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 为了实现异常安全</span></span><br><span class="line">    <span class="comment">// member swap:不允许抛异常</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(String &amp;other)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 为了能够放到特殊容器，如map中</span></span><br><span class="line">    <span class="keyword">bool</span> <span class="keyword">operator</span>&lt;(<span class="keyword">const</span> String &amp;rhs) <span class="keyword">const</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">bool</span> <span class="keyword">operator</span>==(<span class="keyword">const</span> String &amp;rhs) <span class="keyword">const</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">char</span> *_data;</span><br><span class="line">    <span class="keyword">size_t</span> _len;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> _init_data(<span class="keyword">const</span> <span class="keyword">char</span> *s) &#123;</span><br><span class="line">        _data = <span class="keyword">new</span> <span class="keyword">char</span>[_len + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (s) &#123;</span><br><span class="line">            <span class="built_in">memcpy</span>(_data, s, _len);</span><br><span class="line">        &#125;</span><br><span class="line">        _data[_len] = <span class="string">'\0'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 静态数据成员需要在类外初始化</span></span><br><span class="line"><span class="keyword">size_t</span> String::dctor = <span class="number">0</span>;        <span class="comment">// 累计默认构造函数调用次数</span></span><br><span class="line"><span class="keyword">size_t</span> String::ctor = <span class="number">0</span>;         <span class="comment">// 累计ctor调用次数</span></span><br><span class="line"><span class="keyword">size_t</span> String::cctor = <span class="number">0</span>;        <span class="comment">// 累计copy-ctor调用次数</span></span><br><span class="line"><span class="keyword">size_t</span> String::casgn = <span class="number">0</span>;        <span class="comment">// 累计copy-asgn调用次数</span></span><br><span class="line"><span class="keyword">size_t</span> String::mctor = <span class="number">0</span>;        <span class="comment">// 累计move-cotr调用次数</span></span><br><span class="line"><span class="keyword">size_t</span> String::masgn = <span class="number">0</span>;        <span class="comment">// 累计move-asgn调用次数</span></span><br><span class="line"><span class="keyword">size_t</span> String::dtor = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">String::String(<span class="keyword">const</span> <span class="keyword">char</span> *p) : _len(<span class="built_in">strlen</span>(p)) &#123;    <span class="comment">// 这里p没有默认值nullptr，不需要判断p是否为空</span></span><br><span class="line">    ++ctor;</span><br><span class="line">    _init_data(_data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里为什么不直接在初始化列表中调用_init_data()函数:是因为形式不对吗</span></span><br><span class="line">String::String(<span class="keyword">const</span> String &amp;str) : _len(str._len) &#123;</span><br><span class="line">    ++cctor;</span><br><span class="line">    _init_data(str._data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// copy assignment</span></span><br><span class="line">String &amp;String::<span class="keyword">operator</span>=(<span class="keyword">const</span> String &amp;str) &#123;</span><br><span class="line">    ++casgn;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> == &amp;str) &#123;     <span class="comment">// 检测自我赋值</span></span><br><span class="line">        <span class="keyword">if</span> (_data) &#123;</span><br><span class="line">            <span class="keyword">delete</span> _data;</span><br><span class="line">        &#125;</span><br><span class="line">        _len = str._len;</span><br><span class="line">        _init_data(str._data);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 移动构造函数</span></span><br><span class="line">String::String(String &amp;&amp;str) <span class="keyword">noexcept</span> : _len(str._len), _data(str._data) &#123;</span><br><span class="line">    ++mctor;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 让移动源对象处于可析构且有效的状态</span></span><br><span class="line">    str._len = <span class="number">0</span>;</span><br><span class="line">    str._data = <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">String &amp;String::<span class="keyword">operator</span>=(String &amp;&amp;str) <span class="keyword">noexcept</span> &#123;</span><br><span class="line">    ++masgn;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果对右值引用取地址，那么这里是否需要考虑自我赋值问题?</span></span><br><span class="line">    <span class="comment">// str是个变量，是左值，但是它的类型是右值引用类型，即它表示的是一个临时对象</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> == &amp;str) &#123;</span><br><span class="line">        <span class="keyword">if</span> (_data) &#123;</span><br><span class="line">            <span class="keyword">delete</span> _data;</span><br><span class="line">        &#125;</span><br><span class="line">        _len = str._len;</span><br><span class="line">        _data = str._data;</span><br><span class="line">        str._len = <span class="number">0</span>;</span><br><span class="line">        str._data = <span class="literal">nullptr</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">String::~String() &#123;</span><br><span class="line">    ++ctor;</span><br><span class="line">    <span class="keyword">if</span> (_data) &#123;</span><br><span class="line">        <span class="keyword">delete</span> _data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> String::<span class="keyword">operator</span>&lt;(<span class="keyword">const</span> String &amp;rhs) <span class="keyword">const</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">string</span>(<span class="keyword">this</span>-&gt;_data) &lt; <span class="built_in">string</span>(rhs._data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> String::<span class="keyword">operator</span>==(<span class="keyword">const</span> String &amp;rhs) <span class="keyword">const</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">string</span>(_data) == <span class="built_in">string</span>(rhs._data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">std</span>::ostream &amp;<span class="keyword">operator</span>&lt;&lt;(<span class="built_in">std</span>::ostream &amp;out, <span class="keyword">const</span> String &amp;rhs) &#123;</span><br><span class="line">    <span class="comment">// 为了测试，当字符串为空时，输出empty String</span></span><br><span class="line">    <span class="keyword">if</span> (*rhs.get_c_str() == <span class="string">'\0'</span>) &#123;</span><br><span class="line">        out &lt;&lt; <span class="string">"empty String"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    out &lt;&lt; rhs.get_c_str();</span><br><span class="line">    <span class="keyword">return</span> out;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="built_in">std</span> &#123;</span><br><span class="line">    <span class="comment">// 特例化模板</span></span><br><span class="line">    <span class="keyword">template</span>&lt;&gt;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">hash</span>&lt;String&gt; &#123;</span></span><br><span class="line">        <span class="keyword">size_t</span> <span class="keyword">operator</span>()(<span class="keyword">const</span> String &amp;s) <span class="keyword">const</span> <span class="keyword">noexcept</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> hash&lt;<span class="built_in">string</span>&gt;()(<span class="built_in">string</span>(s.get_c_str()));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">output_static_data</span><span class="params">(<span class="keyword">const</span> T &amp;myStr)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"typeid(myStr).name(): "</span> &lt;&lt; <span class="keyword">typeid</span>(myStr).name() &lt;&lt; <span class="string">"--"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"cctor="</span> &lt;&lt; T::cctor</span><br><span class="line">         &lt;&lt; <span class="string">" mctor="</span> &lt;&lt; T::mctor</span><br><span class="line">         &lt;&lt; <span class="string">" casgn="</span> &lt;&lt; T::casgn</span><br><span class="line">         &lt;&lt; <span class="string">" masgn="</span> &lt;&lt; T::masgn</span><br><span class="line">         &lt;&lt; <span class="string">" dtor="</span> &lt;&lt; T::dtor</span><br><span class="line">         &lt;&lt; <span class="string">" ctor="</span> &lt;&lt; T::ctor</span><br><span class="line">         &lt;&lt; <span class="string">" dctor="</span> &lt;&lt; T::dctor &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> M&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test_moveable</span><span class="params">(M c1, <span class="keyword">long</span> &amp;value)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">10</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> iterator_traits&lt;<span class="keyword">typename</span> M::iterator&gt;::value_type v1type;</span><br><span class="line">    <span class="keyword">clock_t</span> start = clock();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">long</span> i = <span class="number">0</span>; i &lt; value; ++i) &#123;</span><br><span class="line">        <span class="built_in">snprintf</span>(buf, <span class="number">10</span>, <span class="string">"%d"</span>, rand() + <span class="number">1</span>);    <span class="comment">// 随机数，放进buf</span></span><br><span class="line">        <span class="keyword">auto</span> ite = c1.end();                <span class="comment">// 定位尾端</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// vltype(buf)是临时对象，调用的是移动构造函数</span></span><br><span class="line">        c1.insert(ite, v1type(buf));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"construction, milli-seconds: "</span> &lt;&lt; (clock() - start) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"size()="</span> &lt;&lt; c1.size() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    output_static_data(*(c1.begin()));      <span class="comment">// 调用拷贝构造函数+</span></span><br><span class="line"></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    </span><br><span class="line">    start = clock();</span><br><span class="line">    <span class="function">M <span class="title">c11</span><span class="params">(c1)</span></span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"container copy, milli-seconds: "</span> &lt;&lt; (clock() - start) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    start = clock();</span><br><span class="line">    <span class="function">M <span class="title">c12</span><span class="params">(<span class="built_in">std</span>::move(c1))</span></span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"container move, milli-seconds: "</span> &lt;&lt; (clock() - start) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    start = clock();</span><br><span class="line">    c11.swap(c12);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"container swap, milli-seconds: "</span> &lt;&lt; (clock() - start) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="运行结果与效率比较"><a href="#运行结果与效率比较" class="headerlink" title="运行结果与效率比较"></a>运行结果与效率比较</h1><h2 id="vector"><a href="#vector" class="headerlink" title="vector"></a>vector</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test_vector</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> value = <span class="number">3000000</span>;</span><br><span class="line"><span class="comment">//    value = 10;</span></span><br><span class="line">    test_moveable(<span class="built_in">vector</span>&lt;String&gt;(), value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    test1();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于vector,有mctor和masgn的情况下的运行结果(时间单位毫秒)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">construction, milli-seconds: <span class="number">709342</span></span><br><span class="line">size()=<span class="number">3000000</span></span><br><span class="line"><span class="keyword">typeid</span>(myStr).name(): <span class="number">6</span>String--</span><br><span class="line">cctor=<span class="number">0</span> mctor=<span class="number">7194303</span> casgn=<span class="number">0</span> masgn=<span class="number">0</span> dtor=<span class="number">7194303</span> ctor=<span class="number">3000000</span> dctor=<span class="number">0</span></span><br><span class="line"></span><br><span class="line">container copy, milli-seconds: <span class="number">171571</span></span><br><span class="line">container move, milli-seconds: <span class="number">1</span></span><br><span class="line">container swap, milli-seconds: <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>调用了7194303次移动构造函数．之所以这里的调用移动构造函数次数多于元素个数是因为vector在插入过程，一旦内存不足，需要扩容，而扩容的过程是分配一块新的内存，然后将旧的元素搬到新的内存中，再释放新的内存．</p>
+<p>没有这两个函数时的运行结果</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">construction, milli-seconds: 912494</span><br><span class="line">size()=3000000</span><br><span class="line">typeid(myStr).name(): 6String--</span><br><span class="line">cctor=7194303 mctor=0 casgn=0 masgn=0 dtor=7194303 ctor=3000000 dctor=0</span><br><span class="line"></span><br><span class="line">container copy, milli-seconds: 169270</span><br><span class="line">container move, milli-seconds: 1</span><br><span class="line">container swap, milli-seconds: 1</span><br></pre></td></tr></table></figure>
+
+<p>调用的是拷贝构造函数．</p>
+<h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test_list</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> value = <span class="number">3000000</span>;</span><br><span class="line"><span class="comment">//    value = 10;</span></span><br><span class="line">    test_moveable(<span class="built_in">list</span>&lt;String&gt;(), value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<p>有mctor和masgn的情况下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">construction, milli-seconds: <span class="number">771100</span></span><br><span class="line">size()=<span class="number">3000000</span></span><br><span class="line"><span class="keyword">typeid</span>(myStr).name(): <span class="number">6</span>String--</span><br><span class="line">cctor=<span class="number">0</span> mctor=<span class="number">3000000</span> casgn=<span class="number">0</span> masgn=<span class="number">0</span> dtor=<span class="number">3000000</span> ctor=<span class="number">3000000</span> dctor=<span class="number">0</span></span><br><span class="line"></span><br><span class="line">container copy, milli-seconds: <span class="number">453080</span></span><br><span class="line">container move, milli-seconds: <span class="number">16</span></span><br><span class="line">container swap, milli-seconds: <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>没有mctor和masgn的情况下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">construction, milli-seconds: <span class="number">837069</span></span><br><span class="line">size()=<span class="number">3000000</span></span><br><span class="line"><span class="keyword">typeid</span>(myStr).name(): <span class="number">6</span>String--</span><br><span class="line">cctor=<span class="number">3000000</span> mctor=<span class="number">0</span> casgn=<span class="number">0</span> masgn=<span class="number">0</span> dtor=<span class="number">3000000</span> ctor=<span class="number">3000000</span> dctor=<span class="number">0</span></span><br><span class="line"></span><br><span class="line">container copy, milli-seconds: <span class="number">433835</span></span><br><span class="line">container move, milli-seconds: <span class="number">1</span></span><br><span class="line">container swap, milli-seconds: <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>对于list，有无移动构造函数，没有特别大的影响．</p>
+<h2 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test_deque</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> value = <span class="number">3000000</span>;</span><br><span class="line"><span class="comment">//    value = 10;</span></span><br><span class="line">    test_moveable(<span class="built_in">deque</span>&lt;String&gt;(), value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<p>有mctor和masgn的情况下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">construction, milli-seconds: <span class="number">621955</span></span><br><span class="line">size()=<span class="number">3000000</span></span><br><span class="line"><span class="keyword">typeid</span>(myStr).name(): <span class="number">6</span>String--</span><br><span class="line">cctor=<span class="number">0</span> mctor=<span class="number">3000000</span> casgn=<span class="number">0</span> masgn=<span class="number">0</span> dtor=<span class="number">3000000</span> ctor=<span class="number">3000000</span> dctor=<span class="number">0</span></span><br><span class="line"></span><br><span class="line">container copy, milli-seconds: <span class="number">201950</span></span><br><span class="line">container move, milli-seconds: <span class="number">17</span></span><br><span class="line">container swap, milli-seconds: <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>没有mctor和masgn的情况下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">construction, milli-seconds: <span class="number">697399</span></span><br><span class="line">size()=<span class="number">3000000</span></span><br><span class="line"><span class="keyword">typeid</span>(myStr).name(): <span class="number">6</span>String--</span><br><span class="line">cctor=<span class="number">3000000</span> mctor=<span class="number">0</span> casgn=<span class="number">0</span> masgn=<span class="number">0</span> dtor=<span class="number">3000000</span> ctor=<span class="number">3000000</span> dctor=<span class="number">0</span></span><br><span class="line"></span><br><span class="line">container copy, milli-seconds: <span class="number">200969</span></span><br><span class="line">container move, milli-seconds: <span class="number">18</span></span><br><span class="line">container swap, milli-seconds: <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<p>对于deque，在尾端插入的情况，影响同样不大，但是如果在中间位置输入，则会影响较大．</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/27/move/" rel="next" title="move">
+                <i class="fa fa-chevron-left"></i> move
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/27/数据库索引/" rel="prev" title="数据库索引">
+                数据库索引 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="xixi2">
+            
+              <p class="site-author-name" itemprop="name">xixi2</p>
+              <p class="site-description motion-element" itemprop="description">一去不复返的远方还有无法抵达的过去</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">96</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">88</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实现代码"><span class="nav-number">1.</span> <span class="nav-text">实现代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#运行结果与效率比较"><span class="nav-number">2.</span> <span class="nav-text">运行结果与效率比较</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#vector"><span class="nav-number">2.1.</span> <span class="nav-text">vector</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#list"><span class="nav-number">2.2.</span> <span class="nav-text">list</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#deque"><span class="nav-number">2.3.</span> <span class="nav-text">deque</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xixi2</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
