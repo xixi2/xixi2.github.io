@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="awk,grep,sed,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="linux常用命令有:grep, awk, ps等待．">
+<meta name="keywords" content="awk,grep,sed">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux常用命令">
+<meta property="og:url" content="http://yoursite.com/2019/10/03/linux常用命令/index.html">
+<meta property="og:site_name" content="xixi2">
+<meta property="og:description" content="linux常用命令有:grep, awk, ps等待．">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-03T12:51:59.966Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux常用命令">
+<meta name="twitter:description" content="linux常用命令有:grep, awk, ps等待．">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/10/03/linux常用命令/">
+
+
+
+
+
+  <title>linux常用命令 | xixi2</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xixi2</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/03/linux常用命令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xixi2">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixi2">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">linux常用命令</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-03T20:51:59+08:00">
+                2019-10-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux基础/" itemprop="url" rel="index">
+                    <span itemprop="name">linux基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>linux常用命令有:grep, awk, ps等待．</p>
+<a id="more"></a>
+
+<h1 id="ls"><a href="#ls" class="headerlink" title="ls"></a>ls</h1><ul>
+<li><p>ls -F</p>
+<p>ls -F 在列出的文件名称后加一符号；例如可执行档则加 “*”, 目录则加 “/“，“@”表示符号链接，“|”表示命令管道FIFO，“=”表示sockets套接字。当文件为普通文件时，不输出任何标识符</p>
+</li>
+</ul>
+<h1 id="echo"><a href="#echo" class="headerlink" title="echo"></a>echo</h1><p><span style="color:royalblue">单引号</span>会把所有字符看作是普通字符，<span style="color:royalblue">双引号</span>会无视通配符，但是会解释”$”，”&quot;，”`”这三种特殊符号，<span style="color:royalblue">不加引号</span>则会解释所有特殊字符。</p>
+<h1 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h1><ul>
+<li><code>grep --color</code>选项，高亮要查找的字符串．<br>如，在/etc/passwd文件中查找某个字符串出现的行</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@root:~$ grep --color "la" /etc/passwd</span><br><span class="line">gdm:x:121:125:Gnome Display Manager:/var/lib/gdm3:/bin/false  # 在我的机器上的结果</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>grep -v选项，实现反查效果，显示出所有不包含被查询字符串的行．</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">grep -v "la" /etc/passwd</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 在我的机器上的执行结果</span><br><span class="line">sshd:x:123:65534::/run/sshd:/usr/sbin/nologin</span><br><span class="line">nvidia-persistenced:x:124:129:NVIDIA Persistence Daemon,,,:/nonexistent:/sbin/nologin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>grep 展示行号和统计行数</p>
+<ul>
+<li>使用-n选项，grep不仅能搜索到字符串，还能展示出它们位于文件的第几行．</li>
+<li>使用-c选项，grep可以统计搜索结果中的总行数</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">root@root:~$ grep -n "la" /etc/passwd</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 行首的40表示出现的行号</span><br><span class="line">40:gdm:x:121:125:Gnome Display Manager:/var/lib/gdm3:/bin/false</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">root@root:~$ grep -c "la" /etc/passwd</span><br><span class="line">1</span><br><span class="line">root@root:~$ grep -c "var" /etc/passwd</span><br><span class="line">22</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>grep可以环顾四周</p>
+<ul>
+<li>在输出时，同时输出搜索结果相邻的行也输出出来．</li>
+<li>-A number 表示输出搜索结果下面的行(number表示要输出的行数)<ul>
+<li>A是after的缩写</li>
+</ul>
+</li>
+<li>-B number 表示输出搜索结果上面的行(number表示要输出的行数)<ul>
+<li>B是before的缩写</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">root@root:~$ grep -A 1 "la" /etc/passwd</span><br><span class="line">gdm:x:121:125:Gnome Display Manager:/var/lib/gdm3:/bin/false</span><br><span class="line">root:x:1000:1000:root,,,:/home/root:/bin/bash</span><br><span class="line"></span><br><span class="line">root@root:~$ grep -n -A 2 "la" /etc/passwd</span><br><span class="line">40:gdm:x:121:125:Gnome Display Manager:/var/lib/gdm3:/bin/false</span><br><span class="line">41-root:x:1000:1000:root,,,:/home/root:/bin/bash</span><br><span class="line">42-redis:x:122:128::/var/lib/redis:/usr/sbin/nologin</span><br><span class="line"></span><br><span class="line">root@root:~$ grep -n -A 1 -B 1  "la" /etc/passwd</span><br><span class="line">39-gnome-initial-setup:x:120:65534::/run/gnome-initial-setup/:/bin/false</span><br><span class="line">40:gdm:x:121:125:Gnome Display Manager:/var/lib/gdm3:/bin/false</span><br><span class="line">41-root:x:1000:1000:root,,,:/home/root:/bin/bash</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>grep 不区分大小写</p>
+<ul>
+<li>grep -i选项不区分大小写，提高搜索命中的概率</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@root:~$ grep --color "LA" /etc/passwd</span><br><span class="line">root@root:~$ grep --color -i "LA" /etc/passwd</span><br><span class="line">gdm:x:121:125:Gnome Display Manager:/var/lib/gdm3:/bin/false</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>grep处理多文件</p>
+<ul>
+<li>grep可以一次处理多个文件，最长使用的一个场景是:从大量文件中找出含有特定字符的文件．</li>
+<li><code>grep -l</code> “query key word” *.txt从多个文件中查找含有被查询的关键词的文件有哪些，应该得到一个文件列表</li>
+<li><code>grep -L</code> “query key word” <em>.txt反向选项，从多个文件中查找*</em>不包含**被查询的关键词的文件有哪些，应该得到一个文件列表</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 当前目录下有三个文件</span><br><span class="line">[roc@roclinux ~]$ ll</span><br><span class="line">total 12</span><br><span class="line">-rw-rw-r-- 1 roc roc 58 Mar 15 17:47 1.txt</span><br><span class="line">-rw-rw-r-- 1 roc roc 59 Mar 15 17:51 2.txt</span><br><span class="line">-rw-rw-r-- 1 roc roc 58 Mar 15 17:52 3.txt</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span> 1.txt文件的内容如下</span><br><span class="line">[roc@roclinux ~]$ cat 1.txt</span><br><span class="line">this first file</span><br><span class="line">this file contain some import infomation.</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span> 2.txt文件的内容如下</span><br><span class="line">[roc@roclinux ~]$ cat 2.txt</span><br><span class="line">this second file</span><br><span class="line">this file contain some import infomation.</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span> 3.txt文件的内容如下</span><br><span class="line">[roc@roclinux ~]$ cat 3.txt</span><br><span class="line">this third file</span><br><span class="line">this file contain some import infomation.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 使用-l选项</span><br><span class="line">[roc@roclinux ~]$ grep -l "first" *.txt</span><br><span class="line">1.txt</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[roc@roclinux ~]$ grep -L "first" *.txt</span><br><span class="line">2.txt</span><br><span class="line">3.txt</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>grep支持正则表达式</p>
+<p><code>^sp</code>表示以sp开头的行；<code>se$</code>表示以se结尾的行．</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@root:~$ grep '^sp' -c /etc/passwd</span><br><span class="line">1</span><br><span class="line">root@root:~$ grep 'sp' -c /etc/passwd</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@root:~$ grep 'se' -c /etc/passwd</span><br><span class="line">7</span><br><span class="line">root@root:~$ grep 'se$' -c /etc/passwd</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>grep查询一个词</p>
+<p>如要搜索含有bin这个词的行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">root@root:~$ grep '\&lt;bin\&gt;' /etc/passwd --color</span><br><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">bin:x:2:2:bin:/bin:/usr/sbin/nologin</span><br><span class="line">sync:x:4:65534:sync:/bin:/bin/sync</span><br><span class="line">proxy:x:13:13:proxy:/bin:/usr/sbin/nologin</span><br><span class="line">speech-dispatcher:x:111:29:Speech Dispatcher,,,:/var/run/speech-dispatcher:/bin/false</span><br><span class="line">whoopsie:x:112:117::/nonexistent:/bin/false</span><br><span class="line">hplip:x:118:7:HPLIP system user,,,:/var/run/hplip:/bin/false</span><br><span class="line">gnome-initial-setup:x:120:65534::/run/gnome-initial-setup/:/bin/false</span><br><span class="line">gdm:x:121:125:Gnome Display Manager:/var/lib/gdm3:/bin/false</span><br><span class="line">root:x:1000:1000:root,,,:/home/root:/bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>这样的词有一个问题，那就是连sbin这样的词也会被搜索出来．因此，我们需要理解词的定义，以及正则表达式中如何表示一个词．<br>首先，正则表达式中的词(word)，一般是由字母，数字和下划线组成，且词和词之间通常使用空格，制表符或换行符分隔．举个’栗子’，“I love you.”中的“love”就是一个“词”，但“My gloves are red.”中的“love”就不能称作一个“词”。<br>在正则表达式中，通常用尖括号表示一个词，比如能够匹配I love you.但不能匹配My gloves are red.</p>
+</li>
+</ul>
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><h1 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h1><p>awk命令是一个非常棒的数据处理工具．sed命令一次处理一整行，awk命令一次处理一整行，但将每行的内容分成多个字段来处理．</p>
+<h1 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h1><ul>
+<li><code>sort -n</code>：按数值来进行比较，只会傻傻地比较数字，他会认为98K大于2G。</li>
+<li><code>sort -h</code>：先比较单位，然后比较数值。</li>
+</ul>
+<h1 id="xargs"><a href="#xargs" class="headerlink" title="xargs"></a>xargs</h1><p>xargs是execute argument的缩写，它的作用是<span style="color:royalblue">从标准输入中读取内容，并将此内容传递给它要协助的命令，并作为那个命令的参数来执行</span>。</p>
+<p>cat命令可以接收文件名作为参数，执行后会显示出文件的内容。但是<span style="color:royalblue">cat命令不能直接从标准输入接收参数</span>。
+管道可以实现：将前面的标准输出作为后面的“标准输入”；管道无法实现：将前面的标准输出作为后面的“命令参数”。<br>xargs可以实现：<span style="color:royalblue">将标准输入(前一个命令的标准输出)作为其指定命令的参数</span>。
+xargs 的标准输入中出现的“换行符、空格、制表符”都将被空格取代。</p>
+<p>一个例子</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>我们创建了3个日志文件, 且故意让文件名称中都含有空格</span><br><span class="line">[xixi2@xixi2 ~]$ for((i=0;i&lt;3;i++)); do touch "test $&#123;i&#125;.log";done</span><br><span class="line"></span><br><span class="line">[xixi2@xixi2 ~]$ ls -F</span><br><span class="line">test 0.log	test 1.log	test 2.log</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 首先使用find命令找出这三个文件</span><br><span class="line">[xixi2@xixi2 ~]$ find -name '*.log' -print</span><br><span class="line">./test 0.log</span><br><span class="line">./test 2.log</span><br><span class="line">./test 1.log</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 使用xargs命令删除这三个文件，出现错误</span><br><span class="line">[xixi2@xixi2 ~]$ find . -name '*.log' -print | xargs rm</span><br><span class="line">rm: 无法删除'./test': 没有那个文件或目录</span><br><span class="line">rm: 无法删除'0.log': 没有那个文件或目录</span><br><span class="line">rm: 无法删除'./test': 没有那个文件或目录</span><br><span class="line">rm: 无法删除'2.log': 没有那个文件或目录</span><br><span class="line">rm: 无法删除'./test': 没有那个文件或目录</span><br><span class="line">rm: 无法删除'1.log': 没有那个文件或目录</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 使用xargs命令删除这三个文件，正确删除</span><br><span class="line">[xixi2@xixi2 ~]$ find . -name '*.log' -print0 | xargs -0 rm -f</span><br></pre></td></tr></table></figure>
+
+<p>当 find 命令获取到的文件名经过 xargs 传送给 rm 命令时，文件“./test 1.log”就变成了“./test”和“1.log”两个文件了。即原本 3 个文件名刹那间就变成了 6 个文件名，而这 6 个文件其实并不存在，从而引发了错误。<br><code>xargs -0</code>选项可以<span style="color:royalblue">将分隔符从默认的空格变成NULL</span>，还会将单引号、双引号、反斜线等统统看作是普通字符。所以说，<code>-0</code>选项特别适合处理命令参数中含有引号、空格、反斜线的情况。<br><code>xargs -d</code>选项可以用来指定任何一个符合作为分隔符。<br><code>xargs -p</code>选项可以让我们在命令执行过程中进行确认。如果在前一个命令的标准输出中，会有一些参数是你不希望或者不确定是否要传送给后面命令的，这个时候我们就希望 xargs 在传送参数前和我们确认一下。但是此时对所有的参数仅询问一次。如果再加上<code>-n</code>选项可以逐个确认。<br><code>xargs -E</code>当碰到某个特定的命令参数时，要求xargs立即终止并退出。</p>
+<p>xargs可以处理参数列表过长的问题。借助xargs，并利用管道的特性。将前一个命令的标准输出分段传给后一个xargs，然后作为其指定命令的参数。<br>例子：创建10万个日志文件，并且用rm命令一次性删除。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 创建10万个日志文件</span><br><span class="line">[xixi2@xixi2 ~]$ for((i=0;i&lt;100000;i++)); do touch test$&#123;i&#125;.log; done</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 用rm命令删除文件</span><br><span class="line">[xixi2@xixi2 ~]$ rm $(find . -type f -name '(.log')</span><br><span class="line">bash: /bin/rm: 参数列表过长</span><br></pre></td></tr></table></figure>
+
+<p>参数列表过长，说明rm可接受的参数长度达到了极限。系统限制了参数的长度。可以通过下面的命令查看系统的参数长度限制值。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[xixi2@xixi2 ~]$  getconf ARG_MAX</span><br><span class="line">2097152</span><br></pre></td></tr></table></figure>
+
+<p>当遇到参数过长的问题，解决方法有多种。比如说手工分组以缩短参数的长度。但是这个方法并不优雅，而且费时费力。最优雅的方法当然是借助xargs。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[xixi2@xixi2 ~]$ find . -type f -name '*.log' | xargs rm</span><br></pre></td></tr></table></figure>
+
+<h1 id="cut"><a href="#cut" class="headerlink" title="cut"></a>cut</h1><p>cut负责在文件中剪切数据。cut是以每一行作为一个处理对象。</p>
+<ul>
+<li>cut的定位依据<ul>
+<li>cut有三类定位方法<ul>
+<li>按字节(bytes)定位(字节从1开始计算)，用-b选项</li>
+<li>按字符(characters)定位，用-c选项</li>
+<li>按域(field)定位，用-f选项</li>
+</ul>
+</li>
+<li>字节定位的技巧<ul>
+<li><code>-b</code>选项支持3-5这样的写法，而且多个定位数字之间还可以用逗号隔开</li>
+<li><code>-b</code>选项定位时会将所有的定位数字按照从小到大的顺序排序，然后再依次提取。可以随意颠倒定位数字的顺序</li>
+</ul>
+</li>
+<li>定位数字的设置<ul>
+<li>只限定最大定位数或最小定位数</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>cut -d</code>自定义分隔符，默认为制表符；<span style="color:royalblue">cut只允许分隔符是一个字符</span>．因此，我们知道cut不善于处理”多空格分隔”的情况．</li>
+</ul>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查看文件aa.txt的内容</span><br><span class="line">[xixi2@xixi2 ~]$ cat aa.txt</span><br><span class="line">good day nice to meet you</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 查看文件aa.txt的信息</span><br><span class="line">[xixi2@xixi2 ~]$ ls -l aa.txt </span><br><span class="line">-rw-r--r-- 1 xixi2 xixi2 26 9月  28 16:58 aa.txt</span><br><span class="line"></span><br><span class="line">[xixi2@xixi2 ~]$ echo "good day nice to meet you" | cut -b 1</span><br><span class="line">g</span><br><span class="line"></span><br><span class="line">[xixi2@xixi2 ~]$ echo "good day nice to meet you" | cut -b 1-4,6-8</span><br><span class="line">goodday</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 范围1-4和6-8可以颠倒着写，但是1和4(6和8)不能颠倒</span><br><span class="line">[xixi2@xixi2 ~]$ echo "good day nice to meet you" | cut -b 6-8,1-4</span><br><span class="line">goodday</span><br></pre></td></tr></table></figure>
+
+<p>定位数字的设置，只限定最大定位数或最小定位数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> -3表示从头到第3个字节，包括第3个字符</span><br><span class="line">[xixi2@xixi2 ~]$echo "good day nice to meet you" | cut -b -3</span><br><span class="line">goo</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 3-表示从第三个字节到行尾，包括第3个字符</span><br><span class="line">[xixi2@xixi2 ~]$echo "good day nice to meet you" | cut -b 3-</span><br><span class="line">goo</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 没有同时出现两个第3个字符o，只出现了一个</span><br><span class="line">[xixi2@xixi2 ~]$ echo "good day nice to meet you" | cut -b -3,3-</span><br><span class="line">good day nice to meet you</span><br></pre></td></tr></table></figure>
+
+<p><code>cut -f</code>按字段进行分割<br><code>cut -d</code>可以设置分隔符，但是只能设置一个字符。cut只允许分隔符是一个字符。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[xixi2@xixi2 ~]$ cut -f 3 aa.txt </span><br><span class="line">good day nice to meet you</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 以空格为分割符，取其中的第3个字段</span><br><span class="line"><span class="meta">#</span> -d选项设置分隔符，且只能设置为１个空格，cut只允许分隔符是一个字符</span><br><span class="line">[xixi2@xixi2 ~]$ cut -d '  ' -f 3 aa.txt </span><br><span class="line">nice</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 取第3到第6个字段，包括第6个字段</span><br><span class="line">[xixi2@xixi2 ~]$ cut -d '  ' -f 3-6 aa.txt </span><br><span class="line">nice to meet you</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 取前3个字段，包括第3个字段</span><br><span class="line">[xixi2@xixi2 ~]$ cut -d '  ' -f -3 aa.txt </span><br><span class="line">good day nice</span><br></pre></td></tr></table></figure>
+
+<p>设置其他分隔符</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> ac.txt是以:为分隔符的文件</span><br><span class="line">[xixi2@xixi2 ~]$cat ac.txt </span><br><span class="line">aa:bb:cc:dd:ee</span><br><span class="line">ff:ee:hh:ee:jj</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 以:为分隔符，取第4到第6个字段，包括第4个字段</span><br><span class="line">[xixi2@xixi2 ~]$cut -d ':' -f 4- ac.txt </span><br><span class="line">dd:ee</span><br><span class="line">ee:jj</span><br></pre></td></tr></table></figure>
+
+<h2 id="识别空格和制表符"><a href="#识别空格和制表符" class="headerlink" title="识别空格和制表符"></a>识别空格和制表符</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查看文件内容</span><br><span class="line">[xixi2@xixi2 ~]$ cat tab_space.txt</span><br><span class="line">hello	world</span><br><span class="line">good	daya hi</span><br><span class="line">bad weather	ok</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 使用sed命令确认文件内容到底是制表符还是空格</span><br><span class="line">[xixi2@xixi2 ~]$sed -n l tab_space.txt </span><br><span class="line">hello\tworld$</span><br><span class="line">good\tdaya hi$</span><br><span class="line">bad weather\tok$</span><br></pre></td></tr></table></figure>
+
+<p>如果是制表符，就会显示为<code>\t</code>符号；如果是空格，就会原样显示．</p>
+<h2 id="ps和cut一起使用时出现的重复现象"><a href="#ps和cut一起使用时出现的重复现象" class="headerlink" title="ps和cut一起使用时出现的重复现象"></a>ps和cut一起使用时出现的重复现象</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[xixi2@xixi2 ~]$ ps | cat</span><br><span class="line">  PID TTY          TIME CMD</span><br><span class="line"> 3622 pts/2    00:00:00 bash</span><br><span class="line"> 3630 pts/2    00:00:00 ps</span><br><span class="line"> 3631 pts/2    00:00:00 cat</span><br></pre></td></tr></table></figure>
+
+<p>ps | cut 组合命令会产生两个进程，即ps进程和cat进程．其中ps进程为写进程，cat为读进程．当ps进程执行时，也会列出cat命令对应的进程的信息．</p>
+<p>同样的，ps | cut -b 3组合命令也会产生两个进程，即ps进程和cut进程，其中ps进程为写进程，cut进程为读进程．当ps进程执行时，也会列出cut进程的信息，并且将所有进程的信息都通过管道输出给cut进程．</p>
+<h1 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h1><p>sed是stream editor的缩写，中文称之为“流编辑器”。<br>sed命令是一个面向行处理的工具，它以行为处理单位，针对每一行进行处理，处理后的结果会输出到标准输出(STDOUT)。sed命令<span style="color:royalblue">不会对读取的文件作任何贸然的修改，而是将内容都输出到标准输出中</span>。
+sed的命令格式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed [options] [command] file</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>command部分：针对每行的内容所要进行的处理</li>
+<li>file部分：要处理的文件，如果忽略file参数，则sed会把标准输入作为处理对象。</li>
+</ul>
+<p>sed命令是面向行进行处理的，每一次处理一行内容。处理时，sed会把要处理的行存储在缓冲区中，接着用sed命令处理缓冲区中的内容，处理完成后，把缓冲区的内容送往屏幕(标准输出)。接着处理下一行，这样不断重复，直到文件末尾。这个缓冲区被称为”模式空间”。</p>
+<p><code>sed -n</code>：<code>-n</code>选项警告sed命令：除非是明确表明要输出的行，否则不要输出．<code>-n</code>选项经常和p配合使用，其含义就是，输出那些匹配的行．</p>
+<h2 id="command"><a href="#command" class="headerlink" title="command"></a>command</h2><p>command分为两块：一块是范围设定，一块是动作处理．</p>
+<ul>
+<li>范围设定<ul>
+<li>指定行数<ul>
+<li>3,5表示第3,4,5行</li>
+<li>5,$表示第5行至文件最后一行</li>
+</ul>
+</li>
+<li>模式匹配<ul>
+<li>/^[^Dd]/表示匹配行首不是以d或D开头的行</li>
+<li>/^[dD]/表示匹配所以以d或D开头的行</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>动作处理<ul>
+<li>d：表示删除行</li>
+<li>p：打印该行</li>
+<li>r：读取指定文件的内容</li>
+<li>w：写入指定文件</li>
+<li>a：在下面插入新行新内容</li>
+</ul>
+</li>
+</ul>
+<p>command部分采用<span style="color:cornflowerblue">/AA/s/BB/CC/g</span>表示匹配到文件中带有AA的行，并且将这些行中所有的BB替换成CC。</p>
+<h2 id="options"><a href="#options" class="headerlink" title="options"></a>options</h2><p><code>-a</code> 在当前行下面插入文件<br><code>-n</code>读取下一个输入行，用下一个命令处理新的行而不是用第一个命令<br><code>-e</code>执行多个sed命令<br><code>-f</code>运行脚本<br><code>-i</code>编辑文件内容<br><code>-i.bak</code>编辑的同时创造.bak的备份<br><code>-r</code>使用扩展的正则表达式</p>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><p><span style="color:cornflowerblue">i在当前行上面插入文件</span><br><span style="color:cornflowerblue">c把选定的行改为新的指定的文本</span><br><span style="color:cornflowerblue">p打印</span><br><span style="color:cornflowerblue">d删除</span><br>r/R读取文件/一行<br><span style="color:cornflowerblue">w另存</span><br><span style="color:cornflowerblue">s替换</span><br>y替换<br>h拷贝模板块的内容到内存中的缓冲区<br>H追加模板块的内容到内存中的缓冲区<br>g获得内存缓冲区的内容，并替代当前模板块中的文本<br>G获得内存缓冲区的内容，并追加到当前模板块文本的后面<br>D删除\n之前的内容</p>
+<h2 id="替换标记"><a href="#替换标记" class="headerlink" title="替换标记"></a>替换标记</h2><p>数字：表明新文本将替换第几处模式匹配的地方<br>g：表示新文本将会替换所有匹配的文本<br>\1：子串匹配标记，前面搜索可以用元字符集<br>&amp;：保留搜索的字符用来替换其他字符</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h3 id="全局文本替换"><a href="#全局文本替换" class="headerlink" title="全局文本替换"></a>全局文本替换</h3><p>s只能局部替换，g会全局替换</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> s表示替换，将apple替换为dog</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ echo "this is an apple" | sed 's/apple/banana/'</span><br><span class="line">this is a banana</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 从文件中读取数据</span><br><span class="line"><span class="meta">#</span> 查看apple.txt文件内容</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ cat apple.txt </span><br><span class="line">this is an apple</span><br><span class="line">what do you prefer? an apple or an orange</span><br><span class="line">an apple a day keeps the doctor away</span><br><span class="line">you need to eat more apples</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 把apple替换为banana</span><br><span class="line"><span class="meta">#</span> 其中/是定界符，定界符可以更改</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ sed 's/apple/banana/' apple.txt </span><br><span class="line">this is an banana</span><br><span class="line">what do you prefer? an banana or an orange</span><br><span class="line">an banana a day keeps the doctor away</span><br><span class="line">you need to eat more bananas</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 查看banana.txt文件的内容</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ cat banana.txt </span><br><span class="line">what do you prefer? an apple or an orange</span><br><span class="line">an apple a day keeps the doctor away</span><br><span class="line">you need to eat more apples</span><br><span class="line">what do you want? an apple or an orange?</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 将banana.txt文件中的or替换为and</span><br><span class="line"><span class="meta">#</span> s只会部分替换</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ sed 's/or/and/' banana.txt </span><br><span class="line">what do you prefer? an apple and an orange</span><br><span class="line">an apple a day keeps the doctand away</span><br><span class="line">you need to eat mande apples</span><br><span class="line">what do you want? an apple and an orange?</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 将banana.txt文件中的or替换为and</span><br><span class="line"><span class="meta">#</span> g会全部替换</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ sed 's/or/and/g' banana.txt </span><br><span class="line">what do you prefer? an apple and an andange</span><br><span class="line">an apple a day keeps the doctand away</span><br><span class="line">you need to eat mande apples</span><br><span class="line">what do you want? an apple and an andange?</span><br></pre></td></tr></table></figure>
+
+<h3 id="更改定界符"><a href="#更改定界符" class="headerlink" title="更改定界符/"></a>更改定界符/</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查看apple2.txt的内容</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ cat apple2.txt </span><br><span class="line">apples/bananas/fruits/</span><br><span class="line">good/bad/no/ho/</span><br><span class="line">orange/doctor/fever/</span><br><span class="line">apple/bad/no/hi/</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 使用#作为定界符</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ sed 's#no/# yes!#' apple2.txt </span><br><span class="line">apples/bananas/fruits/</span><br><span class="line">good/bad/ yes!ho/</span><br><span class="line">orange/doctor/fever/</span><br><span class="line">apple/bad/ yes!hi/</span><br></pre></td></tr></table></figure>
+
+<h3 id="按行查找替换"><a href="#按行查找替换" class="headerlink" title="按行查找替换"></a>按行查找替换</h3><p>用数字表示行范围，$表示行尾<br>用文本模式配置过滤</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">xixi2@xixi2:~/liunx_prac$ cat apple.txt </span><br><span class="line">this is an apple</span><br><span class="line">what do you prefer? an apple or an orange</span><br><span class="line">an apple a day keeps the doctor away</span><br><span class="line">you need to eat more apples</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 把第二行的apple替换为banana</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ sed '2s/apple/banana/' apple.txt </span><br><span class="line">this is an apple</span><br><span class="line">what do you prefer? an banana or an orange</span><br><span class="line">an apple a day keeps the doctor away</span><br><span class="line">you need to eat more apples</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 将第二行到最后一行中的apple全部替换为banana</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ sed '2,$s/apple/banana/' apple.txt </span><br><span class="line">this is an apple</span><br><span class="line">what do you prefer? an banana or an orange</span><br><span class="line">an banana a day keeps the doctor away</span><br><span class="line">you need to eat more bananas</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除d"><a href="#删除d" class="headerlink" title="删除d"></a>删除d</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">xixi2@xixi2:~/liunx_prac$ cat apple.txt </span><br><span class="line">this is an apple</span><br><span class="line">what do you prefer? an apple or an orange</span><br><span class="line">an apple a day keeps the doctor away</span><br><span class="line">you need to eat more apples</span><br><span class="line">I have to buy some apples.</span><br><span class="line">which color is the apple? blue or red</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 删除第二行的内容</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ sed '2d' apple.txt </span><br><span class="line">this is an apple</span><br><span class="line">an apple a day keeps the doctor away</span><br><span class="line">you need to eat more apples</span><br><span class="line">I have to buy some apples.</span><br><span class="line">which color is the apple? blue or red</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 删除第二行到第四行的内容</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ sed '2,4d' apple.txt </span><br><span class="line">this is an apple</span><br><span class="line">I have to buy some apples.</span><br><span class="line">which color is the apple? blue or red</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> or表示查找，匹配了第2(or)，3(doctor),4(more),6(color)，所以这些行被删除</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ sed '/or/d' apple.txt </span><br><span class="line">this is an apple</span><br><span class="line">I have to buy some apples.</span><br></pre></td></tr></table></figure>
+
+<h3 id="添加行"><a href="#添加行" class="headerlink" title="添加行"></a>添加行</h3><p>命令i(insert插入)，在当前行前面插入一行<br>命令a(append追加)，在当前行后面添加一行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 在前面添加一行</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ echo "hello world" | sed 'i\nice to meet you'</span><br><span class="line">nice to meet you</span><br><span class="line">hello world</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 在后面添加一行</span><br><span class="line">xixi2@xixi2:~/liunx_prac$  echo "hello world" | sed 'a\nice to meet you'</span><br><span class="line">hello world</span><br><span class="line">nice to meet you</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 在最后一行后面添加内容</span><br><span class="line">xixi2@xixi2:~/liunx_prac$  sed '$a\what dose an apple look like?' apple.txt this is an apple</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 在第二行后面添加内容</span><br><span class="line">xixi2@xixi2:~/liunx_prac$  sed '2a\what dose an orange look like?' apple.txt </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 在第二行和第四行后添加内容</span><br><span class="line">xixi2@xixi2:~/liunx_prac$  sed '2,4a\what dose an orange look like?' apple.txt</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改命令c"><a href="#修改命令c" class="headerlink" title="修改命令c"></a>修改命令c</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查看fruits.txt的内容</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ cat fruits.txt </span><br><span class="line">this is an apple</span><br><span class="line">an apple a day keeps the doctor away</span><br><span class="line">you need to eat more apples</span><br><span class="line">which color is the apple? blue or red</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 把fruits.txt第四行的内容替换为I want an apple</span><br><span class="line"><span class="meta">#</span> 注意这里是反斜杠\</span><br><span class="line">xixi2@xixi2:~/liunx_prac$  sed '4c\I want an apple' fruits.txt </span><br><span class="line">this is an apple</span><br><span class="line">an apple a day keeps the doctor away</span><br><span class="line">you need to eat more apples</span><br><span class="line">I want an apple</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 把第二行到第四行的内容修改为I want an apple</span><br><span class="line"><span class="meta">#</span> 注意替换和修改的区别，第二行到第四行的内容都没有了，并且本来有3行，修改后只有一行了。</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ sed '2,$c\I want an apple' fruits.txt </span><br><span class="line">this is an apple</span><br><span class="line">I want an apple</span><br></pre></td></tr></table></figure>
+
+<h3 id="i选项修改原文件"><a href="#i选项修改原文件" class="headerlink" title="-i选项修改原文件"></a>-i选项修改原文件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">xixi2@xixi2:~/liunx_prac$ cat fruit.txt </span><br><span class="line">this is an apple</span><br><span class="line">an apple a day keeps the doctor away</span><br><span class="line">you need to eat more apples</span><br><span class="line">which color is the apple? blue or red</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 修改fruit.txt第三行的内容并将修改写入原文件</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ sed -i '3c\do you hava a banana?' fruit.txt </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 重新查看原文件内容，发现原文件发生了变化</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ cat fruit.txt </span><br><span class="line">this is an apple</span><br><span class="line">an apple a day keeps the doctor away</span><br><span class="line">do you hava a banana?</span><br><span class="line">which color is the apple? blue or red</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> sed -i s命令使用场景：修改服务器配置文件</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ sed -i 's/or/test/' fruit.txt </span><br><span class="line">xixi2@xixi2:~/liunx_prac$  cat fruit.txt </span><br><span class="line">this is an apple</span><br><span class="line">an apple a day keeps the docttest away</span><br><span class="line">do you hava a banana?</span><br><span class="line">which coltest is the apple? blue or red</span><br></pre></td></tr></table></figure>
+
+<h1 id="find"><a href="#find" class="headerlink" title="find"></a>find</h1><p>linux find命令用来在指定目录下查找文件。任何位于参数之前的字符串都被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find path -option [-print] [-exec -ok command] &#123;&#125; \;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find &lt;指定目录&gt; &lt;指定条件&gt; &lt;指定动作&gt;</span><br></pre></td></tr></table></figure>
+
+<p>&lt;指定目录&gt;：所要搜索的目录及其所有子目录。默认为当前目录。<br>&lt;指定条件&gt;：所要搜索的文件的特征。<br>&lt;指定动作&gt;：对搜索结果进行特定的处理。<br>如果什么参数都不加，find默认搜索当前目录及其子目录，并且不过滤任何结果(也就是返回所有文件)，将它们全部显示在屏幕上。</p>
+<p><code>-amin n</code>：在过去n分钟内被读取过<br><code>-cmin n</code>：在过去n分钟内被修改过<br><code>-ctime n</code>：在过去n天内被修改过<br><code>-atime n</code>：在过去n天内被读取过<br><code>-name name, -iname name</code>：文件名称符合name的文件。iname会忽略大小写。<br><code>-size n</code>：文件大小是n单位，b代表512位元祖的区块，c表示字元数，k表示kilo bytes，w是一个二个位元组。<br><code>-type c</code>：文件类型是c的文件。<br>     d：目录<br>     c：字型装置文件<br>     b：区块装置文件<br>     p：具名伫列<br>     f：一般文件<br>     l：符号连结<br>     s：socket<br>     -pid n：process id是n的文件<br><code>-perm</code>：权限，查找具有指定权限的文件和目录，权限的表示如711，644。<br><code>-user</code>：查找属于user指定用户的所有的文件。<br><code>-group</code>：查找属于<br><code>-print</code>：将搜索结果输出到标准输出。<br><code>-ok</code>：查找后执行命令的时候询问是否要执行。<br><code>-exec</code>：对搜索的结果指令指定的shell命令，执行的时候不询问用户，直接执行。</p>
+<blockquote>
+<p>格式：-exec 命令 {} ;<br>在}和\一定要有空格才行；<br>{}的作用：{}表示命令的参数，即找到的文件；<br>命令的末尾必须以”;“结束；</p>
+<p><code>-ok</code>选项和<code>-exec</code>选项的作用基本一致，区别在于：”-exec”的命令会直接处理，而不询问；”-ok”的命令 2 在处理前会先询问用户是否这样处理，在得到确认命令后，才会执行。</p>
+</blockquote>
+<h1 id="du"><a href="#du" class="headerlink" title="du"></a>du</h1><p>du(disk usage)，用来展示磁盘使用量的统计信息．<br>du的默认单位是KB，即1024bytes。但是du的单位还与其他一些设置相关。</p>
+<blockquote>
+<p>1.如果通过–block-size选项设置了块大小，那么，这会成为du输出信息的单位。<br>2.如果上一条没满足，且设置了环境变量DU_BLOCK_SIZE，这会成为du输出信息的单位。<br>3.如果前两条都不满足，且设置了环境变量BLOCK_SIZE，这会成为du输出信息的单位。<br>3.如果前三条都不满足，且设置了环境变量BLOCKSIZE，这会成为du输出信息的单位。<br>4.如果前四条的都不满足，且设置了环境变量POSIXLY_CORRECT，则du输出信息的单位是512bytes。<br>5.如果前五条都不满足，且du的输出信息的单位是1024bytes，即KB。</p>
+</blockquote>
+<p>du和ls在展示文件大小的时候，存在着本质的区别：</p>
+<ul>
+<li>du展示的是磁盘空间占用量。</li>
+<li>ls展示的是文件内容的大小(<span style="color:royalblue">文件内容的大小如何计算</span>)。</li>
+</ul>
+<p>一个例子(可以看出du和ls命令的不同)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 有一个文件, 里面只输入了a、b两个英文字母</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ cat a.txt </span><br><span class="line">ab</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 用这个方法, 我们可以把文件里的控制字符也展示出来, 发现除了a、b外还包括了一个结尾符。</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ sed -n l a.txt</span><br><span class="line"><span class="meta">ab$</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 用ls来查看大小, 发现展示的是3字节</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ ls -l a.txt</span><br><span class="line">-rw-r--r-- 1 root root 3 9月  28 11:16 a.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 用du来查看大小, 发现竟然展示的是4KB</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ du -h a.txt</span><br><span class="line">4.0K	a.txt</span><br></pre></td></tr></table></figure>
+
+<p>文件中有三个字符，两个可见字符ab和一个控制字符$，每个字符1个字节，因此这个文件的内容大小就是3bytes。但是由于一个数据块最多只能存一个文件的限制，所以需要一个数据块来存储这个文件，因此这个文件实际占用的磁盘空间就是4KB。</p>
+<blockquote>
+<p>文件系统进驻磁盘之初，就会将磁盘按固定数据块(block)大小进行分隔切块，通常情况下每一个固定数据块大小会被设定为4096bytes，也就是4KB。<br>同时，大部分文件系统规定：<br>1.一个数据块中最多存放一个文件的内容，当没有存满时，剩余的空间不得被其他文件使用。<br>2.当一个文件的内容较大时，则可以存储到多个数据块中。</p>
+</blockquote>
+<p>当文件中存在空洞时，du命令的结果比ls命令的结果要小。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 有一个文件, 里面只输入了a、b两个英文字母</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ cat b.txt </span><br><span class="line">ab</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 用这个方法, 我们可以把文件里的控制字符也展示出来, 发现除了a、b外还包括了一个结尾符。</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ ls -l b.txt</span><br><span class="line">-rw-r--r-- 1 xixi2 xixi2 3 9月  28 11:32 b.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 在b.txt中，用dd命令创造一个大小为1G的空洞</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ dd if=/dev/zero of =b.txt oflag=append bs=1M seek=1024 count=0</span><br><span class="line">dd: you probably want conv=notrunc with oflag=append</span><br><span class="line">记录了0+0 的读入</span><br><span class="line">记录了0+0 的写出</span><br><span class="line">0 bytes copied, 8.4029e-05 s, 0.0 kB/s </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 看看b.txt文件内容，\000代表空洞</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ sed -n l b.txt | head -n 10</span><br><span class="line"><span class="meta">ab$</span></span><br><span class="line">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span><br><span class="line">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span><br><span class="line">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span><br><span class="line">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span><br><span class="line">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span><br><span class="line">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span><br><span class="line">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span><br><span class="line">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span><br><span class="line">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 用ls查看，b.txt的文件内容大小为1.0G</span><br><span class="line">xixi2@xixi2:~/liunx_prac$  ls -lh b.txt </span><br><span class="line">-rw-r--r-- 1 xixi2 xixi2 1.0G 9月  28 11:35 b.tx</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 用du查看b.txt占用的磁盘空间，仍然只用了一个数据块4KB</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ du -h b.txt </span><br><span class="line">4.0K	b.txt</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>一个文件中的空洞，并不占用磁盘空间，但是这个空洞本身会被认为是文件内容的一部分，所以ls的值很大，但是du的结果仍然保持。</p>
+</blockquote>
+<h1 id="dd"><a href="#dd" class="headerlink" title="dd"></a>dd</h1><p>dd(device driver)，它用来读取设备、文件中的内容，并原封不动地复制到指定位置．</p>
+<h1 id="date"><a href="#date" class="headerlink" title="date"></a>date</h1><p>日期换算：距离1970-01-01这个日期15775天的日期是哪一天？</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">date -d "1970-01-01 15775 days"</span><br><span class="line">2013年03月11日 星期一 00:00:00 CST</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]grep: <a href="http://c.biancheng.net/linux/grep.html" target="_blank" rel="noopener">http://c.biancheng.net/linux/grep.html</a><br>[2]find: <a href="http://c.biancheng.net/view/779.html" target="_blank" rel="noopener">http://c.biancheng.net/view/779.html</a><br>[3]find: <a href="https://www.runoob.com/linux/linux-comm-find.html" target="_blank" rel="noopener">https://www.runoob.com/linux/linux-comm-find.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/awk/" rel="tag"># awk</a>
+          
+            <a href="/tags/grep/" rel="tag"># grep</a>
+          
+            <a href="/tags/sed/" rel="tag"># sed</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/03/784.-Letter-Case-Permutation/" rel="next" title="784. Letter Case Permutation">
+                <i class="fa fa-chevron-left"></i> 784. Letter Case Permutation
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/03/inserter(插入迭代器)/" rel="prev" title="inserter">
+                inserter <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="xixi2">
+            
+              <p class="site-author-name" itemprop="name">xixi2</p>
+              <p class="site-description motion-element" itemprop="description">一去不复返的远方还有无法抵达的过去</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">111</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">91</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ls"><span class="nav-number">1.</span> <span class="nav-text">ls</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#echo"><span class="nav-number">2.</span> <span class="nav-text">echo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#grep"><span class="nav-number">3.</span> <span class="nav-text">grep</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式"><span class="nav-number">3.1.</span> <span class="nav-text">正则表达式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#awk"><span class="nav-number">4.</span> <span class="nav-text">awk</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sort"><span class="nav-number">5.</span> <span class="nav-text">sort</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#xargs"><span class="nav-number">6.</span> <span class="nav-text">xargs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cut"><span class="nav-number">7.</span> <span class="nav-text">cut</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#例子"><span class="nav-number">7.1.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#识别空格和制表符"><span class="nav-number">7.2.</span> <span class="nav-text">识别空格和制表符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ps和cut一起使用时出现的重复现象"><span class="nav-number">7.3.</span> <span class="nav-text">ps和cut一起使用时出现的重复现象</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sed"><span class="nav-number">8.</span> <span class="nav-text">sed</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#command"><span class="nav-number">8.1.</span> <span class="nav-text">command</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#options"><span class="nav-number">8.2.</span> <span class="nav-text">options</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令"><span class="nav-number">8.3.</span> <span class="nav-text">命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#替换标记"><span class="nav-number">8.4.</span> <span class="nav-text">替换标记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">8.5.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#全局文本替换"><span class="nav-number">8.5.1.</span> <span class="nav-text">全局文本替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更改定界符"><span class="nav-number">8.5.2.</span> <span class="nav-text">更改定界符/</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按行查找替换"><span class="nav-number">8.5.3.</span> <span class="nav-text">按行查找替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除d"><span class="nav-number">8.5.4.</span> <span class="nav-text">删除d</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加行"><span class="nav-number">8.5.5.</span> <span class="nav-text">添加行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改命令c"><span class="nav-number">8.5.6.</span> <span class="nav-text">修改命令c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#i选项修改原文件"><span class="nav-number">8.5.7.</span> <span class="nav-text">-i选项修改原文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#find"><span class="nav-number">9.</span> <span class="nav-text">find</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#du"><span class="nav-number">10.</span> <span class="nav-text">du</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dd"><span class="nav-number">11.</span> <span class="nav-text">dd</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#date"><span class="nav-number">12.</span> <span class="nav-text">date</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">13.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xixi2</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
