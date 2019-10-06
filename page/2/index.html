@@ -732,132 +732,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/02/tex-live安装/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="xixi2">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixi2">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/10/02/tex-live安装/" itemprop="url">tex live安装与使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-02T22:03:05+08:00">
-                2019-10-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本文档主要记录tex live的安装与使用。</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>[1]环境变量配置：<a href="https://blog.csdn.net/williamyi96/article/details/90732304" target="_blank" rel="noopener">https://blog.csdn.net/williamyi96/article/details/90732304</a></p>
-<blockquote>
-<p>上述环境变量配置仅仅对一个会话有效，要永久生效，需要修改/etc/profile<br>在/etc/profile文件中添加变量【对所有用户生效（永久的）】<br>用vim在文件/etc/profile文件中增加变量，该变量将会对Linux下所有用户有效，并且是“永久的”。<br>让修改马上生效，执行以下代码<br>source /etc/profile   </p>
-</blockquote>
-<p>[2]安装过程：<a href="https://www.linuxidc.com/Linux/2016-08/133913.htm" target="_blank" rel="noopener">https://www.linuxidc.com/Linux/2016-08/133913.htm</a><br>[3]iso文件下载地址：<a href="https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/" target="_blank" rel="noopener">https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/</a><br>[4]tlmgr找不到命令错误的解决方法：<a href="https://tex.stackovernet.com/cn/q/8513" target="_blank" rel="noopener">https://tex.stackovernet.com/cn/q/8513</a><br>[5]sudo equivs-build texlive-local执行出错：<a href="https://www.tug.org/texlive/files/debian-equivs-2019-ex.txt" target="_blank" rel="noopener">https://www.tug.org/texlive/files/debian-equivs-2019-ex.txt</a><br>[6]dpkg-gencontrol: 错误: illegal package name ‘&lt;package name; defaults to equivs-dummy&gt;’: character ‘&lt;’ not allowed错误解决方案：<br>正确的texlive-local文件内容：<a href="https://tex.stackexchange.com/questions/1092/how-to-install-vanilla-texlive-on-debian-or-ubuntu" target="_blank" rel="noopener">https://tex.stackexchange.com/questions/1092/how-to-install-vanilla-texlive-on-debian-or-ubuntu</a><br>[7]sudo dpkg -i texlive-local_2019-1_all.deb执行出错：未安装软件包 freeglut3：<a href="https://tex.stackexchange.com/questions/412915/freeglut3-not-installed-trying-to-trick-ubuntu-to-thinking-texlive-is-isntalled" target="_blank" rel="noopener">https://tex.stackexchange.com/questions/412915/freeglut3-not-installed-trying-to-trick-ubuntu-to-thinking-texlive-is-isntalled</a><br>[8]下载textstudio：<a href="https://www.bravotutorials.com/latex/recommended-programs/installing-texstudio" target="_blank" rel="noopener">https://www.bravotutorials.com/latex/recommended-programs/installing-texstudio</a><br>[9]</p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>[1] Latex数学公式-求导、分数的表示: <a href="https://blog.csdn.net/qq_31880107/article/details/86592791" target="_blank" rel="noopener">https://blog.csdn.net/qq_31880107/article/details/86592791</a><br>[2] LaTeX实战经验：数学公式环境注意事项: <a href="https://blog.csdn.net/simple_the_best/article/details/52710740" target="_blank" rel="noopener">https://blog.csdn.net/simple_the_best/article/details/52710740</a><br>[3] latex的各种帽子: <a href="https://www.cnblogs.com/huangshiyu13/p/6936884.html" target="_blank" rel="noopener">https://www.cnblogs.com/huangshiyu13/p/6936884.html</a><br>[4] 在博客中使用LaTeX插入数学公式: <a href="https://www.cnblogs.com/Sinte-Beuve/p/6160905.html" target="_blank" rel="noopener">https://www.cnblogs.com/Sinte-Beuve/p/6160905.html</a><br>[5] latex希腊字母: <a href="https://blog.csdn.net/qq_40587575/article/details/83387333" target="_blank" rel="noopener">https://blog.csdn.net/qq_40587575/article/details/83387333</a><br>[6] latex之转置符号:  <a href="https://www.cnblogs.com/huangshiyu13/p/6946395.html" target="_blank" rel="noopener">https://www.cnblogs.com/huangshiyu13/p/6946395.html</a><br>[7] 参考文献排版: <a href="https://zhuanlan.zhihu.com/p/25013341?refer=jeldor-latex" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/25013341?refer=jeldor-latex</a><br>[8] 向上(下)取整: <a href="https://www.zhihu.com/question/27399809" target="_blank" rel="noopener">https://www.zhihu.com/question/27399809</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/02/494.Target-Sum/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1701,6 +1575,134 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/29/堆/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xixi2">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixi2">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/29/堆/" itemprop="url">堆</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-29T21:28:24+08:00">
+                2019-09-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="什么是堆"><a href="#什么是堆" class="headerlink" title="什么是堆"></a>什么是堆</h1><p>我们面临的第一个问题是：什么是堆？</p>
+<blockquote>
+<p>堆可以定义为一颗二叉树，树的节点中包含键，并且满足两个条件：<br>１．该二叉树是完全二叉树．除了最后一层，树的每一层都是满的．<br>２．父母优势：(以最大堆为例)父节点的键大于或等于孩子节点的键</p>
+</blockquote>
+<p>可以用<span style="color:green">数组</span>来实现堆．</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/09/29/堆/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -1753,7 +1755,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">108</span>
+                  <span class="site-state-item-count">107</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

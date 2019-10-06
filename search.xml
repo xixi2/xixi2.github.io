@@ -133,11 +133,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[tex live安装与使用]]></title>
-    <url>%2F2019%2F10%2F02%2Ftex-live%E5%AE%89%E8%A3%85%2F</url>
-    <content type="text"><![CDATA[本文档主要记录tex live的安装与使用。 安装[1]环境变量配置：https://blog.csdn.net/williamyi96/article/details/90732304 上述环境变量配置仅仅对一个会话有效，要永久生效，需要修改/etc/profile在/etc/profile文件中添加变量【对所有用户生效（永久的）】用vim在文件/etc/profile文件中增加变量，该变量将会对Linux下所有用户有效，并且是“永久的”。让修改马上生效，执行以下代码source /etc/profile [2]安装过程：https://www.linuxidc.com/Linux/2016-08/133913.htm[3]iso文件下载地址：https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/[4]tlmgr找不到命令错误的解决方法：https://tex.stackovernet.com/cn/q/8513[5]sudo equivs-build texlive-local执行出错：https://www.tug.org/texlive/files/debian-equivs-2019-ex.txt[6]dpkg-gencontrol: 错误: illegal package name ‘&lt;package name; defaults to equivs-dummy&gt;’: character ‘&lt;’ not allowed错误解决方案：正确的texlive-local文件内容：https://tex.stackexchange.com/questions/1092/how-to-install-vanilla-texlive-on-debian-or-ubuntu[7]sudo dpkg -i texlive-local_2019-1_all.deb执行出错：未安装软件包 freeglut3：https://tex.stackexchange.com/questions/412915/freeglut3-not-installed-trying-to-trick-ubuntu-to-thinking-texlive-is-isntalled[8]下载textstudio：https://www.bravotutorials.com/latex/recommended-programs/installing-texstudio[9] 使用[1] Latex数学公式-求导、分数的表示: https://blog.csdn.net/qq_31880107/article/details/86592791[2] LaTeX实战经验：数学公式环境注意事项: https://blog.csdn.net/simple_the_best/article/details/52710740[3] latex的各种帽子: https://www.cnblogs.com/huangshiyu13/p/6936884.html[4] 在博客中使用LaTeX插入数学公式: https://www.cnblogs.com/Sinte-Beuve/p/6160905.html[5] latex希腊字母: https://blog.csdn.net/qq_40587575/article/details/83387333[6] latex之转置符号: https://www.cnblogs.com/huangshiyu13/p/6946395.html[7] 参考文献排版: https://zhuanlan.zhihu.com/p/25013341?refer=jeldor-latex[8] 向上(下)取整: https://www.zhihu.com/question/27399809]]></content>
-  </entry>
-  <entry>
     <title><![CDATA[494. Target Sum]]></title>
     <url>%2F2019%2F10%2F02%2F494.Target-Sum%2F</url>
     <content type="text"><![CDATA[You are given a list of non-negative integers, a1, a2, …, an, and a target, S. Now you have 2 symbols + and -. For each integer, you should choose one from + and - as its new symbol. Find out how many ways to assign symbols to make sum of integers equal to target S. Example 1: 1234567891011Input: nums is [1, 1, 1, 1, 1], S is 3. Output: 5Explanation: -1+1+1+1+1 = 3+1-1+1+1+1 = 3+1+1-1+1+1 = 3+1+1+1-1+1 = 3+1+1+1+1-1 = 3There are 5 ways to assign symbols to make the sum of nums be target 3. Note: The length of the given array is positive and will not exceed 20. The sum of elements in the given array will not exceed 1000. Your output answer is guaranteed to be fitted in a 32-bit integer. 暴力破解123456789101112131415class Solution &#123;public: int findTargetSumWays(vector&lt;int&gt;&amp; nums, int S) &#123; if(nums.empty())&#123; return S == 0 ? 1 : 0; &#125; return dfs(nums, S, 0, 0); &#125; int dfs(vector&lt;int&gt;&amp; nums, int S, int index, int sum)&#123; if(index == nums.size())&#123; return sum == S ? 1 : 0; &#125; return dfs(nums, S, index + 1, sum + nums[index]) + dfs(nums, S, index + 1, sum - nums[index]); &#125;&#125;; 自顶向下的记忆化搜索这里会涉及到负值,如何处理呢?加上可能的最小值的负数,进行偏移. 1234567891011121314151617181920212223class Solution &#123;public: int findTargetSumWays(vector&lt;int&gt;&amp; nums, int S) &#123; if(nums.empty())&#123; return S == 0 ? 1 : 0; &#125; int sum = 0; vector&lt;vector&lt;int&gt;&gt; res(nums.size(), vector&lt;int&gt;(2010, -1)); return dfs(nums, S, 0, 0, res); &#125; int dfs(vector&lt;int&gt;&amp; nums, int S, int index, int sum, vector&lt;vector&lt;int&gt;&gt;&amp; res)&#123; if(index == nums.size())&#123; return sum == S ? 1 : 0; &#125; if(res[index][sum + 1000]!=-1)&#123; return res[index][sum + 1000]; &#125; int add = dfs(nums, S, index + 1, sum + nums[index], res); int sub = dfs(nums, S, index + 1, sum - nums[index], res); res[index][sum + 1000] = add + sub; return add + sub; &#125;&#125;; 自底向上 dp[i][j]表示到第i个元素,组成的和为j的方法数.dp[i][sum + nums[i]] = dp[i][sum + nums[i]] + dp[i-1][sum]]]></content>
@@ -303,9 +298,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[bind与函数适配器]]></title>
-    <url>%2F2019%2F09%2F27%2Fbind%E4%B8%8E%E5%87%BD%E6%95%B0%E9%80%82%E9%85%8D%E5%99%A8%2F</url>
-    <content type="text"><![CDATA[bind是从c++11开始出现的新型适配器]]></content>
+    <title><![CDATA[traits]]></title>
+    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
+    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
       <categories>
         <category>STL</category>
       </categories>
@@ -319,9 +314,9 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[traits]]></title>
-    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
-    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
+    <title><![CDATA[bind与函数适配器]]></title>
+    <url>%2F2019%2F09%2F27%2Fbind%E4%B8%8E%E5%87%BD%E6%95%B0%E9%80%82%E9%85%8D%E5%99%A8%2F</url>
+    <content type="text"><![CDATA[bind是从c++11开始出现的新型适配器]]></content>
       <categories>
         <category>STL</category>
       </categories>
@@ -470,17 +465,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[从数组中找重复数字系列]]></title>
-    <url>%2F2019%2F09%2F27%2F%E4%BB%8E%E6%95%B0%E7%BB%84%E4%B8%AD%E6%89%BE%E9%87%8D%E5%A4%8D%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97%2F</url>
-    <content type="text"><![CDATA[287. Find the Duplicate Number 方法一：排序，将整个数组进行排序．排序的时间复杂度和空间复杂度取决于使用的排序算法．这里要求额外空间排序度为O(1)，那么只能用堆排序． 方法二：使用set 方法三 前面方法一都会修改数组，不满足要求．方法二的额外空间复杂度是O(n)，同样不满足要求． https://leetcode.com/problems/find-the-duplicate-number/]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[unix 高级环境编程系列2]]></title>
     <url>%2F2019%2F09%2F27%2Funix-%E9%AB%98%E7%BA%A7%E7%8E%AF%E5%A2%83%E7%BC%96%E7%A8%8B%E7%B3%BB%E5%88%972%2F</url>
     <content type="text"><![CDATA[此文档主要整理并记录liunx中常用的api． IOfgetcfgetc从文件指针stream指向的文件中读取一个字符，读取一个字节后，光标位置后移一个字节。 fputc功能：把一个字符写到一个输出文件流中．它返回写入的值，如果失败，则返回EOF．putc函数的作用相当于fputc，但它可能被实现为一个宏．putchar相当于putc(c, stdout)，但它把单个字符写到标准输出．注意：putchar和getchar都是把字符当做int类型而不是char类型来使用的．这就允许文件尾标识取值-1，这是一个超出字符数字编码范围的值． fopenhttps://blog.csdn.net/hairetz/article/details/4150193 read1ssize_t read(int fd, void* buf, size_t nbytes); 成功时返回接收的字节数(但遇到文件结尾则返回0)，失败时返回-1.fd: 显示数据接收对象的文件描述符．buf: 要保存接收数据的缓冲地址值．nbytes: 要接收数据的最大字节数． write1ssize_t write(int fd, const void* buf, size_t nbytes); 成功时返回写入的字节数，失败时返回-1.fd: 显示数据传输对象的文件描述符．buf: 要保存传输数据的缓冲地址值．nbytes: 要传输数据的最大字节数． freadsize_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream) 功能：从给定流 stream 读取数据到 ptr 所指向的数组中 ptr – 这是指向带有最小尺寸 size\nmemb* 字节的内存块的指针。 size – 这是要读取的每个元素的大小，以字节为单位。 nmemb – 这是元素的个数，每个元素的大小为 size 字节。 stream – 这是指向 FILE 对象的指针，该 FILE 对象指定了一个输入流。 fgets函数原型为：char *fgets(char *str, int n, FILE *stream) 功能：从指定的流 stream 读取一行，并把它存储在 str 所指向的字符串内。fgets会把读到字符写到s指向的字符串里，直到出现下面某种情况： 遇到换行符 已经传输了n-1个字节 到达文件尾 它会把遇到的换行符也保存到s中．最后在s末尾加上一个表示结尾的空字符\0．一次调用最多只能传输n-1个字符，因为它必须把空字符加到字符串表示结尾． gets函数类似于fgets，但是它从标准输入流中取数据并丢弃遇到的换行符．它在接收字符串的尾部加上一个空字节(一个字符占一个字节)． puts12# include &lt;stdio.h&gt;int puts(const char *s); 功能：将字符串输出到屏幕。输出时只有遇到 ‘\0’ 也就是字符串结束标志符才会停止。 目录opendir123#include &lt;sys/types.h&gt; #include &lt;dirent.h&gt;DIR * opendir(const char * name); 功能：opendir()用来打开参数name指定的目录，并返回DIR*形态的目录流．接下来对目录的读取和搜索都要使用此返回值． 返回值：成功则返回DIR*型态的目录流，打开失败则返回nullptr. 错误代码： EACCESS 权限不足 EMFILE 已达到进程可同时打开的文件数上限 ENFILE 已达到系统可同时打开的文件数上限 ENOTDIR 参数name 非真正的目录 ENOENT 参数name 指定的目录不存在, 或是参数name 为一空字符串 ENOMEM 核心内存不足 进程fork12 vfork函数原型 12 功能：vfork函数用于创建一个新进程．新进程的目的是exec一个新程序． vfork和fork一样都创建一个子进程，但是它并不将父进程的地址空间完全复制到子进程中．因为子进程会立即调用exec(exit)，于是也就不会引用该地址空间．但是在子进程调用exec或exit之前，它在父进程的空间中运行． vfork和fork之间的另一个区别是：vfork保证子进程先运行．在它调用exec或exit之后父进程才可能被调度运行．当子进程调用这两个函数中的任意一个时，父进程会恢复运行．如果在调用这两个函数之前子进程依赖于父进程的进一步动作，会导致死锁． wait在父进程中通过调用wait函数来让父进程等待子进程的结束．wait系统调用将阻塞父进程直到它的子进程结束．这个调用返回子进程的PID，它通常是已经结束运行的子进程的PID．状态信息允许父进程了解子进程的退出状态，即子进程的main函数返回的值或子进程中exit函数的退出码．如果stat_loc不是空指针，那么状态信息就会被写入它所指向的位置．如果调用wait的进程有多个子进程，那么在其某一子进程终止时，wait就立即返回． 12#include&lt;sys/wait.h&gt;pid_t wait(int *stat_loc) 头文件sys/wait.h中定义的宏来解释状态信息． 12WIFEXITED(stat_val); // 如果子进程正常结束，它就取一个非零值WEXITSTATUS(stat_val); // 如果WIFEXITED非零，它返回子进程的退出码 waitpid函数原型 123#include&lt;sys/type.h&gt;#include&lt;sys/wait.h&gt;pid_t waitpid(pid_t pid, int *stat_loc, int options) 功能：waitpid用来等待某个特定进程的结束． pid参数用于指定需要等待的子进程的PID．如果它的值为-1，waitpid将返回任一子进程的信息． 如果stat_loc不是空指针，waitpid将状态信息写入到stat_loc指定的位置． option参数可用来改变waitpid的行为，其中一个最有用的选项是WNOHANG，它的作用是防止waitpid调用将调用者的执行挂起．可以使用这个选项来查找是否有子进程已经结束，如果没有，程序将继续执行．其他的选项和wait调用的选项相同． 返回值：如果子进程没有结束或意外终止，返回0；否则返回child_pid．如果waitpid失败，它将返回-1并设置errno．失败的情况包括：没有子进程(errno设置为ECHILD)，调用被某个信号中断(EINTR)，或选项参数无效(EINVAL)． exec函数族1int execl(const char*path, const char *arg,...) exec函数族的函数执行成功后不会返回，调用失败时，会设置errno并返回-1，然后从原程序的调用点接着往下执行参数path：可执行文件的路径名字arg：可执行程序所带的参数，第一个参数为可执行文件的名字，没有带路径且arg必须以空指针结束 https://blog.csdn.net/u014530704/article/details/73848573 线程pthread_create函数原型 1int pthread_create(pthread_t *thread, pthread_attr_t *attr, void *(*start_routine)(void*), void* arg); 功能：创建一个新线程 第一个参数指向一个pthread_t 类型的指针，线程被创建时，这个指针指向的变量中将被写入一个标识符，我们用该标识符来引用新线程． 第二个参数用于设置线程的属性；一般不需要特殊的属性，因此令该参数为NULL 第三个参数一个函数指针，告诉线程将要启动执行的函数 第四个参数是传递给该函数的参数 成功时，返回0；失败时，返回错误代码 pthread_join函数原型 1int pthread_join(); 功能：pthread_join等价于进程中用来收集子进程信息的wait函数．调用进程将一直阻塞，直到指定的线程调用thread_exit或者从启动例程(即被调用的函数)中返回，或被取消． pthread_exit函数原型 1int pthread_exit(void * rval_ptr); 用于线程的信号量 有两组接口函数用于信号量．一组取自POSIX的实时扩展，用于线程．另一组被成为系统V信号量，常用于进程的同步．信号量是一个特殊类型的变量，它可以被增加或减少，但对其的关键访问被保证是原子操作． 在多线程程序中，如果一个程序中有两个(或多个)线程试图改变一个信号量的值，系统将保证所有的操作都依次进行．信号量有二进制信号量和计数信号量．信号量一般用来保护一段代码，使其每次只能被一个执行线程运行，使用二进制信号量来完成这个工作． 允许有限数目的线程执行一段指定的代码，这时需要计数信号量． sem_init函数原型 1int sem_init(sem_t *sem, int pshared, unsigned int value); 功能：创建信号量；信号量由一个sem_t类型指针指定，设置该信号量对象的共享选项，并给它一个初始的整数值． 第一个参数为指向sem_t类型的信号量对象的指针． pshared表示该信号量对象的共享选项，若为0表示该信号量是当前进程的局部信号量，否则，这个信号量就可以在多个进程之间共享． sem_wait函数原型 1int sem_wait(sem_t* sem); 功能：以原子操作的方式给信号量的值减1.但是它会等待直到信号量有个非零值才会开始减法操作． sem_post函数原型 1int sem_post(sem_t* sem); 功能：以原子操作的方式给信号量的值加1. 互斥量另一种用在多线程程序中的同步访问方法是使用互斥量．它允许程序锁住某个对象，使得每次只能有一个线程访问它．为了控制对关键代码的访问，必须在进入这段代码之前锁住一个互斥量，然后在完成操作之后解锁它． 以下这些用于互斥量的基本函数成功时返回0，失败时返回错误代码，但是这些函数并不设置errno，必须对函数的返回代码进行检查． pthread_mutex_init函数原型 1int pthread_mutex_init(pthread_mutext_t *mutex, const pthread_mutexattr_t *mutexattr); pthread_mutex_lock函数原型 1int pthread_mutex_lock(pthread_mutex_t *mutex) pthread_mutex_unlock函数原型 1int pthread_mutex_unlock(pthread_mutex_t *mutex); pthread_mutex_destroy函数原型 1int pthread_mutex_destroy(pthread_mutex_t *mutex) 用于进程的信号量]]></content>
@@ -489,6 +473,17 @@
       </categories>
       <tags>
         <tag>API</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[从数组中找重复数字系列]]></title>
+    <url>%2F2019%2F09%2F27%2F%E4%BB%8E%E6%95%B0%E7%BB%84%E4%B8%AD%E6%89%BE%E9%87%8D%E5%A4%8D%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97%2F</url>
+    <content type="text"><![CDATA[287. Find the Duplicate Number 方法一：排序，将整个数组进行排序．排序的时间复杂度和空间复杂度取决于使用的排序算法．这里要求额外空间排序度为O(1)，那么只能用堆排序． 方法二：使用set 方法三 前面方法一都会修改数组，不满足要求．方法二的额外空间复杂度是O(n)，同样不满足要求． https://leetcode.com/problems/find-the-duplicate-number/]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
       </tags>
   </entry>
   <entry>
@@ -522,17 +517,17 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[快速排序算法]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%2F</url>
-    <content type="text"><![CDATA[对于快速排序过程中一个的问题：为什么在qsort中递归时，需要将递归范围改为[lo, pos-1]而不是[lo, pos]? 以下看一个具体例子： 123456789101112131415161718192021222324252627282930313233343536373839#include &lt;iostream&gt;using namespace std;int partition(vector&lt;int&gt; &amp;arr, int lo, int hi) &#123; int i = lo - 1; int key = arr[hi]; for (int j = lo; j &lt; hi; ++j) &#123; if (arr[j] &lt;= key) &#123; ++i; int temp = arr[j]; arr[j] = arr[i]; arr[i] = temp; &#125; &#125; arr[hi] = arr[i + 1]; arr[i + 1] = key; return i + 1;&#125;void qsort(vector&lt;int&gt; &amp;arr, int lo, int hi) &#123; if (lo &gt;= hi) &#123; return; &#125; int pos = partition(arr, lo, hi); // 这里返回了pos=5,所以出现了递归调用，而且这个递归调用和之前的调用一模一样 qsort(arr, lo, pos - 1); qsort(arr, pos + 1, hi);&#125;int main() &#123; vector&lt;int&gt; arr&#123;12, 34, 11, 46, 12, 89&#125;; qsort(arr, 0, arr.size() - 1); for (auto c:arr) &#123; cout &lt;&lt; c &lt;&lt; " "; &#125; cout &lt;&lt; endl; return 0;&#125; 在归并排序过程中，递归的两个子范围为[lo, mid]和[mid+1, hi].那是因为[lo, mid]区间必然是[lo, hi]区间的子区间，而不会和区间[lo, hi]重叠．而这里的pos是通过partition函数返回的，表示在数组中小于等于key的元素范围，pos有可能等于hi,这是区间[lo, pos]和区间[lo, hi]重叠．]]></content>
+    <title><![CDATA[字典树]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%AD%97%E5%85%B8%E6%A0%91%2F</url>
+    <content type="text"><![CDATA[字典树又称为单词查找树．主要应用于字符串的统计和排序，经常被搜索引擎用于文本词频统计． 参考文献[1] 字典树的C++实现 Implement of trie tree: https://blog.csdn.net/pyang1989/article/details/22834653]]></content>
       <categories>
         <category>leetcode</category>
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[字典树]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%AD%97%E5%85%B8%E6%A0%91%2F</url>
-    <content type="text"><![CDATA[字典树又称为单词查找树．主要应用于字符串的统计和排序，经常被搜索引擎用于文本词频统计． 参考文献[1] 字典树的C++实现 Implement of trie tree: https://blog.csdn.net/pyang1989/article/details/22834653]]></content>
+    <title><![CDATA[快速排序算法]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[对于快速排序过程中一个的问题：为什么在qsort中递归时，需要将递归范围改为[lo, pos-1]而不是[lo, pos]? 以下看一个具体例子： 123456789101112131415161718192021222324252627282930313233343536373839#include &lt;iostream&gt;using namespace std;int partition(vector&lt;int&gt; &amp;arr, int lo, int hi) &#123; int i = lo - 1; int key = arr[hi]; for (int j = lo; j &lt; hi; ++j) &#123; if (arr[j] &lt;= key) &#123; ++i; int temp = arr[j]; arr[j] = arr[i]; arr[i] = temp; &#125; &#125; arr[hi] = arr[i + 1]; arr[i + 1] = key; return i + 1;&#125;void qsort(vector&lt;int&gt; &amp;arr, int lo, int hi) &#123; if (lo &gt;= hi) &#123; return; &#125; int pos = partition(arr, lo, hi); // 这里返回了pos=5,所以出现了递归调用，而且这个递归调用和之前的调用一模一样 qsort(arr, lo, pos - 1); qsort(arr, pos + 1, hi);&#125;int main() &#123; vector&lt;int&gt; arr&#123;12, 34, 11, 46, 12, 89&#125;; qsort(arr, 0, arr.size() - 1); for (auto c:arr) &#123; cout &lt;&lt; c &lt;&lt; " "; &#125; cout &lt;&lt; endl; return 0;&#125; 在归并排序过程中，递归的两个子范围为[lo, mid]和[mid+1, hi].那是因为[lo, mid]区间必然是[lo, hi]区间的子区间，而不会和区间[lo, hi]重叠．而这里的pos是通过partition函数返回的，表示在数组中小于等于key的元素范围，pos有可能等于hi,这是区间[lo, pos]和区间[lo, hi]重叠．]]></content>
       <categories>
         <category>leetcode</category>
       </categories>
@@ -902,6 +897,11 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[寻找下一个节点]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%AF%BB%E6%89%BE%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%2F</url>
+    <content type="text"><![CDATA[链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继返回-1。]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[可调用对象]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%8F%AF%E8%B0%83%E7%94%A8%E5%AF%B9%E8%B1%A1%2F</url>
     <content type="text"><![CDATA[可调用对象有函数,函数指针,lambda表达式,函数对象, bind创建的对象等.函数和函数指针不必多说.那么什么是函数对象呢?函数对象是一种重载了调用运算符的类类型.因为重载了调用运算符,所以我们可以像调用函数一样调用类的对象,因为称为函数对象.lambda表达式表示一个可调用的代码单元. 函数对象12345678910111213141516/** * absInt类只定义了一种操作:函数调用运算符 * 此类为函数对象 */struct absInt &#123; int operator()(int val) const &#123; return val &lt; 0 ? -val : val; &#125;&#125;;int main()&#123; absInt absObj; cout &lt;&lt; absObj(42) &lt;&lt; endl; // 42 cout &lt;&lt; absObj(-10) &lt;&lt; endl; // 10 return 0;&#125; 以上代码即定义了一个函数对象.调用该对象就像调用函数一样.仿佛该类型对象是一个函数.还可以定义有数据成员的函数对象 123456789101112131415161718class PrintString &#123;public: PrintString(ostream &amp;o = cout, char c = ' ') : os(o), sep(c) &#123;&#125; void operator()(const string &amp;s) const &#123; os &lt;&lt; s &lt;&lt; sep; &#125;private: ostream &amp;os; char sep;&#125;;int main()&#123; PrintString printer; printer("hello"); // 输出hello PrintString errors(cerr, '\n'); string s = "wrong answer"; errors(s); // 输出wrong answer return 0;&#125; lambda表达式lambda表达式在很多语言中都有.lambda可以理解为一个未命名的内联函数,但是与普通函数不同的是,lambda可能定义在函数内部;lambda表达式必须尾置返回; lambda表达式不能有默认参数; lambda表达式的参数列表和返回类型可以省略. 那么在c++中该怎么定义一个lambda表达式呢?一个lambda表达式具有以下形式: 1[capure list](parameter list)-&gt; return type &#123;function body&#125; 其中,捕获列表(capure list)是该lambda表达式所在函数中定义的局部变量(通常为空).参数列表(parameter list), 返回类型, 返回类型(return type)和函数体(function body)与普通函数相同. 当定义一个lambda时,编译器生成一个与lambda对象的新的(未命名的)类类型.当向一个函数传递一个lambda时,同时定义了一个新类型和该类型的一个对象. 123456vector&lt;string&gt; vc&#123;"good", "to", "see", "you", "again"&#125;;for_each(vc.begin(), vc.end(), PrintString(cout, '\n')); // 函数对象// 等价的lambda表达式string sep("\n");for_each(vc.begin(), vc.end(), [sep](const string &amp;s) &#123; cout &lt;&lt; s &lt;&lt; sep; &#125;); 使用函数对象打印出可变数组vc中的元素.同时定义了一个与函数对象PrintString等价的lambda表达式. 捕获变量与参数传递类似,捕获变量也有两种方式,值捕获和引用捕获.采用值捕获需要变量可以拷贝.与参数传递不同,被捕获的变量的值是在lambda创建时拷贝,而不是调用时拷贝.引用捕获需要保证lambda表达式执行时,该引用指向的对象仍然存在. 在一个基本类型为string类型的可变数组中找出第一个长度大于给定值sz的元素.下面分别用函数对象和lambda表达式的形式实现. 123456789101112131415161718192021222324252627class SizeCmp &#123;public: SizeCmp(size_t n) : sz(n) &#123;&#125; bool operator()(const string &amp;a) &#123; return a.size() &gt;= sz; &#125;private: size_t sz;&#125;;int main()&#123; vector&lt;string&gt; vc&#123;"good", "to", "see", "mango", "again", "day", "nana"&#125;; size_t sz = 6; // 使用lambda表达式// auto wc = find_if(vc.begin(), vc.end(), [sz](const string &amp;a) &#123; return a.size() &gt;= sz; &#125;); // 使用等价的函数对象 auto wc = find_if(vc.begin(), vc.end(), SizeCmp(sz)); // wc 为指向第一个长度不小于给定值sz的元素的迭代器 if (wc != vc.end()) cout &lt;&lt; (*wc) &lt;&lt; endl; else &#123; cout &lt;&lt; "empty result" &lt;&lt; endl; &#125; //当sz=5时,输出mango;当sz=6时,输出empty result&#125; bind参数绑定标准库的bind函数可以看做一个函数适配器.它接受一个可调用对象,生成一个新的可调用对象. 12345678910111213141516171819bool check_size(const string&amp; s, string::size_type sz)&#123; return s.size() &gt;= sz;&#125;// 给check_size函数的第一个参数绑定一个值// auto check6 = bind(check_size, std::placeholders::_1, 6);auto check6 = bind(check_size, std::placeholders::_1, 5);// 调用check6函数string s = "hello";cout &lt;&lt; check6(s) &lt;&lt; endl;vector&lt;string&gt; vc&#123;"good", "to", "see", "mango", "again", "day", "nana"&#125;;auto wc = find_if(vc.begin(), vc.end(), check6);// wc 为指向第一个长度不小于给定值sz的元素的迭代器if (wc != vc.end()) cout &lt;&lt; (*wc) &lt;&lt; endl;else &#123; cout &lt;&lt; "empty result" &lt;&lt; endl; 可调用对象与function每一个lambda表达式都是一种未命名的新类型;函数对象的类型是该对象的类类型;函数和函数指针的类型由参数列表和返回值决定. 多个调用对象有不同的类型,但是却共享相同的调用形式.调用形式指明了调用返回的类型以及传递给调用的实参类型(如何SizeCmp类型的函数对象和lambda表达式,类型不同,调用形式相同).一种调用形式对应一个函数类型.标准库中function模板可以表示函数类型. 123456789101112map&lt;string, function&lt;int(int, int)&gt;&gt; binops = &#123; &#123;"+", add&#125;, &#123;"-", std::minus&lt;int&gt;()&#125;, &#123;"/", Divide()&#125;, &#123;"*", [](int i, int j) &#123; return i * j; &#125;&#125;, &#123;"%", mod&#125;&#125;;cout &lt;&lt; binops["+"](10, 5) &lt;&lt; endl; // 15cout &lt;&lt; binops["-"](10, 5) &lt;&lt; endl; // 5cout &lt;&lt; binops["%"](11, 4) &lt;&lt; endl; // 3cout &lt;&lt; binops["*"](13, 2) &lt;&lt; endl; // 26 add, Divide(),mod等各个可调用对象的类型各不相同,但是它们都是调用形式为int(int, int)的可调用对象,因此可以赋值给function&lt;int(int,int)&gt;类型的对象.]]></content>
@@ -911,11 +911,6 @@
       <tags>
         <tag>可调用对象</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[寻找下一个节点]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%AF%BB%E6%89%BE%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%2F</url>
-    <content type="text"><![CDATA[链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继返回-1。]]></content>
   </entry>
   <entry>
     <title><![CDATA[二叉树的下一个结点]]></title>
