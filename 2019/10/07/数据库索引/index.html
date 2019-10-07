@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="xixi2">
 <meta property="og:description" content="索引是存储引擎用于快速找到记录的一种数据结构。索引是按用户任意指定的字段对数据进行排序的一种数据结构。索引是为了加快查询的速度．">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-07T03:05:54.365Z">
+<meta property="og:updated_time" content="2019-10-07T06:39:41.520Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库索引">
 <meta name="twitter:description" content="索引是存储引擎用于快速找到记录的一种数据结构。索引是按用户任意指定的字段对数据进行排序的一种数据结构。索引是为了加快查询的速度．">
@@ -323,7 +323,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-07T11:05:54+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-07T14:39:41+08:00">
                 2019-10-07
               </time>
             
@@ -393,7 +393,7 @@
 
 <h1 id="使用索引"><a href="#使用索引" class="headerlink" title="使用索引"></a>使用索引</h1><ul>
 <li>优点<ul>
-<li>通过建立唯一索引或主见索引保证数据库中每一行数据的唯一性，提高检索的数据的效率以及减少表的检索行数</li>
+<li>通过建立唯一索引或主键索引保证数据库中每一行数据的唯一性，提高检索的数据的效率以及减少表的检索行数</li>
 </ul>
 </li>
 <li>缺点：<ul>
@@ -423,27 +423,29 @@
 
 <h1 id="B-tree索引"><a href="#B-tree索引" class="headerlink" title="B-tree索引"></a>B-tree索引</h1><h2 id="B树"><a href="#B树" class="headerlink" title="B树"></a>B树</h2><p>数据库索引存储在磁盘上，当数据量比较大的时候，索引也很大，可能有几个G甚至更多．<br>当我们利用索引查询的时候，能把整个索引全部加载到内存吗？显然不可能，只能一页一页地加载磁盘页．这里的磁盘页对应着索引树的节点．<br>如果利用二叉查找树作为索引结构，假设二叉查找树的高度为n．那么最差情况下，要查询的节点是处于最深层次上的叶子节点，磁盘IO次数等于树的高度．为了减少磁盘IO次数，需要把原本”瘦高”的树结构变得”矮胖”，这就是B-树的特征之一．<br>B树是一种多路平衡查找树，它的每一个节点最多包含k个孩子，k被称为B树的阶．k的大小取决于磁盘页的大小．</p>
 <blockquote>
-<p>一个m阶的B树具有如下特征：<br>１．根节点至少有两个孩子<br>２．每个中间节点都包含k-1个元素和k个孩子，其中m/2(向上取整) &lt;= k &lt;= m．<br>３．每一个叶子节点都包含k-1个元素，其中m/2(下上取整) &lt;= k &lt;= m<br>４．所有的叶子节点都位于同一层．<br>５．每个节点中的元素从小到大排列，节点当中k-1个元素正好是k个孩子包含的元素的值域的分割．</p>
+<p>一个m阶的B树具有如下特征：<br>１．根节点至少有两个孩子<br>２．每个中间节点都包含k-1个元素和k个孩子，其中m/2(向上取整) &lt;= k &lt;= m．<br>３．每一个叶子节点都包含k-1个元素，其中m/2(向上取整) &lt;= k &lt;= m<br>４．所有的叶子节点都位于同一层．<br>５．每个节点中的元素从小到大排列，节点当中k-1个元素正好是k个孩子包含的元素的值域的分割．</p>
 </blockquote>
 <p>B树在查询过程中的比较次数并不比二叉查找树少，尤其是当单一节点中的元素数量很多时．可是相比磁盘IO的速度，内存中的比较耗时几乎可以忽略．只要树的高度足够低，IO次数足够少，就可以提升查找性能．<br>在一个节点内的内部元素多一些也没有关系，只不过需要在内存中多做几次比较．<br>B树主要应用于文件系统及部分数据库索引，如非关系型数据库MongoDB．大部分关系型数据库，如mysql，使用B+树作为索引．</p>
+<p>B树无论中间节点还是叶子节点都既有用于索引的关键字又有数据项(如数据表中的一行)。</p>
 <h2 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h2><blockquote>
 <p>一个m阶的B+树具有如下特征：<br>１．有k个子树的中间节点包含k个元素(B树中是k-1个元素)，每个元素不保存数据，只用来索引，所有数据都保存在叶子节点上．<br>２．所有的叶子节点中包含了全部元素的信息，以及指向含这些元素记录的指针，且叶子节点本身依关键字的大小从小到大顺序链接(每一个叶子节点都包含指向下一个叶子节点的指针，从而方便叶子节点的范围遍历)．</p>
 <p>更详细版本<br>一个m阶的B树具有如下特征：<br>１．数据项存储在叶子节点上<br>２．非叶节点存储指示m-1个关键字指示搜索的方向；关键字i代表子树i+1中的最小的关键字(每一个父节点的元素都出现在子节点中，是子节点中的最大或最小元素，这里是最小)<br>３．树的根或者是一片树叶，或者其孩子数在2到m之间．<br>４．除根外，所有非叶节点的还在数在[m/2](m/2向上取整)和m之间．<br>５．所有的叶子节点都位于同一层，并且每个叶子节点拥有的数据项的个数在[L/2]和L之间．L是能装入到一个磁盘块中的数据项个数．</p>
 </blockquote>
 <p><strong>B树和B+树的区别在于</strong><br>B+树中数据项只存储在叶子节点中，所以，同样大小的磁盘有可以容纳更多的关键字元素．这意味着，数据量相同的情况下，B+树的结构比B树更加矮胖，因此查询时的IO次数更少．但是B+树的查询最终必须查找到叶子节点才能获取数据项，而B树只要找到匹配的元素即可．无论匹配元素是在中间节点还是叶子节点．<br>B树的查找性能并不稳定(最好情况是只查根节点，最坏情况是查到叶子节点)．而B+树的每一次查找都是稳定的．</p>
 <p>B+树的优点主要体现在查询性能上．分别以单行查询和范围查询为例．<br>B+树的范围查询只需要找到上限和下限所在的叶子节点，然后对链表进行遍历．而B树的范围查询需要通过中序遍历．<br>总的来说，B+与B树相比，优点在于：<br>１．单一节点存储更多的(关键字)元素，使得查询的IO次数更少．<br>２．所有查询都要查询到叶子节点才能获取(关键字)元素对应的数据项，查询性能更加稳定．<br>３．所有叶子节点形参有序链表，便于范围查询．</p>
-<h1 id="哈希索引"><a href="#哈希索引" class="headerlink" title="哈希索引"></a>哈希索引</h1><p>哈希索引基于哈希表实现．只有精确匹配索引所有列的查询才有效．<br>对于每一行数据(即每一个记录)，存储引擎会对所有的<span style="color:royalblue">索引列</span>计算一个哈希码(hash code)．<span style="color:royalblue">哈希索引将所有的哈希码存储在索引中，同时在哈希表中保存指向所有数据行的指针</span>（具体而言）．<br>一般而言，对于不同的键值得出的哈希码是不同的，但是如果多个键值的哈希码相同，则将以链表的形式将多个记录指针存放到同一个哈希表条目中．</p>
+<h3 id="B-树的增删改查"><a href="#B-树的增删改查" class="headerlink" title="B+树的增删改查"></a>B+树的增删改查</h3><h1 id="哈希索引"><a href="#哈希索引" class="headerlink" title="哈希索引"></a>哈希索引</h1><p>哈希索引基于哈希表实现．只有精确匹配索引所有列的查询才有效。<br>对于每一行数据(即每一个记录)，存储引擎会对所有的<span style="color:royalblue">索引列</span>计算一个哈希码(hash code)。<span style="color:royalblue">哈希索引将所有的哈希码存储在索引中，同时在哈希表中保存指向所有数据行的指针</span>。
+一般而言，对于不同的键值得出的哈希码是不同的，但是如果多个键值的哈希码相同，则将以链表的形式将多个记录指针存放到同一个哈希表条目中。</p>
 <p>哈希索引的优缺点：</p>
 <ul>
-<li>优点：索引中只存储对应的哈希值，索引的结构十分紧凑，所以哈希查找的速度非常快．</li>
+<li>优点：索引中只存储对应的哈希值，索引的结构十分紧凑，所以哈希查找的速度非常快。</li>
 <li>缺点：<ul>
 <li>哈希索引只包含哈希值和行指针，而不存储字段值，所以不能使用索引中的值来避免读取行</li>
-<li>哈希索引数据并不是按照索引值顺序存储的，所以无法用于排序．</li>
-<li>哈希索引不支持部分索引列匹配查找，因为哈希索引是使用所有索引列的全部内容来计算哈希值的．例如，在数据列(A,B)上建立哈希索引，如果查询只有数据列A则无法使用该索引．</li>
+<li>哈希索引数据并不是按照索引值顺序存储的，所以无法用于排序。</li>
+<li>哈希索引不支持部分索引列匹配查找，因为哈希索引是使用所有索引列的全部内容来计算哈希值的。例如，在数据列(A,B)上建立哈希索引，如果查询只有数据列A则无法使用该索引</li>
 </ul>
 </li>
 </ul>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] B+树：<a href="https://mp.weixin.qq.com/s?__biz=MzIxMjE5MTE1Nw==&mid=2653191027&idx=1&sn=4ba22e3ec8bd149f69fc0aba72e4347e&chksm=8c9909a9bbee80bfa1d8497ff0525df130414c1731b5aa5287bf16ea1cf86c8d8e6f20782184&mpshare=1&scene=1&srcid=0925sA77A3hmiwr5HA9RSDzm&sharer_sharetime=1569419984774&sharer_shareid=98e442f4afad129e8b911831ba1d924a&pass_ticket=gKtUZgL16JtjtQiE3lotTm8CearSQYQ59A80esjorZO78gNkS9v%2B5Uh9XhTfsEaH#rd" target="_blank" rel="noopener">B+树</a><br>[2] B树：<a href="https://mp.weixin.qq.com/s?__biz=MzIxMjE5MTE1Nw==&mid=2653190965&idx=1&sn=53f78fa037386f85531832cd5322d2a0&pass_ticket=gKtUZgL16JtjtQiE3lotTm8CearSQYQ59A80esjorZO78gNkS9v%2B5Uh9XhTfsEaH" target="_blank" rel="noopener">B树</a><br>[3] MySQL索引和SQL调优：<a href="https://zhuanlan.zhihu.com/p/76494612" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/76494612</a></p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] B+树：<a href="https://mp.weixin.qq.com/s?__biz=MzIxMjE5MTE1Nw==&mid=2653191027&idx=1&sn=4ba22e3ec8bd149f69fc0aba72e4347e&chksm=8c9909a9bbee80bfa1d8497ff0525df130414c1731b5aa5287bf16ea1cf86c8d8e6f20782184&mpshare=1&scene=1&srcid=0925sA77A3hmiwr5HA9RSDzm&sharer_sharetime=1569419984774&sharer_shareid=98e442f4afad129e8b911831ba1d924a&pass_ticket=gKtUZgL16JtjtQiE3lotTm8CearSQYQ59A80esjorZO78gNkS9v%2B5Uh9XhTfsEaH#rd" target="_blank" rel="noopener">B+树</a><br>[2] B树：<a href="https://mp.weixin.qq.com/s?__biz=MzIxMjE5MTE1Nw==&mid=2653190965&idx=1&sn=53f78fa037386f85531832cd5322d2a0&pass_ticket=gKtUZgL16JtjtQiE3lotTm8CearSQYQ59A80esjorZO78gNkS9v%2B5Uh9XhTfsEaH" target="_blank" rel="noopener">B树</a><br>[3] MySQL索引和SQL调优：<a href="https://zhuanlan.zhihu.com/p/76494612" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/76494612</a><br>[4]可视化插入和删除过程：<a href="https://www.cs.usfca.edu/~galles/visualization/BPlusTree.html" target="_blank" rel="noopener">https://www.cs.usfca.edu/~galles/visualization/BPlusTree.html</a></p>
 
       
     </div>
@@ -477,6 +479,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/07/进程/" rel="prev" title="进程">
+                进程 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -555,7 +561,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">107</span>
+                  <span class="site-state-item-count">111</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -610,7 +616,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用索引"><span class="nav-number">1.</span> <span class="nav-text">使用索引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#B-tree索引"><span class="nav-number">2.</span> <span class="nav-text">B-tree索引</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#B树"><span class="nav-number">2.1.</span> <span class="nav-text">B树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-树"><span class="nav-number">2.2.</span> <span class="nav-text">B+树</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#哈希索引"><span class="nav-number">3.</span> <span class="nav-text">哈希索引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用索引"><span class="nav-number">1.</span> <span class="nav-text">使用索引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#B-tree索引"><span class="nav-number">2.</span> <span class="nav-text">B-tree索引</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#B树"><span class="nav-number">2.1.</span> <span class="nav-text">B树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-树"><span class="nav-number">2.2.</span> <span class="nav-text">B+树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#B-树的增删改查"><span class="nav-number">2.2.1.</span> <span class="nav-text">B+树的增删改查</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#哈希索引"><span class="nav-number">3.</span> <span class="nav-text">哈希索引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>
