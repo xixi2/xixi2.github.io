@@ -16,8 +16,8 @@
         <category>计算机日常使用</category>
       </categories>
       <tags>
-        <tag>常用工具</tag>
         <tag>linux系统</tag>
+        <tag>常用工具</tag>
       </tags>
   </entry>
   <entry>
@@ -28,8 +28,8 @@
         <category>计算机日常使用</category>
       </categories>
       <tags>
-        <tag>liunx系统</tag>
         <tag>常用工具</tag>
+        <tag>liunx系统</tag>
       </tags>
   </entry>
   <entry>
@@ -401,17 +401,17 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[traits]]></title>
-    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
-    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
+    <title><![CDATA[bind与函数适配器]]></title>
+    <url>%2F2019%2F09%2F27%2Fbind%E4%B8%8E%E5%87%BD%E6%95%B0%E9%80%82%E9%85%8D%E5%99%A8%2F</url>
+    <content type="text"><![CDATA[bind是从c++11开始出现的新型适配器]]></content>
       <categories>
         <category>STL</category>
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[bind与函数适配器]]></title>
-    <url>%2F2019%2F09%2F27%2Fbind%E4%B8%8E%E5%87%BD%E6%95%B0%E9%80%82%E9%85%8D%E5%99%A8%2F</url>
-    <content type="text"><![CDATA[bind是从c++11开始出现的新型适配器]]></content>
+    <title><![CDATA[traits]]></title>
+    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
+    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
       <categories>
         <category>STL</category>
       </categories>
@@ -446,14 +446,6 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[对象模型]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%2F</url>
-    <content type="text"><![CDATA[多重继承下的对象模型 123456789101112131415161718192021class A &#123; public: virtual ~A() &#123;&#125;&#125;;class B &#123; public: virtual ~B() &#123;&#125;&#125;;class C : public A, public B &#123;&#125;;void test1() &#123; C *pC = new C(); A *pA = (A *) pC; B *pB = (B *) pC; cout &lt;&lt; pA &lt;&lt; endl; // 0x5652962dbe70 cout &lt;&lt; pB &lt;&lt; endl; // 0x5652962dbe78 cout &lt;&lt; pC &lt;&lt; endl; // 0x5652962dbe70&#125;]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[指针和引用]]></title>
     <url>%2F2019%2F09%2F27%2F%E6%8C%87%E9%92%88%E5%92%8C%E5%BC%95%E7%94%A8%2F</url>
     <content type="text"><![CDATA[什么是引用？ 引用和指针的区别与联系指针和引用的异同点 指针 引用 指针本身是对象 引用本身不是对象,只是对象的别名 允许对指针本身进行赋值和拷贝,在指针的生命期内可以指向不同的对象(只要指针不是常量指针) 引用定义时就和一个对象绑定,且始终和这个对象绑定,无法令引用重新绑定到另一个对象 指针无须在定义时赋初值,在块作用域内的指针如果没有被初始化,将拥有一个不确定的值. 引用必须初始化. 可以定义指向指针的指针 无法定义引用的引用 引用的常见用途引用通常不用于声明变量，而用于参数类型和返回类型的描述． 12345678910void func1(Cls* pobj)&#123; pobj-&gt;xxx();&#125;void func2(Cls obj)&#123;obj.xxx();&#125;void func3(Cls&amp; obj)&#123;obj.xxx();&#125;Cls obj;func1(&amp;obj); // 接口不同// 调用端口相同func2(obj);func3(obj); 以下两个函数被视为”same signature”(所以二者不能同时存在)： 12double imag(const double&amp; im)&#123;...&#125;double imag(const double im)&#123;...&#125; // Ambiguity Q：const是不是函数签名的一部分？A：是的，两个函数，一个函数有const，另一个没有，则可以看做函数重载．]]></content>
@@ -464,6 +456,14 @@
         <tag>指针</tag>
         <tag>引用</tag>
       </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[对象模型]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%2F</url>
+    <content type="text"><![CDATA[多重继承下的对象模型 123456789101112131415161718192021class A &#123; public: virtual ~A() &#123;&#125;&#125;;class B &#123; public: virtual ~B() &#123;&#125;&#125;;class C : public A, public B &#123;&#125;;void test1() &#123; C *pC = new C(); A *pA = (A *) pC; B *pB = (B *) pC; cout &lt;&lt; pA &lt;&lt; endl; // 0x5652962dbe70 cout &lt;&lt; pB &lt;&lt; endl; // 0x5652962dbe78 cout &lt;&lt; pC &lt;&lt; endl; // 0x5652962dbe70&#125;]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
   </entry>
   <entry>
     <title><![CDATA[c++2.0新特性]]></title>
@@ -541,17 +541,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[从数组中找重复数字系列]]></title>
-    <url>%2F2019%2F09%2F27%2F%E4%BB%8E%E6%95%B0%E7%BB%84%E4%B8%AD%E6%89%BE%E9%87%8D%E5%A4%8D%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97%2F</url>
-    <content type="text"><![CDATA[287. Find the Duplicate Number 方法一：排序，将整个数组进行排序．排序的时间复杂度和空间复杂度取决于使用的排序算法．这里要求额外空间排序度为O(1)，那么只能用堆排序． 方法二：使用set 方法三 前面方法一都会修改数组，不满足要求．方法二的额外空间复杂度是O(n)，同样不满足要求． https://leetcode.com/problems/find-the-duplicate-number/]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[unix 高级环境编程系列2]]></title>
     <url>%2F2019%2F09%2F27%2Funix-%E9%AB%98%E7%BA%A7%E7%8E%AF%E5%A2%83%E7%BC%96%E7%A8%8B%E7%B3%BB%E5%88%972%2F</url>
     <content type="text"><![CDATA[此文档主要整理并记录liunx中常用的api． IOfgetcfgetc从文件指针stream指向的文件中读取一个字符，读取一个字节后，光标位置后移一个字节。 fputc功能：把一个字符写到一个输出文件流中．它返回写入的值，如果失败，则返回EOF．putc函数的作用相当于fputc，但它可能被实现为一个宏．putchar相当于putc(c, stdout)，但它把单个字符写到标准输出．注意：putchar和getchar都是把字符当做int类型而不是char类型来使用的．这就允许文件尾标识取值-1，这是一个超出字符数字编码范围的值． fopenhttps://blog.csdn.net/hairetz/article/details/4150193 read1ssize_t read(int fd, void* buf, size_t nbytes); 成功时返回接收的字节数(但遇到文件结尾则返回0)，失败时返回-1.fd: 显示数据接收对象的文件描述符．buf: 要保存接收数据的缓冲地址值．nbytes: 要接收数据的最大字节数． write1ssize_t write(int fd, const void* buf, size_t nbytes); 成功时返回写入的字节数，失败时返回-1.fd: 显示数据传输对象的文件描述符．buf: 要保存传输数据的缓冲地址值．nbytes: 要传输数据的最大字节数． freadsize_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream) 功能：从给定流 stream 读取数据到 ptr 所指向的数组中 ptr – 这是指向带有最小尺寸 size\nmemb* 字节的内存块的指针。 size – 这是要读取的每个元素的大小，以字节为单位。 nmemb – 这是元素的个数，每个元素的大小为 size 字节。 stream – 这是指向 FILE 对象的指针，该 FILE 对象指定了一个输入流。 fgets函数原型为：char *fgets(char *str, int n, FILE *stream) 功能：从指定的流 stream 读取一行，并把它存储在 str 所指向的字符串内。fgets会把读到字符写到s指向的字符串里，直到出现下面某种情况： 遇到换行符 已经传输了n-1个字节 到达文件尾 它会把遇到的换行符也保存到s中．最后在s末尾加上一个表示结尾的空字符\0．一次调用最多只能传输n-1个字符，因为它必须把空字符加到字符串表示结尾． gets函数类似于fgets，但是它从标准输入流中取数据并丢弃遇到的换行符．它在接收字符串的尾部加上一个空字节(一个字符占一个字节)． puts12# include &lt;stdio.h&gt;int puts(const char *s); 功能：将字符串输出到屏幕。输出时只有遇到 ‘\0’ 也就是字符串结束标志符才会停止。 目录opendir123#include &lt;sys/types.h&gt; #include &lt;dirent.h&gt;DIR * opendir(const char * name); 功能：opendir()用来打开参数name指定的目录，并返回DIR*形态的目录流．接下来对目录的读取和搜索都要使用此返回值． 返回值：成功则返回DIR*型态的目录流，打开失败则返回nullptr. 错误代码： EACCESS 权限不足 EMFILE 已达到进程可同时打开的文件数上限 ENFILE 已达到系统可同时打开的文件数上限 ENOTDIR 参数name 非真正的目录 ENOENT 参数name 指定的目录不存在, 或是参数name 为一空字符串 ENOMEM 核心内存不足 进程fork12 vfork函数原型 12 功能：vfork函数用于创建一个新进程．新进程的目的是exec一个新程序． vfork和fork一样都创建一个子进程，但是它并不将父进程的地址空间完全复制到子进程中．因为子进程会立即调用exec(exit)，于是也就不会引用该地址空间．但是在子进程调用exec或exit之前，它在父进程的空间中运行． vfork和fork之间的另一个区别是：vfork保证子进程先运行．在它调用exec或exit之后父进程才可能被调度运行．当子进程调用这两个函数中的任意一个时，父进程会恢复运行．如果在调用这两个函数之前子进程依赖于父进程的进一步动作，会导致死锁． wait在父进程中通过调用wait函数来让父进程等待子进程的结束．wait系统调用将阻塞父进程直到它的子进程结束．这个调用返回子进程的PID，它通常是已经结束运行的子进程的PID．状态信息允许父进程了解子进程的退出状态，即子进程的main函数返回的值或子进程中exit函数的退出码．如果stat_loc不是空指针，那么状态信息就会被写入它所指向的位置．如果调用wait的进程有多个子进程，那么在其某一子进程终止时，wait就立即返回． 12#include&lt;sys/wait.h&gt;pid_t wait(int *stat_loc) 头文件sys/wait.h中定义的宏来解释状态信息． 12WIFEXITED(stat_val); // 如果子进程正常结束，它就取一个非零值WEXITSTATUS(stat_val); // 如果WIFEXITED非零，它返回子进程的退出码 waitpid函数原型 123#include&lt;sys/type.h&gt;#include&lt;sys/wait.h&gt;pid_t waitpid(pid_t pid, int *stat_loc, int options) 功能：waitpid用来等待某个特定进程的结束． pid参数用于指定需要等待的子进程的PID．如果它的值为-1，waitpid将返回任一子进程的信息． 如果stat_loc不是空指针，waitpid将状态信息写入到stat_loc指定的位置． option参数可用来改变waitpid的行为，其中一个最有用的选项是WNOHANG，它的作用是防止waitpid调用将调用者的执行挂起．可以使用这个选项来查找是否有子进程已经结束，如果没有，程序将继续执行．其他的选项和wait调用的选项相同． 返回值：如果子进程没有结束或意外终止，返回0；否则返回child_pid．如果waitpid失败，它将返回-1并设置errno．失败的情况包括：没有子进程(errno设置为ECHILD)，调用被某个信号中断(EINTR)，或选项参数无效(EINVAL)． exec函数族1int execl(const char*path, const char *arg,...) exec函数族的函数执行成功后不会返回，调用失败时，会设置errno并返回-1，然后从原程序的调用点接着往下执行参数path：可执行文件的路径名字arg：可执行程序所带的参数，第一个参数为可执行文件的名字，没有带路径且arg必须以空指针结束 https://blog.csdn.net/u014530704/article/details/73848573 线程pthread_create函数原型 1int pthread_create(pthread_t *thread, pthread_attr_t *attr, void *(*start_routine)(void*), void* arg); 功能：创建一个新线程 第一个参数指向一个pthread_t 类型的指针，线程被创建时，这个指针指向的变量中将被写入一个标识符，我们用该标识符来引用新线程． 第二个参数用于设置线程的属性；一般不需要特殊的属性，因此令该参数为NULL 第三个参数一个函数指针，告诉线程将要启动执行的函数 第四个参数是传递给该函数的参数 成功时，返回0；失败时，返回错误代码 pthread_join函数原型 1int pthread_join(); 功能：pthread_join等价于进程中用来收集子进程信息的wait函数．调用进程将一直阻塞，直到指定的线程调用thread_exit或者从启动例程(即被调用的函数)中返回，或被取消． pthread_exit函数原型 1int pthread_exit(void * rval_ptr); 用于线程的信号量 有两组接口函数用于信号量．一组取自POSIX的实时扩展，用于线程．另一组被成为系统V信号量，常用于进程的同步．信号量是一个特殊类型的变量，它可以被增加或减少，但对其的关键访问被保证是原子操作． 在多线程程序中，如果一个程序中有两个(或多个)线程试图改变一个信号量的值，系统将保证所有的操作都依次进行．信号量有二进制信号量和计数信号量．信号量一般用来保护一段代码，使其每次只能被一个执行线程运行，使用二进制信号量来完成这个工作． 允许有限数目的线程执行一段指定的代码，这时需要计数信号量． sem_init函数原型 1int sem_init(sem_t *sem, int pshared, unsigned int value); 功能：创建信号量；信号量由一个sem_t类型指针指定，设置该信号量对象的共享选项，并给它一个初始的整数值． 第一个参数为指向sem_t类型的信号量对象的指针． pshared表示该信号量对象的共享选项，若为0表示该信号量是当前进程的局部信号量，否则，这个信号量就可以在多个进程之间共享． sem_wait函数原型 1int sem_wait(sem_t* sem); 功能：以原子操作的方式给信号量的值减1.但是它会等待直到信号量有个非零值才会开始减法操作． sem_post函数原型 1int sem_post(sem_t* sem); 功能：以原子操作的方式给信号量的值加1. 互斥量另一种用在多线程程序中的同步访问方法是使用互斥量．它允许程序锁住某个对象，使得每次只能有一个线程访问它．为了控制对关键代码的访问，必须在进入这段代码之前锁住一个互斥量，然后在完成操作之后解锁它． 以下这些用于互斥量的基本函数成功时返回0，失败时返回错误代码，但是这些函数并不设置errno，必须对函数的返回代码进行检查． pthread_mutex_init函数原型 1int pthread_mutex_init(pthread_mutext_t *mutex, const pthread_mutexattr_t *mutexattr); pthread_mutex_lock函数原型 1int pthread_mutex_lock(pthread_mutex_t *mutex) pthread_mutex_unlock函数原型 1int pthread_mutex_unlock(pthread_mutex_t *mutex); pthread_mutex_destroy函数原型 1int pthread_mutex_destroy(pthread_mutex_t *mutex) 用于进程的信号量]]></content>
@@ -560,6 +549,17 @@
       </categories>
       <tags>
         <tag>API</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[从数组中找重复数字系列]]></title>
+    <url>%2F2019%2F09%2F27%2F%E4%BB%8E%E6%95%B0%E7%BB%84%E4%B8%AD%E6%89%BE%E9%87%8D%E5%A4%8D%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97%2F</url>
+    <content type="text"><![CDATA[287. Find the Duplicate Number 方法一：排序，将整个数组进行排序．排序的时间复杂度和空间复杂度取决于使用的排序算法．这里要求额外空间排序度为O(1)，那么只能用堆排序． 方法二：使用set 方法三 前面方法一都会修改数组，不满足要求．方法二的额外空间复杂度是O(n)，同样不满足要求． https://leetcode.com/problems/find-the-duplicate-number/]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
       </tags>
   </entry>
   <entry>
@@ -759,6 +759,19 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[模板实参推断和引用]]></title>
+    <url>%2F2019%2F09%2F27%2F%E6%A8%A1%E6%9D%BF%E5%AE%9E%E5%8F%82%E6%8E%A8%E6%96%AD%E5%92%8C%E5%BC%95%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[模板分为类模板，函数模板，还有成员模板． 编译器会对函数模板参数进行推导． 从左值引用函数参数推断类型从右值引用函数参数推断类型]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>引用</tag>
+        <tag>模板</tag>
+        <tag>函数参数</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[类型转换系列1]]></title>
     <url>%2F2019%2F09%2F27%2F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%97%EF%BC%91%2F</url>
     <content type="text"><![CDATA[显式转换旧式转型:T(expression)(T)expression 四种新式转型: cast-name&lt;type&gt;(expression): type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。 旧式转换表面上功能强大，但是转化时不够明确，不能进行错误检查，容易出错． const_cast通常被用来将对象的常量性移除.即将const对象转为非const对象． dynamic_cast 主要用来执行“安全向下转型”,也就是用来决定某对象是否归属继承体系中的某个类型. 用于动态类型转换，只能用于含有虚函数的类，用于类层次间的向上和向下转化．只能转指针或引用．向下转化时，如果是非法的，对于指针返回nullptr，对于引用抛出异常． 向上转换：子类向基类的转换 向下转换：基类向子类的转换 它通过判断在执行到该语句的时候变量的运行时类型和要转换的类型是否相同来判断是否能够进行向下转换． 它是唯一无法由旧式语法执行的动作,也是唯一可能耗费重大运行成本的转型动作. reinterpret_cast意图执行低级转型,实际动作(及结果)可能取决于编译器,这也就表示它不可移植.例如将一个pointer to int转型为一个int. 这一类型在低级代码以外很少见. static_cast用来强迫隐式转换. 将non-const对象转为const对象 (不能隐式地将一个左值转换为一个右值引用，但是可以)使用static_cast可以显式地将一个左值转换为一个右值引用 或将int转为double 用于多态向上转化，如果向下转型能成功但是不安全，结果未知． 也可以用来执行上述多种转换的反向转换 将void*指针转为typed指针, 将point-to-base转为pointer-to-derived. 但它无法将const转为non-const,这个只有const_cast才办得到.]]></content>
@@ -771,19 +784,6 @@
         <tag>显示转换</tag>
         <tag>cast</tag>
         <tag>const_cast</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[模板实参推断和引用]]></title>
-    <url>%2F2019%2F09%2F27%2F%E6%A8%A1%E6%9D%BF%E5%AE%9E%E5%8F%82%E6%8E%A8%E6%96%AD%E5%92%8C%E5%BC%95%E7%94%A8%2F</url>
-    <content type="text"><![CDATA[模板分为类模板，函数模板，还有成员模板． 编译器会对函数模板参数进行推导． 从左值引用函数参数推断类型从右值引用函数参数推断类型]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>引用</tag>
-        <tag>模板</tag>
-        <tag>函数参数</tag>
       </tags>
   </entry>
   <entry>
@@ -903,8 +903,8 @@
     <url>%2F2019%2F09%2F27%2F%E5%8F%98%E5%BD%A2%E8%AF%8D%E7%B3%BB%E5%88%97%2F</url>
     <content type="text"><![CDATA[此类题比较麻烦，但其实并不难。 242. Valid Anagram49. Group Anagrams找出可以通过改变一个字母变成其他单词的单词许多单词都和另外一些单词想死。例如，通过改变第1个字母，单词wine可以变成dine，fine，line，mine，pine或vine。通过改变第3个字母可以变成wide，wife，wipe或wire以及其他一些单词。通过改变第4个字母可以变成wind，wing，wink或wins以及其他一些单词。我们想要编写一个程序来找出通过单个字母的替换变成至少15个其他单词的单词。假设有一本字典，由大约89000个各种长度的不同单词组成。大部分单词在6到11个字母之间。其中6字母单词8205个，7字母单词11989个，8字母单词13672个，9字母单词13014个，10字母单词11297个，11字母单词8617个。题目来源：数据结构与算法分析(c++语言描述，第4版) p144。]]></content>
       <tags>
-        <tag>字符串</tag>
         <tag>leetcode</tag>
+        <tag>字符串</tag>
       </tags>
   </entry>
   <entry>
@@ -925,17 +925,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[类型转换系列2]]></title>
-    <url>%2F2019%2F09%2F27%2F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%972%2F</url>
-    <content type="text"><![CDATA[对于类类型的类型转换,通过定义类型转换运算符完成.转换构造函数和类型转换运算符共同定义了类类型转换.类型转换运算符没有显式的返回类型,也没有星灿,而且必须定义成类的成员函数.类型转换运算符一般不改变待转换对象的内容.因此,类型转换运算符一般是const的. 123456789101112131415161718192021222324252627282930/** * SmallInt既定义了向类类型的转换,也定义了从类类型向其他类型的转换 * 构造函数将算类型的值转换成SmallInt类型对象,类型转换运算符将SmallInt对象转换成int */class SmallInt &#123;public: SmallInt(int i = 0) : val(i) &#123; if (i &lt; 0 || i &gt; 255) &#123; throw std::out_of_range("Bad SmallInt value"); &#125; &#125; // 类型转换运算符:把类类型SmallInt转成int类型 operator int() const &#123; return val; &#125;private: std::size_t val;&#125;;int main()&#123; SmallInt s = 4; // s是一个SmallInt类型对象,val=4 cout &lt;&lt; s + 4 &lt;&lt; endl; // 8 SmallInt si = 3.14; // si是一个SmallInt类型对象,val=3 cout &lt;&lt; si + 3.14 &lt;&lt; endl; // 6 return 0;&#125; SmallInt s = 4首先将4隐式地转换为SmallInt,然后调用SmallInt::operator=(拷贝赋值运算符). s + 4首先将s隐式地转换成int,然后执行整数的加法 si = 3.14, 首先内置类型转换将double实参转换成int,然后再调用SmallInt(int)构造函数 在表达式si + 3.14中, 首先SmallInt类型转换运算符将si转换成3,然后内置类型转换将所得int继续转换为double. 编译器一次只能执行一个用户定义的类型转换,但是隐式的用户定义类型转换可以置于一个标准类型转换之前或之后]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>类类型隐式转换</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[void*指针]]></title>
     <url>%2F2019%2F09%2F27%2Fvoid*%E6%8C%87%E9%92%88%2F</url>
     <content type="text"><![CDATA[void*是一种特殊的指针类型,可以用于存放任意类型的对象地址.但是我们不知道该指针着存放的地址指向的对象的类型. 1234int d = 102;void *p = &amp;d;int *pa = static_cast&lt;int *&gt;(p);cout &lt;&lt; *pa &lt;&lt; endl; // 102 将指针p强制为int*类型,强制转换过程中应该确保指针的值即指针指向的对象地址不变; 因此我们进行强制转换时,必须确保转换的目标类型就是指针所指的类型,否则,将产生未定义的结果. 那么什么时候使用void*指针呢?未完待续]]></content>
@@ -945,6 +934,17 @@
       <tags>
         <tag>void*指针</tag>
         <tag>static_cast</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[类型转换系列2]]></title>
+    <url>%2F2019%2F09%2F27%2F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%972%2F</url>
+    <content type="text"><![CDATA[对于类类型的类型转换,通过定义类型转换运算符完成.转换构造函数和类型转换运算符共同定义了类类型转换.类型转换运算符没有显式的返回类型,也没有星灿,而且必须定义成类的成员函数.类型转换运算符一般不改变待转换对象的内容.因此,类型转换运算符一般是const的. 123456789101112131415161718192021222324252627282930/** * SmallInt既定义了向类类型的转换,也定义了从类类型向其他类型的转换 * 构造函数将算类型的值转换成SmallInt类型对象,类型转换运算符将SmallInt对象转换成int */class SmallInt &#123;public: SmallInt(int i = 0) : val(i) &#123; if (i &lt; 0 || i &gt; 255) &#123; throw std::out_of_range("Bad SmallInt value"); &#125; &#125; // 类型转换运算符:把类类型SmallInt转成int类型 operator int() const &#123; return val; &#125;private: std::size_t val;&#125;;int main()&#123; SmallInt s = 4; // s是一个SmallInt类型对象,val=4 cout &lt;&lt; s + 4 &lt;&lt; endl; // 8 SmallInt si = 3.14; // si是一个SmallInt类型对象,val=3 cout &lt;&lt; si + 3.14 &lt;&lt; endl; // 6 return 0;&#125; SmallInt s = 4首先将4隐式地转换为SmallInt,然后调用SmallInt::operator=(拷贝赋值运算符). s + 4首先将s隐式地转换成int,然后执行整数的加法 si = 3.14, 首先内置类型转换将double实参转换成int,然后再调用SmallInt(int)构造函数 在表达式si + 3.14中, 首先SmallInt类型转换运算符将si转换成3,然后内置类型转换将所得int继续转换为double. 编译器一次只能执行一个用户定义的类型转换,但是隐式的用户定义类型转换可以置于一个标准类型转换之前或之后]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>类类型隐式转换</tag>
       </tags>
   </entry>
   <entry>
