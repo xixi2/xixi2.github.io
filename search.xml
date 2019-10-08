@@ -401,14 +401,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[bind与函数适配器]]></title>
-    <url>%2F2019%2F09%2F27%2Fbind%E4%B8%8E%E5%87%BD%E6%95%B0%E9%80%82%E9%85%8D%E5%99%A8%2F</url>
-    <content type="text"><![CDATA[bind是从c++11开始出现的新型适配器]]></content>
-      <categories>
-        <category>STL</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[traits]]></title>
     <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
     <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
@@ -422,6 +414,14 @@
     <content type="text"><![CDATA[字符串系列]]></content>
       <categories>
         <category>牛客网</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[bind与函数适配器]]></title>
+    <url>%2F2019%2F09%2F27%2Fbind%E4%B8%8E%E5%87%BD%E6%95%B0%E9%80%82%E9%85%8D%E5%99%A8%2F</url>
+    <content type="text"><![CDATA[bind是从c++11开始出现的新型适配器]]></content>
+      <categories>
+        <category>STL</category>
       </categories>
   </entry>
   <entry>
@@ -549,17 +549,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[unix 高级环境编程系列2]]></title>
-    <url>%2F2019%2F09%2F27%2Funix-%E9%AB%98%E7%BA%A7%E7%8E%AF%E5%A2%83%E7%BC%96%E7%A8%8B%E7%B3%BB%E5%88%972%2F</url>
-    <content type="text"><![CDATA[此文档主要整理并记录liunx中常用的api． IOfgetcfgetc从文件指针stream指向的文件中读取一个字符，读取一个字节后，光标位置后移一个字节。 fputc功能：把一个字符写到一个输出文件流中．它返回写入的值，如果失败，则返回EOF．putc函数的作用相当于fputc，但它可能被实现为一个宏．putchar相当于putc(c, stdout)，但它把单个字符写到标准输出．注意：putchar和getchar都是把字符当做int类型而不是char类型来使用的．这就允许文件尾标识取值-1，这是一个超出字符数字编码范围的值． fopenhttps://blog.csdn.net/hairetz/article/details/4150193 read1ssize_t read(int fd, void* buf, size_t nbytes); 成功时返回接收的字节数(但遇到文件结尾则返回0)，失败时返回-1.fd: 显示数据接收对象的文件描述符．buf: 要保存接收数据的缓冲地址值．nbytes: 要接收数据的最大字节数． write1ssize_t write(int fd, const void* buf, size_t nbytes); 成功时返回写入的字节数，失败时返回-1.fd: 显示数据传输对象的文件描述符．buf: 要保存传输数据的缓冲地址值．nbytes: 要传输数据的最大字节数． freadsize_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream) 功能：从给定流 stream 读取数据到 ptr 所指向的数组中 ptr – 这是指向带有最小尺寸 size\nmemb* 字节的内存块的指针。 size – 这是要读取的每个元素的大小，以字节为单位。 nmemb – 这是元素的个数，每个元素的大小为 size 字节。 stream – 这是指向 FILE 对象的指针，该 FILE 对象指定了一个输入流。 fgets函数原型为：char *fgets(char *str, int n, FILE *stream) 功能：从指定的流 stream 读取一行，并把它存储在 str 所指向的字符串内。fgets会把读到字符写到s指向的字符串里，直到出现下面某种情况： 遇到换行符 已经传输了n-1个字节 到达文件尾 它会把遇到的换行符也保存到s中．最后在s末尾加上一个表示结尾的空字符\0．一次调用最多只能传输n-1个字符，因为它必须把空字符加到字符串表示结尾． gets函数类似于fgets，但是它从标准输入流中取数据并丢弃遇到的换行符．它在接收字符串的尾部加上一个空字节(一个字符占一个字节)． puts12# include &lt;stdio.h&gt;int puts(const char *s); 功能：将字符串输出到屏幕。输出时只有遇到 ‘\0’ 也就是字符串结束标志符才会停止。 目录opendir123#include &lt;sys/types.h&gt; #include &lt;dirent.h&gt;DIR * opendir(const char * name); 功能：opendir()用来打开参数name指定的目录，并返回DIR*形态的目录流．接下来对目录的读取和搜索都要使用此返回值． 返回值：成功则返回DIR*型态的目录流，打开失败则返回nullptr. 错误代码： EACCESS 权限不足 EMFILE 已达到进程可同时打开的文件数上限 ENFILE 已达到系统可同时打开的文件数上限 ENOTDIR 参数name 非真正的目录 ENOENT 参数name 指定的目录不存在, 或是参数name 为一空字符串 ENOMEM 核心内存不足 进程fork12 vfork函数原型 12 功能：vfork函数用于创建一个新进程．新进程的目的是exec一个新程序． vfork和fork一样都创建一个子进程，但是它并不将父进程的地址空间完全复制到子进程中．因为子进程会立即调用exec(exit)，于是也就不会引用该地址空间．但是在子进程调用exec或exit之前，它在父进程的空间中运行． vfork和fork之间的另一个区别是：vfork保证子进程先运行．在它调用exec或exit之后父进程才可能被调度运行．当子进程调用这两个函数中的任意一个时，父进程会恢复运行．如果在调用这两个函数之前子进程依赖于父进程的进一步动作，会导致死锁． wait在父进程中通过调用wait函数来让父进程等待子进程的结束．wait系统调用将阻塞父进程直到它的子进程结束．这个调用返回子进程的PID，它通常是已经结束运行的子进程的PID．状态信息允许父进程了解子进程的退出状态，即子进程的main函数返回的值或子进程中exit函数的退出码．如果stat_loc不是空指针，那么状态信息就会被写入它所指向的位置．如果调用wait的进程有多个子进程，那么在其某一子进程终止时，wait就立即返回． 12#include&lt;sys/wait.h&gt;pid_t wait(int *stat_loc) 头文件sys/wait.h中定义的宏来解释状态信息． 12WIFEXITED(stat_val); // 如果子进程正常结束，它就取一个非零值WEXITSTATUS(stat_val); // 如果WIFEXITED非零，它返回子进程的退出码 waitpid函数原型 123#include&lt;sys/type.h&gt;#include&lt;sys/wait.h&gt;pid_t waitpid(pid_t pid, int *stat_loc, int options) 功能：waitpid用来等待某个特定进程的结束． pid参数用于指定需要等待的子进程的PID．如果它的值为-1，waitpid将返回任一子进程的信息． 如果stat_loc不是空指针，waitpid将状态信息写入到stat_loc指定的位置． option参数可用来改变waitpid的行为，其中一个最有用的选项是WNOHANG，它的作用是防止waitpid调用将调用者的执行挂起．可以使用这个选项来查找是否有子进程已经结束，如果没有，程序将继续执行．其他的选项和wait调用的选项相同． 返回值：如果子进程没有结束或意外终止，返回0；否则返回child_pid．如果waitpid失败，它将返回-1并设置errno．失败的情况包括：没有子进程(errno设置为ECHILD)，调用被某个信号中断(EINTR)，或选项参数无效(EINVAL)． exec函数族1int execl(const char*path, const char *arg,...) exec函数族的函数执行成功后不会返回，调用失败时，会设置errno并返回-1，然后从原程序的调用点接着往下执行参数path：可执行文件的路径名字arg：可执行程序所带的参数，第一个参数为可执行文件的名字，没有带路径且arg必须以空指针结束 https://blog.csdn.net/u014530704/article/details/73848573 线程pthread_create函数原型 1int pthread_create(pthread_t *thread, pthread_attr_t *attr, void *(*start_routine)(void*), void* arg); 功能：创建一个新线程 第一个参数指向一个pthread_t 类型的指针，线程被创建时，这个指针指向的变量中将被写入一个标识符，我们用该标识符来引用新线程． 第二个参数用于设置线程的属性；一般不需要特殊的属性，因此令该参数为NULL 第三个参数一个函数指针，告诉线程将要启动执行的函数 第四个参数是传递给该函数的参数 成功时，返回0；失败时，返回错误代码 pthread_join函数原型 1int pthread_join(); 功能：pthread_join等价于进程中用来收集子进程信息的wait函数．调用进程将一直阻塞，直到指定的线程调用thread_exit或者从启动例程(即被调用的函数)中返回，或被取消． pthread_exit函数原型 1int pthread_exit(void * rval_ptr); 用于线程的信号量 有两组接口函数用于信号量．一组取自POSIX的实时扩展，用于线程．另一组被成为系统V信号量，常用于进程的同步．信号量是一个特殊类型的变量，它可以被增加或减少，但对其的关键访问被保证是原子操作． 在多线程程序中，如果一个程序中有两个(或多个)线程试图改变一个信号量的值，系统将保证所有的操作都依次进行．信号量有二进制信号量和计数信号量．信号量一般用来保护一段代码，使其每次只能被一个执行线程运行，使用二进制信号量来完成这个工作． 允许有限数目的线程执行一段指定的代码，这时需要计数信号量． sem_init函数原型 1int sem_init(sem_t *sem, int pshared, unsigned int value); 功能：创建信号量；信号量由一个sem_t类型指针指定，设置该信号量对象的共享选项，并给它一个初始的整数值． 第一个参数为指向sem_t类型的信号量对象的指针． pshared表示该信号量对象的共享选项，若为0表示该信号量是当前进程的局部信号量，否则，这个信号量就可以在多个进程之间共享． sem_wait函数原型 1int sem_wait(sem_t* sem); 功能：以原子操作的方式给信号量的值减1.但是它会等待直到信号量有个非零值才会开始减法操作． sem_post函数原型 1int sem_post(sem_t* sem); 功能：以原子操作的方式给信号量的值加1. 互斥量另一种用在多线程程序中的同步访问方法是使用互斥量．它允许程序锁住某个对象，使得每次只能有一个线程访问它．为了控制对关键代码的访问，必须在进入这段代码之前锁住一个互斥量，然后在完成操作之后解锁它． 以下这些用于互斥量的基本函数成功时返回0，失败时返回错误代码，但是这些函数并不设置errno，必须对函数的返回代码进行检查． pthread_mutex_init函数原型 1int pthread_mutex_init(pthread_mutext_t *mutex, const pthread_mutexattr_t *mutexattr); pthread_mutex_lock函数原型 1int pthread_mutex_lock(pthread_mutex_t *mutex) pthread_mutex_unlock函数原型 1int pthread_mutex_unlock(pthread_mutex_t *mutex); pthread_mutex_destroy函数原型 1int pthread_mutex_destroy(pthread_mutex_t *mutex) 用于进程的信号量]]></content>
-      <categories>
-        <category>unix 高级环境编程</category>
-      </categories>
-      <tags>
-        <tag>API</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[从数组中找重复数字系列]]></title>
     <url>%2F2019%2F09%2F27%2F%E4%BB%8E%E6%95%B0%E7%BB%84%E4%B8%AD%E6%89%BE%E9%87%8D%E5%A4%8D%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97%2F</url>
     <content type="text"><![CDATA[287. Find the Duplicate Number 方法一：排序，将整个数组进行排序．排序的时间复杂度和空间复杂度取决于使用的排序算法．这里要求额外空间排序度为O(1)，那么只能用堆排序． 方法二：使用set 方法三 前面方法一都会修改数组，不满足要求．方法二的额外空间复杂度是O(n)，同样不满足要求． https://leetcode.com/problems/find-the-duplicate-number/]]></content>
@@ -568,6 +557,17 @@
       </categories>
       <tags>
         <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[unix 高级环境编程系列2]]></title>
+    <url>%2F2019%2F09%2F27%2Funix-%E9%AB%98%E7%BA%A7%E7%8E%AF%E5%A2%83%E7%BC%96%E7%A8%8B%E7%B3%BB%E5%88%972%2F</url>
+    <content type="text"><![CDATA[此文档主要整理并记录liunx中常用的api． IOfgetcfgetc从文件指针stream指向的文件中读取一个字符，读取一个字节后，光标位置后移一个字节。 fputc功能：把一个字符写到一个输出文件流中．它返回写入的值，如果失败，则返回EOF．putc函数的作用相当于fputc，但它可能被实现为一个宏．putchar相当于putc(c, stdout)，但它把单个字符写到标准输出．注意：putchar和getchar都是把字符当做int类型而不是char类型来使用的．这就允许文件尾标识取值-1，这是一个超出字符数字编码范围的值． fopenhttps://blog.csdn.net/hairetz/article/details/4150193 read1ssize_t read(int fd, void* buf, size_t nbytes); 成功时返回接收的字节数(但遇到文件结尾则返回0)，失败时返回-1.fd: 显示数据接收对象的文件描述符．buf: 要保存接收数据的缓冲地址值．nbytes: 要接收数据的最大字节数． write1ssize_t write(int fd, const void* buf, size_t nbytes); 成功时返回写入的字节数，失败时返回-1.fd: 显示数据传输对象的文件描述符．buf: 要保存传输数据的缓冲地址值．nbytes: 要传输数据的最大字节数． freadsize_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream) 功能：从给定流 stream 读取数据到 ptr 所指向的数组中 ptr – 这是指向带有最小尺寸 size\nmemb* 字节的内存块的指针。 size – 这是要读取的每个元素的大小，以字节为单位。 nmemb – 这是元素的个数，每个元素的大小为 size 字节。 stream – 这是指向 FILE 对象的指针，该 FILE 对象指定了一个输入流。 fgets函数原型为：char *fgets(char *str, int n, FILE *stream) 功能：从指定的流 stream 读取一行，并把它存储在 str 所指向的字符串内。fgets会把读到字符写到s指向的字符串里，直到出现下面某种情况： 遇到换行符 已经传输了n-1个字节 到达文件尾 它会把遇到的换行符也保存到s中．最后在s末尾加上一个表示结尾的空字符\0．一次调用最多只能传输n-1个字符，因为它必须把空字符加到字符串表示结尾． gets函数类似于fgets，但是它从标准输入流中取数据并丢弃遇到的换行符．它在接收字符串的尾部加上一个空字节(一个字符占一个字节)． puts12# include &lt;stdio.h&gt;int puts(const char *s); 功能：将字符串输出到屏幕。输出时只有遇到 ‘\0’ 也就是字符串结束标志符才会停止。 目录opendir123#include &lt;sys/types.h&gt; #include &lt;dirent.h&gt;DIR * opendir(const char * name); 功能：opendir()用来打开参数name指定的目录，并返回DIR*形态的目录流．接下来对目录的读取和搜索都要使用此返回值． 返回值：成功则返回DIR*型态的目录流，打开失败则返回nullptr. 错误代码： EACCESS 权限不足 EMFILE 已达到进程可同时打开的文件数上限 ENFILE 已达到系统可同时打开的文件数上限 ENOTDIR 参数name 非真正的目录 ENOENT 参数name 指定的目录不存在, 或是参数name 为一空字符串 ENOMEM 核心内存不足 进程fork12 vfork函数原型 12 功能：vfork函数用于创建一个新进程．新进程的目的是exec一个新程序． vfork和fork一样都创建一个子进程，但是它并不将父进程的地址空间完全复制到子进程中．因为子进程会立即调用exec(exit)，于是也就不会引用该地址空间．但是在子进程调用exec或exit之前，它在父进程的空间中运行． vfork和fork之间的另一个区别是：vfork保证子进程先运行．在它调用exec或exit之后父进程才可能被调度运行．当子进程调用这两个函数中的任意一个时，父进程会恢复运行．如果在调用这两个函数之前子进程依赖于父进程的进一步动作，会导致死锁． wait在父进程中通过调用wait函数来让父进程等待子进程的结束．wait系统调用将阻塞父进程直到它的子进程结束．这个调用返回子进程的PID，它通常是已经结束运行的子进程的PID．状态信息允许父进程了解子进程的退出状态，即子进程的main函数返回的值或子进程中exit函数的退出码．如果stat_loc不是空指针，那么状态信息就会被写入它所指向的位置．如果调用wait的进程有多个子进程，那么在其某一子进程终止时，wait就立即返回． 12#include&lt;sys/wait.h&gt;pid_t wait(int *stat_loc) 头文件sys/wait.h中定义的宏来解释状态信息． 12WIFEXITED(stat_val); // 如果子进程正常结束，它就取一个非零值WEXITSTATUS(stat_val); // 如果WIFEXITED非零，它返回子进程的退出码 waitpid函数原型 123#include&lt;sys/type.h&gt;#include&lt;sys/wait.h&gt;pid_t waitpid(pid_t pid, int *stat_loc, int options) 功能：waitpid用来等待某个特定进程的结束． pid参数用于指定需要等待的子进程的PID．如果它的值为-1，waitpid将返回任一子进程的信息． 如果stat_loc不是空指针，waitpid将状态信息写入到stat_loc指定的位置． option参数可用来改变waitpid的行为，其中一个最有用的选项是WNOHANG，它的作用是防止waitpid调用将调用者的执行挂起．可以使用这个选项来查找是否有子进程已经结束，如果没有，程序将继续执行．其他的选项和wait调用的选项相同． 返回值：如果子进程没有结束或意外终止，返回0；否则返回child_pid．如果waitpid失败，它将返回-1并设置errno．失败的情况包括：没有子进程(errno设置为ECHILD)，调用被某个信号中断(EINTR)，或选项参数无效(EINVAL)． exec函数族1int execl(const char*path, const char *arg,...) exec函数族的函数执行成功后不会返回，调用失败时，会设置errno并返回-1，然后从原程序的调用点接着往下执行参数path：可执行文件的路径名字arg：可执行程序所带的参数，第一个参数为可执行文件的名字，没有带路径且arg必须以空指针结束 https://blog.csdn.net/u014530704/article/details/73848573 线程pthread_create函数原型 1int pthread_create(pthread_t *thread, pthread_attr_t *attr, void *(*start_routine)(void*), void* arg); 功能：创建一个新线程 第一个参数指向一个pthread_t 类型的指针，线程被创建时，这个指针指向的变量中将被写入一个标识符，我们用该标识符来引用新线程． 第二个参数用于设置线程的属性；一般不需要特殊的属性，因此令该参数为NULL 第三个参数一个函数指针，告诉线程将要启动执行的函数 第四个参数是传递给该函数的参数 成功时，返回0；失败时，返回错误代码 pthread_join函数原型 1int pthread_join(); 功能：pthread_join等价于进程中用来收集子进程信息的wait函数．调用进程将一直阻塞，直到指定的线程调用thread_exit或者从启动例程(即被调用的函数)中返回，或被取消． pthread_exit函数原型 1int pthread_exit(void * rval_ptr); 用于线程的信号量 有两组接口函数用于信号量．一组取自POSIX的实时扩展，用于线程．另一组被成为系统V信号量，常用于进程的同步．信号量是一个特殊类型的变量，它可以被增加或减少，但对其的关键访问被保证是原子操作． 在多线程程序中，如果一个程序中有两个(或多个)线程试图改变一个信号量的值，系统将保证所有的操作都依次进行．信号量有二进制信号量和计数信号量．信号量一般用来保护一段代码，使其每次只能被一个执行线程运行，使用二进制信号量来完成这个工作． 允许有限数目的线程执行一段指定的代码，这时需要计数信号量． sem_init函数原型 1int sem_init(sem_t *sem, int pshared, unsigned int value); 功能：创建信号量；信号量由一个sem_t类型指针指定，设置该信号量对象的共享选项，并给它一个初始的整数值． 第一个参数为指向sem_t类型的信号量对象的指针． pshared表示该信号量对象的共享选项，若为0表示该信号量是当前进程的局部信号量，否则，这个信号量就可以在多个进程之间共享． sem_wait函数原型 1int sem_wait(sem_t* sem); 功能：以原子操作的方式给信号量的值减1.但是它会等待直到信号量有个非零值才会开始减法操作． sem_post函数原型 1int sem_post(sem_t* sem); 功能：以原子操作的方式给信号量的值加1. 互斥量另一种用在多线程程序中的同步访问方法是使用互斥量．它允许程序锁住某个对象，使得每次只能有一个线程访问它．为了控制对关键代码的访问，必须在进入这段代码之前锁住一个互斥量，然后在完成操作之后解锁它． 以下这些用于互斥量的基本函数成功时返回0，失败时返回错误代码，但是这些函数并不设置errno，必须对函数的返回代码进行检查． pthread_mutex_init函数原型 1int pthread_mutex_init(pthread_mutext_t *mutex, const pthread_mutexattr_t *mutexattr); pthread_mutex_lock函数原型 1int pthread_mutex_lock(pthread_mutex_t *mutex) pthread_mutex_unlock函数原型 1int pthread_mutex_unlock(pthread_mutex_t *mutex); pthread_mutex_destroy函数原型 1int pthread_mutex_destroy(pthread_mutex_t *mutex) 用于进程的信号量]]></content>
+      <categories>
+        <category>unix 高级环境编程</category>
+      </categories>
+      <tags>
+        <tag>API</tag>
       </tags>
   </entry>
   <entry>
@@ -846,8 +846,8 @@
     <url>%2F2019%2F09%2F27%2F%E6%9C%AA%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%B4%AF%E5%8A%A0%E5%92%8C%E4%B8%BA%E7%BB%99%E5%AE%9A%E5%80%BC%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E6%95%B0%E7%BB%84%E7%B3%BB%E5%88%97%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[原题给定一个无序数组,其中元素可正,可负,可0.给定一个整数k,求arr所有的子数组中累加和为k的最长子数组长度. 12345678910111213141516171819int maxLength(vector&lt;int&gt; &amp;arr, int k) &#123; if (arr.empty()) &#123; return 0; &#125; map&lt;int, int&gt; mp; mp[0] = -1; int len = 0; int sum = 0; for (int i = 0; i &lt; arr.size(); i++) &#123; sum += arr[i]; if (mp.find(sum - k) != mp.end()) &#123; len = max(len, i - mp[sum - k]); &#125; if (mp.find(sum) == mp.end()) &#123; mp[sum] = i; &#125; &#125; return len;&#125; 补充题1补充题2类似题138. 子数组之和给定一个整数数组，找到和为零的子数组。你的代码应该返回满足要求的子数组的起始位置和结束位置 样例 样例 1: 123输入: [-3, 1, 2, -3, 4]输出: [0,2] 或 [1,3] 样例解释： 返回任意一段和为0的区间即可。 样例 2: 12输入: [-3, 1, -4, 2, -3, 4]输出: [1,5] 样例 3: 12输入: [3,4,5,6,-3,-4,-5,-6]输出: [0,7] 样例 4: 12输入: [1,0,-1]输出: [1,1] 注意事项: 至少有一个子数组的和为 0 1234567891011121314151617181920212223242526272829303132class Solution &#123;public: /** * @param nums: A list of integers * @return: A list of integers includes the index of the first number and the index of the last number */ vector&lt;int&gt; subarraySum(vector&lt;int&gt; &amp;nums) &#123; // write your code here if(nums.empty())&#123; return &#123;&#125;; &#125; int sum = 0; vector&lt;int&gt; res; map&lt;int, int&gt; mp; for(int i=0;i&lt;nums.size();++i)&#123; sum += nums[i]; if(sum == 0)&#123; res.push_back(0); res.push_back(i); return res; &#125; if(mp.find(sum)!=mp.end())&#123; res.push_back(mp[sum]+1); res.push_back(i); return res; &#125; mp[sum] = i; &#125; return res; &#125;&#125;; 此题与上题的相似之处在于:需要用到相同的结论:s[i]= arr[0] + arr[1] +…+arr[i]s[j]= arr[0] + arr[1] +…+arr[j]假设i &gt; j,则s[i] - s[j] = arr[j+1] + arr[j+2] + … + arr[i] 复杂度分析 理论上, 时间复杂度为O(n).但实际实现时,时间复杂度为O(nlogn).因为map的find方法查找一个数的时间复杂度为O(logn)空间复杂度为O(n) 题目来源: leetcode 560. Subarray Sum Equals K930 binary subarrays with sum另有使用三指针的解法,可以尝试看看试用否,三指针解法时间复杂度为O(n),空间复杂度为O(1),是最优解法]]></content>
       <tags>
-        <tag>leetcode</tag>
         <tag>累积和</tag>
+        <tag>leetcode</tag>
         <tag>程序员代码面试指南</tag>
       </tags>
   </entry>
@@ -933,6 +933,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[类型转换系列2]]></title>
+    <url>%2F2019%2F09%2F27%2F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%972%2F</url>
+    <content type="text"><![CDATA[对于类类型的类型转换,通过定义类型转换运算符完成.转换构造函数和类型转换运算符共同定义了类类型转换.类型转换运算符没有显式的返回类型,也没有星灿,而且必须定义成类的成员函数.类型转换运算符一般不改变待转换对象的内容.因此,类型转换运算符一般是const的. 123456789101112131415161718192021222324252627282930/** * SmallInt既定义了向类类型的转换,也定义了从类类型向其他类型的转换 * 构造函数将算类型的值转换成SmallInt类型对象,类型转换运算符将SmallInt对象转换成int */class SmallInt &#123;public: SmallInt(int i = 0) : val(i) &#123; if (i &lt; 0 || i &gt; 255) &#123; throw std::out_of_range("Bad SmallInt value"); &#125; &#125; // 类型转换运算符:把类类型SmallInt转成int类型 operator int() const &#123; return val; &#125;private: std::size_t val;&#125;;int main()&#123; SmallInt s = 4; // s是一个SmallInt类型对象,val=4 cout &lt;&lt; s + 4 &lt;&lt; endl; // 8 SmallInt si = 3.14; // si是一个SmallInt类型对象,val=3 cout &lt;&lt; si + 3.14 &lt;&lt; endl; // 6 return 0;&#125; SmallInt s = 4首先将4隐式地转换为SmallInt,然后调用SmallInt::operator=(拷贝赋值运算符). s + 4首先将s隐式地转换成int,然后执行整数的加法 si = 3.14, 首先内置类型转换将double实参转换成int,然后再调用SmallInt(int)构造函数 在表达式si + 3.14中, 首先SmallInt类型转换运算符将si转换成3,然后内置类型转换将所得int继续转换为double. 编译器一次只能执行一个用户定义的类型转换,但是隐式的用户定义类型转换可以置于一个标准类型转换之前或之后]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>类类型隐式转换</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[void*指针]]></title>
     <url>%2F2019%2F09%2F27%2Fvoid*%E6%8C%87%E9%92%88%2F</url>
     <content type="text"><![CDATA[void*是一种特殊的指针类型,可以用于存放任意类型的对象地址.但是我们不知道该指针着存放的地址指向的对象的类型. 1234int d = 102;void *p = &amp;d;int *pa = static_cast&lt;int *&gt;(p);cout &lt;&lt; *pa &lt;&lt; endl; // 102 将指针p强制为int*类型,强制转换过程中应该确保指针的值即指针指向的对象地址不变; 因此我们进行强制转换时,必须确保转换的目标类型就是指针所指的类型,否则,将产生未定义的结果. 那么什么时候使用void*指针呢?未完待续]]></content>
@@ -945,28 +956,12 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[类型转换系列2]]></title>
-    <url>%2F2019%2F09%2F27%2F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%972%2F</url>
-    <content type="text"><![CDATA[对于类类型的类型转换,通过定义类型转换运算符完成.转换构造函数和类型转换运算符共同定义了类类型转换.类型转换运算符没有显式的返回类型,也没有星灿,而且必须定义成类的成员函数.类型转换运算符一般不改变待转换对象的内容.因此,类型转换运算符一般是const的. 123456789101112131415161718192021222324252627282930/** * SmallInt既定义了向类类型的转换,也定义了从类类型向其他类型的转换 * 构造函数将算类型的值转换成SmallInt类型对象,类型转换运算符将SmallInt对象转换成int */class SmallInt &#123;public: SmallInt(int i = 0) : val(i) &#123; if (i &lt; 0 || i &gt; 255) &#123; throw std::out_of_range("Bad SmallInt value"); &#125; &#125; // 类型转换运算符:把类类型SmallInt转成int类型 operator int() const &#123; return val; &#125;private: std::size_t val;&#125;;int main()&#123; SmallInt s = 4; // s是一个SmallInt类型对象,val=4 cout &lt;&lt; s + 4 &lt;&lt; endl; // 8 SmallInt si = 3.14; // si是一个SmallInt类型对象,val=3 cout &lt;&lt; si + 3.14 &lt;&lt; endl; // 6 return 0;&#125; SmallInt s = 4首先将4隐式地转换为SmallInt,然后调用SmallInt::operator=(拷贝赋值运算符). s + 4首先将s隐式地转换成int,然后执行整数的加法 si = 3.14, 首先内置类型转换将double实参转换成int,然后再调用SmallInt(int)构造函数 在表达式si + 3.14中, 首先SmallInt类型转换运算符将si转换成3,然后内置类型转换将所得int继续转换为double. 编译器一次只能执行一个用户定义的类型转换,但是隐式的用户定义类型转换可以置于一个标准类型转换之前或之后]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>类类型隐式转换</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[正则表达式匹配]]></title>
     <url>%2F2019%2F09%2F27%2F%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8C%B9%E9%85%8D%2F</url>
     <content type="text"><![CDATA[请实现一个函数用来匹配包括’.’和’‘的正则表达式。模式中的字符’.’表示任意一个字符，而’‘表示它前面的字符可以出现任意次（包含0次）。 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串”aaa”与模式”a.a”和”abaca”匹配，但是与”aa.a”和”ab*a”均不匹配 题目链接 1234567891011121314151617181920212223242526272829class Solution &#123;public: bool match(char* str, char* pattern) &#123; if(str == nullptr || pattern == nullptr)&#123; return false; &#125; return matchCore(str, pattern); &#125; bool matchCore(char *str, char* pattern)&#123; if(*str == '\0' &amp;&amp; *pattern == '\0')&#123; return true; &#125; if(str != '\0' &amp;&amp; pattern == '\0')&#123; return false; &#125; if(*(pattern+1)=='*')&#123; if(*pattern == *str || (*pattern == '.' &amp;&amp; *str != '\0'))&#123; return matchCore(str + 1, pattern + 2) // *匹配1个前向字符, 如a*b匹配aab || matchCore(str + 1, pattern) // *匹配多个前向字符, 如a*b匹配aaab || matchCore(str, pattern + 2);// *匹配0个前向字符， 如a*b 匹配ab &#125; return matchCore(str, pattern + 2); // *str与*pattern不等，*匹配0个前向字符 &#125; if(*str == *pattern || (*pattern == '.' &amp;&amp; *str != '\0')) //当前字符的下一个字符不是* return matchCore(str + 1, pattern + 1); return false; &#125;&#125;; 相似题目: Simplify Path]]></content>
       <tags>
         <tag>剑指offer</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[寻找下一个节点]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%AF%BB%E6%89%BE%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%2F</url>
-    <content type="text"><![CDATA[链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继返回-1。]]></content>
   </entry>
   <entry>
     <title><![CDATA[可调用对象]]></title>
@@ -980,13 +975,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[并查集基础知识]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%B9%B6%E6%9F%A5%E9%9B%86%2F</url>
-    <content type="text"><![CDATA[并查集(不相交集合)不相交集合数据结构是这样一种数据结构: 它维护了一个不相交动态集的集合 $$S = {s_1, s_2, …, s_i, …, s_k}$$对于每个集合S中的每个元素集合si而言,用集合中的而一个元素来代表该集合.假设x是集合si中的一个元素,则有以下三种操作: make_set(x): 建立一个新的集合,它的唯一成员是x.因为各个集合是不相交的集合, 所以x不会出现在别的集合中.union(x, y): 将包含x和y的两个动态集合(表示为sx和sy合并成一个新的集合, 即这两个集合的并集)find_set(x): 返回一个指针,该指针指向包含x的(唯一)集合的代表.不相交集合可以用于求无向图的连通分量等.待后续加上代码 为了提交效率,建立并查集的过程往往会采用两种策略来提高性能.一种是按秩(秩是指节点高度的一个上界)合并, 另一种是路径压缩.按秩合并是在合并两个集合的过程中, 让具有较小秩的根指向较大秩的根.路径压缩是在查找节点的根节点的过程中, 使查找路径上的每个节点指向指向根(即令根节点成为查找路径上每个节点的父节点). 节点x的秩: 节点x的高度(从节点x到某一后代叶节点的最长简单路径上边的数目)的一个上界.当make_set(x)创建一个单元素x集合时, 节点x的秩为0.使用按秩合并union(x, y)合并两个集合时, 若两个集合的秩不同,则让较大秩的根成为较小秩的根的父节点, 秩本身保持不变.若两个集合的秩相同,则任意选择两个根中的一个作为父节点, 并使它的秩加1. 并查集的实现(伪代码)123456789101112131415161718make_set(x) x.p = x // x的父节点是自己,即x是x所在集合的根节点 x.rank = 0 // x.rank即x的秩link(x, y) if(x.rank &gt; y.rank) y.p = x else x.p = y if(x.rank == y.rank) y.rank = y.rank + 1union(x, y) link(find_set(x), find_set(y))find_set(x) if x != x.p x.p = find_set(x.p) return x.p find_set的非递归形式 12345678find_set(x) a = x while x != x.p x = x.p while a != a.p z = a a = a.p z.p = x]]></content>
-      <tags>
-        <tag>基础算法</tag>
-        <tag>理论</tag>
-      </tags>
+    <title><![CDATA[寻找下一个节点]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%AF%BB%E6%89%BE%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%2F</url>
+    <content type="text"><![CDATA[链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继返回-1。]]></content>
   </entry>
   <entry>
     <title><![CDATA[二叉树的下一个结点]]></title>
@@ -995,6 +986,15 @@
       <tags>
         <tag>牛客网</tag>
         <tag>binary tree</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[并查集基础知识]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%B9%B6%E6%9F%A5%E9%9B%86%2F</url>
+    <content type="text"><![CDATA[并查集(不相交集合)不相交集合数据结构是这样一种数据结构: 它维护了一个不相交动态集的集合 $$S = {s_1, s_2, …, s_i, …, s_k}$$对于每个集合S中的每个元素集合si而言,用集合中的而一个元素来代表该集合.假设x是集合si中的一个元素,则有以下三种操作: make_set(x): 建立一个新的集合,它的唯一成员是x.因为各个集合是不相交的集合, 所以x不会出现在别的集合中.union(x, y): 将包含x和y的两个动态集合(表示为sx和sy合并成一个新的集合, 即这两个集合的并集)find_set(x): 返回一个指针,该指针指向包含x的(唯一)集合的代表.不相交集合可以用于求无向图的连通分量等.待后续加上代码 为了提交效率,建立并查集的过程往往会采用两种策略来提高性能.一种是按秩(秩是指节点高度的一个上界)合并, 另一种是路径压缩.按秩合并是在合并两个集合的过程中, 让具有较小秩的根指向较大秩的根.路径压缩是在查找节点的根节点的过程中, 使查找路径上的每个节点指向指向根(即令根节点成为查找路径上每个节点的父节点). 节点x的秩: 节点x的高度(从节点x到某一后代叶节点的最长简单路径上边的数目)的一个上界.当make_set(x)创建一个单元素x集合时, 节点x的秩为0.使用按秩合并union(x, y)合并两个集合时, 若两个集合的秩不同,则让较大秩的根成为较小秩的根的父节点, 秩本身保持不变.若两个集合的秩相同,则任意选择两个根中的一个作为父节点, 并使它的秩加1. 并查集的实现(伪代码)123456789101112131415161718make_set(x) x.p = x // x的父节点是自己,即x是x所在集合的根节点 x.rank = 0 // x.rank即x的秩link(x, y) if(x.rank &gt; y.rank) y.p = x else x.p = y if(x.rank == y.rank) y.rank = y.rank + 1union(x, y) link(find_set(x), find_set(y))find_set(x) if x != x.p x.p = find_set(x.p) return x.p find_set的非递归形式 12345678find_set(x) a = x while x != x.p x = x.p while a != a.p z = a a = a.p z.p = x]]></content>
+      <tags>
+        <tag>基础算法</tag>
+        <tag>理论</tag>
       </tags>
   </entry>
   <entry>
