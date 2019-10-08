@@ -395,7 +395,7 @@
 <p>初始时建立redis连接代码为：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r1 = redis.Redis(host=redis_host, port=<span class="number">6379</span>, db=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
 
-<p>在网上搜索了一番，在csdn找到这个答案（详见<a href="https://ask.csdn.net/questions/381758" target="_blank" rel="noopener">https://ask.csdn.net/questions/381758</a>）：<br>在建立连接时，将decode_responses置为True。即这样建立连接：</p>
+<p>在网上搜索了一番，在csdn找到这个答案（详见<a href="https://ask.csdn.net/questions/381758">https://ask.csdn.net/questions/381758</a>）：<br>在建立连接时，将decode_responses置为True。即这样建立连接：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r1 = redis.Redis(host=redis_host, port=<span class="number">6379</span>, db=<span class="number">1</span>, decode_responses=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
 
 <p>经过测试，这个问题成功解决了。</p>

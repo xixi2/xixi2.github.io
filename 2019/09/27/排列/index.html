@@ -392,8 +392,8 @@
         <h1 id="Permutation-Sequence"><a href="#Permutation-Sequence" class="headerlink" title="Permutation Sequence"></a>Permutation Sequence</h1><h1 id="Next-permutation"><a href="#Next-permutation" class="headerlink" title="Next permutation"></a>Next permutation</h1><a id="more"></a>
 
 <p>当整个是逆序时，无法找到下一个更大的排列了．如[3,2,1],此时按照题目要求，直接将序列逆序，变成[1,2,3]<br>首先找到数组连续的一对数a[i]与a[i-1]，a[i] &gt; a[i-1].之后从a[i,…,n-1]中找出一个比a[i-1]大的最小的数arr[j]与a[i-1]交换．在交换之前，序列arr[i,…,n-1]满足逆序，由于arr[i-1] &lt; arr[j]小，交换之后的序列仍然满足逆序．reverse(arr[i,..n-1])<br>注意：数组中存在重复元素时的情形．<br>当arr[i,..n-1]满足逆序时，若数组arr[i,..n-1]中存在重复元素，则这两个重复元素必然相邻．交换两个相等元素，显然无用，因此，在前面寻找可交换元素的过程中，没有将两个相等元素作为寻找目标．但是此时，若这两个相等元素正是arr[i,..n-1]中比arr[i-1]大的最小的元素，那么此时该选择哪一个元素呢？答案是选择索引较大的那一个．因为索引较大的那一个目前处在较低位上，reverse之后处在较高位上．</p>
-<p><a href="https://leetcode.com/problems/next-permutation" target="_blank" rel="noopener">Next Permutation</a></p>
-<p>视频：<a href="https://www.bilibili.com/video/av52421617?from=search&amp;seid=9609389838434247675&gt;" target="_blank" rel="noopener">https://www.bilibili.com/video/av52421617?from=search&amp;seid=9609389838434247675&gt;</a></p>
+<p><a href="https://leetcode.com/problems/next-permutation">Next Permutation</a></p>
+<p>视频：<a href="https://www.bilibili.com/video/av52421617?from=search&amp;seid=9609389838434247675&gt;">https://www.bilibili.com/video/av52421617?from=search&amp;seid=9609389838434247675&gt;</a></p>
 
       
     </div>

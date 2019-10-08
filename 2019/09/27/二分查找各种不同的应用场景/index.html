@@ -371,12 +371,12 @@
 <a id="more"></a>
 
 <ul>
-<li>Find peak Element: <a href="https://leetcode.com/problems/find-peak-element" target="_blank" rel="noopener">https://leetcode.com/problems/find-peak-element</a><ul>
+<li>Find peak Element: <a href="https://leetcode.com/problems/find-peak-element">https://leetcode.com/problems/find-peak-element</a><ul>
 <li>如何处理一个数组中所有元素都相等的情况．</li>
 </ul>
 </li>
-<li><a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/submissions/&gt;" target="_blank" rel="noopener">https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/submissions/&gt;</a></li>
-<li>相似题：<a href="https://leetcode.com/problems/first-bad-version/" target="_blank" rel="noopener">https://leetcode.com/problems/first-bad-version/</a></li>
+<li><a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/submissions/&gt;">https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/submissions/&gt;</a></li>
+<li>相似题：<a href="https://leetcode.com/problems/first-bad-version/">https://leetcode.com/problems/first-bad-version/</a></li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">findLastPos</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, j = nums.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(i &lt;= j)&#123;</span><br><span class="line">        mid = (i + j) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(nums[mid] &gt; target)&#123;</span><br><span class="line">            j = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            i = mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> mid;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -390,7 +390,7 @@
 <p>测试用例</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[1, 3, 3, 3, 3] // 1, 第一个元素3</span><br><span class="line">[-1, 1, 2, 3, 5] //3, 元素3</span><br><span class="line">[1, 2, 4, 5, 6] // -1, 不存在元素3</span><br></pre></td></tr></table></figure>
 
-<h1 id="在有序旋转数组中搜索某个给定的数"><a href="#在有序旋转数组中搜索某个给定的数" class="headerlink" title="在有序旋转数组中搜索某个给定的数"></a>在有序旋转数组中搜索某个给定的数</h1><p><a href="https://leetcode.com/problems/search-in-rotated-sorted-array" target="_blank" rel="noopener">题目链接</a></p>
+<h1 id="在有序旋转数组中搜索某个给定的数"><a href="#在有序旋转数组中搜索某个给定的数" class="headerlink" title="在有序旋转数组中搜索某个给定的数"></a>在有序旋转数组中搜索某个给定的数</h1><p><a href="https://leetcode.com/problems/search-in-rotated-sorted-array">题目链接</a></p>
 
       
     </div>

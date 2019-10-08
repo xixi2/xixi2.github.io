@@ -392,7 +392,7 @@
         <p>在ubuntu 18.0.4中安装了Adobe Acrobat Reader，之后pdf文件就和Adobe reader关联起来了。但是该软件似乎没有安装成功，每次试图用它打开pdf文件都会失败。</p>
 <a id="more"></a>
 
-<p>于是乎，只能又安装了一个其他的pdf阅读器，但是，问题来了，pdf文件还是优先和Adobe reader关联。所以，我就想卸载掉这个占着茅坑不拉屎的家伙。然后呢，我就找到了这个：<a href="https://www.helplib.com/ubuntu/article_168889" target="_blank" rel="noopener">在Ubuntu中，如何卸载/删除 Adobe Flash Player？</a></p>
+<p>于是乎，只能又安装了一个其他的pdf阅读器，但是，问题来了，pdf文件还是优先和Adobe reader关联。所以，我就想卸载掉这个占着茅坑不拉屎的家伙。然后呢，我就找到了这个：<a href="https://www.helplib.com/ubuntu/article_168889">在Ubuntu中，如何卸载/删除 Adobe Flash Player？</a></p>
 <p>其中，给出了解决方案。</p>
 <blockquote>
 <p>如果你使用Apt安装的它，请在terminal中运行下面的命令查找软件包名称</p>
@@ -405,11 +405,11 @@
 <p>下面我重点来讲解一下上面的查找软件包名称的那条命令。<br>首先关于dpkg</p>
 <p>来自百度百科的介绍</p>
 <blockquote>
-<p>“dpkg ”是“Debian Packager ”的简写。为 “Debian” 专门开发的套件管理系统，方便软件的安装、更新及移除。所有源自“Debian”的“Linux ”发行版都使用 “dpkg”，例如 “Ubuntu”、“Knoppix ”等。<br>dpkg是<a href="https://baike.baidu.com/item/Debian" target="_blank" rel="noopener">Debian</a>软件包管理器的基础，它被伊恩·默多克创建于1993年。dpkg与<a href="https://baike.baidu.com/item/RPM" target="_blank" rel="noopener">RPM</a>十分相似，同样被用于安装、卸载和供给.deb软件包相关的信息。<br>dpkg本身是一个底层的工具。上层的工具，如<a href="https://baike.baidu.com/item/APT" target="_blank" rel="noopener">APT</a>，被用于从远程获取软件包以及处理复杂的软件包关系。 “dpkg”是“Debian Package”的简写。</p>
+<p>“dpkg ”是“Debian Packager ”的简写。为 “Debian” 专门开发的套件管理系统，方便软件的安装、更新及移除。所有源自“Debian”的“Linux ”发行版都使用 “dpkg”，例如 “Ubuntu”、“Knoppix ”等。<br>dpkg是<a href="https://baike.baidu.com/item/Debian">Debian</a>软件包管理器的基础，它被伊恩·默多克创建于1993年。dpkg与<a href="https://baike.baidu.com/item/RPM">RPM</a>十分相似，同样被用于安装、卸载和供给.deb软件包相关的信息。<br>dpkg本身是一个底层的工具。上层的工具，如<a href="https://baike.baidu.com/item/APT">APT</a>，被用于从远程获取软件包以及处理复杂的软件包关系。 “dpkg”是“Debian Package”的简写。</p>
 </blockquote>
 <p>通过dpkg –help可以查看–get-selections选项的作用<br>  –get-selections [&lt;表达式&gt; …]  把已选中的软件包列表打印到标准输出。</p>
 <p>dpkg –get-selections显示包含标记install或者deinstall之一的包。<br>grep -v 进行反向选择<br>dpkg –get-selections | grep -v deinstall 即显示出所有标记为install的包。<br>dpkg –get-selections | grep -v deinstall | grep reader即从上述结果中找出包含reader的包。<br>dpkg –get-selections | grep -v deinstall | grep reader | awk ‘{print $1}’ 即输出找到的包的名称($1表示取第一个字段)。</p>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]在Ubuntu中，如何卸载/删除 Adobe Flash Player：<a href="https://www.helplib.com/ubuntu/article_168889" target="_blank" rel="noopener">https://www.helplib.com/ubuntu/article_168889</a><br>[2]ubuntu常用的dpkg：<a href="https://www.tecmint.com/dpkg-command-examples/" target="_blank" rel="noopener">https://www.tecmint.com/dpkg-command-examples/</a><br>[3]ubuntu常用的apt命令：<a href="https://www.tecmint.com/useful-basic-commands-of-apt-get-and-apt-cache-for-package-management/" target="_blank" rel="noopener">https://www.tecmint.com/useful-basic-commands-of-apt-get-and-apt-cache-for-package-management/</a><br>[4]ubuntu manuals：</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]在Ubuntu中，如何卸载/删除 Adobe Flash Player：<a href="https://www.helplib.com/ubuntu/article_168889">https://www.helplib.com/ubuntu/article_168889</a><br>[2]ubuntu常用的dpkg：<a href="https://www.tecmint.com/dpkg-command-examples/">https://www.tecmint.com/dpkg-command-examples/</a><br>[3]ubuntu常用的apt命令：<a href="https://www.tecmint.com/useful-basic-commands-of-apt-get-and-apt-cache-for-package-management/">https://www.tecmint.com/useful-basic-commands-of-apt-get-and-apt-cache-for-package-management/</a><br>[4]ubuntu manuals：</p>
 
       
     </div>

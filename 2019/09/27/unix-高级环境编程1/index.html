@@ -398,15 +398,15 @@
 <li><p>运行程序过程中出现的错误<br>报错信息：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gcc main.cpp -o th2 -lpthread</span><br><span class="line">/tmp/ccdz0db3.o：在函数‘__static_initialization_and_destruction_0(<span class="keyword">int</span>, <span class="keyword">int</span>)’中：</span><br><span class="line">main.cpp:(.text+<span class="number">0x186</span>)：对‘<span class="built_in">std</span>::ios_base::Init::Init()’未定义的引用</span><br><span class="line">main.cpp:(.text+<span class="number">0x19b</span>)：对‘<span class="built_in">std</span>::ios_base::Init::~Init()’未定义的引用</span><br><span class="line">collect2: error: ld returned <span class="number">1</span> <span class="built_in">exit</span> status</span><br></pre></td></tr></table></figure>
 
-<p>报错原因：使用了c编译器来编译c++文件<br>解法办法：使用命令[g++ main.cpp -o th2 -lpthread]来编译<br><a href="https://blog.csdn.net/u010758410/article/details/78704003" target="_blank" rel="noopener">https://blog.csdn.net/u010758410/article/details/78704003</a></p>
+<p>报错原因：使用了c编译器来编译c++文件<br>解法办法：使用命令[g++ main.cpp -o th2 -lpthread]来编译<br><a href="https://blog.csdn.net/u010758410/article/details/78704003">https://blog.csdn.net/u010758410/article/details/78704003</a></p>
 </li>
 <li><p>报错信息</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">g++ thread_exit_test.cpp  -o exit -lpthread</span><br><span class="line">thread_exit_test.cpp: In function ‘int main()’:</span><br><span class="line">thread_exit_test.cpp:47:43: error: lvalue required as unary ‘&amp;’ operand</span><br><span class="line">     err = pthread_join(tid1, &amp;((void *) fp));</span><br></pre></td></tr></table></figure>
 
-<p>报错原因：C语言编译器允许隐含性的将一个通用指针转换为任意类型的指针，而C++不允许的。<br>解法方法：<a href="https://blog.csdn.net/alpelious/article/details/53486547" target="_blank" rel="noopener">https://blog.csdn.net/alpelious/article/details/53486547</a></p>
+<p>报错原因：C语言编译器允许隐含性的将一个通用指针转换为任意类型的指针，而C++不允许的。<br>解法方法：<a href="https://blog.csdn.net/alpelious/article/details/53486547">https://blog.csdn.net/alpelious/article/details/53486547</a></p>
 </li>
 </ol>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] <a href="http://www.apuebook.com/" target="_blank" rel="noopener">http://www.apuebook.com/</a><br>[2] <a href="https://www.jianshu.com/p/c51a4127e9e6" target="_blank" rel="noopener">https://www.jianshu.com/p/c51a4127e9e6</a></p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] <a href="http://www.apuebook.com/">http://www.apuebook.com/</a><br>[2] <a href="https://www.jianshu.com/p/c51a4127e9e6">https://www.jianshu.com/p/c51a4127e9e6</a></p>
 
       
     </div>

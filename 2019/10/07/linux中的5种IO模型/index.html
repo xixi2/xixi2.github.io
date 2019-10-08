@@ -519,7 +519,7 @@
 <p><span style="color:cornflowerblue">高并发的程序一般使用同步非阻塞方式而非多线程 + 同步阻塞方式</span>。要理解这一点，首先要扯到并发和并行的区别。比如去某部门办事需要依次去几个窗口，办事大厅里的人数就是并发数，而窗口个数就是并行度。也就是说并发数是指同时进行的任务数（如同时服务的 HTTP 请求），而并行数是可以同时工作的物理资源数量（如 CPU 核数）。通过合理调度任务的不同阶段，并发数可以远远大于并行度，这就是区区几个 CPU 可以支持上万个用户并发请求的奥秘。在这种高并发的情况下，为每个任务（用户请求）创建一个进程或线程的开销非常大。而同步非阻塞方式可以把多个 IO 请求丢到后台去，这就可以在一个进程里服务大量的并发 IO 请求。</p>
 <p>注意：IO多路复用是同步阻塞模型还是异步阻塞模型，在此给大家分析下：</p>
 <blockquote>
-<p>此处仍然不太清楚的，强烈建议大家在细究<a href="http://mp.weixin.qq.com/s?__biz=MzAxODI5ODMwOA==&mid=2666538901&idx=1&sn=d1f7d5461491a9c240f16da6b7c0ced9&scene=21#wechat_redirect" target="_blank" rel="noopener">《聊聊同步、异步、阻塞与非阻塞》</a>中讲同步与异步的根本性区别，同步是需要主动等待消息通知，而异步则是被动接收消息通知，通过回调、通知、状态等方式来被动获取消息。IO多路复用在阻塞到select阶段时，用户进程是主动等待并调用select函数获取数据就绪状态消息，并且其进程状态为阻塞。所以，把IO多路复用归为同步阻塞模式。</p>
+<p>此处仍然不太清楚的，强烈建议大家在细究<a href="http://mp.weixin.qq.com/s?__biz=MzAxODI5ODMwOA==&mid=2666538901&idx=1&sn=d1f7d5461491a9c240f16da6b7c0ced9&scene=21#wechat_redirect">《聊聊同步、异步、阻塞与非阻塞》</a>中讲同步与异步的根本性区别，同步是需要主动等待消息通知，而异步则是被动接收消息通知，通过回调、通知、状态等方式来被动获取消息。IO多路复用在阻塞到select阶段时，用户进程是主动等待并调用select函数获取数据就绪状态消息，并且其进程状态为阻塞。所以，把IO多路复用归为同步阻塞模式。</p>
 </blockquote>
 <h2 id="信号驱动式IO-signal-driven-IO"><a href="#信号驱动式IO-signal-driven-IO" class="headerlink" title="信号驱动式IO(signal-driven IO)"></a>信号驱动式IO(signal-driven IO)</h2><p>信号驱动式I/O：首先我们允许Socket进行信号驱动IO,并安装一个信号处理函数，进程继续运行并不阻塞。当数据准备好时，进程会收到一个SIGIO信号，可以在信号处理函数中调用I/O操作函数处理数据。过程如下图所示：</p>
 <p><img src="http://mmbiz.qpic.cn/mmbiz/9aPYe0E1fb11Io93ECiaoQys70EB6dcAzBiao5goOJDRAB5NPBhQkdefAUviciaHfP0dvMNyxkXLgp1XSb9UhmkJBg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
@@ -552,7 +552,7 @@
 <p>另外一种使用阻塞方式的理由是降低响应延迟。如果采用非阻塞方式，一个任务 A 被提交到后台，就开始做另一件事 B，但 B 还没做完，A 就完成了，这时要想让 A 的完成事件被尽快处理（比如 A 是个紧急事务），要么丢弃做到一半的 B，要么保存 B 的中间状态并切换回 A，任务的切换是需要时间的（不管是从磁盘载入到内存，还是从内存载入到高速缓存），这势必降低 A 的响应速度。因此，对实时系统或者延迟敏感的事务，有时采用阻塞方式比非阻塞方式更好。</p>
 <h2 id="五种IO模型"><a href="#五种IO模型" class="headerlink" title="五种IO模型"></a>五种IO模型</h2><p><img src="http://mmbiz.qpic.cn/mmbiz/9aPYe0E1fb11Io93ECiaoQys70EB6dcAzNOlSZdiampJg1VNkhT79Kzeul8IYferMoHDnNywRC4rKYMetM4udic2Q/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
 <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="在这里输入图片标题"></p>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a href="https://mp.weixin.qq.com/s?__biz=MzAxODI5ODMwOA==&amp;mid=2666538919&amp;idx=1&amp;sn=6013c451b5f14bf809aec77dd5df6cff&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzAxODI5ODMwOA==&amp;mid=2666538919&amp;idx=1&amp;sn=6013c451b5f14bf809aec77dd5df6cff&amp;scene=21#wechat_redirect</a></p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a href="https://mp.weixin.qq.com/s?__biz=MzAxODI5ODMwOA==&amp;mid=2666538919&amp;idx=1&amp;sn=6013c451b5f14bf809aec77dd5df6cff&amp;scene=21#wechat_redirect">https://mp.weixin.qq.com/s?__biz=MzAxODI5ODMwOA==&amp;mid=2666538919&amp;idx=1&amp;sn=6013c451b5f14bf809aec77dd5df6cff&amp;scene=21#wechat_redirect</a></p>
 
       
     </div>

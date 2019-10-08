@@ -458,7 +458,7 @@
 <li>子进程5948第一次调用fork的返回值pid是0,表明进程5948是子进程, 因此直接打印出”loop=0 我是进程5948 父进程id=5947 我刚刚fork了子进程 pid=0”; 当进程5948第二次调用fork时, 产生一个新的子进程5949. 在进程5948中,调用fork函数前, loop=1,因此在新的子进程5949中loop=1. 也因此子进程5949只会调用一次fork(就会因为loop&gt;=2而跳出循环). 在子进程5949的运行过程中只会打印出”loop=1 我是进程5949 父进程id=5948 我刚刚fork了子进程 pid=0”</li>
 <li>而对于进程5947, 在第一次循环结束后继续执行第二次循环. 此时loop=1. 调用fork后, 产生一个新的子进程5952, 该子进程中loop=1. 因此类似的, 进程5952只会打印出”loop=1 我是进程5952 父进程id=5947 我刚刚fork了子进程 pid=0”</li>
 </ol>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] <a href="https://www.cnblogs.com/bastard/archive/2012/08/31/2664896.html" target="_blank" rel="noopener">https://www.cnblogs.com/bastard/archive/2012/08/31/2664896.html</a><br>[2] <a href="https://www.jianshu.com/p/586300fdb1ce" target="_blank" rel="noopener">https://www.jianshu.com/p/586300fdb1ce</a></p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] <a href="https://www.cnblogs.com/bastard/archive/2012/08/31/2664896.html">https://www.cnblogs.com/bastard/archive/2012/08/31/2664896.html</a><br>[2] <a href="https://www.jianshu.com/p/586300fdb1ce">https://www.jianshu.com/p/586300fdb1ce</a></p>
 
       
     </div>

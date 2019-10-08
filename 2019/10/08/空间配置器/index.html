@@ -422,7 +422,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">	nooneblock[使用malloc从系统堆中分配内存]</span><br><span class="line">	nooneblock --&gt; getsucc&#123;分配成功&#125;</span><br><span class="line">	getsucc --&gt;|是| yesget[将新内存放入内存池中]</span><br><span class="line">	yesget --&gt; callagain[再次调用chunk_alloc尝试分配n*nobjs个字节的内存,并返回首地址给调用者]</span><br><span class="line">	getsucc --&gt;|否| noget[遍历free list,希望找到比n个字节的区块大的区块]</span><br><span class="line">	noget --&gt; hasbiggerblock&#123;是否存在比n个字节更大的区块&#125;</span><br><span class="line">	hasbiggerblock --&gt;|是| yesbigger[找到第一个比n个字节大的区块放入内存池]</span><br><span class="line">	yesbigger --&gt; callagain</span><br><span class="line">	hasbiggerblock --&gt;|否| nobigger[调用第一级配置器,补充内存池空间]</span><br></pre></td></tr></table></figure>
 
 <h2 id="几个疑问"><a href="#几个疑问" class="headerlink" title="几个疑问"></a>几个疑问</h2><p>为什么自由链表中分配的内存都需要上调到8字节的倍数？</p>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]二级空间配置器的必要性：<a href="http://www.dongcoder.com/detail-67805.html" target="_blank" rel="noopener">http://www.dongcoder.com/detail-67805.html</a></p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]二级空间配置器的必要性：<a href="http://www.dongcoder.com/detail-67805.html">http://www.dongcoder.com/detail-67805.html</a></p>
 
       
     </div>
@@ -456,6 +456,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/08/数据库索引/" rel="prev" title="数据库索引">
+                数据库索引 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>

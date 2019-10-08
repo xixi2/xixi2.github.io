@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[数据库索引]]></title>
+    <url>%2F2019%2F10%2F08%2F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%2F</url>
+    <content type="text"><![CDATA[索引是存储引擎用于快速找到记录的一种数据结构。索引是按用户任意指定的字段对数据进行排序的一种数据结构。索引是为了加快查询的速度． 使用索引 优点 通过建立唯一索引或主键索引保证数据库中每一行数据的唯一性，提高检索的数据的效率以及减少表的检索行数 缺点： 创建索引和维护索引会浪费时间，随着数据量的增加而增加； 索引文件会占用磁盘空间(数据库索引存储在磁盘上)； 当对表中的数据进行增删改的时候，也需要动态地维护索引，这样会降低数据更新的速度． 适用的场景： 适合查询操作多于更新操作的场景． 表中数据量较大． 建立索引的字段应该有较多值，比如说实值．比如说，字段gender，只有两个值，男和女，就不适合建立索引． 索引类型 单列索引：一个索引只包含一个列；可以有多个单列索引；主键索引，唯一索引，普通索引 联合索引：一个联合索引包含两个或两个以上的列；当索引包含多个列时，列的顺序十分重要．因为存储引擎只能高效地使用最左前缀列． 查询类型 B-Tree(实际上是B+树)索引适用于全键值，键值范围查询，键前缀查找(最左前缀查找)． 建立索引： 1234567891011121314151617普通索引 create index 索引名 on 表名(字段名);alter table 表名 add index 索引名(字段名)# 唯一索引与普通索引类似，必须唯一，可以有空值 create unique index 索引名 on 表名(字段名)alter table 表名 add unique(字段名)# 主键索引，必须唯一，不可以有空值# 创建表时添加alter table 表名 add primary key(字段);# 组合索引create index 索引名 on 表名(字段名1, 字段名2...);alter table 表名 add index 索引名(字段名1, 字段名2)# 删除索引drop index 索引名 on 表名 B-tree索引B树数据库索引存储在磁盘上，当数据量比较大的时候，索引也很大，可能有几个G甚至更多．当我们利用索引查询的时候，能把整个索引全部加载到内存吗？显然不可能，只能一页一页地加载磁盘页．这里的磁盘页对应着索引树的节点．如果利用二叉查找树作为索引结构，假设二叉查找树的高度为n．那么最差情况下，要查询的节点是处于最深层次上的叶子节点，磁盘IO次数等于树的高度．为了减少磁盘IO次数，需要把原本”瘦高”的树结构变得”矮胖”，这就是B-树的特征之一．B树是一种多路平衡查找树，它的每一个节点最多包含k个孩子，k被称为B树的阶．k的大小取决于磁盘页的大小． 一个m阶的B树具有如下特征：１．根节点至少有两个孩子２．每个中间节点都包含k-1个元素和k个孩子，其中m/2(向上取整) &lt;= k &lt;= m．３．每一个叶子节点都包含k-1个元素，其中m/2(向上取整) &lt;= k &lt;= m４．所有的叶子节点都位于同一层．５．每个节点中的元素从小到大排列，节点当中k-1个元素正好是k个孩子包含的元素的值域的分割． B树在查询过程中的比较次数并不比二叉查找树少，尤其是当单一节点中的元素数量很多时．可是相比磁盘IO的速度，内存中的比较耗时几乎可以忽略．只要树的高度足够低，IO次数足够少，就可以提升查找性能．在一个节点内的内部元素多一些也没有关系，只不过需要在内存中多做几次比较．B树主要应用于文件系统及部分数据库索引，如非关系型数据库MongoDB．大部分关系型数据库，如mysql，使用B+树作为索引． B树无论中间节点还是叶子节点都既有用于索引的关键字又有数据项(如数据表中的一行)。 B+树 一个m阶的B+树具有如下特征：１．有k个子树的中间节点包含k个元素(B树中是k-1个元素)，每个元素不保存数据，只用来索引，所有数据都保存在叶子节点上．２．所有的叶子节点中包含了全部元素的信息，以及指向含这些元素记录的指针，且叶子节点本身依关键字的大小从小到大顺序链接(每一个叶子节点都包含指向下一个叶子节点的指针，从而方便叶子节点的范围遍历)． 更详细版本一个m阶的B树具有如下特征：１．数据项存储在叶子节点上２．非叶节点存储指示m-1个关键字指示搜索的方向；关键字i代表子树i+1中的最小的关键字(每一个父节点的元素都出现在子节点中，是子节点中的最大或最小元素，这里是最小)３．树的根或者是一片树叶，或者其孩子数在2到m之间．４．除根外，所有非叶节点的还在数在[m/2](m/2向上取整)和m之间．５．所有的叶子节点都位于同一层，并且每个叶子节点拥有的数据项的个数在[L/2]和L之间．L是能装入到一个磁盘块中的数据项个数． B树和B+树的区别B+树中数据项只存储在叶子节点中，所以，同样大小的磁盘有可以容纳更多的关键字元素。这意味着，数据量相同的情况下，B+树的结构比B树更加矮胖，因此查询时的IO次数更少。但是B+树的查询最终必须查找到叶子节点才能获取数据项，而B树只要找到匹配的元素即可。无论匹配元素是在中间节点还是叶子节点。B树的查找性能并不稳定(最好情况是只查根节点，最坏情况是查到叶子节点)。而B+树的每一次查找都是稳定的。 B+树的优点主要体现在查询性能上。分别以单行查询和范围查询为例。B+树的范围查询只需要找到上限和下限所在的叶子节点，然后对链表进行遍历。而B树的范围查询需要通过中序遍历。总的来说，B+与B树相比，优点在于：１．单一节点存储更多的(关键字)元素，使得查询的IO次数更少。２．所有查询都要查询到叶子节点才能获取(关键字)元素对应的数据项，查询性能更加稳定。３．所有叶子节点形成有序链表，便于范围查询。 B+树的增删改查哈希索引哈希索引基于哈希表实现．只有精确匹配索引所有列的查询才有效。对于每一行数据(即每一个记录)，存储引擎会对所有的索引列计算一个哈希码(hash code)。哈希索引将所有的哈希码存储在索引中，同时在哈希表中保存指向所有数据行的指针。 一般而言，对于不同的键值得出的哈希码是不同的，但是如果多个键值的哈希码相同，则将以链表的形式将多个记录指针存放到同一个哈希表条目中。 哈希索引的优缺点： 优点：索引中只存储对应的哈希值，索引的结构十分紧凑，所以哈希查找的速度非常快。 缺点： 哈希索引只包含哈希值和行指针，而不存储字段值，所以不能使用索引中的值来避免读取行 哈希索引数据并不是按照索引值顺序存储的，所以无法用于排序。 哈希索引不支持部分索引列匹配查找，因为哈希索引是使用所有索引列的全部内容来计算哈希值的。例如，在数据列(A,B)上建立哈希索引，如果查询只有数据列A则无法使用该索引 参考文献[1] B+树：B+树[2] B树：B树[3] MySQL索引和SQL调优：https://zhuanlan.zhihu.com/p/76494612[4]可视化插入和删除过程：https://www.cs.usfca.edu/~galles/visualization/BPlusTree.html]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[空间配置器]]></title>
     <url>%2F2019%2F10%2F08%2F%E7%A9%BA%E9%97%B4%E9%85%8D%E7%BD%AE%E5%99%A8%2F</url>
     <content type="text"><![CDATA[STL存在两级空间配置器。其中第一级空间配置器是默认空间配置器。第一级空间配置器用于配置大于128byte的内存，而当申请内存小于等于128bytes时，则求助于第二级空间配置器。 二级空间配置器如果仅使用第一级空间配置器，那么内存分配过程中存在两个问题： 内存碎片(外碎片) 频繁分配小内存，不断调用malloc，进而调用底层的系统调用，产生性能问题 注：内碎片：因为内存对齐/访问效率而产生的，用户需要3字节，实际得到4字节或8字节的问题，其中多出来的字节就是碎片，被浪费了。外碎片：系统中内存总量足够，但是由于离散分配导致不连续，所以无法分配给用户使用而产生的浪费。比如，系统依次分配了16、8、16、4、8byte,还剩一个8byte未分配，这时要分配一个24byte的空间，系统回收两个16 byte，总的空间剩余40byte, 但是却分配不出来一个24byte。 二级空间配置器是为解决“频繁分配小内存”而产生的一种算法，其实就是为了消除一级空间配置器的外碎片问题。 allocate，refill，chunk_alloc调用关系：allocate调用refill，refill调用chunk_alloc。 123graph LRallocate --&gt; refill refill --&gt; chunk_alloc allocateallocate函数详细过程：函数原型：void *__default_alloc_template&lt;threads, inst&gt;::allocate(size_t n);功能：分配指定的n个字节的内存空间。调用refill时，会将n调整到第一个大于等于n的8的倍数。 流程图12345678graph TB start(调用allocate分配n个字节的内存空间) start --&gt; biggerthan128&#123;分配的内存大于128字节&#125; biggerthan128 --&gt; firstlevel[调用第一级空间配置器] biggerthan128 --&gt; secondlevel[从16个free list中对应的那个自由链表中取出一块返回给客户端] secondlevel --&gt; getsucc&#123;成功取回&#125; getsucc --&gt;|是| yessucc[将这一块内存返回给客户端] getsucc --&gt;|否| nosucc[调用refill填充free list,并重新分配一块内存返回给客户端] 源码123456789101112131415161718192021222324252627// n must be &gt; 0, 要分配的内存块大小template&lt;bool threads, int inst&gt;void *__default_alloc_template&lt;threads, inst&gt;::allocate(size_t n) &#123; obj *volatile *my_free_list; // 二级指针，my_free_list是一个指针，它保存着另一个指针的地址，后者则指向一个obj类型对象 obj *result; // 大于128就调用第一级配置器 if (n &gt; (size_t) __MAX_BYTES) &#123; return (malloc_alloc::allocate(n)); &#125; // 寻找16个free list中适当的一个 // my_free_list和free_list+FREELIST_INDEX(n)指向第一个长度为(FREELIST_INDEX(n)+1)*8的可用区块 my_free_list = free_list + FREELIST_INDEX(n); result = *my_free_list; // *my_free_list是一个指向obj类型对象的指针 if (result == 0) &#123; // 没找到可用的free list，准备重新填充free list //ROUND_UP(n): 向上调整n为8的倍数 void *r = refill(ROUND_UP(n)); return r; &#125; // 令free_list+FREELIST_INDEX(n)指向后续一个长度为(FREELIST_INDEX(n)+1)*8的可用区块 // my_free_list和free_list+FREELIST_INDEX(n)这两个指针指向同一个obj*类型的元素 *my_free_list = result-&gt;free_list_link; return result;&#125; FREELIST_INDEX 1234567enum &#123; __ALIGN = 8&#125;; // 小型区块的边界static size_t FREELIST_INDEX(size_t bytes) &#123; return (((bytes) + __ALIGN - 1) / __ALIGN - 1);&#125; 测试程序 12 运行结果 refill函数原型：void *__default_alloc_template&lt;threads, inst&gt;::refill(size_t n)功能：当allocate为客户端分配指定的n(n&lt;=128)个字节的内存，却发现free list空间不足时，就会调用refill()，为free list重新填充空间。新的空间分配并不由本函数完成，而是调用chunk_alloc来完成。本函数需要完成的是，为chunk_alloc指定需要分配的区块大小(即n个字节)以及区块个数(默认为20)。当chunk_alloc返回分配的内存的首地址时，本函数再根据返回的内存的大小决定是否需要向自由链表中添加内存区块。 流程图1234567graph TB start(调用refill) --&gt; setparams[指定chunk_alloc的参数: 需要分配的区块大小,及区块个数] setparams --&gt; callchunk[调用chunk_alloc从内存池分配内存] callchunk --&gt; getmemory[获取chunk_alloc返回的内存空间首地址] getmemory --&gt; hasmorethanone&#123;chunk_alloc返回的内存是否大于一个区块&#125; hasmorethanone --&gt;|是| returntoclient[将这一个区块返回给调用者--即allocate] hasmorethanone --&gt;|否| savetofreelist[多出的部分添加到free list中, 返回一个区块给allocate] chunk_alloc函数原型：char *__default_alloc_template&lt;threads, inst&gt;::chunk_alloc(size_t size, int &amp;nobjs)参数：size为区块大小(8的倍数，从8-128共16种可能的大小)；参数：nobjs为期望分配的区块个数，默认为20。功能：从内存池中取出空间给free list使用。 流程图123456graph TB start(调用chunk_alloc) --&gt; hasenoughmem&#123;内存池剩余空间满足需求&#125; hasenoughmem --&gt;|是| yesmem[从内存池中取出n * nobjs个字节的内存,返回给调用者] hasenoughmem --&gt;|否| hasoneblock&#123;内存池剩余空间至少有一个区块大小,即n个字节&#125; hasoneblock --&gt;|是| yesoneblock[从内存池中取出尽量多个区块,返回给调用者] hasoneblock --&gt;|否| nooneblock[使用malloc从系统堆中分配内存] 12345678910graph TD nooneblock[使用malloc从系统堆中分配内存] nooneblock --&gt; getsucc&#123;分配成功&#125; getsucc --&gt;|是| yesget[将新内存放入内存池中] yesget --&gt; callagain[再次调用chunk_alloc尝试分配n*nobjs个字节的内存,并返回首地址给调用者] getsucc --&gt;|否| noget[遍历free list,希望找到比n个字节的区块大的区块] noget --&gt; hasbiggerblock&#123;是否存在比n个字节更大的区块&#125; hasbiggerblock --&gt;|是| yesbigger[找到第一个比n个字节大的区块放入内存池] yesbigger --&gt; callagain hasbiggerblock --&gt;|否| nobigger[调用第一级配置器,补充内存池空间] 几个疑问为什么自由链表中分配的内存都需要上调到8字节的倍数？ 参考文献[1]二级空间配置器的必要性：http://www.dongcoder.com/detail-67805.html]]></content>
@@ -113,14 +121,6 @@
       <tags>
         <tag>linux</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[数据库索引]]></title>
-    <url>%2F2019%2F10%2F07%2F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%2F</url>
-    <content type="text"><![CDATA[索引是存储引擎用于快速找到记录的一种数据结构。索引是按用户任意指定的字段对数据进行排序的一种数据结构。索引是为了加快查询的速度． 使用索引 优点 通过建立唯一索引或主键索引保证数据库中每一行数据的唯一性，提高检索的数据的效率以及减少表的检索行数 缺点： 创建索引和维护索引会浪费时间，随着数据量的增加而增加； 索引文件会占用磁盘空间(数据库索引存储在磁盘上)； 当对表中的数据进行增删改的时候，也需要动态地维护索引，这样会降低数据更新的速度． 适用的场景： 适合查询操作多于更新操作的场景． 表中数据量较大． 建立索引的字段应该有较多值，比如说实值．比如说，字段gender，只有两个值，男和女，就不适合建立索引． 索引类型 单列索引：一个索引只包含一个列；可以有多个单列索引；主键索引，唯一索引，普通索引 联合索引：一个联合索引包含两个或两个以上的列；当索引包含多个列时，列的顺序十分重要．因为存储引擎只能高效地使用最左前缀列． 查询类型 B-Tree(实际上是B+树)索引适用于全键值，键值范围查询，键前缀查找(最左前缀查找)． 建立索引： 1234567891011121314151617普通索引 create index 索引名 on 表名(字段名);alter table 表名 add index 索引名(字段名)# 唯一索引与普通索引类似，必须唯一，可以有空值 create unique index 索引名 on 表名(字段名)alter table 表名 add unique(字段名)# 主键索引，必须唯一，不可以有空值# 创建表时添加alter table 表名 add primary key(字段);# 组合索引create index 索引名 on 表名(字段名1, 字段名2...);alter table 表名 add index 索引名(字段名1, 字段名2)# 删除索引drop index 索引名 on 表名 B-tree索引B树数据库索引存储在磁盘上，当数据量比较大的时候，索引也很大，可能有几个G甚至更多．当我们利用索引查询的时候，能把整个索引全部加载到内存吗？显然不可能，只能一页一页地加载磁盘页．这里的磁盘页对应着索引树的节点．如果利用二叉查找树作为索引结构，假设二叉查找树的高度为n．那么最差情况下，要查询的节点是处于最深层次上的叶子节点，磁盘IO次数等于树的高度．为了减少磁盘IO次数，需要把原本”瘦高”的树结构变得”矮胖”，这就是B-树的特征之一．B树是一种多路平衡查找树，它的每一个节点最多包含k个孩子，k被称为B树的阶．k的大小取决于磁盘页的大小． 一个m阶的B树具有如下特征：１．根节点至少有两个孩子２．每个中间节点都包含k-1个元素和k个孩子，其中m/2(向上取整) &lt;= k &lt;= m．３．每一个叶子节点都包含k-1个元素，其中m/2(向上取整) &lt;= k &lt;= m４．所有的叶子节点都位于同一层．５．每个节点中的元素从小到大排列，节点当中k-1个元素正好是k个孩子包含的元素的值域的分割． B树在查询过程中的比较次数并不比二叉查找树少，尤其是当单一节点中的元素数量很多时．可是相比磁盘IO的速度，内存中的比较耗时几乎可以忽略．只要树的高度足够低，IO次数足够少，就可以提升查找性能．在一个节点内的内部元素多一些也没有关系，只不过需要在内存中多做几次比较．B树主要应用于文件系统及部分数据库索引，如非关系型数据库MongoDB．大部分关系型数据库，如mysql，使用B+树作为索引． B树无论中间节点还是叶子节点都既有用于索引的关键字又有数据项(如数据表中的一行)。 B+树 一个m阶的B+树具有如下特征：１．有k个子树的中间节点包含k个元素(B树中是k-1个元素)，每个元素不保存数据，只用来索引，所有数据都保存在叶子节点上．２．所有的叶子节点中包含了全部元素的信息，以及指向含这些元素记录的指针，且叶子节点本身依关键字的大小从小到大顺序链接(每一个叶子节点都包含指向下一个叶子节点的指针，从而方便叶子节点的范围遍历)． 更详细版本一个m阶的B树具有如下特征：１．数据项存储在叶子节点上２．非叶节点存储指示m-1个关键字指示搜索的方向；关键字i代表子树i+1中的最小的关键字(每一个父节点的元素都出现在子节点中，是子节点中的最大或最小元素，这里是最小)３．树的根或者是一片树叶，或者其孩子数在2到m之间．４．除根外，所有非叶节点的还在数在[m/2](m/2向上取整)和m之间．５．所有的叶子节点都位于同一层，并且每个叶子节点拥有的数据项的个数在[L/2]和L之间．L是能装入到一个磁盘块中的数据项个数． B树和B+树的区别在于B+树中数据项只存储在叶子节点中，所以，同样大小的磁盘有可以容纳更多的关键字元素．这意味着，数据量相同的情况下，B+树的结构比B树更加矮胖，因此查询时的IO次数更少．但是B+树的查询最终必须查找到叶子节点才能获取数据项，而B树只要找到匹配的元素即可．无论匹配元素是在中间节点还是叶子节点．B树的查找性能并不稳定(最好情况是只查根节点，最坏情况是查到叶子节点)．而B+树的每一次查找都是稳定的． B+树的优点主要体现在查询性能上．分别以单行查询和范围查询为例．B+树的范围查询只需要找到上限和下限所在的叶子节点，然后对链表进行遍历．而B树的范围查询需要通过中序遍历．总的来说，B+与B树相比，优点在于：１．单一节点存储更多的(关键字)元素，使得查询的IO次数更少．２．所有查询都要查询到叶子节点才能获取(关键字)元素对应的数据项，查询性能更加稳定．３．所有叶子节点形参有序链表，便于范围查询． B+树的增删改查哈希索引哈希索引基于哈希表实现．只有精确匹配索引所有列的查询才有效。对于每一行数据(即每一个记录)，存储引擎会对所有的索引列计算一个哈希码(hash code)。哈希索引将所有的哈希码存储在索引中，同时在哈希表中保存指向所有数据行的指针。 一般而言，对于不同的键值得出的哈希码是不同的，但是如果多个键值的哈希码相同，则将以链表的形式将多个记录指针存放到同一个哈希表条目中。 哈希索引的优缺点： 优点：索引中只存储对应的哈希值，索引的结构十分紧凑，所以哈希查找的速度非常快。 缺点： 哈希索引只包含哈希值和行指针，而不存储字段值，所以不能使用索引中的值来避免读取行 哈希索引数据并不是按照索引值顺序存储的，所以无法用于排序。 哈希索引不支持部分索引列匹配查找，因为哈希索引是使用所有索引列的全部内容来计算哈希值的。例如，在数据列(A,B)上建立哈希索引，如果查询只有数据列A则无法使用该索引 参考文献[1] B+树：B+树[2] B树：B树[3] MySQL索引和SQL调优：https://zhuanlan.zhihu.com/p/76494612[4]可视化插入和删除过程：https://www.cs.usfca.edu/~galles/visualization/BPlusTree.html]]></content>
-      <categories>
-        <category>数据库</category>
-      </categories>
   </entry>
   <entry>
     <title><![CDATA[974. Subarray Sums Divisible by K]]></title>
@@ -401,19 +401,19 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[traits]]></title>
-    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
-    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
-      <categories>
-        <category>STL</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[C++牛客网刷题总结]]></title>
     <url>%2F2019%2F09%2F27%2FC%2B%2B%E7%89%9B%E5%AE%A2%E7%BD%91%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93%2F</url>
     <content type="text"><![CDATA[字符串系列]]></content>
       <categories>
         <category>牛客网</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[traits]]></title>
+    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
+    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
+      <categories>
+        <category>STL</category>
       </categories>
   </entry>
   <entry>
@@ -454,6 +454,14 @@
       </categories>
   </entry>
   <entry>
+    <title><![CDATA[对象模型]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%2F</url>
+    <content type="text"><![CDATA[多重继承下的对象模型 123456789101112131415161718192021class A &#123; public: virtual ~A() &#123;&#125;&#125;;class B &#123; public: virtual ~B() &#123;&#125;&#125;;class C : public A, public B &#123;&#125;;void test1() &#123; C *pC = new C(); A *pA = (A *) pC; B *pB = (B *) pC; cout &lt;&lt; pA &lt;&lt; endl; // 0x5652962dbe70 cout &lt;&lt; pB &lt;&lt; endl; // 0x5652962dbe78 cout &lt;&lt; pC &lt;&lt; endl; // 0x5652962dbe70&#125;]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[指针和引用]]></title>
     <url>%2F2019%2F09%2F27%2F%E6%8C%87%E9%92%88%E5%92%8C%E5%BC%95%E7%94%A8%2F</url>
     <content type="text"><![CDATA[什么是引用？ 引用和指针的区别与联系指针和引用的异同点 指针 引用 指针本身是对象 引用本身不是对象,只是对象的别名 允许对指针本身进行赋值和拷贝,在指针的生命期内可以指向不同的对象(只要指针不是常量指针) 引用定义时就和一个对象绑定,且始终和这个对象绑定,无法令引用重新绑定到另一个对象 指针无须在定义时赋初值,在块作用域内的指针如果没有被初始化,将拥有一个不确定的值. 引用必须初始化. 可以定义指向指针的指针 无法定义引用的引用 引用的常见用途引用通常不用于声明变量，而用于参数类型和返回类型的描述． 12345678910void func1(Cls* pobj)&#123; pobj-&gt;xxx();&#125;void func2(Cls obj)&#123;obj.xxx();&#125;void func3(Cls&amp; obj)&#123;obj.xxx();&#125;Cls obj;func1(&amp;obj); // 接口不同// 调用端口相同func2(obj);func3(obj); 以下两个函数被视为”same signature”(所以二者不能同时存在)： 12double imag(const double&amp; im)&#123;...&#125;double imag(const double im)&#123;...&#125; // Ambiguity Q：const是不是函数签名的一部分？A：是的，两个函数，一个函数有const，另一个没有，则可以看做函数重载．]]></content>
@@ -464,14 +472,6 @@
         <tag>指针</tag>
         <tag>引用</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[对象模型]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%2F</url>
-    <content type="text"><![CDATA[多重继承下的对象模型 123456789101112131415161718192021class A &#123; public: virtual ~A() &#123;&#125;&#125;;class B &#123; public: virtual ~B() &#123;&#125;&#125;;class C : public A, public B &#123;&#125;;void test1() &#123; C *pC = new C(); A *pA = (A *) pC; B *pB = (B *) pC; cout &lt;&lt; pA &lt;&lt; endl; // 0x5652962dbe70 cout &lt;&lt; pB &lt;&lt; endl; // 0x5652962dbe78 cout &lt;&lt; pC &lt;&lt; endl; // 0x5652962dbe70&#125;]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
   </entry>
   <entry>
     <title><![CDATA[c++2.0新特性]]></title>
@@ -571,14 +571,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[k sum 系列]]></title>
-    <url>%2F2019%2F09%2F27%2Fk-sum-%E7%B3%BB%E5%88%97%2F</url>
-    <content type="text"><![CDATA[two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[冒泡排序的优化和鸡尾酒排序]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%E7%9A%84%E4%BC%98%E5%8C%96%E5%92%8C%E9%B8%A1%E5%B0%BE%E9%85%92%E6%8E%92%E5%BA%8F%2F</url>
     <content type="text"><![CDATA[冒泡排序的优化有设置哨兵来表示当前整个数组已经有序，以及设置有序区间，下一次只对有序区间进行排序（尚未完全理解）． 详情可见 鸡尾酒排序鸡尾酒排序算法适用于大部分元素已经有序的情况．它能够在特定条件下，减少排序的回合数；但是缺点是代码量几乎扩大了一倍． 鸡尾酒排序 未进行优化的鸡尾酒排序 12345678910111213141516171819202122232425262728293031323334353637383940414243void clockTailSort(vector&lt;int&gt; &amp;nums) &#123; // 未进行优化的鸡尾酒排序 int tmp = 0; for (int i = 0; i &lt; nums.size() / 2 - 1; ++i) &#123; // 有序标记，每一轮的初始值是true bool isSorted = true; // 奇数轮:从做向右比较和交换 // 奇数轮：区间内最大的数会被冒泡到最右 for (int j = i; j &lt; nums.size() - i - 1; ++j) &#123; if (nums[j] &gt; nums[j + 1]) &#123; tmp = nums[j]; nums[j] = nums[j + 1]; nums[j + 1] = tmp; // 有元素交换，所以，不是有序，标记变为false isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; isSorted = true; // 8 1 2 3 4 // 偶数轮，从右向左比较和交换 // 偶数轮，最小的数会被冒泡到最左边 for (int j = nums.size() - i - 1; j &gt; i; j--) &#123; if (nums[j] &lt; nums[j - 1]) &#123; tmp = nums[j]; nums[j] = nums[j - 1]; nums[j - 1] = tmp; isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; &#125;&#125; 进行优化的鸡尾酒排序优化方法：]]></content>
@@ -588,6 +580,14 @@
       <tags>
         <tag>冒泡排序的优化</tag>
       </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[k sum 系列]]></title>
+    <url>%2F2019%2F09%2F27%2Fk-sum-%E7%B3%BB%E5%88%97%2F</url>
+    <content type="text"><![CDATA[two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
   </entry>
   <entry>
     <title><![CDATA[旋转数组]]></title>
@@ -846,8 +846,8 @@
     <url>%2F2019%2F09%2F27%2F%E6%9C%AA%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%B4%AF%E5%8A%A0%E5%92%8C%E4%B8%BA%E7%BB%99%E5%AE%9A%E5%80%BC%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E6%95%B0%E7%BB%84%E7%B3%BB%E5%88%97%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[原题给定一个无序数组,其中元素可正,可负,可0.给定一个整数k,求arr所有的子数组中累加和为k的最长子数组长度. 12345678910111213141516171819int maxLength(vector&lt;int&gt; &amp;arr, int k) &#123; if (arr.empty()) &#123; return 0; &#125; map&lt;int, int&gt; mp; mp[0] = -1; int len = 0; int sum = 0; for (int i = 0; i &lt; arr.size(); i++) &#123; sum += arr[i]; if (mp.find(sum - k) != mp.end()) &#123; len = max(len, i - mp[sum - k]); &#125; if (mp.find(sum) == mp.end()) &#123; mp[sum] = i; &#125; &#125; return len;&#125; 补充题1补充题2类似题138. 子数组之和给定一个整数数组，找到和为零的子数组。你的代码应该返回满足要求的子数组的起始位置和结束位置 样例 样例 1: 123输入: [-3, 1, 2, -3, 4]输出: [0,2] 或 [1,3] 样例解释： 返回任意一段和为0的区间即可。 样例 2: 12输入: [-3, 1, -4, 2, -3, 4]输出: [1,5] 样例 3: 12输入: [3,4,5,6,-3,-4,-5,-6]输出: [0,7] 样例 4: 12输入: [1,0,-1]输出: [1,1] 注意事项: 至少有一个子数组的和为 0 1234567891011121314151617181920212223242526272829303132class Solution &#123;public: /** * @param nums: A list of integers * @return: A list of integers includes the index of the first number and the index of the last number */ vector&lt;int&gt; subarraySum(vector&lt;int&gt; &amp;nums) &#123; // write your code here if(nums.empty())&#123; return &#123;&#125;; &#125; int sum = 0; vector&lt;int&gt; res; map&lt;int, int&gt; mp; for(int i=0;i&lt;nums.size();++i)&#123; sum += nums[i]; if(sum == 0)&#123; res.push_back(0); res.push_back(i); return res; &#125; if(mp.find(sum)!=mp.end())&#123; res.push_back(mp[sum]+1); res.push_back(i); return res; &#125; mp[sum] = i; &#125; return res; &#125;&#125;; 此题与上题的相似之处在于:需要用到相同的结论:s[i]= arr[0] + arr[1] +…+arr[i]s[j]= arr[0] + arr[1] +…+arr[j]假设i &gt; j,则s[i] - s[j] = arr[j+1] + arr[j+2] + … + arr[i] 复杂度分析 理论上, 时间复杂度为O(n).但实际实现时,时间复杂度为O(nlogn).因为map的find方法查找一个数的时间复杂度为O(logn)空间复杂度为O(n) 题目来源: leetcode 560. Subarray Sum Equals K930 binary subarrays with sum另有使用三指针的解法,可以尝试看看试用否,三指针解法时间复杂度为O(n),空间复杂度为O(1),是最优解法]]></content>
       <tags>
-        <tag>累积和</tag>
         <tag>leetcode</tag>
+        <tag>累积和</tag>
         <tag>程序员代码面试指南</tag>
       </tags>
   </entry>
@@ -964,6 +964,11 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[寻找下一个节点]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%AF%BB%E6%89%BE%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%2F</url>
+    <content type="text"><![CDATA[链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继返回-1。]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[可调用对象]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%8F%AF%E8%B0%83%E7%94%A8%E5%AF%B9%E8%B1%A1%2F</url>
     <content type="text"><![CDATA[可调用对象有函数,函数指针,lambda表达式,函数对象, bind创建的对象等.函数和函数指针不必多说.那么什么是函数对象呢?函数对象是一种重载了调用运算符的类类型.因为重载了调用运算符,所以我们可以像调用函数一样调用类的对象,因为称为函数对象.lambda表达式表示一个可调用的代码单元. 函数对象12345678910111213141516/** * absInt类只定义了一种操作:函数调用运算符 * 此类为函数对象 */struct absInt &#123; int operator()(int val) const &#123; return val &lt; 0 ? -val : val; &#125;&#125;;int main()&#123; absInt absObj; cout &lt;&lt; absObj(42) &lt;&lt; endl; // 42 cout &lt;&lt; absObj(-10) &lt;&lt; endl; // 10 return 0;&#125; 以上代码即定义了一个函数对象.调用该对象就像调用函数一样.仿佛该类型对象是一个函数.还可以定义有数据成员的函数对象 123456789101112131415161718class PrintString &#123;public: PrintString(ostream &amp;o = cout, char c = ' ') : os(o), sep(c) &#123;&#125; void operator()(const string &amp;s) const &#123; os &lt;&lt; s &lt;&lt; sep; &#125;private: ostream &amp;os; char sep;&#125;;int main()&#123; PrintString printer; printer("hello"); // 输出hello PrintString errors(cerr, '\n'); string s = "wrong answer"; errors(s); // 输出wrong answer return 0;&#125; lambda表达式lambda表达式在很多语言中都有.lambda可以理解为一个未命名的内联函数,但是与普通函数不同的是,lambda可能定义在函数内部;lambda表达式必须尾置返回; lambda表达式不能有默认参数; lambda表达式的参数列表和返回类型可以省略. 那么在c++中该怎么定义一个lambda表达式呢?一个lambda表达式具有以下形式: 1[capure list](parameter list)-&gt; return type &#123;function body&#125; 其中,捕获列表(capure list)是该lambda表达式所在函数中定义的局部变量(通常为空).参数列表(parameter list), 返回类型, 返回类型(return type)和函数体(function body)与普通函数相同. 当定义一个lambda时,编译器生成一个与lambda对象的新的(未命名的)类类型.当向一个函数传递一个lambda时,同时定义了一个新类型和该类型的一个对象. 123456vector&lt;string&gt; vc&#123;"good", "to", "see", "you", "again"&#125;;for_each(vc.begin(), vc.end(), PrintString(cout, '\n')); // 函数对象// 等价的lambda表达式string sep("\n");for_each(vc.begin(), vc.end(), [sep](const string &amp;s) &#123; cout &lt;&lt; s &lt;&lt; sep; &#125;); 使用函数对象打印出可变数组vc中的元素.同时定义了一个与函数对象PrintString等价的lambda表达式. 捕获变量与参数传递类似,捕获变量也有两种方式,值捕获和引用捕获.采用值捕获需要变量可以拷贝.与参数传递不同,被捕获的变量的值是在lambda创建时拷贝,而不是调用时拷贝.引用捕获需要保证lambda表达式执行时,该引用指向的对象仍然存在. 在一个基本类型为string类型的可变数组中找出第一个长度大于给定值sz的元素.下面分别用函数对象和lambda表达式的形式实现. 123456789101112131415161718192021222324252627class SizeCmp &#123;public: SizeCmp(size_t n) : sz(n) &#123;&#125; bool operator()(const string &amp;a) &#123; return a.size() &gt;= sz; &#125;private: size_t sz;&#125;;int main()&#123; vector&lt;string&gt; vc&#123;"good", "to", "see", "mango", "again", "day", "nana"&#125;; size_t sz = 6; // 使用lambda表达式// auto wc = find_if(vc.begin(), vc.end(), [sz](const string &amp;a) &#123; return a.size() &gt;= sz; &#125;); // 使用等价的函数对象 auto wc = find_if(vc.begin(), vc.end(), SizeCmp(sz)); // wc 为指向第一个长度不小于给定值sz的元素的迭代器 if (wc != vc.end()) cout &lt;&lt; (*wc) &lt;&lt; endl; else &#123; cout &lt;&lt; "empty result" &lt;&lt; endl; &#125; //当sz=5时,输出mango;当sz=6时,输出empty result&#125; bind参数绑定标准库的bind函数可以看做一个函数适配器.它接受一个可调用对象,生成一个新的可调用对象. 12345678910111213141516171819bool check_size(const string&amp; s, string::size_type sz)&#123; return s.size() &gt;= sz;&#125;// 给check_size函数的第一个参数绑定一个值// auto check6 = bind(check_size, std::placeholders::_1, 6);auto check6 = bind(check_size, std::placeholders::_1, 5);// 调用check6函数string s = "hello";cout &lt;&lt; check6(s) &lt;&lt; endl;vector&lt;string&gt; vc&#123;"good", "to", "see", "mango", "again", "day", "nana"&#125;;auto wc = find_if(vc.begin(), vc.end(), check6);// wc 为指向第一个长度不小于给定值sz的元素的迭代器if (wc != vc.end()) cout &lt;&lt; (*wc) &lt;&lt; endl;else &#123; cout &lt;&lt; "empty result" &lt;&lt; endl; 可调用对象与function每一个lambda表达式都是一种未命名的新类型;函数对象的类型是该对象的类类型;函数和函数指针的类型由参数列表和返回值决定. 多个调用对象有不同的类型,但是却共享相同的调用形式.调用形式指明了调用返回的类型以及传递给调用的实参类型(如何SizeCmp类型的函数对象和lambda表达式,类型不同,调用形式相同).一种调用形式对应一个函数类型.标准库中function模板可以表示函数类型. 123456789101112map&lt;string, function&lt;int(int, int)&gt;&gt; binops = &#123; &#123;"+", add&#125;, &#123;"-", std::minus&lt;int&gt;()&#125;, &#123;"/", Divide()&#125;, &#123;"*", [](int i, int j) &#123; return i * j; &#125;&#125;, &#123;"%", mod&#125;&#125;;cout &lt;&lt; binops["+"](10, 5) &lt;&lt; endl; // 15cout &lt;&lt; binops["-"](10, 5) &lt;&lt; endl; // 5cout &lt;&lt; binops["%"](11, 4) &lt;&lt; endl; // 3cout &lt;&lt; binops["*"](13, 2) &lt;&lt; endl; // 26 add, Divide(),mod等各个可调用对象的类型各不相同,但是它们都是调用形式为int(int, int)的可调用对象,因此可以赋值给function&lt;int(int,int)&gt;类型的对象.]]></content>
@@ -973,11 +978,6 @@
       <tags>
         <tag>可调用对象</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[寻找下一个节点]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%AF%BB%E6%89%BE%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%2F</url>
-    <content type="text"><![CDATA[链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继返回-1。]]></content>
   </entry>
   <entry>
     <title><![CDATA[二叉树的下一个结点]]></title>
