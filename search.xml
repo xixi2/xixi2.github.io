@@ -1,6 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[memmove、memcpy和strcpy]]></title>
+    <url>%2F2019%2F10%2F07%2Fmemmove%E4%B8%8Ememcopy%2F</url>
+    <content type="text"><![CDATA[memcpy memmove，memcpy和strcpy分别用 memcpy函数原型 1void* memcpy(void* dest, const void* src, size_t count); Copies count bytes from the object pointed to by src to the object pointed to by dest. Both objects are reinterpreted as arrays of unsigned char. If the objects overlap, the behavior is undefined. If either dest or src is a null pointer, the behavior is undefined, even if count is zero. If the objects are potentially-overlapping or not TriviallyCopyable, the behavior of memcpy is not specified and may be undefined. 如果两段内存重叠，则会导致未定义的行为；如果dest或者src是空指针(即便count=0)，则是未定义的行为。 实现123456789101112void *memcpy(void *dest, const void *src, size_t n) &#123; assert((nullptr != dest) &amp;&amp; (nullptr != src)); char *p1 = (char *) dest; char *p2 = (char *) src; if (n) &#123; // 假设dest和src之间不存在重叠区域,因此这里不再检查 while (n--) &#123; *p1++ = *p2++; &#125; &#125; return dest;&#125; 测试程序 1234567891011void test1() &#123; int arr[5] = &#123;1, 2, 3, 4, 5&#125;; int brr[5]; // 注意第三个参数是sizeof(arr) memcpy(brr, arr, sizeof(arr)); for (size_t i = 0; i &lt; 5; ++i) &#123; cout &lt;&lt; brr[i] &lt;&lt; " "; &#125; cout &lt;&lt; endl;&#125; 运行结果 11 2 3 4 5 比较memcpy是最快的内存拷贝函数。它比strcpy和memmove都要快。strcpy需要扫描需要拷贝的数据，而memmove则需要检测是否存在内存重叠。如果存在内存重叠，则应该使用memmove，而不是memcpy。 memmove Move block of memoryCopies the values of num bytes from the location pointed by source to the memory block pointed by destination. Copying takes place as if an intermediate buffer were used, allowing the destination and source to overlap.The underlying type of the objects pointed by both the source and destination pointers are irrelevant for this function; The result is a binary copy of the data.The function does not check for any terminating null character in source - it always copies exactly num bytes.To avoid overflows, the size of the arrays pointed by both the destination and source parameters, shall be at least num bytes. 以字节为单位，拷贝内存块。允许dest和src指向的内存块有重叠。 进行数组拷贝时，如果两段内存重叠，用memcpy函数可能会导致未定义。而memmove函数能够避免这种问题。下面是一种实现方式。题目链接ptr1表示目的地址，ptr2表示源地址。如图所示，绿色表示数组2的元素，杏色表示数组1的元素．蓝色表示数组1和数组2重合的位置的元素。当pstr1 &gt; pstr2时，需要逆序移动．否则，属于pstr2数组的后几个元素会被覆盖。 当pstr1 &lt; pstr2时，正向移动。 实现12345678910111213141516171819void *memmove(void *str1, const void *str2, size_t n) &#123; assert((nullptr != str1) &amp;&amp; (nullptr != str2)); char *pStr1 = (char *) str1; char *pStr2 = (char *) str2; if (pStr1 &lt; pStr2) &#123; for (size_t i = 0; i &lt; n; ++i) &#123; *pStr1++ = *pStr2++; &#125; &#125; else &#123; // 如果目的在源之后,可能存在重叠区域,则逆向拷贝元素 pStr1 += n - 1; pStr2 += n - 1; for (size_t i = 0; i &lt; n; ++i) &#123; *pStr1-- = *pStr2--; &#125; &#125; return str1;&#125; 测试程序针对int 123456789101112131415161718192021void test1() &#123; int arr[9] = &#123;1, 2, 3, 4, 5, 6, 7, 8, 9&#125;; // 用arr[2],arr[3],...,arr[6]覆盖arr[0],arr[1],..,arr[4] memmove(arr, arr + 2, 5); for (int i = 0; i &lt; 9; ++i) &#123; cout &lt;&lt; arr[i] &lt;&lt; " "; &#125; cout &lt;&lt; endl;&#125;void test2() &#123; int arr[9] = &#123;1, 2, 3, 4, 5, 6, 7, 8, 9&#125;; // 用arr[0],arr[1],..,arr[4]覆盖arr[2],arr[3],...,arr[6] memmove(arr + 2, arr, 5); for (int i = 0; i &lt; 9; ++i) &#123; cout &lt;&lt; arr[i] &lt;&lt; " "; &#125; cout &lt;&lt; endl;&#125; 运行结果： 123 4 5 6 7 6 7 8 9 1 2 1 2 3 4 5 8 9 针对char 123456789101112131415161718192021void test3() &#123; char arr[9] = &#123;'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'&#125;; // 用arr[2],arr[3],...,arr[6]覆盖arr[0],arr[1],..,arr[4] memmove(arr, arr + 2, 5); for (int i = 0; i &lt; 9; ++i) &#123; cout &lt;&lt; arr[i] &lt;&lt; " "; &#125; cout &lt;&lt; endl;&#125;void test4() &#123; char arr[9] = &#123;'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'&#125;; // 用arr[0],arr[1],..,arr[4]覆盖arr[2],arr[3],...,arr[6] memmove(arr + 2, arr, 5); for (int i = 0; i &lt; 9; ++i) &#123; cout &lt;&lt; arr[i] &lt;&lt; " "; &#125; cout &lt;&lt; endl;&#125; 运行结果 12c d e f g f g h i a b a b c d e h i strcpy函数原型 1char *strcpy(char *dest, const char* src); Copy string Copies the C string pointed by source into the array pointed by destination, including the terminating null character (and stopping at that point).To avoid overflows, the size of the array pointed by destination shall be long enough to contain the same C string as source (including the terminating null character), and should not overlap in memory with source. strcpy只能用于拷贝C字符串(以空字符结尾)。为了防止溢出，dest指向的内存空间应该足够大，能够容纳src指向的字符串和一个表示字符串结尾的空字符。另外，dest和src指向的内存空间应该不存在重叠。 实现1234567891011121314char *strcpy(char *dest, const char *src) &#123; if (dest == nullptr) &#123; return nullptr; &#125; char *ptr = dest; while (*src != '\0') &#123; *dest = *src; dest++; src++; &#125; *dest = '\0'; return ptr;&#125; 测试程序 123456void test1() &#123; char arr[6] = "hello"; char brr[10]; strcpy(brr, arr); cout &lt;&lt; brr &lt;&lt; endl; // hello&#125; 参考文献[1]memcpy: https://en.cppreference.com/w/cpp/string/byte/memcpy[2]strcpy：https://www.techiedelight.com/implement-strcpy-function-c/[3]memmove：http://www.cplusplus.com/reference/cstring/memmove/?kw=memmove[4]memcpy等比较：https://www.cnblogs.com/youxin/p/3271074.html]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[从ubuntu中卸载Adobe Acrobat reader]]></title>
+    <url>%2F2019%2F10%2F07%2F%E4%BB%8Eubuntu%E4%B8%AD%E5%8D%B8%E8%BD%BDAdobe-Acrobat-reader%2F</url>
+    <content type="text"><![CDATA[在ubuntu 18.0.4中安装了Adobe Acrobat Reader，之后pdf文件就和Adobe reader关联起来了。但是该软件似乎没有安装成功，每次试图用它打开pdf文件都会失败。 于是乎，只能又安装了一个其他的pdf阅读器，但是，问题来了，pdf文件还是优先和Adobe reader关联。所以，我就想卸载掉这个占着茅坑不拉屎的家伙。然后呢，我就找到了这个：在Ubuntu中，如何卸载/删除 Adobe Flash Player？ 其中，给出了解决方案。 如果你使用Apt安装的它，请在terminal中运行下面的命令查找软件包名称 123456&gt; # 这篇文章中针对的是flash&gt; dpkg --get-selections | grep -v deinstall | grep flash | awk '&#123; print $1 &#125;'&gt; &gt; # 本文针对的是reader&gt; dpkg --get-selections | grep -v deinstall | grep reader | awk '&#123;print $1&#125;'&gt; 然后，通过下面的命令来卸载软件。 12&gt; sudo apt-get purge package-name&gt; 下面我重点来讲解一下上面的查找软件包名称的那条命令。首先关于dpkg 来自百度百科的介绍 “dpkg ”是“Debian Packager ”的简写。为 “Debian” 专门开发的套件管理系统，方便软件的安装、更新及移除。所有源自“Debian”的“Linux ”发行版都使用 “dpkg”，例如 “Ubuntu”、“Knoppix ”等。dpkg是Debian软件包管理器的基础，它被伊恩·默多克创建于1993年。dpkg与RPM十分相似，同样被用于安装、卸载和供给.deb软件包相关的信息。dpkg本身是一个底层的工具。上层的工具，如APT，被用于从远程获取软件包以及处理复杂的软件包关系。 “dpkg”是“Debian Package”的简写。 通过dpkg –help可以查看–get-selections选项的作用 –get-selections [&lt;表达式&gt; …] 把已选中的软件包列表打印到标准输出。 dpkg –get-selections显示包含标记install或者deinstall之一的包。grep -v 进行反向选择dpkg –get-selections | grep -v deinstall 即显示出所有标记为install的包。dpkg –get-selections | grep -v deinstall | grep reader即从上述结果中找出包含reader的包。dpkg –get-selections | grep -v deinstall | grep reader | awk ‘{print $1}’ 即输出找到的包的名称($1表示取第一个字段)。 参考文献[1]在Ubuntu中，如何卸载/删除 Adobe Flash Player：https://www.helplib.com/ubuntu/article_168889[2]ubuntu常用的dpkg：https://www.tecmint.com/dpkg-command-examples/[3]ubuntu常用的apt命令：https://www.tecmint.com/useful-basic-commands-of-apt-get-and-apt-cache-for-package-management/[4]ubuntu manuals：]]></content>
+      <categories>
+        <category>计算机日常使用</category>
+      </categories>
+      <tags>
+        <tag>常用工具</tag>
+        <tag>linux系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[包管理工具aptitude]]></title>
+    <url>%2F2019%2F10%2F07%2F%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7aptitude%2F</url>
+    <content type="text"><![CDATA[来自百度百科的介绍 aptitude与 apt-get 一样，是 Debian 及其衍生系统中功能极其强大的包管理工具。与 apt-get 不同的是，aptitude在处理依赖问题上更佳一些。举例来说，aptitude在删除一个包时，会同时删除本身所依赖的包。这样，系统中不会残留无用的包，整个系统更为干净。 之所以要来说一说这个包管理工具，是因为在ubuntu中安装软件的时候经常遇到依赖未安装的问题．每次遇到这种情况，就需要包管理工具来帮忙了．]]></content>
+      <categories>
+        <category>计算机日常使用</category>
+      </categories>
+      <tags>
+        <tag>liunx系统</tag>
+        <tag>常用工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[523. Continuous Subarray Sum]]></title>
+    <url>%2F2019%2F10%2F07%2F523.Continuous-Subarray-Sum%2F</url>
+    <content type="text"><![CDATA[Given a list of non-negative numbers and a target integer k, write a function to check if the array has a continuous subarray of size at least 2 that sums up to a multiple of k, that is, sums up to nk where n is also an *integer**. Example 1: 123Input: [23, 2, 4, 6, 7], k=6Output: TrueExplanation: Because [2, 4] is a continuous subarray of size 2 and sums up to 6. Example 2: 123Input: [23, 2, 6, 4, 7], k=6Output: TrueExplanation: Because [23, 2, 6, 4, 7] is an continuous subarray of size 5 and sums up to 42. 解法1: 二重循环枚举所有可能的子数组组合时间复杂度分析 时间复杂度为O(n2) 解法2相关题目leetcode 974 leetcode 560]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>子数组和</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[fork和vfork]]></title>
+    <url>%2F2019%2F10%2F07%2Ffork%E5%87%BD%E6%95%B0%2F</url>
+    <content type="text"><![CDATA[fork和vfork fork基本概念一个进程, 包括代码, 数据和分配给该进程的资源。通过fork()系统调用创建一个新进程。这个系统调用复制当前进程，在进程表中创建一个新的表项，新表项中的许多属性与当前进程是相同的。新进程与原进程几乎一模一样，执行的代码完全相同，但新进程有自己的数据空间、环境和文件描述符。 一个进程调用fork()函数后，系统先给新的进程分配资源。如存储数据和代码的存储空间。然后把原进程的所有值都复制到新进程中,只有少数值与原来的进程的值不同。 在早期的unix系统中，创建进程比较原始。当调用fork时，内核会把所有的内部数据结构赋值一份，复制进程的页表项，然后把父进程的地址空间中的内容逐页地复制到子进程的地址空间中。但从内核的角度来说，逐页地复制方式是十分耗时的。现代的unix系统采取了更多的优化，例如Linux，采用了写时复制的方法，而不是对父进程空间整体复制。 创建新进程成功后, 系统中出现两个几乎完全相同的进程，这两个进程执行没有固定的先后顺序， 哪个进程先执行要看系统的进程调度策略。 由fork函数创建的新进程被称为子进程。fork函数被调用一次，但是返回两次。父进程返回的值是新进程的进程ID，而子进程返回的值是0。 fork函数返回值的三种情况 返回子进程Id给父进程 因为一个进程的子进程可能有多个，并且没有一个函数可以获得一个进程的所有子进程ID。 返回给子进程值为0 一个进程只会有一个父进程，所以子进程总是可以调用getpid以获得当前进程Id以及调用getppid获得父进程Id. 出现错误，返回负值 当前进程数已经达到系统规定的上限，这时errno的值被设置为EAGAIN 系统内存不足，这时errno的值被设置为ENOMEM 子进程执行代码开始位置fork可以创建一个子进程并完全复制父进程,但是子进程是从fork后面那条指令开始执行的.如果子进程也从main开始执行所有指令,那么它执行到fork指令时必然会创建一个新的子进程. 从而导致不停地创建子进程,程序永不结束。 vforkvfork函数用于创建一个新进程，而该新进程的目的是exec一个新程序。vfork和fork一样都创建子进程，但是它并不将父进程的地址空间完全复制到子进程中，因为子进程会立即调用exec(或exit)，于是也就不会引用该地址空间。不过在子进程调用exec或exit之前，它在父进程的地址空间中运行。 fork和vfork的另一个区别是：vfork保证子进程先运行，在它调用exec或exit之后父进程才可能被调用运行。在子进程调用这两个函数中的任意一个时，父进程会恢复运行(如果在调用这两个函数之前子进程依赖于父进程的进一步动作，则会导致死锁)。 fork示例fork创建子进程1234567891011121314151617181920212223242526272829303132#include &lt;iostream&gt;#include &lt;stdlib.h&gt;#include &lt;unistd.h&gt;using namespace std;int main() &#123; pid_t pid; string message; int n; cout &lt;&lt; "fork program starting" &lt;&lt; endl; pid = fork(); switch (pid) &#123; case -1: perror("fork failed"); break; case 0: message = "this is the child"; n = 5; break; default: message = "this is the parent"; n = 3; break; &#125; for (; n &gt; 0; --n) &#123; cout &lt;&lt; message &lt;&lt; endl; sleep(3); &#125; return 0;&#125; 运行结果 123456789101112xixi@xixi:~/linux_cource/11.3$ ./a.out fork program startingthis is the parentthis is the childthis is the parentthis is the childthis is the parentthis is the childthis is the childxixi@xixi:~linux_cource/11.3$ this is the childxixi@xixi:~/linux_cource/11.3$ 程序在调用fork时被分为两个独立的进程.当用fork启动一个子进程时, 子进程就有了它自己的生命周期并将独立运行.父进程在子进程之前结束, 因此在输出内容中有一个shell提示符. 让父进程等待子进程结束如果希望父进程等待子进程结束,可以调用wait函数.函数原型: pid_t wait(int* stat_loc);wait系统调用返回子进程的pid, 通常是已经结束运行的子进程的pid.状态信息允许父进程了解子进程的退出状态, 即子进程的main函数返回的值或者子进程中exit函数的退出码.如果stat_loc不是空指针, 状态信息将被写入到它所指向的位置. 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647#include &lt;iostream&gt;#include &lt;stdlib.h&gt;#include &lt;unistd.h&gt;#include &lt;sys/wait.h&gt;using namespace std;int main() &#123; pid_t pid; string message; int n; int exit_code; cout &lt;&lt; "fork program starting" &lt;&lt; endl; pid = fork(); switch (pid) &#123; case -1: perror("fork failed"); exit(1); case 0: message = "this is the child"; n = 5; exit_code = 37; break; default: message = "this is the parent"; n = 3; exit_code = 0; break; &#125; for (; n &gt; 0; --n) &#123; cout &lt;&lt; message &lt;&lt; endl; sleep(1); &#125; if (pid != 0) &#123; int stat_val; pid_t child_pid; child_pid = wait(&amp;stat_val); cout &lt;&lt; "child has finished: PID: " &lt;&lt; child_pid &lt;&lt; endl; if (WIFEXITED(stat_val)) cout &lt;&lt; "child exited with code " &lt;&lt; WEXITSTATUS(stat_val) &lt;&lt; endl; else &#123; cout &lt;&lt; "Child terminated abnormally" &lt;&lt; endl; &#125; &#125; return exit_code;&#125; 运行结果 1234567891011fork program startingthis is the parentthis is the childthis is the parentthis is the childthis is the parentthis is the childthis is the childthis is the childchild has finished: PID: 15467child exited with code 37 查看僵尸进程子进程终止时,它与父进程之间的关联还会保持, 直到父进程也正常终止或父进程调用wait才会结束.因此,进程表中代表子进程的表项不会立即释放.虽然子进程已经不再运行,但它仍然存在于系统中,因为它的退出码还需要保存起来,以备父进程今后的wait调用使用.这时候它将成为一个死进程或者僵尸进程.所以,僵尸进程就是这样一种进程: 它自身运行已经结束,但是进程控制块还没有释放.因为还有其他进程需要它的运行状态等信息. 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647#include &lt;iostream&gt;#include &lt;stdlib.h&gt;#include &lt;unistd.h&gt;#include &lt;sys/wait.h&gt;using namespace std;int main() &#123; pid_t pid; string message; int n; int exit_code; cout &lt;&lt; "fork program starting" &lt;&lt; endl; pid = fork(); switch (pid) &#123; case -1: perror("fork failed"); exit(1); case 0: message = "this is the child"; n = 5; exit_code = 37; break; default: message = "this is the parent"; n = 10; exit_code = 0; break; &#125; for (; n &gt; 0; --n) &#123; cout &lt;&lt; message &lt;&lt; endl; sleep(1); &#125; if (pid != 0) &#123; int stat_val; pid_t child_pid; child_pid = wait(&amp;stat_val); // stat_val中保存这子进程的状态信息 cout &lt;&lt; "child has finished: PID: " &lt;&lt; child_pid &lt;&lt; endl; if (WIFEXITED(stat_val)) cout &lt;&lt; "child exited with code " &lt;&lt; WEXITSTATUS(stat_val) &lt;&lt; endl; else &#123; cout &lt;&lt; "Child terminated abnormally" &lt;&lt; endl; &#125; &#125; return exit_code;&#125; 运行过程中在命令行中查看wait进程的信息(上面这个程序在编译时被命名为wait) 12345678xixi@xixi:~$ ps -f -C waitUID PID PPID C STIME TTY TIME CMDxixi 16389 13738 0 19:32 pts/3 00:00:00 ./waitxixi 16390 16389 0 19:32 pts/3 00:00:00 ./waitxixi@xixi:~$ ps -f -C waitUID PID PPID C STIME TTY TIME CMDxixi 16389 13738 0 19:32 pts/3 00:00:00 ./waitxixi 16390 16389 0 19:32 pts/3 00:00:00 [wait] &lt;defunct&gt; 上面的运行结果可以看出,一开始子进程正常运行,后来子进程变成了僵尸进程.如果父进程异常终止, 子进程将自动把pid等于1的进程(即init进程)作为自己的父进程.子进程现在是一个不再运行的僵尸进程,但是由于父进程异常终止,所以它由init进程接管.僵尸进程将一直保留在进程表中知道被init进程发现并释放.进程表越大,这一过程越慢. 常用的两种应用场景 一个父进程希望复制自己,使父子进程同时执行不同的代码段.这在网络服务中是常见的. 父进程等待客户端的服务请求.当这种请求到达时,父进程调用fork,使子进程处理此请求.父进程则继续等待下一个服务请求的到达. 一个进程要执行一个不同的程序.这是shell常见的情况.子进程从fork返回后立即调用exec. 123456789101112131415161718192021pid_t pid;int ctr = 0;cout &lt;&lt; "当前进程, id=" &lt;&lt; getpid() &lt;&lt; endl;// 在这个位置,仅仅父进程会执行cout &lt;&lt; "unique" &lt;&lt; endl;pid = fork(); // 仅调用一次,返回两次if (pid &lt; 0) &#123; cout &lt;&lt; "异常退出" &lt;&lt; endl; exit(1);&#125; else if (pid == 0) &#123; ++ctr; cout &lt;&lt; "进入子进程, 当前进程id=" &lt;&lt; getpid() &lt;&lt; " 父进程id=" &lt;&lt; getppid() &lt;&lt; " ctr=" &lt;&lt; ctr &lt;&lt; endl;&#125; else &#123; ++ctr; cout &lt;&lt; "当前进程id=" &lt;&lt; getpid() &lt;&lt; " ctr=" &lt;&lt; ctr &lt;&lt; endl;&#125;// 在这个位置,则父子进程都会执行cout &lt;&lt; "reduant" &lt;&lt; endl; 执行结果 123456当前进程, id=7346unique当前进程id=7346 ctr=1reduant进入子进程, 当前进程id=7347 父进程id=7346 ctr=1reduant 执行fork前, ctr=0; 执行fork后,对于父进程而言会执行ctr自增和打印进程信息两个操作. 因此打印出的ctr=1.对于子进程而言,由于执行fork前ctr=0,因此在子进程中ctr=0, 同样子进程执行ctr自增和打印进程信息操作.因此打印出的ctr=1 12345678910111213141516pid_t pid;int loop;// cout &lt;&lt; "我是父进程, 当前进程, id=" &lt;&lt; getpid() &lt;&lt; endl;for (loop = 0; loop &lt; 2; ++loop) &#123; pid = fork(); //一个子进程第一次调用fork,返回0,表示该进程本身是子进程,第二次fork产生一个以当前子进程为父进程的子进程 if (pid &lt; 0) &#123; cout &lt;&lt; "异常退出" &lt;&lt; endl; exit(1); &#125; else if (pid == 0) &#123; cout &lt;&lt; "loop=" &lt;&lt; loop &lt;&lt; " 我是进程" &lt;&lt; getpid() &lt;&lt; " 父进程id=" &lt;&lt; getppid() &lt;&lt; " 我刚刚fork了子进程 pid=" &lt;&lt; pid&lt;&lt; endl; &#125; else &#123; cout &lt;&lt; "loop=" &lt;&lt; loop &lt;&lt; " 我是进程" &lt;&lt; getpid() &lt;&lt; " 父进程id=" &lt;&lt; getppid() &lt;&lt; " 我刚刚fork了子进程 pid=" &lt;&lt; pid &lt;&lt; endl; sleep(5); &#125;&#125; 执行结果 123456loop=0 我是进程5947 父进程id=19893 我刚刚fork了子进程 pid=5948loop=0 我是进程5948 父进程id=5947 我刚刚fork了子进程 pid=0loop=1 我是进程5948 父进程id=5947 我刚刚fork了子进程 pid=5949loop=1 我是进程5949 父进程id=5948 我刚刚fork了子进程 pid=0loop=1 我是进程5947 父进程id=19893 我刚刚fork了子进程 pid=5952loop=1 我是进程5952 父进程id=5947 我刚刚fork了子进程 pid=0 过程解释 进程5947使用fork产生一个子进程5948. fork执行时loop=0.因此子进程5948中loop=0. 子进程5948第一次调用fork的返回值pid是0,表明进程5948是子进程, 因此直接打印出”loop=0 我是进程5948 父进程id=5947 我刚刚fork了子进程 pid=0”; 当进程5948第二次调用fork时, 产生一个新的子进程5949. 在进程5948中,调用fork函数前, loop=1,因此在新的子进程5949中loop=1. 也因此子进程5949只会调用一次fork(就会因为loop&gt;=2而跳出循环). 在子进程5949的运行过程中只会打印出”loop=1 我是进程5949 父进程id=5948 我刚刚fork了子进程 pid=0” 而对于进程5947, 在第一次循环结束后继续执行第二次循环. 此时loop=1. 调用fork后, 产生一个新的子进程5952, 该子进程中loop=1. 因此类似的, 进程5952只会打印出”loop=1 我是进程5952 父进程id=5947 我刚刚fork了子进程 pid=0” 参考文献[1] https://www.cnblogs.com/bastard/archive/2012/08/31/2664896.html[2] https://www.jianshu.com/p/586300fdb1ce]]></content>
+      <categories>
+        <category>linux基础</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[560. Subarray Sum Equals K]]></title>
+    <url>%2F2019%2F10%2F07%2F560.-Subarray-Sum-Equals-K%2F</url>
+    <content type="text"><![CDATA[Given an array of integers and an integer k, you need to find the total number of continuous subarrays whose sum equals to k. Example 1: 12Input:nums = [1,1,1], k = 2Output: 2 Note: The length of the array is in range [1, 20,000]. The range of numbers in the array is [-1000, 1000] and the range of the integer k is [-1e7, 1e7]. 最朴素且有问题的思路1234567891011121314151617class Solution &#123;public: int subarraySum(vector&lt;int&gt;&amp; nums, int k) &#123; map&lt;int, int&gt; mp; mp[0] = -1; // 记录第一个满足子数组和为0的位置 int cnt = 0; int sum = 0; for(int i=0;i&lt;nums.size();++i)&#123; sum += nums[i]; if(mp.find(sum - k)!=mp.end())&#123; ++cnt; &#125; mp[sum] = i; &#125; return cnt; &#125;&#125;; 代码提交结果：62 / 80 test cases passed. Input:[0,0,0,0,0,0,0,0,0,0] 0Output:10Expected:55 这个解法的问题在于未考虑到当子数组以nums[i]结尾时，存在多个子数组满足子数组和为sum - k。在这个思路的基础上进行修改，可以得到解法3。 解法1: 遍历子数组当给定i时, sum 表示以arr[i]开始,到arr[j]结束的各个元素的累加和(j&gt;=i). 注意: 这里不需要知道是哪些子数组的和等于k,只需要统计和等于k的子数组的个数,因此这里不必记录子数组的开始和结束索引,只需要依次找出所有子数组,并统计其中和等于k的子数组的个数. 那么如何找出所有可能的子数组呢? 方法一:内存循环找出所有以数组中第i个元素开始的所有子数组,并统计其中和等于k的子数组的个数.而外层循环则依次枚举所有可能的i. 方法二: 下面给出的代码是内层循环统计以数组中第j个元素结尾的子数组的和等于k的子数组的个数, 外层循环列举所有可能的j.具体而言, 内层循环依次计算 arr[j]arr[j-1] + arr[j]arr[j-2] + arr[j-1] + arr[j]…….arr[2] + … + arr[j]arr[1] + arr[2] + … + arr[j] 也就是子数组arr[i,..,j]的和. i = j, j-1,…1若令s[i] 表示arr[1] + arr[2] + … + arr[i]那么子数组arr[i,…j]的和可以表示为s[j] - s[i-1] AC代码１ 123456789101112131415class Solution &#123;public: int subarraySum(vector&lt;int&gt;&amp; nums, int k) &#123; int sum = 0, counter = 0; for(int i=0;i&lt;nums.size();i++)&#123; sum = 0; for(int j=i;j&lt;nums.size();j++)&#123; sum += nums[j]; if(sum == k) ++counter; &#125; &#125; return counter; &#125;&#125;; AC代码2: 12345678910111213141516class Solution &#123;public: int subarraySum(vector&lt;int&gt;&amp; nums, int k) &#123; int sum = 0, counter = 0; for(int j=0;j&lt;nums.size();j++)&#123; sum = 0; for(int i=j;i&gt;=0;i--)&#123; sum += nums[i]; if(sum == k)&#123; ++counter; &#125; &#125; &#125; return counter; &#125;&#125;; 时间复杂度分析 时间复杂度: O(n2). 只用到两重循环, 容易得出时间复杂度空间复杂度:O(1) 解法2如方法二所述, 子数组arr[i, … , j]的和可以表示为s[j] - s[i-1]s[0] = arr[0]这里为了表示空数组的和为0, 不妨令s的下标从1开始.即 s[0] = 0, 表示空数组的和为0s[1] = arr[0]s[2] = arr[0] + arr[1]s[3] = arr[0] + arr[1] + arr[2] 依次类推. 那么各子数组的和可以表示为 arr[0] = s[1] - s[0]arr[0,1] = arr[0] + arr[1] = s[2] - s[0]arr[1] = s[2] - s[1]arr[1,3] = arr[1] + arr[2] + arr[3] = s[4] - s[1] 以此类推,可知 arr[i,….,j] = s[j+1] - s[i] 若要子数组arr[i,…,j]的和等于k,即s[j+1] - s[i] = k, 即s[i] = s[j+1] - k, 即当已知arr[1,…j]时只需要统计其前面的子数组中和等于s[j+1] - k的子数组的个数就可以统计以第j个元素结尾的子数组中满足和等于k的子数组的个数. AC代码 1234567891011121314151617181920class Solution &#123;public: int subarraySum(vector&lt;int&gt;&amp; nums, int k) &#123; int sum = 0, counter = 0; vector&lt;int&gt; temp; temp.push_back(0); for(int j=0;j&lt;nums.size();j++)&#123; sum += nums[j]; // 统计s[0], s[1], s[2],..,s[j]中和等于s[j+1] - k for(int i=0;i&lt;temp.size();i++)&#123; if(sum - temp[i] == k)&#123; ++counter; &#125; &#125; temp.push_back(sum); &#125; return counter; &#125;&#125;; 时间复杂度：O(n)空间复杂度：O(n) 可以看到这里的内层使用遍历的方法来统计数组中满足条件的子数组个数.但实际上,我们并不关心哪些子数组满足条件,而只需要知道满足条件的子数组个数,也就是说,我们不必记录s[j+1]之前的每个s[i](i&lt;=j)具体由哪些元素组成, 我们只需要记住,s[i]有哪些可能的值及这些可能值出现的次数.因此,我们可以使用map来记录每个值出现的次数.而从map中取出一个key对应的值只需要常量时间,通过这种方式可以大大降低所需时间.具体代码见下面代码. 解法3: 使用map在最朴素的思路基础上，使用mp[i]表示子数组和为i的子数组个数。然后统计，当子数组以nums[i]结尾，且子数组nums[0]-nums[i]的和为sum时，以nums[j](j&lt;i)结尾且和为sum - k的子数组个数，这就是以nums[i]结尾且何为k的子数组个数。 1234567891011121314151617class Solution &#123;public: int subarraySum(vector&lt;int&gt;&amp; nums, int k) &#123; int sum = 0; map&lt;int, int&gt; mp; mp[0] = 1; int cnt = 0; for(int j=0;j&lt;nums.size();j++)&#123; sum += nums[j]; if(mp.find(sum - k)!=mp.end())&#123; cnt += mp[sum -k]; &#125; ++mp[sum]; &#125; return cnt; &#125;&#125;; mp[sum -k]统计的是arr[i]之前的s[j]是否等于 sum - k.则s[i] - s[j] = arr[j+1] + arr[j+2] + .. + arr[i] = k.这样同样需要注意需要额外设置mp[0] = 1; 表示存在空子数组的和为0.复杂度分析 时间复杂度为O(n).空间复杂度为O(n). 要统计多少个子数组的和为k,则可以分别统计以数组中每个元素结尾的子数组中有多少个子数组的和等于k.]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>子数组和系列</tag>
+        <tag>累积和</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[同步、异步、阻塞与非阻塞]]></title>
     <url>%2F2019%2F10%2F07%2F%E5%90%8C%E6%AD%A5%E3%80%81%E5%BC%82%E6%AD%A5%E3%80%81%E9%98%BB%E5%A1%9E%E4%B8%8E%E9%9D%9E%E9%98%BB%E5%A1%9E%2F</url>
     <content type="text"><![CDATA[同步和异步主要是从消息通知机制角度来说的。 同步和异步概念描述同步是一个任务A的完成要依赖另一个任务B时，只有等待被依赖的任务B完成后，任务A才算完成，这是一种可靠的任务序列。异步是不需要等待被依赖的任务完成，只是通知被依赖的任务B要完成什么工作，任务A立即执行，只要完成了自己的工作，整个任务就算完成了。至于被依赖的任务B最终是否真正完成，任务A无法确定，所以它是不可靠的任务序列。 消息通知当一个同步调用发出后，调用者要一直等待返回消息(结果)通知后，才能进行后续的执行；当一个异步过程调用发出后，调用者不能立即得到返回消息(结果)。实际处理这个调用的部件在完成后，通过状态、通知和回调来通知调用者。 同步和异步的区别在于：由谁来负责向调用者通知返回消息的到达。 这里提到执行部件和调用者通过三种途径返回结果：状态、通知和回调。使用哪一种通知机制，依赖于执行部件的实现，除非执行部件提供多种选择，否则不受调用者控制。 如果执行部件用状态来通知，那么调用者就需要每隔一定时间检查一次，效率就很低（有些初学多线程编程的人，总喜欢用一个循环去检查某个变量的值，这其实是一种很严重的错误）； 如果是使用通知的方式，效率则很高，因为执行部件几乎不需要做额外的操作。至于回调函数，其实和通知没太多区别。 场景举个例子，比如我去银行办理业务，可能会有两种方式： 选择排队等候； 另种选择取一个小纸条上面有我的号码，等到排到我这一号时由柜台的人通知我轮到我去办理业务了； 第一种：前者(排队等候)就是同步等待消息通知，也就是我要一直在等待银行办理业务情况； 第二种：后者(等待别人通知)就是异步等待消息通知。在异步消息处理中，等待消息通知者(在这个例子中就是等待办理业务的人)往往注册一个回调机制，在所等待的事件被触发时由触发机制(在这里是柜台的人)通过某种机制(在这里是写在小纸条上的号码，喊号)找到等待该事件的人。 阻塞与非阻塞阻塞和非阻塞与程序(线程)等待消息通知(可能是同步，也可能是异步)时的状态有关。也就是说，阻塞与非阻塞是从程序(线程)等待消息通知时的状态来说的。 概念描述阻塞调用是指调用结果返回之前，当前线程会被挂起，一直处于等待消息通知，不能够执行其他业务。 阻塞调用和同步调用很容易混淆，但是它们之间是有区别的。 对于同步调用来说，很多时候当前线程可能还是激活的，只是从逻辑上当前函数没有返回而已(什么意思？)，此时，这个线程可能也会处理其他的消息。还有一点，在这里先扩展下： 如果这个线程在等待函数返回时，仍在执行其他消息处理，这种情况叫做同步非阻塞。 如果这个线程在等待当前函数返回时，没有执行其他消息处理，而是处于挂起等待状态，那这种情况叫做同步阻塞。 所以同步的实现方式有两种：同步阻塞、同步非阻塞；同理，异步也有两种实现：异步阻塞、异步非阻塞。 对于阻塞调用来说，当前线程会被挂起等待当前函数返回。 场景继续上面的那个例子，不论是排队还是使用号码等待通知，如果在这个等待的过程中，等待者除了等待消息通知之外不能做其它的事情，那么该机制就是阻塞的，表现在程序中,也就是该程序一直阻塞在该函数调用处不能继续往下执行。 相反，有的人喜欢在银行办理这些业务的时候一边打打电话发发短信一边等待，这样的状态就是非阻塞的，因为他(等待者)没有阻塞在这个消息通知上，而是一边做自己的事情一边等待。 但是需要注意了，同步非阻塞形式实际上是效率低下的，想象一下你一边打着电话一边还需要抬头看到底队伍排到你了没有。如果把打电话和观察排队的位置看成是程序的两个操作的话，这个程序需要在这两种不同的行为之间来回的切换，效率可想而知是低下的；而异步非阻塞形式却没有这样的问题，因为打电话是你(等待者)的事情，而通知你则是柜台(消息触发机制)的事情，程序没有在两种不同的操作中来回切换。 同步/异步与阻塞/非阻塞同步阻塞形式效率是最低的。拿上面的例子来说，就是你专心排队，什么别的事都不做。实际程序中：就是未对fd 设置O_NONBLOCK标志位的read/write 操作； 异步阻塞形式如果在银行等待办理业务的人采用的是异步的方式去等待消息被触发(通知)，也就是领取了一张小纸条，假如在这段时间内他不能离开银行做其他的事情，那么显然，这个被阻塞在了这个等待的操作上。 异步操作是可以被阻塞住的，只不过它不是在处理消息时阻塞，而是在等待消息通知时被阻塞(什么意思？)。比如select 函数，假如传入的最后一个timeout参数为NULL，那么如果所关注的事件没有一个被触发，程序就会一直阻塞在这个select 调用处。 同步非阻塞形式实际上是效率低下的。想象一下你一边打着电话一边还需要抬头看到底队伍排到你了没有，如果把打电话和观察排队的位置看成是程序的两个操作的话，这个程序需要在这两种不同的行为之间来回的切换，效率可想而知是低下的。 很多人会写阻塞的read/write 操作，但是别忘了可以对fd设置O_NONBLOCK 标志位，这样就可以将同步操作变成非阻塞的了。 异步非阻塞形式效率更高。因为打电话是等待者的事情，而通知等待者则是柜台(消息触发机制)的事情，程序中没有两种不同的操作来回切换。 比如说，这个人突然发觉自己烟瘾犯了，需要出去抽根烟，于是他告诉大堂经理说，排到我这个号码的时候麻烦到外面通知我一下(注册一个回调函数)，那么他就没有被阻塞在这个等待的操作上面，自然这个就是异步+非阻塞的方式了。 如果使用异步非阻塞的情况，比如aio_*组的操作，当发起一个aio_read操作时，函数会马上返回不会被阻塞，当所关注的事件被触发时会调用之前注册的回调函数进行处理。 很多人会把同步和阻塞混淆，我想是因为很多时候同步操作会以阻塞的形式表现出来，比如很多人会写阻塞的read/write操作，但是别忘了可以对fd设置O_NONBLOCK标志位，这样就可以将同步操作变成非阻塞的了。但最根本是因为没有区分这两个概念，比如阻塞的read/write操作中，其实是把消息通知机制和等待消息通知的状态结合在了一起，在这里所关注的消息就是fd是否可读/写，而等待消息通知的状态则是对fd可读/写等待过程中程序（线程）的状态。当我们将这个fd设置为非阻塞的时候，read/write操作就不会在等待消息通知这里阻塞，如果fd不可读/写则操作立即返回。 同样地，很多人会把异步和非阻塞混淆，因为异步操作一般都不会在真正的IO操作处被阻塞，比如如果用selecty函数，当select返回可读时再去read一般都不会被阻塞，而是在select函数调用处阻塞。 总结对上面所讲的概念再次进行一个场景梳理。同步/异步关注的是消息通知的机制，而阻塞/非阻塞关注的是程序(线程)等待消息通知时的状态。以小明下载文件打个比方，从这两个关注点来再次说明这两组概念。 同步阻塞：小明一直盯着下载进度条，到 100% 的时候就完成。同步体现在：等待下载完成通知；阻塞体现在：等待下载完成通知过程中，不能做其他任务处理； 同步非阻塞：小明提交下载任务后就去干别的，每过一段时间就去瞄一眼进度条，看到 100% 就完成。同步体现在：等待下载完成通知；非阻塞体现在：等待下载完成通知过程中，去干别的任务了，只是时不时会瞄一眼进度条；【小明必须要在两个任务间切换，关注下载进度】 异步阻塞：小明换了个有下载完成通知功能的软件，下载完成就“叮”一声。不过小明仍然一直等待“叮”的声音（看起来很傻，不是吗）。异步体现在：下载完成“叮”一声通知；阻塞体现在：等待下载完成“叮”一声通知过程中，不能做其他任务处理； 异步非阻塞：仍然是那个会“叮”一声的下载软件，小明提交下载任务后就去干别的，听到“叮”的一声就知道完成了。 也就是说，同步/异步是“下载完成消息”通知的方式（机制），而阻塞/非阻塞则是在等待“下载完成消息”通知过程中的状态（能不能干其他任务），在不同的场景下，同步/异步、阻塞/非阻塞的四种组合都有应用。 所以，综上所述，同步和异步仅仅是关注的消息如何通知的机制，而阻塞与非阻塞关注的是等待消息通知时的状态。也就是说，同步的情况下，是由处理消息者自己去等待消息是否被触发，而异步的情况下是由触发机制来通知处理消息者，所以在异步机制中，处理消息者和触发机制之间就需要一个连接的桥梁： 在银行的例子中，这个桥梁就是小纸条上面的号码。 在小明的例子中，这个桥梁就是软件“叮”的声音。 参考文献[1]同步、异步、阻塞和非阻塞：https://mp.weixin.qq.com/s?__biz=MzAxODI5ODMwOA==&amp;mid=2666538901&amp;idx=1&amp;sn=d1f7d5461491a9c240f16da6b7c0ced9&amp;scene=21#wechat_redirect]]></content>
@@ -20,22 +83,6 @@
     <title><![CDATA[linux中的5种IO模型]]></title>
     <url>%2F2019%2F10%2F07%2Flinux%E4%B8%AD%E7%9A%845%E7%A7%8DIO%E6%A8%A1%E5%9E%8B%2F</url>
     <content type="text"><![CDATA[概念说明在进行解释之前，首先要说明几个概念： 用户空间和内核空间 进程切换 进程的阻塞 文件描述符 缓存 IO 用户空间与内核空间现在操作系统都是采用虚拟存储器，那么对32位操作系统而言，它的寻址空间(虚拟存储空间)为4G(2的32次方)。操作系统的核心是内核，独立于普通的应用程序，可以访问受保护的内存空间，也有访问底层硬件设备的所有权限。为了保证用户进程不能直接操作内核(kernel)，保证内核的安全，操作系统将虚拟空间划分为两部分，一部分为内核空间，一部分为用户空间。针对linux操作系统而言，将最高的1G字节(从虚拟地址0xC0000000到0xFFFFFFFF)，供内核使用，称为内核空间，而将较低的3G字节(从虚拟地址0×00000000到0xBFFFFFFF)，供各个进程使用，称为用户空间。 进程切换为了控制进程的执行，内核必须有能力挂起正在CPU上运行的进程，并恢复以前挂起的某个进程的执行。这种行为被称为进程切换。因此可以说，任何进程都是在操作系统内核的支持下运行的，是与内核紧密相关的。 从一个进程的运行转到另一个进程上运行，这个过程中经过下面这些变化： 保存处理机上下文，包括程序计数器和其他寄存器。 更新PCB信息。 把进程的PCB移入相应的队列，如就绪、在某事件阻塞等队列。 选择另一个进程执行，并更新其PCB。 更新内存管理的数据结构。 恢复处理机上下文。 注：总而言之就是很耗资源。 进程的阻塞正在执行的进程，由于期待的某些事件未发生，如请求系统资源失败、等待某种操作的完成、新数据尚未到达或无新工作做等，则由系统自动执行阻塞原语(Block)，使自己由运行状态变为阻塞状态。可见，进程的阻塞是进程自身的一种主动行为，也因此只有处于运行态的进程（获得CPU），才可能将其转为阻塞状态。当进程进入阻塞状态，是不占用CPU资源的。 文件描述符fd文件描述符（File descriptor）是计算机科学中的一个术语，是一个用于表述指向文件的引用的抽象化概念。 文件描述符在形式上是一个非负整数。实际上，它是一个索引值，指向内核为每一个进程所维护的该进程打开文件的记录表。当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。在程序设计中，一些涉及底层的程序编写往往会围绕着文件描述符展开。但是文件描述符这一概念往往只适用于UNIX、Linux这样的操作系统。 1.5 缓存 IO缓存 IO 又被称作标准 IO，大多数文件系统的默认 IO 操作都是缓存 IO。在 Linux 的缓存 IO 机制中，操作系统会将 IO 的数据缓存在文件系统的页缓存（ page cache ）中，也就是说，数据会先被拷贝到操作系统内核的缓冲区中，然后才会从操作系统内核的缓冲区拷贝到应用程序的地址空间。 缓存 IO 的缺点：数据在传输过程中需要在应用程序地址空间和内核进行多次数据拷贝操作，这些数据拷贝操作所带来的 CPU 以及内存开销是非常大的。 Linux IO模型网络IO的本质是socket的读取，socket在linux系统被抽象为流，IO可以理解为对流的操作。刚才说了，对于一次IO访问（以read举例），数据会先被拷贝到操作系统内核的缓冲区中，然后才会从操作系统内核的缓冲区拷贝到应用程序的地址空间。所以说，当一个read操作发生时，它会经历两个阶段： 第一阶段：等待数据准备 (Waiting for the data to be ready)。 第二阶段：将数据从内核拷贝到进程中 (Copying the data from the kernel to the process)。 对于socket流而言， 第一步：通常涉及等待网络上的数据分组到达，然后被复制到内核的某个缓冲区。 第二步：把数据从内核缓冲区复制到应用进程缓冲区。 网络应用需要处理的无非就是两大类问题，网络IO，数据计算。相对于后者，网络IO的延迟，给应用带来的性能瓶颈大于后者。网络IO的模型大致有如下几种： 同步模型（synchronous IO） 阻塞IO（bloking IO） 非阻塞IO（non-blocking IO） 多路复用IO（multiplexing IO） 信号驱动式IO（signal-driven IO） 异步IO（asynchronous IO） 注：由于signal driven IO在实际中并不常用，所以我这只提及剩下的四种IO Model。 在深入介绍Linux IO各种模型之前，让我们先来探索一下基本 Linux IO 模型的简单矩阵。如下图所示： 每个 IO 模型都有自己的使用模式，它们对于特定的应用程序都有自己的优点。本节将简要对其一一进行介绍。常见的IO模型有阻塞、非阻塞、IO多路复用，异步。以一个生动形象的例子来说明这四个概念。周末我和女友去逛街，中午饿了，我们准备去吃饭。周末人多，吃饭需要排队，我和女友有以下几种方案。 同步阻塞 IO(blocking IO)场景描述 我和女友点完餐后，不知道什么时候能做好，只好坐在餐厅里面等，直到做好，然后吃完才离开。女友本想还和我一起逛街的，但是不知道饭能什么时候做好，只好和我一起在餐厅等，而不能去逛街，直到吃完饭才能去逛街，中间等待做饭的时间浪费掉了。这就是典型的阻塞。 网络模型同步阻塞 IO 模型是最常用的一个模型，也是最简单的模型。在linux中，默认情况下所有的socket都是blocking。它符合人们最常见的思考逻辑。阻塞就是进程 “被” 休息, CPU处理其它进程去了。 在这个IO模型中，用户空间的应用程序执行一个系统调用（recvform），这会导致应用程序阻塞，什么也不干，直到数据准备好，并且将数据从内核复制到用户进程，最后进程再处理数据，在等待数据到处理数据的两个阶段，整个进程都被阻塞。不能处理别的网络IO。调用应用程序处于一种不再消费 CPU 而只是简单等待响应的状态，因此从处理的角度来看，这是非常有效的。在调用recv()/recvfrom()函数时，发生在内核中等待数据和复制数据的过程，大致如下图： 流程描述当用户进程调用了recv()/recvfrom()这个系统调用，kernel就开始了IO的第一个阶段：准备数据（对于网络IO来说，很多时候数据在一开始还没有到达。比如，还没有收到一个完整的UDP包。这个时候kernel就要等待足够的数据到来）。这个过程需要等待，也就是说数据被拷贝到操作系统内核的缓冲区中是需要一个过程的。而在用户进程这边，整个进程会被阻塞（当然，是进程自己选择的阻塞）。第二个阶段：当kernel一直等到数据准备好了，它就会将数据从kernel中拷贝到用户内存，然后kernel返回结果，用户进程才解除block的状态，重新运行起来。 所以，blocking IO的特点就是在IO执行的两个阶段都被block了。 优点： 能够及时返回数据，无延迟； 对内核开发者来说这是省事了； 缺点： 对用户来说处于等待就要付出性能的代价了； 同步非阻塞 IO(nonblocking IO)场景描述 我女友不甘心白白在这等，又想去逛商场，又担心饭好了。所以我们逛一会，回来询问服务员饭好了没有，来来回回好多次，饭都还没吃都快累死了啦。这就是非阻塞。需要不断的询问，是否准备好了。 网络模型同步非阻塞就是 “每隔一会儿瞄一眼进度条” 的轮询（polling）方式。在这种模型中，设备是以非阻塞的形式打开的。这意味着 IO 操作不会立即完成，read 操作可能会返回一个错误代码，说明这个命令不能立即满足（EAGAIN 或 EWOULDBLOCK）。 在网络IO时候，非阻塞IO也会进行recvform系统调用，检查数据是否准备好，与阻塞IO不一样，”非阻塞将大的整片时间的阻塞分成N多的小的阻塞, 所以进程不断地有机会 ‘被’ CPU光顾”。 也就是说非阻塞的recvform系统调用调用之后，进程并没有被阻塞，内核马上返回给进程，如果数据还没准备好，此时会返回一个error。进程在返回之后，可以干点别的事情，然后再发起recvform系统调用。重复上面的过程，循环往复的进行recvform系统调用。这个过程通常被称之为轮询。轮询检查内核数据，直到数据准备好，再拷贝数据到进程，进行数据处理。需要注意，拷贝数据整个过程，进程仍然是属于阻塞的状态。 在linux下，可以通过设置socket使其变为non-blocking。当对一个non-blocking socket执行读操作时，流程如图所示： 流程描述当用户进程发出read操作时，如果kernel中的数据还没有准备好，那么它并不会block用户进程，而是立刻返回一个error。从用户进程角度讲，它发起一个read操作后，并不需要等待，而是马上就得到了一个结果。用户进程判断结果是一个error时，它就知道数据还没有准备好，于是它可以再次发送read操作。一旦kernel中的数据准备好了，并且又再次收到了用户进程的system call，那么它马上就将数据拷贝到了用户内存，然后返回。 所以，nonblocking IO的特点是用户进程需要不断的主动询问kernel数据好了没有。 同步非阻塞方式相比同步阻塞方式： 优点：能够在等待任务完成的时间里干其他活了（包括提交其他任务，也就是 “后台” 可以有多个任务在同时执行）。 缺点：任务完成的响应延迟增大了，因为每过一段时间才去轮询一次read操作，而任务可能在两次轮询之间的任意时间完成。这会导致整体数据吞吐量的降低。 IO 多路复用( IO multiplexing)场景描述 与第二个方案差不多，餐厅安装了电子屏幕用来显示点餐的状态，这样我和女友逛街一会，回来就不用去询问服务员了，直接看电子屏幕就可以了。这样每个人的餐是否好了，都直接看电子屏幕就可以了，这就是典型的IO多路复用。 网络模型由于同步非阻塞方式需要不断主动轮询，轮询占据了很大一部分过程，轮询会消耗大量的CPU时间，而 “后台” 可能有多个任务在同时进行，人们就想到了循环查询多个任务的完成状态，只要有任何一个任务完成，就去处理它。如果轮询不是进程的用户态，而是有人帮忙就好了。那么这就是所谓的 “IO 多路复用”。UNIX/Linux 下的 select、poll、epoll 就是干这个的(epoll 比 poll、select 效率高，做的事情是一样的)。 IO多路复用有两个特别的系统调用select、poll、epoll函数。select调用是内核级别的，select轮询相对非阻塞的轮询的区别在于—前者可以等待多个socket，能实现同时对多个IO端口进行监听，当其中任何一个socket的数据准好了，就能返回进行可读，然后进程再进行recvform系统调用，将数据由内核拷贝到用户进程，当然这个过程是阻塞的。select或poll调用之后，会阻塞进程，与blocking IO阻塞不同在于，此时的select不是等到socket数据全部到达再处理, 而是有了一部分数据就会调用用户进程来处理。如何知道有一部分数据到达了呢？监视的事情交给了内核，内核负责数据到达的处理。也可以理解为”非阻塞”吧。 I/O复用模型会用到select、poll、epoll函数，这几个函数也会使进程阻塞，但是和阻塞I/O所不同的的，这两个函数可以同时阻塞多个I/O操作。而且可以同时对多个读操作，多个写操作的I/O函数进行检测，直到有数据可读或可写时（注意不是全部数据可读或可写），才真正调用I/O操作函数。 对于多路复用，也就是轮询多个socket。多路复用既然可以处理多个IO，也就带来了新的问题，多个IO之间的顺序变得不确定了，当然也可以针对不同的编号。具体流程，如下图所示： 流程描述IO multiplexing就是我们说的select，poll，epoll，有些地方也称这种IO方式为event driven IO。select/epoll的好处就在于单个process就可以同时处理多个网络连接的IO。它的基本原理就是select，poll，epoll这个function会不断的轮询所负责的所有socket，当某个socket有数据到达了，就通知用户进程。 当用户进程调用了select，那么整个进程会被block，而同时，kernel会“监视”所有select负责的socket，当任何一个socket中的数据准备好了，select就会返回。这个时候用户进程再调用read操作，将数据从kernel拷贝到用户进程。 多路复用的特点是通过一种机制一个进程能同时等待多个IO文件描述符，内核监视这些文件描述符（套接字描述符），其中的任意一个进入读就绪状态，select， poll，epoll函数就可以返回。对于监视的方式，又可以分为 select， poll， epoll三种方式。 上面的图和blocking IO的图其实并没有太大的不同，事实上，还更差一些。因为这里需要使用两个system call (select 和 recvfrom)，而blocking IO只调用了一个system call (recvfrom)。但是，用select的优势在于它可以同时处理多个connection。 所以，如果处理的连接数不是很高的话，使用select/epoll的web server不一定比使用multi-threading + blocking IO的web server性能更好，可能延迟还更大。（select/epoll的优势并不是对于单个连接能处理得更快，而是在于能处理更多的连接。） 在IO multiplexing Model中，实际中，对于每一个socket，一般都设置成为non-blocking，但是，如上图所示，整个用户的process其实是一直被block的。只不过process是被select这个函数block，而不是被socket IO给block。所以IO多路复用是阻塞在select，epoll这样的系统调用之上，而没有阻塞在真正的I/O系统调用如recvfrom之上。 了解了前面三种IO模式，在用户进程进行系统调用的时候，他们在等待数据到来的时候，处理的方式不一样，直接等待，轮询，select或poll轮询，两个阶段过程： 第一个阶段有的阻塞，有的不阻塞，有的可以阻塞又可以不阻塞。 第二个阶段都是阻塞的。 从整个IO过程来看，他们都是顺序执行的，因此可以归为同步模型(asynchronous)。都是进程主动等待且向内核检查状态。 高并发的程序一般使用同步非阻塞方式而非多线程 + 同步阻塞方式。要理解这一点，首先要扯到并发和并行的区别。比如去某部门办事需要依次去几个窗口，办事大厅里的人数就是并发数，而窗口个数就是并行度。也就是说并发数是指同时进行的任务数（如同时服务的 HTTP 请求），而并行数是可以同时工作的物理资源数量（如 CPU 核数）。通过合理调度任务的不同阶段，并发数可以远远大于并行度，这就是区区几个 CPU 可以支持上万个用户并发请求的奥秘。在这种高并发的情况下，为每个任务（用户请求）创建一个进程或线程的开销非常大。而同步非阻塞方式可以把多个 IO 请求丢到后台去，这就可以在一个进程里服务大量的并发 IO 请求。 注意：IO多路复用是同步阻塞模型还是异步阻塞模型，在此给大家分析下： 此处仍然不太清楚的，强烈建议大家在细究《聊聊同步、异步、阻塞与非阻塞》中讲同步与异步的根本性区别，同步是需要主动等待消息通知，而异步则是被动接收消息通知，通过回调、通知、状态等方式来被动获取消息。IO多路复用在阻塞到select阶段时，用户进程是主动等待并调用select函数获取数据就绪状态消息，并且其进程状态为阻塞。所以，把IO多路复用归为同步阻塞模式。 信号驱动式IO(signal-driven IO)信号驱动式I/O：首先我们允许Socket进行信号驱动IO,并安装一个信号处理函数，进程继续运行并不阻塞。当数据准备好时，进程会收到一个SIGIO信号，可以在信号处理函数中调用I/O操作函数处理数据。过程如下图所示： 异步非阻塞 IO(asynchronous IO)场景描述 女友不想逛街，又餐厅太吵了，回家好好休息一下。于是我们叫外卖，打个电话点餐，然后我和女友可以在家好好休息一下，饭好了送货员送到家里来。这就是典型的异步，只需要打个电话说一下，然后可以做自己的事情，饭好了就送来了。 网络模型相对于同步IO，异步IO不是顺序执行。用户进程进行aio_read系统调用之后，无论内核数据是否准备好，都会直接返回给用户进程，然后用户态进程可以去做别的事情。等到socket数据准备好了，内核直接复制数据给进程，然后从内核向进程发送通知。IO两个阶段，进程都是非阻塞的。 Linux提供了AIO库函数实现异步，但是用的很少。目前有很多开源的异步IO库，例如libevent、libev、libuv。异步过程如下图所示： 流程描述用户进程发起aio_read操作之后，立刻就可以开始去做其它的事。而另一方面，从kernel的角度，当它受到一个asynchronous read之后，首先它会立刻返回，所以不会对用户进程产生任何block。然后，kernel会等待数据准备完成，然后将数据拷贝到用户内存，当这一切都完成之后，kernel会给用户进程发送一个signal或执行一个基于线程的回调函数来完成这次 IO 处理过程，告诉它read操作完成了。 在 Linux 中，通知的方式是 “信号”： 如果这个进程正在用户态忙着做别的事（例如在计算两个矩阵的乘积），那就强行打断之，调用事先注册的信号处理函数，这个函数可以决定何时以及如何处理这个异步任务。由于信号处理函数是突然闯进来的，因此跟中断处理程序一样，有很多事情是不能做的，因此保险起见，一般是把事件 “登记” 一下放进队列，然后返回该进程原来在做的事。 如果这个进程正在内核态忙着做别的事，例如以同步阻塞方式读写磁盘，那就只好把这个通知挂起来了，等到内核态的事情忙完了，快要回到用户态的时候，再触发信号通知。 如果这个进程现在被挂起了，例如无事可做 sleep 了，那就把这个进程唤醒，下次有 CPU 空闲的时候，就会调度到这个进程，触发信号通知。 异步 API 说来轻巧，做来难，这主要是对 API 的实现者而言的。Linux 的异步 IO（AIO）支持是 2.6.22 才引入的，还有很多系统调用不支持异步 IO。Linux 的异步 IO 最初是为数据库设计的，因此通过异步 IO 的读写操作不会被缓存或缓冲，这就无法利用操作系统的缓存与缓冲机制。 很多人把 Linux 的 O_NONBLOCK 认为是异步方式，但事实上这是前面讲的同步非阻塞方式。需要指出的是，虽然 Linux 上的 IO API 略显粗糙，但每种编程框架都有封装好的异步 IO 实现。操作系统少做事，把更多的自由留给用户，正是 UNIX 的设计哲学，也是 Linux 上编程框架百花齐放的一个原因。 从前面 IO 模型的分类中，我们可以看出 AIO 的动机： 同步阻塞模型需要在 IO 操作开始时阻塞应用程序。这意味着不可能同时重叠进行处理和 IO 操作。 同步非阻塞模型允许处理和 IO 操作重叠进行，但是这需要应用程序根据重现的规则来检查 IO 操作的状态。 这样就剩下异步非阻塞 IO 了，它允许处理和 IO 操作重叠进行，包括 IO 操作完成的通知。 IO多路复用除了需要阻塞之外，select 函数所提供的功能（异步阻塞 IO）与 AIO 类似。不过，它是对通知事件进行阻塞，而不是对 IO 调用进行阻塞。 关于异步阻塞有时我们的 API 只提供异步通知方式，例如在 node.js 里，但业务逻辑需要的是做完一件事后做另一件事，例如数据库连接初始化后才能开始接受用户的 HTTP 请求。这样的业务逻辑就需要调用者是以阻塞方式来工作。 为了在异步环境里模拟 “顺序执行” 的效果，就需要把同步代码转换成异步形式，这称为 CPS（Continuation Passing Style）变换。BYVoid 大神的 continuation.js 库就是一个 CPS 变换的工具。用户只需用比较符合人类常理的同步方式书写代码，CPS 变换器会把它转换成层层嵌套的异步回调形式。 另外一种使用阻塞方式的理由是降低响应延迟。如果采用非阻塞方式，一个任务 A 被提交到后台，就开始做另一件事 B，但 B 还没做完，A 就完成了，这时要想让 A 的完成事件被尽快处理（比如 A 是个紧急事务），要么丢弃做到一半的 B，要么保存 B 的中间状态并切换回 A，任务的切换是需要时间的（不管是从磁盘载入到内存，还是从内存载入到高速缓存），这势必降低 A 的响应速度。因此，对实时系统或者延迟敏感的事务，有时采用阻塞方式比非阻塞方式更好。 五种IO模型 参考文献https://mp.weixin.qq.com/s?__biz=MzAxODI5ODMwOA==&amp;mid=2666538919&amp;idx=1&amp;sn=6013c451b5f14bf809aec77dd5df6cff&amp;scene=21#wechat_redirect]]></content>
-      <categories>
-        <category>linux基础</category>
-      </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[memmove与memcpy]]></title>
-    <url>%2F2019%2F10%2F07%2Fmemmove%E4%B8%8Ememcopy%2F</url>
-    <content type="text"><![CDATA[题目链接ptr1表示，ptr2表示 如图所示，绿色表示数组2的元素，杏色表示数组1的元素．蓝色表示数组1和数组2重合的位置的元素．当pstr1 &gt; pstr2时，需要逆序移动．否则，属于pstr2数组的后几个元素会被覆盖． 当pstr1 &lt; pstr2时，正向移动．]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[fork和vfork]]></title>
-    <url>%2F2019%2F10%2F07%2Ffork%E5%87%BD%E6%95%B0%2F</url>
-    <content type="text"><![CDATA[fork和vfork fork基本概念一个进程, 包括代码, 数据和分配给该进程的资源。通过fork()系统调用创建一个新进程。这个系统调用复制当前进程，在进程表中创建一个新的表项，新表项中的许多属性与当前进程是相同的。新进程与原进程几乎一模一样，执行的代码完全相同，但新进程有自己的数据空间、环境和文件描述符。 一个进程调用fork()函数后，系统先给新的进程分配资源。如存储数据和代码的存储空间。然后把原进程的所有值都复制到新进程中,只有少数值与原来的进程的值不同。 在早期的unix系统中，创建进程比较原始。当调用fork时，内核会把所有的内部数据结构赋值一份，复制进程的页表项，然后把父进程的地址空间中的内容逐页地复制到子进程的地址空间中。但从内核的角度来说，逐页地复制方式是十分耗时的。现代的unix系统采取了更多的优化，例如Linux，采用了写时复制的方法，而不是对父进程空间整体复制。 创建新进程成功后, 系统中出现两个几乎完全相同的进程，这两个进程执行没有固定的先后顺序， 哪个进程先执行要看系统的进程调度策略。 由fork函数创建的新进程被称为子进程。fork函数被调用一次，但是返回两次。父进程返回的值是新进程的进程ID，而子进程返回的值是0。 fork函数返回值的三种情况 返回子进程Id给父进程 因为一个进程的子进程可能有多个，并且没有一个函数可以获得一个进程的所有子进程ID。 返回给子进程值为0 一个进程只会有一个父进程，所以子进程总是可以调用getpid以获得当前进程Id以及调用getppid获得父进程Id. 出现错误，返回负值 当前进程数已经达到系统规定的上限，这时errno的值被设置为EAGAIN 系统内存不足，这时errno的值被设置为ENOMEM 子进程执行代码开始位置fork可以创建一个子进程并完全复制父进程,但是子进程是从fork后面那条指令开始执行的.如果子进程也从main开始执行所有指令,那么它执行到fork指令时必然会创建一个新的子进程. 从而导致不停地创建子进程,程序永不结束。 vforkvfork函数用于创建一个新进程，而该新进程的目的是exec一个新程序。vfork和fork一样都创建子进程，但是它并不将父进程的地址空间完全复制到子进程中，因为子进程会立即调用exec(或exit)，于是也就不会引用该地址空间。不过在子进程调用exec或exit之前，它在父进程的地址空间中运行。 fork和vfork的另一个区别是：vfork保证子进程先运行，在它调用exec或exit之后父进程才可能被调用运行。在子进程调用这两个函数中的任意一个时，父进程会恢复运行(如果在调用这两个函数之前子进程依赖于父进程的进一步动作，则会导致死锁)。 fork示例fork创建子进程1234567891011121314151617181920212223242526272829303132#include &lt;iostream&gt;#include &lt;stdlib.h&gt;#include &lt;unistd.h&gt;using namespace std;int main() &#123; pid_t pid; string message; int n; cout &lt;&lt; "fork program starting" &lt;&lt; endl; pid = fork(); switch (pid) &#123; case -1: perror("fork failed"); break; case 0: message = "this is the child"; n = 5; break; default: message = "this is the parent"; n = 3; break; &#125; for (; n &gt; 0; --n) &#123; cout &lt;&lt; message &lt;&lt; endl; sleep(3); &#125; return 0;&#125; 运行结果 123456789101112xixi@xixi:~/linux_cource/11.3$ ./a.out fork program startingthis is the parentthis is the childthis is the parentthis is the childthis is the parentthis is the childthis is the childxixi@xixi:~linux_cource/11.3$ this is the childxixi@xixi:~/linux_cource/11.3$ 程序在调用fork时被分为两个独立的进程.当用fork启动一个子进程时, 子进程就有了它自己的生命周期并将独立运行.父进程在子进程之前结束, 因此在输出内容中有一个shell提示符. 让父进程等待子进程结束如果希望父进程等待子进程结束,可以调用wait函数.函数原型: pid_t wait(int* stat_loc);wait系统调用返回子进程的pid, 通常是已经结束运行的子进程的pid.状态信息允许父进程了解子进程的退出状态, 即子进程的main函数返回的值或者子进程中exit函数的退出码.如果stat_loc不是空指针, 状态信息将被写入到它所指向的位置. 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647#include &lt;iostream&gt;#include &lt;stdlib.h&gt;#include &lt;unistd.h&gt;#include &lt;sys/wait.h&gt;using namespace std;int main() &#123; pid_t pid; string message; int n; int exit_code; cout &lt;&lt; "fork program starting" &lt;&lt; endl; pid = fork(); switch (pid) &#123; case -1: perror("fork failed"); exit(1); case 0: message = "this is the child"; n = 5; exit_code = 37; break; default: message = "this is the parent"; n = 3; exit_code = 0; break; &#125; for (; n &gt; 0; --n) &#123; cout &lt;&lt; message &lt;&lt; endl; sleep(1); &#125; if (pid != 0) &#123; int stat_val; pid_t child_pid; child_pid = wait(&amp;stat_val); cout &lt;&lt; "child has finished: PID: " &lt;&lt; child_pid &lt;&lt; endl; if (WIFEXITED(stat_val)) cout &lt;&lt; "child exited with code " &lt;&lt; WEXITSTATUS(stat_val) &lt;&lt; endl; else &#123; cout &lt;&lt; "Child terminated abnormally" &lt;&lt; endl; &#125; &#125; return exit_code;&#125; 运行结果 1234567891011fork program startingthis is the parentthis is the childthis is the parentthis is the childthis is the parentthis is the childthis is the childthis is the childchild has finished: PID: 15467child exited with code 37 查看僵尸进程子进程终止时,它与父进程之间的关联还会保持, 直到父进程也正常终止或父进程调用wait才会结束.因此,进程表中代表子进程的表项不会立即释放.虽然子进程已经不再运行,但它仍然存在于系统中,因为它的退出码还需要保存起来,以备父进程今后的wait调用使用.这时候它将成为一个死进程或者僵尸进程.所以,僵尸进程就是这样一种进程: 它自身运行已经结束,但是进程控制块还没有释放.因为还有其他进程需要它的运行状态等信息. 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647#include &lt;iostream&gt;#include &lt;stdlib.h&gt;#include &lt;unistd.h&gt;#include &lt;sys/wait.h&gt;using namespace std;int main() &#123; pid_t pid; string message; int n; int exit_code; cout &lt;&lt; "fork program starting" &lt;&lt; endl; pid = fork(); switch (pid) &#123; case -1: perror("fork failed"); exit(1); case 0: message = "this is the child"; n = 5; exit_code = 37; break; default: message = "this is the parent"; n = 10; exit_code = 0; break; &#125; for (; n &gt; 0; --n) &#123; cout &lt;&lt; message &lt;&lt; endl; sleep(1); &#125; if (pid != 0) &#123; int stat_val; pid_t child_pid; child_pid = wait(&amp;stat_val); // stat_val中保存这子进程的状态信息 cout &lt;&lt; "child has finished: PID: " &lt;&lt; child_pid &lt;&lt; endl; if (WIFEXITED(stat_val)) cout &lt;&lt; "child exited with code " &lt;&lt; WEXITSTATUS(stat_val) &lt;&lt; endl; else &#123; cout &lt;&lt; "Child terminated abnormally" &lt;&lt; endl; &#125; &#125; return exit_code;&#125; 运行过程中在命令行中查看wait进程的信息(上面这个程序在编译时被命名为wait) 12345678xixi@xixi:~$ ps -f -C waitUID PID PPID C STIME TTY TIME CMDxixi 16389 13738 0 19:32 pts/3 00:00:00 ./waitxixi 16390 16389 0 19:32 pts/3 00:00:00 ./waitxixi@xixi:~$ ps -f -C waitUID PID PPID C STIME TTY TIME CMDxixi 16389 13738 0 19:32 pts/3 00:00:00 ./waitxixi 16390 16389 0 19:32 pts/3 00:00:00 [wait] &lt;defunct&gt; 上面的运行结果可以看出,一开始子进程正常运行,后来子进程变成了僵尸进程.如果父进程异常终止, 子进程将自动把pid等于1的进程(即init进程)作为自己的父进程.子进程现在是一个不再运行的僵尸进程,但是由于父进程异常终止,所以它由init进程接管.僵尸进程将一直保留在进程表中知道被init进程发现并释放.进程表越大,这一过程越慢. 常用的两种应用场景 一个父进程希望复制自己,使父子进程同时执行不同的代码段.这在网络服务中是常见的. 父进程等待客户端的服务请求.当这种请求到达时,父进程调用fork,使子进程处理此请求.父进程则继续等待下一个服务请求的到达. 一个进程要执行一个不同的程序.这是shell常见的情况.子进程从fork返回后立即调用exec. 123456789101112131415161718192021pid_t pid;int ctr = 0;cout &lt;&lt; "当前进程, id=" &lt;&lt; getpid() &lt;&lt; endl;// 在这个位置,仅仅父进程会执行cout &lt;&lt; "unique" &lt;&lt; endl;pid = fork(); // 仅调用一次,返回两次if (pid &lt; 0) &#123; cout &lt;&lt; "异常退出" &lt;&lt; endl; exit(1);&#125; else if (pid == 0) &#123; ++ctr; cout &lt;&lt; "进入子进程, 当前进程id=" &lt;&lt; getpid() &lt;&lt; " 父进程id=" &lt;&lt; getppid() &lt;&lt; " ctr=" &lt;&lt; ctr &lt;&lt; endl;&#125; else &#123; ++ctr; cout &lt;&lt; "当前进程id=" &lt;&lt; getpid() &lt;&lt; " ctr=" &lt;&lt; ctr &lt;&lt; endl;&#125;// 在这个位置,则父子进程都会执行cout &lt;&lt; "reduant" &lt;&lt; endl; 执行结果 123456当前进程, id=7346unique当前进程id=7346 ctr=1reduant进入子进程, 当前进程id=7347 父进程id=7346 ctr=1reduant 执行fork前, ctr=0; 执行fork后,对于父进程而言会执行ctr自增和打印进程信息两个操作. 因此打印出的ctr=1.对于子进程而言,由于执行fork前ctr=0,因此在子进程中ctr=0, 同样子进程执行ctr自增和打印进程信息操作.因此打印出的ctr=1 12345678910111213141516pid_t pid;int loop;// cout &lt;&lt; "我是父进程, 当前进程, id=" &lt;&lt; getpid() &lt;&lt; endl;for (loop = 0; loop &lt; 2; ++loop) &#123; pid = fork(); //一个子进程第一次调用fork,返回0,表示该进程本身是子进程,第二次fork产生一个以当前子进程为父进程的子进程 if (pid &lt; 0) &#123; cout &lt;&lt; "异常退出" &lt;&lt; endl; exit(1); &#125; else if (pid == 0) &#123; cout &lt;&lt; "loop=" &lt;&lt; loop &lt;&lt; " 我是进程" &lt;&lt; getpid() &lt;&lt; " 父进程id=" &lt;&lt; getppid() &lt;&lt; " 我刚刚fork了子进程 pid=" &lt;&lt; pid&lt;&lt; endl; &#125; else &#123; cout &lt;&lt; "loop=" &lt;&lt; loop &lt;&lt; " 我是进程" &lt;&lt; getpid() &lt;&lt; " 父进程id=" &lt;&lt; getppid() &lt;&lt; " 我刚刚fork了子进程 pid=" &lt;&lt; pid &lt;&lt; endl; sleep(5); &#125;&#125; 执行结果 123456loop=0 我是进程5947 父进程id=19893 我刚刚fork了子进程 pid=5948loop=0 我是进程5948 父进程id=5947 我刚刚fork了子进程 pid=0loop=1 我是进程5948 父进程id=5947 我刚刚fork了子进程 pid=5949loop=1 我是进程5949 父进程id=5948 我刚刚fork了子进程 pid=0loop=1 我是进程5947 父进程id=19893 我刚刚fork了子进程 pid=5952loop=1 我是进程5952 父进程id=5947 我刚刚fork了子进程 pid=0 过程解释 进程5947使用fork产生一个子进程5948. fork执行时loop=0.因此子进程5948中loop=0. 子进程5948第一次调用fork的返回值pid是0,表明进程5948是子进程, 因此直接打印出”loop=0 我是进程5948 父进程id=5947 我刚刚fork了子进程 pid=0”; 当进程5948第二次调用fork时, 产生一个新的子进程5949. 在进程5948中,调用fork函数前, loop=1,因此在新的子进程5949中loop=1. 也因此子进程5949只会调用一次fork(就会因为loop&gt;=2而跳出循环). 在子进程5949的运行过程中只会打印出”loop=1 我是进程5949 父进程id=5948 我刚刚fork了子进程 pid=0” 而对于进程5947, 在第一次循环结束后继续执行第二次循环. 此时loop=1. 调用fork后, 产生一个新的子进程5952, 该子进程中loop=1. 因此类似的, 进程5952只会打印出”loop=1 我是进程5952 父进程id=5947 我刚刚fork了子进程 pid=0” 参考文献[1] https://www.cnblogs.com/bastard/archive/2012/08/31/2664896.html[2] https://www.jianshu.com/p/586300fdb1ce]]></content>
       <categories>
         <category>linux基础</category>
       </categories>
@@ -108,17 +155,6 @@
       <categories>
         <category>leetcode</category>
       </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[523. Continuous Subarray Sum]]></title>
-    <url>%2F2019%2F10%2F05%2F523.Continuous-Subarray-Sum%2F</url>
-    <content type="text"><![CDATA[Given a list of non-negative numbers and a target integer k, write a function to check if the array has a continuous subarray of size at least 2 that sums up to a multiple of k, that is, sums up to nk where n is also an *integer**. Example 1: 123Input: [23, 2, 4, 6, 7], k=6Output: TrueExplanation: Because [2, 4] is a continuous subarray of size 2 and sums up to 6. Example 2: 123Input: [23, 2, 6, 4, 7], k=6Output: TrueExplanation: Because [23, 2, 6, 4, 7] is an continuous subarray of size 5 and sums up to 42. 解法1: 二重循环枚举所有可能的子数组组合时间复杂度分析 时间复杂度为O(n2) 解法2相关题目 leetcode 560]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-      <tags>
-        <tag>子数组和</tag>
-      </tags>
   </entry>
   <entry>
     <title></title>
@@ -365,17 +401,17 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[bind与函数适配器]]></title>
-    <url>%2F2019%2F09%2F27%2Fbind%E4%B8%8E%E5%87%BD%E6%95%B0%E9%80%82%E9%85%8D%E5%99%A8%2F</url>
-    <content type="text"><![CDATA[bind是从c++11开始出现的新型适配器]]></content>
+    <title><![CDATA[traits]]></title>
+    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
+    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
       <categories>
         <category>STL</category>
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[traits]]></title>
-    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
-    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
+    <title><![CDATA[bind与函数适配器]]></title>
+    <url>%2F2019%2F09%2F27%2Fbind%E4%B8%8E%E5%87%BD%E6%95%B0%E9%80%82%E9%85%8D%E5%99%A8%2F</url>
+    <content type="text"><![CDATA[bind是从c++11开始出现的新型适配器]]></content>
       <categories>
         <category>STL</category>
       </categories>
@@ -557,17 +593,17 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[字典树]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%AD%97%E5%85%B8%E6%A0%91%2F</url>
-    <content type="text"><![CDATA[字典树又称为单词查找树．主要应用于字符串的统计和排序，经常被搜索引擎用于文本词频统计． 参考文献[1] 字典树的C++实现 Implement of trie tree: https://blog.csdn.net/pyang1989/article/details/22834653]]></content>
+    <title><![CDATA[快速排序算法]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[对于快速排序过程中一个的问题：为什么在qsort中递归时，需要将递归范围改为[lo, pos-1]而不是[lo, pos]? 以下看一个具体例子： 123456789101112131415161718192021222324252627282930313233343536373839#include &lt;iostream&gt;using namespace std;int partition(vector&lt;int&gt; &amp;arr, int lo, int hi) &#123; int i = lo - 1; int key = arr[hi]; for (int j = lo; j &lt; hi; ++j) &#123; if (arr[j] &lt;= key) &#123; ++i; int temp = arr[j]; arr[j] = arr[i]; arr[i] = temp; &#125; &#125; arr[hi] = arr[i + 1]; arr[i + 1] = key; return i + 1;&#125;void qsort(vector&lt;int&gt; &amp;arr, int lo, int hi) &#123; if (lo &gt;= hi) &#123; return; &#125; int pos = partition(arr, lo, hi); // 这里返回了pos=5,所以出现了递归调用，而且这个递归调用和之前的调用一模一样 qsort(arr, lo, pos - 1); qsort(arr, pos + 1, hi);&#125;int main() &#123; vector&lt;int&gt; arr&#123;12, 34, 11, 46, 12, 89&#125;; qsort(arr, 0, arr.size() - 1); for (auto c:arr) &#123; cout &lt;&lt; c &lt;&lt; " "; &#125; cout &lt;&lt; endl; return 0;&#125; 在归并排序过程中，递归的两个子范围为[lo, mid]和[mid+1, hi].那是因为[lo, mid]区间必然是[lo, hi]区间的子区间，而不会和区间[lo, hi]重叠．而这里的pos是通过partition函数返回的，表示在数组中小于等于key的元素范围，pos有可能等于hi,这是区间[lo, pos]和区间[lo, hi]重叠．]]></content>
       <categories>
         <category>leetcode</category>
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[快速排序算法]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%2F</url>
-    <content type="text"><![CDATA[对于快速排序过程中一个的问题：为什么在qsort中递归时，需要将递归范围改为[lo, pos-1]而不是[lo, pos]? 以下看一个具体例子： 123456789101112131415161718192021222324252627282930313233343536373839#include &lt;iostream&gt;using namespace std;int partition(vector&lt;int&gt; &amp;arr, int lo, int hi) &#123; int i = lo - 1; int key = arr[hi]; for (int j = lo; j &lt; hi; ++j) &#123; if (arr[j] &lt;= key) &#123; ++i; int temp = arr[j]; arr[j] = arr[i]; arr[i] = temp; &#125; &#125; arr[hi] = arr[i + 1]; arr[i + 1] = key; return i + 1;&#125;void qsort(vector&lt;int&gt; &amp;arr, int lo, int hi) &#123; if (lo &gt;= hi) &#123; return; &#125; int pos = partition(arr, lo, hi); // 这里返回了pos=5,所以出现了递归调用，而且这个递归调用和之前的调用一模一样 qsort(arr, lo, pos - 1); qsort(arr, pos + 1, hi);&#125;int main() &#123; vector&lt;int&gt; arr&#123;12, 34, 11, 46, 12, 89&#125;; qsort(arr, 0, arr.size() - 1); for (auto c:arr) &#123; cout &lt;&lt; c &lt;&lt; " "; &#125; cout &lt;&lt; endl; return 0;&#125; 在归并排序过程中，递归的两个子范围为[lo, mid]和[mid+1, hi].那是因为[lo, mid]区间必然是[lo, hi]区间的子区间，而不会和区间[lo, hi]重叠．而这里的pos是通过partition函数返回的，表示在数组中小于等于key的元素范围，pos有可能等于hi,这是区间[lo, pos]和区间[lo, hi]重叠．]]></content>
+    <title><![CDATA[字典树]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%AD%97%E5%85%B8%E6%A0%91%2F</url>
+    <content type="text"><![CDATA[字典树又称为单词查找树．主要应用于字符串的统计和排序，经常被搜索引擎用于文本词频统计． 参考文献[1] 字典树的C++实现 Implement of trie tree: https://blog.csdn.net/pyang1989/article/details/22834653]]></content>
       <categories>
         <category>leetcode</category>
       </categories>
@@ -663,15 +699,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[包管理工具aptitude]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7aptitude%2F</url>
-    <content type="text"><![CDATA[来自百度百科的介绍 aptitude与 apt-get 一样，是 Debian 及其衍生系统中功能极其强大的包管理工具。与 apt-get 不同的是，aptitude在处理依赖问题上更佳一些。举例来说，aptitude在删除一个包时，会同时删除本身所依赖的包。这样，系统中不会残留无用的包，整个系统更为干净。 之所以要来说一说这个包管理工具，是因为在ubuntu中安装软件的时候经常遇到依赖未安装的问题．每次遇到这种情况，就需要包管理工具来帮忙了．]]></content>
-      <tags>
-        <tag>liunx系统</tag>
-        <tag>常用工具</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[sizeof]]></title>
     <url>%2F2019%2F09%2F27%2Fsizeof%E8%BF%90%E7%AE%97%E7%AC%A6%2F</url>
     <content type="text"><![CDATA[sizeof运算符返回一条表达式或一个类型所占的字节数.sizeof运算符的结果是一个size_t类型的值. sizeof运算符满足右结合律.因此,表达式sizeof p等价于sizeof(\p). 这是因为sizeof满足右结合律且与*运算符的优先级相同.所以表达式会按照从右向左的顺序组合. sizoef运算符并不实际求其运算对象的值.因此,sizeof运算可以对一个无效指针进行运算. 以下是各种内置数据类型在64位机器上所占空间大小: 12345678910111213141516171819cout &lt;&lt; "sizeof(int):" &lt;&lt; sizeof(int) &lt;&lt; endl; // 4cout &lt;&lt; "sizeof(float):" &lt;&lt; sizeof(float) &lt;&lt; endl; // 4cout &lt;&lt; "sizeof(double):" &lt;&lt; sizeof(double) &lt;&lt; endl;// 8cout &lt;&lt; "sizeof(char):" &lt;&lt; sizeof(char) &lt;&lt; endl; // 1int *p = 0;// 8, 指针本身所占内存空间的大小cout &lt;&lt; "sizeof(p):" &lt;&lt; sizeof(p) &lt;&lt; endl;// 4, 指针指向的对象所占内存空间的大小cout &lt;&lt; "sizeof(*p):" &lt;&lt; sizeof(*p) &lt;&lt; endl;p = new int&#123;12&#125;;// 8, 指针本身所占内存空间的大小cout &lt;&lt; "sizeof(p):" &lt;&lt; sizeof(p) &lt;&lt; endl;// 4, 指针指向的对象所占内存空间的大小cout &lt;&lt; "sizeof(*p):" &lt;&lt; sizeof(*p) &lt;&lt; endl; sizeof运算符与数组 对数组执行sizeof运算得到整个数组所占空间的大小.sizeof运算不会把数组名转成指针来处理 可以利用sizeof运算符来求数组中元素个数. 12345int arr[] = &#123;1, 2, 3&#125;;cout &lt;&lt; "sizeof(arr):" &lt;&lt; sizeof(arr) &lt;&lt; endl; // 12(4x3)int n = sizeof(arr) / sizeof(*arr);cout &lt;&lt; "n=" &lt;&lt; n &lt;&lt; endl; // 3,数组中元素个数 对string对象或vector对象执行sizeof运算只返回该类型固定部分的大小,不会计算对象中的元素占用了多少空间 1234vector&lt;int&gt; arr&#123;1, 3, 7, 3&#125;;vector&lt;int&gt; brr(100, 0);cout &lt;&lt; "sizeof(arr):" &lt;&lt; sizeof(arr) &lt;&lt; endl; // 24cout &lt;&lt; "sizeof(brr):" &lt;&lt; sizeof(brr) &lt;&lt; endl; // 24]]></content>
@@ -732,19 +759,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[模板实参推断和引用]]></title>
-    <url>%2F2019%2F09%2F27%2F%E6%A8%A1%E6%9D%BF%E5%AE%9E%E5%8F%82%E6%8E%A8%E6%96%AD%E5%92%8C%E5%BC%95%E7%94%A8%2F</url>
-    <content type="text"><![CDATA[模板分为类模板，函数模板，还有成员模板． 编译器会对函数模板参数进行推导． 从左值引用函数参数推断类型从右值引用函数参数推断类型]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>引用</tag>
-        <tag>模板</tag>
-        <tag>函数参数</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[类型转换系列1]]></title>
     <url>%2F2019%2F09%2F27%2F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%97%EF%BC%91%2F</url>
     <content type="text"><![CDATA[显式转换旧式转型:T(expression)(T)expression 四种新式转型: cast-name&lt;type&gt;(expression): type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。 旧式转换表面上功能强大，但是转化时不够明确，不能进行错误检查，容易出错． const_cast通常被用来将对象的常量性移除.即将const对象转为非const对象． dynamic_cast 主要用来执行“安全向下转型”,也就是用来决定某对象是否归属继承体系中的某个类型. 用于动态类型转换，只能用于含有虚函数的类，用于类层次间的向上和向下转化．只能转指针或引用．向下转化时，如果是非法的，对于指针返回nullptr，对于引用抛出异常． 向上转换：子类向基类的转换 向下转换：基类向子类的转换 它通过判断在执行到该语句的时候变量的运行时类型和要转换的类型是否相同来判断是否能够进行向下转换． 它是唯一无法由旧式语法执行的动作,也是唯一可能耗费重大运行成本的转型动作. reinterpret_cast意图执行低级转型,实际动作(及结果)可能取决于编译器,这也就表示它不可移植.例如将一个pointer to int转型为一个int. 这一类型在低级代码以外很少见. static_cast用来强迫隐式转换. 将non-const对象转为const对象 (不能隐式地将一个左值转换为一个右值引用，但是可以)使用static_cast可以显式地将一个左值转换为一个右值引用 或将int转为double 用于多态向上转化，如果向下转型能成功但是不安全，结果未知． 也可以用来执行上述多种转换的反向转换 将void*指针转为typed指针, 将point-to-base转为pointer-to-derived. 但它无法将const转为non-const,这个只有const_cast才办得到.]]></content>
@@ -757,6 +771,19 @@
         <tag>显示转换</tag>
         <tag>cast</tag>
         <tag>const_cast</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[模板实参推断和引用]]></title>
+    <url>%2F2019%2F09%2F27%2F%E6%A8%A1%E6%9D%BF%E5%AE%9E%E5%8F%82%E6%8E%A8%E6%96%AD%E5%92%8C%E5%BC%95%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[模板分为类模板，函数模板，还有成员模板． 编译器会对函数模板参数进行推导． 从左值引用函数参数推断类型从右值引用函数参数推断类型]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>引用</tag>
+        <tag>模板</tag>
+        <tag>函数参数</tag>
       </tags>
   </entry>
   <entry>
@@ -811,8 +838,8 @@
     <url>%2F2019%2F09%2F27%2F%E6%9C%AA%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%B4%AF%E5%8A%A0%E5%92%8C%E4%B8%BA%E7%BB%99%E5%AE%9A%E5%80%BC%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E6%95%B0%E7%BB%84%E7%B3%BB%E5%88%97%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[原题给定一个无序数组,其中元素可正,可负,可0.给定一个整数k,求arr所有的子数组中累加和为k的最长子数组长度. 12345678910111213141516171819int maxLength(vector&lt;int&gt; &amp;arr, int k) &#123; if (arr.empty()) &#123; return 0; &#125; map&lt;int, int&gt; mp; mp[0] = -1; int len = 0; int sum = 0; for (int i = 0; i &lt; arr.size(); i++) &#123; sum += arr[i]; if (mp.find(sum - k) != mp.end()) &#123; len = max(len, i - mp[sum - k]); &#125; if (mp.find(sum) == mp.end()) &#123; mp[sum] = i; &#125; &#125; return len;&#125; 补充题1补充题2类似题138. 子数组之和给定一个整数数组，找到和为零的子数组。你的代码应该返回满足要求的子数组的起始位置和结束位置 样例 样例 1: 123输入: [-3, 1, 2, -3, 4]输出: [0,2] 或 [1,3] 样例解释： 返回任意一段和为0的区间即可。 样例 2: 12输入: [-3, 1, -4, 2, -3, 4]输出: [1,5] 样例 3: 12输入: [3,4,5,6,-3,-4,-5,-6]输出: [0,7] 样例 4: 12输入: [1,0,-1]输出: [1,1] 注意事项: 至少有一个子数组的和为 0 1234567891011121314151617181920212223242526272829303132class Solution &#123;public: /** * @param nums: A list of integers * @return: A list of integers includes the index of the first number and the index of the last number */ vector&lt;int&gt; subarraySum(vector&lt;int&gt; &amp;nums) &#123; // write your code here if(nums.empty())&#123; return &#123;&#125;; &#125; int sum = 0; vector&lt;int&gt; res; map&lt;int, int&gt; mp; for(int i=0;i&lt;nums.size();++i)&#123; sum += nums[i]; if(sum == 0)&#123; res.push_back(0); res.push_back(i); return res; &#125; if(mp.find(sum)!=mp.end())&#123; res.push_back(mp[sum]+1); res.push_back(i); return res; &#125; mp[sum] = i; &#125; return res; &#125;&#125;; 此题与上题的相似之处在于:需要用到相同的结论:s[i]= arr[0] + arr[1] +…+arr[i]s[j]= arr[0] + arr[1] +…+arr[j]假设i &gt; j,则s[i] - s[j] = arr[j+1] + arr[j+2] + … + arr[i] 复杂度分析 理论上, 时间复杂度为O(n).但实际实现时,时间复杂度为O(nlogn).因为map的find方法查找一个数的时间复杂度为O(logn)空间复杂度为O(n) 题目来源: leetcode 560. Subarray Sum Equals K930 binary subarrays with sum另有使用三指针的解法,可以尝试看看试用否,三指针解法时间复杂度为O(n),空间复杂度为O(1),是最优解法]]></content>
       <tags>
-        <tag>leetcode</tag>
         <tag>累积和</tag>
+        <tag>leetcode</tag>
         <tag>程序员代码面试指南</tag>
       </tags>
   </entry>
@@ -876,8 +903,8 @@
     <url>%2F2019%2F09%2F27%2F%E5%8F%98%E5%BD%A2%E8%AF%8D%E7%B3%BB%E5%88%97%2F</url>
     <content type="text"><![CDATA[此类题比较麻烦，但其实并不难。 242. Valid Anagram49. Group Anagrams找出可以通过改变一个字母变成其他单词的单词许多单词都和另外一些单词想死。例如，通过改变第1个字母，单词wine可以变成dine，fine，line，mine，pine或vine。通过改变第3个字母可以变成wide，wife，wipe或wire以及其他一些单词。通过改变第4个字母可以变成wind，wing，wink或wins以及其他一些单词。我们想要编写一个程序来找出通过单个字母的替换变成至少15个其他单词的单词。假设有一本字典，由大约89000个各种长度的不同单词组成。大部分单词在6到11个字母之间。其中6字母单词8205个，7字母单词11989个，8字母单词13672个，9字母单词13014个，10字母单词11297个，11字母单词8617个。题目来源：数据结构与算法分析(c++语言描述，第4版) p144。]]></content>
       <tags>
-        <tag>leetcode</tag>
         <tag>字符串</tag>
+        <tag>leetcode</tag>
       </tags>
   </entry>
   <entry>
@@ -898,6 +925,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[类型转换系列2]]></title>
+    <url>%2F2019%2F09%2F27%2F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%972%2F</url>
+    <content type="text"><![CDATA[对于类类型的类型转换,通过定义类型转换运算符完成.转换构造函数和类型转换运算符共同定义了类类型转换.类型转换运算符没有显式的返回类型,也没有星灿,而且必须定义成类的成员函数.类型转换运算符一般不改变待转换对象的内容.因此,类型转换运算符一般是const的. 123456789101112131415161718192021222324252627282930/** * SmallInt既定义了向类类型的转换,也定义了从类类型向其他类型的转换 * 构造函数将算类型的值转换成SmallInt类型对象,类型转换运算符将SmallInt对象转换成int */class SmallInt &#123;public: SmallInt(int i = 0) : val(i) &#123; if (i &lt; 0 || i &gt; 255) &#123; throw std::out_of_range("Bad SmallInt value"); &#125; &#125; // 类型转换运算符:把类类型SmallInt转成int类型 operator int() const &#123; return val; &#125;private: std::size_t val;&#125;;int main()&#123; SmallInt s = 4; // s是一个SmallInt类型对象,val=4 cout &lt;&lt; s + 4 &lt;&lt; endl; // 8 SmallInt si = 3.14; // si是一个SmallInt类型对象,val=3 cout &lt;&lt; si + 3.14 &lt;&lt; endl; // 6 return 0;&#125; SmallInt s = 4首先将4隐式地转换为SmallInt,然后调用SmallInt::operator=(拷贝赋值运算符). s + 4首先将s隐式地转换成int,然后执行整数的加法 si = 3.14, 首先内置类型转换将double实参转换成int,然后再调用SmallInt(int)构造函数 在表达式si + 3.14中, 首先SmallInt类型转换运算符将si转换成3,然后内置类型转换将所得int继续转换为double. 编译器一次只能执行一个用户定义的类型转换,但是隐式的用户定义类型转换可以置于一个标准类型转换之前或之后]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>类类型隐式转换</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[void*指针]]></title>
     <url>%2F2019%2F09%2F27%2Fvoid*%E6%8C%87%E9%92%88%2F</url>
     <content type="text"><![CDATA[void*是一种特殊的指针类型,可以用于存放任意类型的对象地址.但是我们不知道该指针着存放的地址指向的对象的类型. 1234int d = 102;void *p = &amp;d;int *pa = static_cast&lt;int *&gt;(p);cout &lt;&lt; *pa &lt;&lt; endl; // 102 将指针p强制为int*类型,强制转换过程中应该确保指针的值即指针指向的对象地址不变; 因此我们进行强制转换时,必须确保转换的目标类型就是指针所指的类型,否则,将产生未定义的结果. 那么什么时候使用void*指针呢?未完待续]]></content>
@@ -910,23 +948,17 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[类型转换系列2]]></title>
-    <url>%2F2019%2F09%2F27%2F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%972%2F</url>
-    <content type="text"><![CDATA[对于类类型的类型转换,通过定义类型转换运算符完成.转换构造函数和类型转换运算符共同定义了类类型转换.类型转换运算符没有显式的返回类型,也没有星灿,而且必须定义成类的成员函数.类型转换运算符一般不改变待转换对象的内容.因此,类型转换运算符一般是const的. 123456789101112131415161718192021222324252627282930/** * SmallInt既定义了向类类型的转换,也定义了从类类型向其他类型的转换 * 构造函数将算类型的值转换成SmallInt类型对象,类型转换运算符将SmallInt对象转换成int */class SmallInt &#123;public: SmallInt(int i = 0) : val(i) &#123; if (i &lt; 0 || i &gt; 255) &#123; throw std::out_of_range("Bad SmallInt value"); &#125; &#125; // 类型转换运算符:把类类型SmallInt转成int类型 operator int() const &#123; return val; &#125;private: std::size_t val;&#125;;int main()&#123; SmallInt s = 4; // s是一个SmallInt类型对象,val=4 cout &lt;&lt; s + 4 &lt;&lt; endl; // 8 SmallInt si = 3.14; // si是一个SmallInt类型对象,val=3 cout &lt;&lt; si + 3.14 &lt;&lt; endl; // 6 return 0;&#125; SmallInt s = 4首先将4隐式地转换为SmallInt,然后调用SmallInt::operator=(拷贝赋值运算符). s + 4首先将s隐式地转换成int,然后执行整数的加法 si = 3.14, 首先内置类型转换将double实参转换成int,然后再调用SmallInt(int)构造函数 在表达式si + 3.14中, 首先SmallInt类型转换运算符将si转换成3,然后内置类型转换将所得int继续转换为double. 编译器一次只能执行一个用户定义的类型转换,但是隐式的用户定义类型转换可以置于一个标准类型转换之前或之后]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>类类型隐式转换</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[正则表达式匹配]]></title>
     <url>%2F2019%2F09%2F27%2F%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8C%B9%E9%85%8D%2F</url>
     <content type="text"><![CDATA[请实现一个函数用来匹配包括’.’和’‘的正则表达式。模式中的字符’.’表示任意一个字符，而’‘表示它前面的字符可以出现任意次（包含0次）。 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串”aaa”与模式”a.a”和”abaca”匹配，但是与”aa.a”和”ab*a”均不匹配 题目链接 1234567891011121314151617181920212223242526272829class Solution &#123;public: bool match(char* str, char* pattern) &#123; if(str == nullptr || pattern == nullptr)&#123; return false; &#125; return matchCore(str, pattern); &#125; bool matchCore(char *str, char* pattern)&#123; if(*str == '\0' &amp;&amp; *pattern == '\0')&#123; return true; &#125; if(str != '\0' &amp;&amp; pattern == '\0')&#123; return false; &#125; if(*(pattern+1)=='*')&#123; if(*pattern == *str || (*pattern == '.' &amp;&amp; *str != '\0'))&#123; return matchCore(str + 1, pattern + 2) // *匹配1个前向字符, 如a*b匹配aab || matchCore(str + 1, pattern) // *匹配多个前向字符, 如a*b匹配aaab || matchCore(str, pattern + 2);// *匹配0个前向字符， 如a*b 匹配ab &#125; return matchCore(str, pattern + 2); // *str与*pattern不等，*匹配0个前向字符 &#125; if(*str == *pattern || (*pattern == '.' &amp;&amp; *str != '\0')) //当前字符的下一个字符不是* return matchCore(str + 1, pattern + 1); return false; &#125;&#125;; 相似题目: Simplify Path]]></content>
       <tags>
         <tag>剑指offer</tag>
       </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[寻找下一个节点]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%AF%BB%E6%89%BE%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%2F</url>
+    <content type="text"><![CDATA[链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继返回-1。]]></content>
   </entry>
   <entry>
     <title><![CDATA[可调用对象]]></title>
@@ -940,9 +972,13 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[寻找下一个节点]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%AF%BB%E6%89%BE%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%2F</url>
-    <content type="text"><![CDATA[链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继返回-1。]]></content>
+    <title><![CDATA[二叉树的下一个结点]]></title>
+    <url>%2F2019%2F09%2F27%2F%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E7%BB%93%E7%82%B9%2F</url>
+    <content type="text"><![CDATA[给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。 题目链接:https://www.nowcoder.com/questionTerminal/9023a0c988684a53960365b889ceaf5e 相关题目:寻找下一个节点]]></content>
+      <tags>
+        <tag>牛客网</tag>
+        <tag>binary tree</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[并查集基础知识]]></title>
@@ -951,15 +987,6 @@
       <tags>
         <tag>基础算法</tag>
         <tag>理论</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[二叉树的下一个结点]]></title>
-    <url>%2F2019%2F09%2F27%2F%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E7%BB%93%E7%82%B9%2F</url>
-    <content type="text"><![CDATA[给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。 题目链接:https://www.nowcoder.com/questionTerminal/9023a0c988684a53960365b889ceaf5e 相关题目:寻找下一个节点]]></content>
-      <tags>
-        <tag>牛客网</tag>
-        <tag>binary tree</tag>
       </tags>
   </entry>
   <entry>

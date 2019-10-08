@@ -87,7 +87,7 @@
 <meta property="og:description" content="fork和vfork">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/home/xixi2/.config/Typora/typora-user-images/1566478650926.png">
-<meta property="og:updated_time" content="2019-10-07T07:33:08.573Z">
+<meta property="og:updated_time" content="2019-10-07T08:22:00.102Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="fork和vfork">
 <meta name="twitter:description" content="fork和vfork">
@@ -325,7 +325,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-07T15:33:08+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-07T16:22:00+08:00">
                 2019-10-07
               </time>
             
@@ -416,7 +416,7 @@
 </ul>
 <p>子进程执行代码开始位置<br>fork可以创建一个子进程并完全复制父进程,但是子进程是从fork后面那条指令开始执行的.如果子进程也从main开始执行所有指令,那么它执行到fork指令时必然会创建一个新的子进程. 从而导致不停地创建子进程,程序永不结束。</p>
 <h1 id="vfork"><a href="#vfork" class="headerlink" title="vfork"></a>vfork</h1><p>vfork函数用于创建一个新进程，而该新进程的目的是exec一个新程序。vfork和fork一样都创建子进程，但是它并不将父进程的地址空间完全复制到子进程中，因为子进程会立即调用exec(或exit)，于是也就不会引用该地址空间。不过在子进程调用exec或exit之前，它<span style="color:cornflowerblue">在父进程的地址空间中运行</span>。</p>
-<p>fork和vfork的另一个区别是：vfork保证子进程先运行，在它调用exec或exit之后父进程才可能被调用运行。在子进程调用这两个函数中的任意一个时，父进程会恢复运行(如果在调用这两个函数之前子进程依赖于父进程的进一步动作，则会导致死锁)。</p>
+<p>fork和vfork的另一个区别是：<span style="color:cornflowerblue">vfork保证子进程先运行</span>，在它调用exec或exit之后父进程才可能被调用运行。在子进程调用这两个函数中的任意一个时，父进程会恢复运行(如果在调用这两个函数之前子进程依赖于父进程的进一步动作，则会导致死锁)。</p>
 <h2 id="fork示例"><a href="#fork示例" class="headerlink" title="fork示例"></a>fork示例</h2><h3 id="fork创建子进程"><a href="#fork创建子进程" class="headerlink" title="fork创建子进程"></a>fork创建子进程</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">pid_t</span> pid;</span><br><span class="line">    <span class="built_in">string</span> message;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"fork program starting"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    pid = fork();</span><br><span class="line">    <span class="keyword">switch</span> (pid) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">-1</span>:</span><br><span class="line">            perror(<span class="string">"fork failed"</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">            message = <span class="string">"this is the child"</span>;</span><br><span class="line">            n = <span class="number">5</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            message = <span class="string">"this is the parent"</span>;</span><br><span class="line">            n = <span class="number">3</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (; n &gt; <span class="number">0</span>; --n) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; message &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        sleep(<span class="number">3</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>运行结果</p>
@@ -486,8 +486,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/07/fork和vfork/" rel="next" title="fork和vfork">
-                <i class="fa fa-chevron-left"></i> fork和vfork
+              <a href="/2019/10/07/560.-Subarray-Sum-Equals-K/" rel="next" title="560. Subarray Sum Equals K">
+                <i class="fa fa-chevron-left"></i> 560. Subarray Sum Equals K
               </a>
             
           </div>
@@ -496,8 +496,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/10/07/memmove与memcopy/" rel="prev" title="memmove与memcpy">
-                memmove与memcpy <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/07/523.Continuous-Subarray-Sum/" rel="prev" title="523. Continuous Subarray Sum">
+                523. Continuous Subarray Sum <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -577,7 +577,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">111</span>
+                  <span class="site-state-item-count">113</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -588,7 +588,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -599,7 +599,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">91</span>
+                  <span class="site-state-item-count">92</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
