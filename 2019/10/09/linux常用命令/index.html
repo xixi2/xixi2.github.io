@@ -83,11 +83,11 @@
 <meta name="keywords" content="awk,grep,sed">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux常用命令">
-<meta property="og:url" content="http://yoursite.com/2019/10/08/linux常用命令/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/10/09/linux常用命令/index.html">
 <meta property="og:site_name" content="xixi2">
 <meta property="og:description" content="linux常用命令有:grep, awk, ps等待．">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-08T15:13:15.132Z">
+<meta property="og:updated_time" content="2019-10-09T10:03:53.107Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux常用命令">
 <meta name="twitter:description" content="linux常用命令有:grep, awk, ps等待．">
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/10/08/linux常用命令/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/09/linux常用命令/">
 
 
 
@@ -295,7 +295,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/08/linux常用命令/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/09/linux常用命令/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -324,8 +324,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-08T23:13:15+08:00">
-                2019-10-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-09T18:03:53+08:00">
+                2019-10-09
               </time>
             
 
@@ -397,6 +397,140 @@
 <p>ls -F 在列出的文件名称后加一符号；例如可执行档则加 “*”, 目录则加 “/“，“@”表示符号链接，“|”表示命令管道FIFO，“=”表示sockets套接字。当文件为普通文件时，不输出任何标识符</p>
 </li>
 </ul>
+<h1 id="touch"><a href="#touch" class="headerlink" title="touch"></a>touch</h1><p>touch可以创建一个空文件。同时该命令可以用于改变文件的修改时间。如果指定的文件不存在就创建它，否则就修改该文件的修改时间。但是该文件并不会将有内容的文件变为空文件。</p>
+<h1 id="cp"><a href="#cp" class="headerlink" title="cp"></a>cp</h1><p>复制空文件<br><span style="color:cornflowerblue">/dev/null是空设备</span>。所有写向这个文件的输出都将被丢弃，而读这个设备会立刻返回一个文件尾标志。所以在cp命令里可以把它用作复制空文件的源文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 复制空文件</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ sudo cp /dev/null null.txt</span><br><span class="line"></span><br><span class="line">xixi2@xixi2:~/liunx_prac$ ls -lF null.txt </span><br><span class="line">-rw-r--r-- 1 root root 0 10月  9 17:57 null.txt</span><br><span class="line"> </span><br><span class="line">xixi2@xixi2:~/liunx_prac$</span><br></pre></td></tr></table></figure>
+
+<h1 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h1><p>ps 命令是最常用的监控进程的命令，通过此命令可以查看系统中所有运行进程的详细信息。<br>ps 命令的基本格式如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>查看系统中所有的进程，使用 BS 操作系统格式</span><br><span class="line">[root@localhost ~]# ps aux</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>查看系统中所有的进程，使用 Linux 标准命令格式</span><br><span class="line">[root@localhost ~]# ps -le</span><br></pre></td></tr></table></figure>
+
+<p>选项：</p>
+<p><code>a</code>：显示一个终端的所有进程，除<span style="color:goldenrod">会话引线</span>外；<br><code>u</code>：显示进程的归属用户及内存的使用情况；<br><code>x</code>：显示没有控制终端的进程；<br><code>-l</code>：长格式显示更加详细的信息；<br><code>-e</code>：显示所有进程；</p>
+<p>可以看到，ps 命令有些与众不同，它的部分选项不能加入”-“，比如命令”ps aux”，其中”aux”是选项，但是前面不能带“-”。<br>大家如果执行 “man ps” 命令，则会发现 ps 命令的帮助为了适应不同的类 UNIX 系统，可用格式非常多，不方便记忆。所以，我建议大家记忆几个固定选项即可。比如：<br><span style="color:green">“ps aux” 可以查看系统中所有的进程</span>；
+<span style="color:green">“ps -le” 可以查看系统中所有的进程，而且还能看到进程的父进程的 PID 和进程优先级</span>；
+<span style="color:green">“ps -l” 只能看到当前 Shell 产生的进程</span>；</p>
+<h2 id="ps-aux"><a href="#ps-aux" class="headerlink" title="ps aux"></a>ps aux</h2><p>ps aux命令列出的各字段名及其含义</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 执行ps aux并输出其结果的前4行</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ ps aux |head -n 4</span><br><span class="line">USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span><br><span class="line">root         1  0.0  0.1 225552  9252 ?        Ss   16:11   0:03 /sbin/init splash</span><br><span class="line">root         2  0.0  0.0      0     0 ?        S    16:11   0:00 [kthreadd]</span><br><span class="line">root         3  0.0  0.0      0     0 ?        I&lt;   16:11   0:00 [rcu_gp]</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>表头</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>USER</td>
+<td>该进程是由哪个用户产生的。</td>
+</tr>
+<tr>
+<td>PID</td>
+<td>进程的 ID。</td>
+</tr>
+<tr>
+<td>%CPU</td>
+<td>该进程占用 CPU 资源的百分比，占用的百分比越高，进程越耗费资源。</td>
+</tr>
+<tr>
+<td>%MEM</td>
+<td>该进程占用物理内存的百分比，占用的百分比越高，进程越耗费资源。</td>
+</tr>
+<tr>
+<td>VSZ</td>
+<td>该进程占用虚拟内存的大小，单位为 KB。</td>
+</tr>
+<tr>
+<td>RSS</td>
+<td>该进程占用实际物理内存的大小，单位为 KB。</td>
+</tr>
+<tr>
+<td>TTY</td>
+<td>该进程是在哪个终端运行的。其中，tty1 ~ tty7 代表本地控制台终端（可以通过 Alt+F1 ~ F7 快捷键切换不同的终端），tty1~tty6 是本地的字符界面终端，tty7 是图形终端。pts/0 ~ 255 代表虚拟终端，一般是远程连接的终端，第一个远程连接占用 pts/0，第二个远程连接占用 pts/1，依次増长。</td>
+</tr>
+<tr>
+<td>STAT</td>
+<td>进程状态。常见的状态有以下几种：-D：不可被唤醒的睡眠状态，通常用于 I/O 情况。-R：该进程正在运行。-S：该进程处于睡眠状态，可被唤醒。-T：停止状态，可能是在后台暂停或进程处于除错状态。-W：内存交互状态（从 2.6 内核开始无效）。-X：死掉的进程（应该不会出现）。-Z：僵尸进程。进程已经中止，但是部分程序还在内存当中。-&lt;：高优先级（以下状态在 BSD 格式中出现）。-N：低优先级。-L：被锁入内存。-s：包含子进程。-l：多线程（小写 L）。-+：位于后台。</td>
+</tr>
+<tr>
+<td>START</td>
+<td>该进程的启动时间。</td>
+</tr>
+<tr>
+<td>TIME</td>
+<td>该进程占用 CPU 的运算时间，注意不是系统时间。</td>
+</tr>
+<tr>
+<td>COMMAND</td>
+<td>产生此进程的命令名。</td>
+</tr>
+</tbody></table>
+<h2 id="ps-le"><a href="#ps-le" class="headerlink" title="ps -le"></a>ps -le</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 执行ps -le并输出其结果的前4行</span><br><span class="line">xixi2@xixi2:~/liunx_prac$ ps -le | head -n 4</span><br><span class="line">F S   UID   PID  PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD</span><br><span class="line">4 S     0     1     0  0  80   0 - 56388 -      ?        00:00:03 systemd</span><br><span class="line">1 S     0     2     0  0  80   0 -     0 -      ?        00:00:00 kthreadd</span><br><span class="line">1 I     0     3     2  0  60 -20 -     0 -      ?        00:00:00 rcu_gp</span><br></pre></td></tr></table></figure>
+
+<p>各字段含义</p>
+<table>
+<thead>
+<tr>
+<th>表头</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>F</td>
+<td>进程标志，说明进程的权限，常见的标志有两个: 1：进程可以被复制，但是不能被执行；4：进程使用超级用户权限；</td>
+</tr>
+<tr>
+<td>S</td>
+<td>进程状态。具体的状态和”psaux”命令中的 STAT 状态一致；</td>
+</tr>
+<tr>
+<td>UID</td>
+<td>运行此进程的用户的 ID；</td>
+</tr>
+<tr>
+<td>PID</td>
+<td>进程的 ID；</td>
+</tr>
+<tr>
+<td>PPID</td>
+<td>父进程的 ID；</td>
+</tr>
+<tr>
+<td>C</td>
+<td>该进程的 CPU 使用率，单位是百分比；</td>
+</tr>
+<tr>
+<td>PRI</td>
+<td>进程的优先级，数值越小，该进程的优先级越高，越早被 CPU 执行；</td>
+</tr>
+<tr>
+<td>NI</td>
+<td>进程的优先级，数值越小，该进程越早被执行；</td>
+</tr>
+<tr>
+<td>ADDR</td>
+<td>该进程在内存的哪个位置；</td>
+</tr>
+<tr>
+<td>SZ</td>
+<td>该进程占用多大内存；</td>
+</tr>
+<tr>
+<td>WCHAN</td>
+<td>该进程是否运行。”-“代表正在运行；</td>
+</tr>
+<tr>
+<td>TTY</td>
+<td>该进程由哪个终端产生；</td>
+</tr>
+<tr>
+<td>TIME</td>
+<td>该进程占用 CPU 的运算时间，注意不是系统时间；</td>
+</tr>
+<tr>
+<td>CMD</td>
+<td>产生此进程的命令名；</td>
+</tr>
+</tbody></table>
 <h1 id="echo"><a href="#echo" class="headerlink" title="echo"></a>echo</h1><p><span style="color:royalblue">单引号</span>会把所有字符看作是普通字符，<span style="color:royalblue">双引号</span>会无视通配符，但是会解释”$”，”&quot;，”`”这三种特殊符号，<span style="color:royalblue">不加引号</span>则会解释所有特殊字符。</p>
 <h1 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h1><ul>
 <li><code>grep --color</code>选项，高亮要查找的字符串．<br>如，在/etc/passwd文件中查找某个字符串出现的行</li>
@@ -613,6 +747,9 @@ sed的命令格式：</p>
 <h1 id="date"><a href="#date" class="headerlink" title="date"></a>date</h1><p>日期换算：距离1970-01-01这个日期15775天的日期是哪一天？</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">date -d "1970-01-01 15775 days"</span><br><span class="line">2013年03月11日 星期一 00:00:00 CST</span><br></pre></td></tr></table></figure>
 
+<h1 id="真实案例"><a href="#真实案例" class="headerlink" title="真实案例"></a>真实案例</h1><ol>
+<li>如何将父目录中的所有文件，不包括子文件夹拷贝到某个子目录中</li>
+</ol>
 <h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]grep: <a href="http://c.biancheng.net/linux/grep.html">http://c.biancheng.net/linux/grep.html</a><br>[2]find: <a href="http://c.biancheng.net/view/779.html">http://c.biancheng.net/view/779.html</a><br>[3]find: <a href="https://www.runoob.com/linux/linux-comm-find.html">https://www.runoob.com/linux/linux-comm-find.html</a><br>[4]图解linux最常用命令: <a href="https://mp.weixin.qq.com/s/Sq6OZyr2LgseUdOZROzoZg">https://mp.weixin.qq.com/s/Sq6OZyr2LgseUdOZROzoZg</a></p>
 
       
@@ -648,8 +785,8 @@ sed的命令格式：</p>
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/08/move语义/" rel="next" title="move语义">
-                <i class="fa fa-chevron-left"></i> move语义
+              <a href="/2019/10/09/linux中的5种IO模型/" rel="next" title="linux中的5种IO模型">
+                <i class="fa fa-chevron-left"></i> linux中的5种IO模型
               </a>
             
           </div>
@@ -658,8 +795,8 @@ sed的命令格式：</p>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/10/09/mysql日志/" rel="prev" title="mysql日志">
-                mysql日志 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/09/unix-高级环境编程系列2/" rel="prev" title="unix 高级环境编程系列2">
+                unix 高级环境编程系列2 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -739,7 +876,7 @@ sed的命令格式：</p>
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">117</span>
+                  <span class="site-state-item-count">118</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -794,7 +931,7 @@ sed的命令格式：</p>
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ls"><span class="nav-number">1.</span> <span class="nav-text">ls</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#echo"><span class="nav-number">2.</span> <span class="nav-text">echo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#grep"><span class="nav-number">3.</span> <span class="nav-text">grep</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式"><span class="nav-number">3.1.</span> <span class="nav-text">正则表达式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#awk"><span class="nav-number">4.</span> <span class="nav-text">awk</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sort"><span class="nav-number">5.</span> <span class="nav-text">sort</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#xargs"><span class="nav-number">6.</span> <span class="nav-text">xargs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cut"><span class="nav-number">7.</span> <span class="nav-text">cut</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#例子"><span class="nav-number">7.1.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#识别空格和制表符"><span class="nav-number">7.2.</span> <span class="nav-text">识别空格和制表符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ps和cut一起使用时出现的重复现象"><span class="nav-number">7.3.</span> <span class="nav-text">ps和cut一起使用时出现的重复现象</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sed"><span class="nav-number">8.</span> <span class="nav-text">sed</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#command"><span class="nav-number">8.1.</span> <span class="nav-text">command</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#options"><span class="nav-number">8.2.</span> <span class="nav-text">options</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令"><span class="nav-number">8.3.</span> <span class="nav-text">命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#替换标记"><span class="nav-number">8.4.</span> <span class="nav-text">替换标记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">8.5.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#全局文本替换"><span class="nav-number">8.5.1.</span> <span class="nav-text">全局文本替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更改定界符"><span class="nav-number">8.5.2.</span> <span class="nav-text">更改定界符/</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按行查找替换"><span class="nav-number">8.5.3.</span> <span class="nav-text">按行查找替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除d"><span class="nav-number">8.5.4.</span> <span class="nav-text">删除d</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加行"><span class="nav-number">8.5.5.</span> <span class="nav-text">添加行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改命令c"><span class="nav-number">8.5.6.</span> <span class="nav-text">修改命令c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#i选项修改原文件"><span class="nav-number">8.5.7.</span> <span class="nav-text">-i选项修改原文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#find"><span class="nav-number">9.</span> <span class="nav-text">find</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#du"><span class="nav-number">10.</span> <span class="nav-text">du</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dd"><span class="nav-number">11.</span> <span class="nav-text">dd</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#date"><span class="nav-number">12.</span> <span class="nav-text">date</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">13.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ls"><span class="nav-number">1.</span> <span class="nav-text">ls</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#touch"><span class="nav-number">2.</span> <span class="nav-text">touch</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cp"><span class="nav-number">3.</span> <span class="nav-text">cp</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ps"><span class="nav-number">4.</span> <span class="nav-text">ps</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ps-aux"><span class="nav-number">4.1.</span> <span class="nav-text">ps aux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ps-le"><span class="nav-number">4.2.</span> <span class="nav-text">ps -le</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#echo"><span class="nav-number">5.</span> <span class="nav-text">echo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#grep"><span class="nav-number">6.</span> <span class="nav-text">grep</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式"><span class="nav-number">6.1.</span> <span class="nav-text">正则表达式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#awk"><span class="nav-number">7.</span> <span class="nav-text">awk</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sort"><span class="nav-number">8.</span> <span class="nav-text">sort</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#xargs"><span class="nav-number">9.</span> <span class="nav-text">xargs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cut"><span class="nav-number">10.</span> <span class="nav-text">cut</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#例子"><span class="nav-number">10.1.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#识别空格和制表符"><span class="nav-number">10.2.</span> <span class="nav-text">识别空格和制表符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ps和cut一起使用时出现的重复现象"><span class="nav-number">10.3.</span> <span class="nav-text">ps和cut一起使用时出现的重复现象</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sed"><span class="nav-number">11.</span> <span class="nav-text">sed</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#command"><span class="nav-number">11.1.</span> <span class="nav-text">command</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#options"><span class="nav-number">11.2.</span> <span class="nav-text">options</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令"><span class="nav-number">11.3.</span> <span class="nav-text">命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#替换标记"><span class="nav-number">11.4.</span> <span class="nav-text">替换标记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">11.5.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#全局文本替换"><span class="nav-number">11.5.1.</span> <span class="nav-text">全局文本替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更改定界符"><span class="nav-number">11.5.2.</span> <span class="nav-text">更改定界符/</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按行查找替换"><span class="nav-number">11.5.3.</span> <span class="nav-text">按行查找替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除d"><span class="nav-number">11.5.4.</span> <span class="nav-text">删除d</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加行"><span class="nav-number">11.5.5.</span> <span class="nav-text">添加行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改命令c"><span class="nav-number">11.5.6.</span> <span class="nav-text">修改命令c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#i选项修改原文件"><span class="nav-number">11.5.7.</span> <span class="nav-text">-i选项修改原文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#find"><span class="nav-number">12.</span> <span class="nav-text">find</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#du"><span class="nav-number">13.</span> <span class="nav-text">du</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dd"><span class="nav-number">14.</span> <span class="nav-text">dd</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#date"><span class="nav-number">15.</span> <span class="nav-text">date</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#真实案例"><span class="nav-number">16.</span> <span class="nav-text">真实案例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">17.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>
