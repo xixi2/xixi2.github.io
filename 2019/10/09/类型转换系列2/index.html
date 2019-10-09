@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="类类型隐式转换,">
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="此文档总结一些易忘记和易混淆的基础概念。">
+<meta name="description" content="对于类类型的类型转换,通过定义类型转换运算符完成.转换构造函数和类型转换运算符共同定义了类类型转换.类型转换运算符没有显式的返回类型,也没有星灿,而且必须定义成类的成员函数.类型转换运算符一般不改变待转换对象的内容.因此,类型转换运算符一般是const的.">
+<meta name="keywords" content="类类型隐式转换">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CS中一些易混淆和忘记的基本概念">
-<meta property="og:url" content="http://yoursite.com/2019/09/29/C++中一些易混淆和忘记的基本概念/index.html">
+<meta property="og:title" content="类型转换系列2">
+<meta property="og:url" content="http://yoursite.com/2019/10/09/类型转换系列2/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="此文档总结一些易忘记和易混淆的基础概念。">
+<meta property="og:description" content="对于类类型的类型转换,通过定义类型转换运算符完成.转换构造函数和类型转换运算符共同定义了类类型转换.类型转换运算符没有显式的返回类型,也没有星灿,而且必须定义成类的成员函数.类型转换运算符一般不改变待转换对象的内容.因此,类型转换运算符一般是const的.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-29T13:33:41.270Z">
+<meta property="og:updated_time" content="2019-10-09T13:33:08.765Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CS中一些易混淆和忘记的基本概念">
-<meta name="twitter:description" content="此文档总结一些易忘记和易混淆的基础概念。">
+<meta name="twitter:title" content="类型转换系列2">
+<meta name="twitter:description" content="对于类类型的类型转换,通过定义类型转换运算符完成.转换构造函数和类型转换运算符共同定义了类类型转换.类型转换运算符没有显式的返回类型,也没有星灿,而且必须定义成类的成员函数.类型转换运算符一般不改变待转换对象的内容.因此,类型转换运算符一般是const的.">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/09/29/C++中一些易混淆和忘记的基本概念/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/09/类型转换系列2/">
 
 
 
 
 
-  <title>CS中一些易混淆和忘记的基本概念 | xixi2</title>
+  <title>类型转换系列2 | xixi2</title>
   
 
 
@@ -294,7 +295,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/29/C++中一些易混淆和忘记的基本概念/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/09/类型转换系列2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -311,7 +312,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">CS中一些易混淆和忘记的基本概念</h1>
+          <h1 class="post-title" itemprop="name headline">类型转换系列2</h1>
         
 
         <div class="post-meta">
@@ -323,8 +324,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-29T21:33:41+08:00">
-                2019-09-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-09T21:33:08+08:00">
+                2019-10-09
               </time>
             
 
@@ -346,8 +347,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CS基础/" itemprop="url" rel="index">
-                    <span itemprop="name">CS基础</span>
+                  <a href="/categories/C-基础知识/" itemprop="url" rel="index">
+                    <span itemprop="name">C++基础知识</span>
                   </a>
                 </span>
 
@@ -388,10 +389,24 @@
       
 
       
-        <p>此文档总结一些易忘记和易混淆的基础概念。</p>
+        <p>对于类类型的类型转换,通过定义<strong>类型转换运算符</strong>完成.转换构造函数和类型转换运算符共同定义了类类型转换.类型转换运算符没有显式的返回类型,也没有星灿,而且必须定义成类的成员函数.类型转换运算符一般不改变待转换对象的内容.因此,类型转换运算符一般是const的.</p>
 <a id="more"></a>
 
-<h1 id="顶层const与底层const"><a href="#顶层const与底层const" class="headerlink" title="顶层const与底层const"></a>顶层const与底层const</h1><h1 id="大端和小端存储方式"><a href="#大端和小端存储方式" class="headerlink" title="大端和小端存储方式"></a>大端和小端存储方式</h1><h1 id="二叉树的高度和深度"><a href="#二叉树的高度和深度" class="headerlink" title="二叉树的高度和深度"></a>二叉树的高度和深度</h1><p>根节点到任一节点的路径长度，即该节点的深度。根节点的深度是0。<br>某个节点即其最深叶子节点的路径长度即高节点的高度。叶子节点的高度为0。整棵树的高度即根节点的高度。</p>
+<h1 id="类型转换运算符函数"><a href="#类型转换运算符函数" class="headerlink" title="类型转换运算符函数"></a>类型转换运算符函数</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * SmallInt既定义了向类类型的转换,也定义了从类类型向其他类型的转换</span></span><br><span class="line"><span class="comment"> * 构造函数将算类型的值转换成SmallInt类型对象,类型转换运算符将SmallInt对象转换成int</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SmallInt</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    SmallInt(<span class="keyword">int</span> i = <span class="number">0</span>) : val(i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; <span class="number">0</span> || i &gt; <span class="number">255</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="built_in">std</span>::out_of_range(<span class="string">"Bad SmallInt value"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 类型转换运算符:把类类型SmallInt转成int类型</span></span><br><span class="line">    <span class="function"><span class="keyword">operator</span> <span class="title">int</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> val; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">std</span>::<span class="keyword">size_t</span> val;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SmallInt s = <span class="number">4</span>; <span class="comment">// s是一个SmallInt类型对象,val=4</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; s + <span class="number">4</span> &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 8</span></span><br><span class="line">    </span><br><span class="line">    SmallInt si = <span class="number">3.14</span>; <span class="comment">// si是一个SmallInt类型对象,val=3</span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; si + <span class="number">3.14</span> &lt;&lt; <span class="built_in">endl</span>;    <span class="comment">// 6</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>SmallInt s = 4首先将4隐式地转换为SmallInt,然后调用SmallInt::operator=(拷贝赋值运算符).</p>
+</li>
+<li><p>s + 4首先将s隐式地转换成int,然后执行整数的加法</p>
+</li>
+<li><p>si = 3.14, 首先内置类型转换将double实参转换成int,然后再调用SmallInt(int)构造函数</p>
+</li>
+<li><p>在表达式si + 3.14中, 首先SmallInt类型转换运算符将si转换成3,然后内置类型转换将所得int继续转换为double.</p>
+<ul>
+<li>编译器一次只能执行一个用户定义的类型转换,但是隐式的用户定义类型转换可以置于一个标准类型转换之前或之后</li>
+</ul>
+</li>
+</ul>
 
       
     </div>
@@ -407,6 +422,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/类类型隐式转换/" rel="tag"># 类类型隐式转换</a>
+          
+        </div>
+      
 
       
       
@@ -416,8 +437,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/29/堆/" rel="next" title="堆">
-                <i class="fa fa-chevron-left"></i> 堆
+              <a href="/2019/10/09/CS中一些易混淆和忘记的基本概念/" rel="next" title="CS中一些易混淆和忘记的基本概念">
+                <i class="fa fa-chevron-left"></i> CS中一些易混淆和忘记的基本概念
               </a>
             
           </div>
@@ -426,8 +447,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/09/29/703.-Kth-Largest-Element-in-a-Stream/" rel="prev" title="703. Kth Largest Element in a Stream">
-                703. Kth Largest Element in a Stream <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/09/类型转换系列１/" rel="prev" title="类型转换系列1">
+                类型转换系列1 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -562,7 +583,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#顶层const与底层const"><span class="nav-number">1.</span> <span class="nav-text">顶层const与底层const</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#大端和小端存储方式"><span class="nav-number">2.</span> <span class="nav-text">大端和小端存储方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二叉树的高度和深度"><span class="nav-number">3.</span> <span class="nav-text">二叉树的高度和深度</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#类型转换运算符函数"><span class="nav-number">1.</span> <span class="nav-text">类型转换运算符函数</span></a></li></ol></div>
             
 
           </div>

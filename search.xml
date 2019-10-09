@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[类型转换系列1]]></title>
+    <url>%2F2019%2F10%2F09%2F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%97%EF%BC%91%2F</url>
+    <content type="text"><![CDATA[类型转换 旧式转型有两种常见的形式： 12T(expression)(T)expression 四种新式转型：cast-name&lt;type&gt;(expression)，type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。旧式转换表面上功能强大，但是转化时不够明确，不能进行错误检查，容易出错。 const_cast通常被用来将对象的常量性移除.即将const对象转为非const对象。 dynamic_cast 主要用来执行“安全向下转型”,也就是用来决定某对象是否归属继承体系中的某个类型. 用于动态类型转换，只能用于含有虚函数的类，用于类层次间的向上和向下转化．只能转指针或引用．向下转化时，如果是非法的，对于指针返回nullptr，对于引用抛出异常． 向上转换：子类向基类的转换 向下转换：基类向子类的转换 它通过判断在执行到该语句的时候变量的运行时类型和要转换的类型是否相同来判断是否能够进行向下转换． 它是唯一无法由旧式语法执行的动作,也是唯一可能耗费重大运行成本的转型动作. reinterpret_cast意图执行低级转型,实际动作(及结果)可能取决于编译器,这也就表示它不可移植.例如将一个pointer to int转型为一个int. 这一类型在低级代码以外很少见。 static_cast用来强迫隐式转换 将non-const对象转为const对象 (不能隐式地将一个左值转换为一个右值引用，但是可以)使用static_cast可以显式地将一个左值转换为一个右值引用 或将int转为double 用于多态向上转化，如果向下转型能成功但是不安全，结果未知 也可以用来执行上述多种转换的反向转换 将void*指针转为typed指针 将point-to-base转为pointer-to-derived。 但它无法将const转为non-const,这个只有const_cast才办得到。 参考文献 [1]更深入理解reinterpret_cast：https://www.cnblogs.com/ider/archive/2011/07/30/cpp_cast_operator_part3.html]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>static_cast</tag>
+        <tag>类型转换</tag>
+        <tag>显示转换</tag>
+        <tag>cast</tag>
+        <tag>const_cast</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[类型转换系列2]]></title>
+    <url>%2F2019%2F10%2F09%2F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%972%2F</url>
+    <content type="text"><![CDATA[对于类类型的类型转换,通过定义类型转换运算符完成.转换构造函数和类型转换运算符共同定义了类类型转换.类型转换运算符没有显式的返回类型,也没有星灿,而且必须定义成类的成员函数.类型转换运算符一般不改变待转换对象的内容.因此,类型转换运算符一般是const的. 类型转换运算符函数123456789101112131415161718192021222324252627282930/** * SmallInt既定义了向类类型的转换,也定义了从类类型向其他类型的转换 * 构造函数将算类型的值转换成SmallInt类型对象,类型转换运算符将SmallInt对象转换成int */class SmallInt &#123;public: SmallInt(int i = 0) : val(i) &#123; if (i &lt; 0 || i &gt; 255) &#123; throw std::out_of_range("Bad SmallInt value"); &#125; &#125; // 类型转换运算符:把类类型SmallInt转成int类型 operator int() const &#123; return val; &#125;private: std::size_t val;&#125;;int main()&#123; SmallInt s = 4; // s是一个SmallInt类型对象,val=4 cout &lt;&lt; s + 4 &lt;&lt; endl; // 8 SmallInt si = 3.14; // si是一个SmallInt类型对象,val=3 cout &lt;&lt; si + 3.14 &lt;&lt; endl; // 6 return 0;&#125; SmallInt s = 4首先将4隐式地转换为SmallInt,然后调用SmallInt::operator=(拷贝赋值运算符). s + 4首先将s隐式地转换成int,然后执行整数的加法 si = 3.14, 首先内置类型转换将double实参转换成int,然后再调用SmallInt(int)构造函数 在表达式si + 3.14中, 首先SmallInt类型转换运算符将si转换成3,然后内置类型转换将所得int继续转换为double. 编译器一次只能执行一个用户定义的类型转换,但是隐式的用户定义类型转换可以置于一个标准类型转换之前或之后]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>类类型隐式转换</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[CS中一些易混淆和忘记的基本概念]]></title>
+    <url>%2F2019%2F10%2F09%2FCS%E4%B8%AD%E4%B8%80%E4%BA%9B%E6%98%93%E6%B7%B7%E6%B7%86%E5%92%8C%E5%BF%98%E8%AE%B0%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%2F</url>
+    <content type="text"><![CDATA[此文档总结一些易忘记和易混淆的基础概念。 顶层const与底层const顶层const是指任意对象是const，而底层const指的是指针或引用的基本数据类型是const。简单来说 12345678const int a = 1; // 顶层constconst double b = 0.0; // 顶层constint *const ip = &amp;a; // 顶层const，ip本身是常量指针，不能指向其他变量了double *const dp =&amp;b; // 顶层const，dp本身是常量指针，不能指向其他变量了const int* ip1 = &amp;a; // 底层const，说明ip1指向的是常量，且ip1只能指向常量，但是ip1可以指向其他常量const double *dp1 = &amp;b; // 底层const，说明dp1指向的是常量，且dp1只能指向常量，但是dp1可以指向其他常量 大端和小端存储方式大端方式：高位字节放在低位地址。小端方式：低位字节放在高位方式。对于16进制数0x12345678，大端方式存储时内存分布如图1(左边)，小端方式存储如图2(右边)。 大端和小端方式的检测方法一先说一下思路，首先主机字节序有上面说的两种，大端和小端方式。而网络字节序是规定好的，只能是大端方式，因此可以通过比较一个按照主机字节序存储的变量和一个按照网络字节序存储的变量。函数htonl用于将数据从主机字节序转为网络字节序。其中h代表主机(host)字节序，n代表网络(network)字节序。另外，l指的是long(Linux中long类型占用4个字节，这很关键)。 12345678910111213141516171819202122#include &lt;iostream&gt;#include &lt;arpa/inet.h&gt;#include&lt;stdint.h&gt; // unit8_tusing namespace std;void test1() &#123; int a = 0x12345678; cout &lt;&lt; "sizoef(a):" &lt;&lt; sizeof(a) &lt;&lt; endl; cout &lt;&lt; "a=" &lt;&lt; a &lt;&lt; endl; // 把int型数据从主机字节序转化为网络字节序,网络字节序是大端方式 int b = htonl(a); cout &lt;&lt; "sizoef(b):" &lt;&lt; sizeof(b) &lt;&lt; endl; cout &lt;&lt; "b=" &lt;&lt; b &lt;&lt; endl; cout &lt;&lt; (a == b ? "大端方式" : "小端方式") &lt;&lt; endl;&#125;int main() &#123; test1(); return 0;&#125; 运行结果在我的64位机器上运行结果，可知，我的机器是以小端方式来存储数据的。 12345sizoef(a):4a=305419896sizoef(b):4b=2018915346小端方式 方法二上面是通过调用htonl函数来得到一个以大端方式存储的数据，我们也可以手动创建一个以大端方式存储的32位数据。 12345678910111213141516171819202122232425262728293031323334353637383940#include &lt;iostream&gt;#include &lt;arpa/inet.h&gt;#include&lt;stdint.h&gt; // unit8_tusing namespace std;bool F() &#123; // 如果在以大端方式存储的机器上运行返回true,否则返回false uint8_t a[] = &#123;0x12, 0x34, 0x56, 0x78&#125;; // 手动高位字节低位地址 uint32_t b = 0x12345678; // a是数组首地址,是一个uint8_t类型的指针 // (uint32_t *) a是使用旧式类型转换将a转换成一个uint32_t类型的指针 return *(uint32_t *) a == b;&#125;bool F1() &#123; // 如果在以大端方式存储的机器上运行返回true,否则返回false uint8_t a[] = &#123;0x12, 0x34, 0x56, 0x78&#125;; // 手动高位字节低位地址 uint32_t b = 0x12345678; // 声明一个uint32_t类型变量,按照主机字节序进行存储 // 使用新式类型转换中的reinterpret_cast进行强转型 uint32_t *p = reinterpret_cast&lt;uint32_t *&gt;(a); return (*p == b);&#125;void test2() &#123; // 这里只是为了测试,所以打印出来,可以看得更清楚 uint8_t a[] = &#123;0x12, 0x34, 0x56, 0x78&#125;; // 手动高位字节低位地址 uint32_t b = 0x12345678; cout &lt;&lt; "a=" &lt;&lt; *(int *) a &lt;&lt; " b=" &lt;&lt; b &lt;&lt; endl; cout &lt;&lt; (F() ? "大端方式" : "小端方式") &lt;&lt; endl; cout &lt;&lt; (F1() ? "大端方式" : "小端方式") &lt;&lt; endl;&#125;int main() &#123; test2(); return 0;&#125; 运行结果可以看出这里手动创建的32位数据(大端方式存储)和上面经过网络字节序转换之后的一样。F()和F1()两个函数是等价的，两个函数实现的同样的功能。唯一的不同是，在F()使用的是旧式类型转换，而在F1()中则使用了新式类型转换。另外，在使用新式类型转换时，无法使用static_cast，而能够使用reinterpret_cast，这是为什么，还没弄明白。 123a=2018915346 b=305419896小端方式小端方式 关于类型转换的更多知识，请自行查看类型转换系列1。 二叉树的高度和深度根节点到任一节点的路径长度，即该节点的深度。根节点的深度是0。某个节点即其最深叶子节点的路径长度即高节点的高度。叶子节点的高度为0。整棵树的高度即根节点的高度。 参考文献[1]TCP/IP网络编程(尹圣雨著)]]></content>
+      <categories>
+        <category>CS基础</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[带缓冲的IO与不带缓冲的IO]]></title>
     <url>%2F2019%2F10%2F09%2F%E5%B8%A6%E7%BC%93%E5%86%B2%E7%9A%84IO%E4%B8%8E%E4%B8%8D%E5%B8%A6%E7%BC%93%E5%86%B2%E7%9A%84IO%2F</url>
     <content type="text"><![CDATA[本文涉及到众多知识点。如内核态与用户态。 参考文献[1]带缓冲的IO与不带缓冲的IO：https://blog.csdn.net/u011402017/article/details/53747232]]></content>
@@ -360,14 +394,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[CS中一些易混淆和忘记的基本概念]]></title>
-    <url>%2F2019%2F09%2F29%2FC%2B%2B%E4%B8%AD%E4%B8%80%E4%BA%9B%E6%98%93%E6%B7%B7%E6%B7%86%E5%92%8C%E5%BF%98%E8%AE%B0%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%2F</url>
-    <content type="text"><![CDATA[此文档总结一些易忘记和易混淆的基础概念。 顶层const与底层const大端和小端存储方式二叉树的高度和深度根节点到任一节点的路径长度，即该节点的深度。根节点的深度是0。某个节点即其最深叶子节点的路径长度即高节点的高度。叶子节点的高度为0。整棵树的高度即根节点的高度。]]></content>
-      <categories>
-        <category>CS基础</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[堆]]></title>
     <url>%2F2019%2F09%2F29%2F%E5%A0%86%2F</url>
     <content type="text"><![CDATA[什么是堆我们面临的第一个问题是：什么是堆？ 堆可以定义为一颗二叉树，树的节点中包含键，并且满足两个条件：１．该二叉树是完全二叉树．除了最后一层，树的每一层都是满的．２．父母优势：(以最大堆为例)父节点的键大于或等于孩子节点的键 可以用数组来实现堆． 建堆，插入新元素，删除堆顶元素自底向上构造堆 从最后一个非叶节点开始，检查该节点是否满足父母优势．如果不满足，就将该节点与最大孩子节点的键交换，然后再检查新的位置．这个过程持续到被检查节点满足父母优势为止(叶子节点自动满足父母优势)．此过程从最后一个非叶节点一直持续到根节点．最后一个非叶节点：假设堆中有n个节点，则最后一个非叶节点为(n/2)向下取整．例如，n=7,最后一个非叶节点为３. 将一个堆调整为最大堆将以k为根的子树调整为一个堆的过程可以简单描述如下：查看k的孩子节点中是否存在比k大的，如果不存在说明以k为根的子树已经是一个最大堆了（这里存在一个假设：在调整以k为根的子树时，以k的左右孩子节点为根的子树都已经是堆了）．否则，交换k和孩子节点中较大的那个（无论两个孩子节点是否都满足大于k），假设此新节点为n，接下来就是调整以n为根节点的子树了．显然，这就是重复上面的过程，那么这个过程应该持续到什么时候结束呢？答案是到k已经是叶子节点或者没有孩子节点都比它小了． 非递归方式 12345678910111213141516max_heapify_iter(H[1,...,n], k) // 输入：H[1,..,n]是一个数组，表示一个完全二叉树 // k：当前要调整的节点K // 输出：以节点i为根的二叉树调整为一个堆 k = i, v = H[k] // K是当前需要检查的节点 heap = false // 状态变量，表示当前要检查的节点是否满足父母优势 while not heap and 2 * k &lt;= n // 当要检查的节点不满足父母优势且不是叶子节点 j = 2 * k if j &lt; n // 被检查节点有两个孩子节点 if H[j + 1] &gt; H[j] j = j + 1 if v &gt;= H[j] heap = true else H[k] = H[j] // 交换被检查的节点和它最大孩子节点的键 k = j // 继续检查被交换后的最大孩子节点的键 递归方式 123456789101112131415max_heapify_recur(A, i) // 输入：A[1,..,n]是一个数组，表示一个完全二叉树 // i：当前要调整的节点i // 输出：以节点i为根的二叉树调整为一个堆 l = 2 * i // 节点i的左孩子2 * i r = 2 * i + 1 // 节点i的左孩子2 * i + 1 if l &lt;= n and A[l] &gt;= A[i] largest = l else largest = i if r &lt;= n and A[r] &gt;= A[largest] largest = r if largest != i exchange(A[i], A[largest]) max_heapify(A, largest) 时间复杂度：O(lgn) 建堆非递归方式 123456HeapBottomUp(H[1,...,n]) // 用自底向上算法，从给定数组的元素中构造一个堆 // 输入：一个可排序元素的数组H[1,...,n] // 输出：一个堆H[1,...,n] for i = [n/2] to 1 do max_heapify_iter(H, i) 递归方式 123456build_max_heap(A) // 用自底向上算法，从给定数组的元素中构造一个堆 // 输入：一个可排序元素的数组A[1,...,n] // 输出：一个堆A[1,...,n] for i = n/2 to 1 do // n/2向下取整 max_heapify_recur(A, i) 自底向上建堆时间复杂度分析自底向上方式建堆，需要调用n/2次max_headify(将一个堆调整为最大堆)，每次调用max_heapify的时间复杂度为O(logk)，这里的k是被调整的子树中节点的总数。接下来，计算总的时间复杂度。包含n个元素的堆的高度为$$\lfloor{lgn}\rfloor$$高度为h的堆最多包含$$\lceil{\frac{n}{2^{h+1}}}\rceil$$个结点。在一个高度为h的结点上运行max_heapify的代价为O(h)，因此建堆的总的时间复杂度为：$$\sum_{h=0}^{\lfloor{lgn}\rfloor}{\lceil{\frac{n}{2^{h+1}}}\rceil} O(h)= O(n \sum_{h=0}^{\lfloor{lgn}\rfloor}\frac{h}{2^h})$$级数求和公式：$$\sum_{k=0}^{\infty}{k}{x^k} = \frac{x}{(1-x)^2}$$将x=1/2带入级数求和公式，可知：$$\sum_{k=0}^{\infty}\frac{h}{2^h} = \frac{1/2}{(1 - {1/2})^2} = 2$$因此，建堆的时间复杂度为：$$O(n \sum_{h=0}^{\lfloor{lgn}\rfloor}\frac{h}{2^h}) = O(n \sum_{h=0}^{\infty}\frac{h}{2^h}) = O(n)$$因此，可以在线性时间内，将一个无序数组构造成一个最大堆。 向已经建好的堆中插入元素向一个已经建好的堆中插入新元素，首先将新元素k插入到堆中最后一个叶子节点的后面。然后按照下面的方法把这个新元素k放到适当的位置上。首先拿k和它的父节点进行比较，如果k的键小于等于父节点的值，则算法停止（当前堆已经是个最大堆了）。否则交换这个元素的位置，并比较元素k和它的新父节点。这个过程一直持续到父节点的键值大于等于元素k的键值或者元素k没有了父节点(即元素k是根节点）。显然，插入操作需要的比较次数不会多于树的高度，即向堆中插入新元素的时间复杂度为O(lgn)。 删除堆顶元素第一步，交换根节点的元素和堆中最后一个节点的元素。第二步，堆的规模减去1。第三步，调用max_heapify，将以根节点为根的子树调整为最大堆。删除需要一次交换和一次自顶向下调整堆的过程，因此，时间复杂度取决于调整堆的时间复杂度，即为O(lgn)。 堆排序第一步，堆排序首先构造堆，为一个给定的数组构造一个堆．时间复杂度为O(n) 第二步，从堆中删除最大键，持续此动作n-1次．时间复杂度为O(nlogn) 删除最大键并调整堆的时间复杂度：O(lgn) 堆排序的时间效率是O(nlogn)，但是堆排序是原址排序，不需要任何额外的存储空间． 堆排序比快速排序运行得慢，但是比归并排序快． 12345678heap_sort(A) // 输入：一个可排序元素的数组A[1,...,n] // 输出：一个排好序的数组A heap_size = n for i = n to 2 exchange(A[i], A[1]) --heap_size; max_heapify_iter(A, 1) // 调整以节点１为根，大小为heap_size的数组为最大堆]]></content>
@@ -539,17 +565,6 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[c++2.0新特性]]></title>
-    <url>%2F2019%2F09%2F27%2Fc%2B%2B2.0%E6%96%B0%E7%89%B9%E6%80%A7%2F</url>
-    <content type="text"><![CDATA[此文档整理c++11中新特性． autoauto和decltype的区别与联系variadic templatesrange base for]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>c++11新特性</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[可变模板参数(c++11新特性)]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%8F%AF%E5%8F%98%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0%2F</url>
     <content type="text"><![CDATA[Variadic Templates Variadic Templates谈的是template function template class template 变化的是template parameters 参数个数：利用参数个数注意递减的特性，实现递归函数调用．使用function template完成 参数类型：利用参数个数逐一递减，参数类型也逐一递减的特性，实现递归继承或递归复合，以class template完成． 可变模板参数写的一个小例子针对函数模板参数包，函数参数类型包，函数参数包 123456789void print() &#123;&#125; //非模板，和模板的实例形成重载函数；函数没有特化和偏特化template&lt;typename T, typename... Types&gt;void print(const T &amp;firstArg, const Types &amp;... args) &#123; // firstArg是包中第一个元素的引用，输出包中剩余元素个数 cout &lt;&lt; sizeof...(args) &lt;&lt; " "; cout &lt;&lt; firstArg &lt;&lt; endl; print(args...); // 当args为空时，调用的是非模板函数print&#125; 可变模板参数实现hash function1234567891011121314151617181920212223242526template&lt;typename T&gt;inline void hash_combine(size_t &amp;seed, const T &amp;val) &#123; seed ^= std::hash&lt;T&gt;()(val) + 0x9e3779b9 // 0x9e3779b9黄金比例 + (seed &lt;&lt; 6) + (seed &gt;&gt; 2);&#125;template&lt;typename T&gt;inline void hash_val(size_t &amp;seed, const T &amp;val) &#123; hash_combine(seed, val);&#125;template&lt;typename T, typename...Types&gt;inline void hash_val(size_t &amp;seed, const T &amp;val, const Types &amp;...args) &#123; hash_combine(seed, val); hash_val(seed, args...);&#125;// 版本1// typename...Types：任意个模板参数// 第一个函数不是size_ttemplate&lt;typename...Types&gt;inline size_t hash_val(const Types &amp;...args) &#123; size_t seed = 0; hash_val(seed, args...); return seed;&#125; 可变模板参数实现printf1234567891011121314151617181920212223242526void printf(const char *s) &#123; while (*s) &#123; if (*s == '%' &amp;&amp; (*(++s) != '%')) &#123; throw std::runtime_error("invalid formal string::missing arguments"); &#125; cout &lt;&lt; *s++; &#125;&#125;template&lt;typename T, typename... Args&gt;void printf(const char *s, T value, Args... args) &#123; while (*s) &#123; if (*s == '%' &amp;&amp; (*(++s)) != '%') &#123; cout &lt;&lt; value; printf(++s, args...); return; &#125; cout &lt;&lt; *s++; // 如果s不是用于格式控制，则直接输出s &#125; throw std::logic_error("extra argument provided to printf");&#125;void test_printf() &#123; printf("%d\n%s\n%f\n", 15, "This is Alice", 3.1415926); printf("%d, %s, %f\n", 15, "This is Alice", 3.1415926);&#125; variadic templates与initializer_list若参数的类型相同，无须使用variadic templates,使用initializer_list&lt;T&gt;即可 使用initializer_list实现max 12345678910111213141516171819202122232425262728293031323334template&lt;typename __ForwardIterator, typename __Compare&gt;__ForwardIterator __max_element(__ForwardIterator __first, __ForwardIterator __last, __Compare _comp) &#123; if (__first == __last) &#123; return __first; &#125; __ForwardIterator __result = __first; while (++__first != __last) &#123; if (_comp(__result, __first)) __result = __first; &#125; return __result;&#125;// _Iter_less_iter是一种类型inline __Iter_less_iter __iter_less_iter() &#123; return __Iter_less_iter();&#125;template&lt;typename __ForwardIterator&gt;inline __ForwardIterator max_element(__ForwardIterator __first, __ForwardIterator __last) &#123; // _iter_less_iter()是一个函数调用，但是返回一个对象 return __max_element(__first, __last, __iter_less_iter());&#125;template&lt;typename _Tp&gt;inline _Tpmax(initializer_list&lt;_Tp&gt; _l) &#123; return *max_element(_l.begin(), _l.end());&#125;// 调用形式：max(&#123;1,2,43,2,41&#125;); 使用varadic templates实现max 123456789101112int maximum(int n) &#123; return n;&#125;template&lt;typename... Args&gt;int maximum(int n, Args... args) &#123; return max(maximum(args...), n);&#125;void test_maximum() &#123; cout &lt;&lt; maximum(57, 48, 60, 100, 20, 18) &lt;&lt; endl;&#125; 对异于一般的方式处理first元素和last元素12345678910111213141516171819202122232425template&lt;int IDX, int MAX, typename... Args&gt;struct PRINT_TUPLE &#123; static void print(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123; os &lt;&lt; get&lt;IDX&gt;(t) &lt;&lt; (IDX + 1 == MAX ? &quot;&quot; : &quot;,&quot;); PRINT_TUPLE&lt;IDX + 1, MAX, Args...&gt;::print(os, t); &#125;&#125;;// 当前元素是最后一个template&lt;int MAX, typename...Args&gt;struct PRINT_TUPLE&lt;MAX, MAX, Args...&gt; &#123; static void print(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123;&#125;&#125;;template&lt;typename... Args&gt;ostream &amp;operator&lt;&lt;(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123; PRINT_TUPLE&lt;0, sizeof...(Args), Args...&gt;::print(os, t); return os;&#125;void test_print_tuple() &#123; cout &lt;&lt; make_tuple(1.4, &quot;hello&quot;, 13, string(&quot;good&quot;)) &lt;&lt; endl;&#125; 可变模板参数实现tuple通过private 继承实现复合递归的继承 12345678910111213141516171819202122232425262728293031323334353637383940414243444546template&lt;typename...Values&gt;class tuple;template&lt;&gt;class tuple&lt;&gt; &#123;&#125;;// private继承template&lt;typename Head, typename... Tail&gt;class tuple&lt;Head, Tail...&gt; : private tuple&lt;Tail...&gt; &#123; typedef tuple&lt;Tail...&gt; inherited;protected: Head m_head;public: tuple() &#123;&#125; // inherited(vtail...)调用base ctor并给予参数(不是创建temp object) tuple(Head v, Tail... vtail) : m_head(v), inherited(vtail...) &#123;&#125; // 原始构想是取出Head指定的类型，但是head类型如何知道自己是什么type？// typename Head::type head() &#123; return m_head; &#125; // 通过decltype获取Head // m_head必须声明在此句之前 // auto head() -&gt; decltype(m_head) &#123; return m_head; &#125; // 更好的等价写法 // 可以直接这么写，Head本身就是指的类型 // Head head() &#123; return m_head; &#125; // return后转型为inherited // 返回值一定得是引用 // 调用tail之后，得到一个inhertied子对象，然后再对此子对象调用head时会改变此子对象，但是如果传回的是值(而非引用)，则被改变的是副本 inherited &amp;tail() &#123; return *this; &#125;&#125;;void test_tuple() &#123; tuple&lt;int, float, string&gt; t(41, 6.3, "nico"); cout &lt;&lt; sizeof(string) &lt;&lt; " " &lt;&lt; sizeof(int) &lt;&lt; " " &lt;&lt; sizeof(float) &lt;&lt; endl; // 32 4 4 cout &lt;&lt; sizeof(t) &lt;&lt; endl; // 40 cout &lt;&lt; t.head() &lt;&lt; endl; // 40 cout &lt;&lt; t.tail().head() &lt;&lt; endl; // 6.3 cout &lt;&lt; t.tail().tail().head() &lt;&lt; endl; // nico&#125; 通过composite实现复合1234567891011121314151617181920212223242526272829303132333435363738394041424344// 这两句存在的意义是什么？换言之，为什么需要这两句template&lt;typename... Values&gt; class tup;// 特化版本template&lt;&gt; class tup&lt;&gt; &#123; public: tup() &#123; cout &lt;&lt; "empty tup" &lt;&lt; endl; &#125; &#125;;// 特化版本template&lt;typename Head, typename...Tail&gt; class tup&lt;Head, Tail...&gt; &#123; typedef tup&lt;Tail...&gt; compositied; protected: compositied m_tail; Head m_head; public: tup() &#123;&#125;; // vtail...是一个函数参数包 tup(Head v, Tail... vtail) : m_head(v), m_tail(vtail...) &#123; cout &lt;&lt; m_head &lt;&lt; " " &lt;&lt; sizeof...(vtail) &lt;&lt; endl; &#125; Head head() &#123; return m_head; &#125; compositied &amp;tail() &#123; return m_tail; &#125; &#125;;void test_tup() &#123; tup&lt;int, float, string&gt; it1(41, 6.3, "nico"); cout &lt;&lt; endl; cout &lt;&lt; sizeof(it1) &lt;&lt; endl; cout &lt;&lt; it1.head() &lt;&lt; endl; cout &lt;&lt; it1.tail().head() &lt;&lt; endl; cout &lt;&lt; it1.tail().tail().head() &lt;&lt; endl;&#125; 运行结果 1234567891011# 由内到外构造对象empty tupnico 06.3 141 2# 依次输出tup中的内容56416.3nico]]></content>
@@ -558,6 +573,17 @@
       </categories>
       <tags>
         <tag>variadic templates</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[c++2.0新特性]]></title>
+    <url>%2F2019%2F09%2F27%2Fc%2B%2B2.0%E6%96%B0%E7%89%B9%E6%80%A7%2F</url>
+    <content type="text"><![CDATA[此文档整理c++11中新特性． autoauto和decltype的区别与联系variadic templatesrange base for]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>c++11新特性</tag>
       </tags>
   </entry>
   <entry>
@@ -625,6 +651,14 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[k sum 系列]]></title>
+    <url>%2F2019%2F09%2F27%2Fk-sum-%E7%B3%BB%E5%88%97%2F</url>
+    <content type="text"><![CDATA[two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[冒泡排序的优化和鸡尾酒排序]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%E7%9A%84%E4%BC%98%E5%8C%96%E5%92%8C%E9%B8%A1%E5%B0%BE%E9%85%92%E6%8E%92%E5%BA%8F%2F</url>
     <content type="text"><![CDATA[冒泡排序的优化有设置哨兵来表示当前整个数组已经有序，以及设置有序区间，下一次只对有序区间进行排序（尚未完全理解）． 详情可见 鸡尾酒排序鸡尾酒排序算法适用于大部分元素已经有序的情况．它能够在特定条件下，减少排序的回合数；但是缺点是代码量几乎扩大了一倍． 鸡尾酒排序 未进行优化的鸡尾酒排序 12345678910111213141516171819202122232425262728293031323334353637383940414243void clockTailSort(vector&lt;int&gt; &amp;nums) &#123; // 未进行优化的鸡尾酒排序 int tmp = 0; for (int i = 0; i &lt; nums.size() / 2 - 1; ++i) &#123; // 有序标记，每一轮的初始值是true bool isSorted = true; // 奇数轮:从做向右比较和交换 // 奇数轮：区间内最大的数会被冒泡到最右 for (int j = i; j &lt; nums.size() - i - 1; ++j) &#123; if (nums[j] &gt; nums[j + 1]) &#123; tmp = nums[j]; nums[j] = nums[j + 1]; nums[j + 1] = tmp; // 有元素交换，所以，不是有序，标记变为false isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; isSorted = true; // 8 1 2 3 4 // 偶数轮，从右向左比较和交换 // 偶数轮，最小的数会被冒泡到最左边 for (int j = nums.size() - i - 1; j &gt; i; j--) &#123; if (nums[j] &lt; nums[j - 1]) &#123; tmp = nums[j]; nums[j] = nums[j - 1]; nums[j - 1] = tmp; isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; &#125;&#125; 进行优化的鸡尾酒排序优化方法：]]></content>
@@ -634,14 +668,6 @@
       <tags>
         <tag>冒泡排序的优化</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[k sum 系列]]></title>
-    <url>%2F2019%2F09%2F27%2Fk-sum-%E7%B3%BB%E5%88%97%2F</url>
-    <content type="text"><![CDATA[two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
   </entry>
   <entry>
     <title><![CDATA[旋转数组]]></title>
@@ -815,21 +841,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[类型转换系列1]]></title>
-    <url>%2F2019%2F09%2F27%2F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%97%EF%BC%91%2F</url>
-    <content type="text"><![CDATA[显式转换旧式转型:T(expression)(T)expression 四种新式转型: cast-name&lt;type&gt;(expression): type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。 旧式转换表面上功能强大，但是转化时不够明确，不能进行错误检查，容易出错． const_cast通常被用来将对象的常量性移除.即将const对象转为非const对象． dynamic_cast 主要用来执行“安全向下转型”,也就是用来决定某对象是否归属继承体系中的某个类型. 用于动态类型转换，只能用于含有虚函数的类，用于类层次间的向上和向下转化．只能转指针或引用．向下转化时，如果是非法的，对于指针返回nullptr，对于引用抛出异常． 向上转换：子类向基类的转换 向下转换：基类向子类的转换 它通过判断在执行到该语句的时候变量的运行时类型和要转换的类型是否相同来判断是否能够进行向下转换． 它是唯一无法由旧式语法执行的动作,也是唯一可能耗费重大运行成本的转型动作. reinterpret_cast意图执行低级转型,实际动作(及结果)可能取决于编译器,这也就表示它不可移植.例如将一个pointer to int转型为一个int. 这一类型在低级代码以外很少见. static_cast用来强迫隐式转换. 将non-const对象转为const对象 (不能隐式地将一个左值转换为一个右值引用，但是可以)使用static_cast可以显式地将一个左值转换为一个右值引用 或将int转为double 用于多态向上转化，如果向下转型能成功但是不安全，结果未知． 也可以用来执行上述多种转换的反向转换 将void*指针转为typed指针, 将point-to-base转为pointer-to-derived. 但它无法将const转为non-const,这个只有const_cast才办得到.]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>static_cast</tag>
-        <tag>类型转换</tag>
-        <tag>显示转换</tag>
-        <tag>cast</tag>
-        <tag>const_cast</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[动态内存]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%8A%A8%E6%80%81%E5%86%85%E5%AD%98%2F</url>
     <content type="text"><![CDATA[静态内存用来保存局部静态对象,类静态数据成员以及定义在任何函数之外的变量.栈内存用来保存定义在函数内的非static对象.分配在静态或栈内存的对象由编译器自动创建和销毁. 栈对象在其定义的程序块运行时才存在;静态对象在使用之前分配,在程序结束时销毁.堆用来存储动态分配的对象, 即在程序运行时分配的对象.动态对象的生命期由程序控制.也就是说,当动态对象不再使用时,必须在代码中显式地销毁它们.c++动态内存的管理由一对运算符new和delete来完成.new在动态内存中为对象分配空间并返回一个指向该对象的指针.delete:接受一个动态对象的指针,销毁该对象,并释放该对象占用的内存. 常规指针的缺陷如果忘记了释放内存,就会导致内存泄露.如果在还有指针引用内存的情况就释放了内存会产生引用非法内存的指针. 智能指针与常规指针的区别在于, 智能指针是类类型, 在离开作用域时会自动调用析构函数, 自动释放内存. 程序使用动态内存的原因 原因 例子 程序不知道自己需要使用多少对象 容器类 程序不知道所需对象的准确类型 动态绑定 程序需要在多个对象间共享数据 strBlob类 shared_ptr: 多个指针可以指向同一个对象.使用引用计数来记录该对象的资源被多少个指针共享.当引用计数为0时, 资源自动释放. unique_ptr:同一时刻只能有一个unique_ptr指向一个给定对象.unique_ptr独占对象的资源.unique_ptr不支持普通的拷贝和赋值.可以通过release和reset将指针的所有权从一个unique_ptr转移到另一个unique_ptr. weak_ptr:不控制所指向对象生存期的智能指针,它指向由一个shared_ptr管理的对象.将一个weak_ptr绑定到一个shared_ptr不会改变该shared_ptr的引用计数.因此, weak_ptr指向的对象可能被释放掉.]]></content>
@@ -965,17 +976,6 @@
     <content type="text"><![CDATA[队列的最大值 Sliding Window Maximum Hard Given an array nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position. Return the max sliding window. Example: 123456789101112Input: nums = [1,3,-1,-3,5,3,6,7], and k = 3Output: [3,3,5,5,6,7] Explanation: Window position Max--------------- -----[1 3 -1] -3 5 3 6 7 3 1 [3 -1 -3] 5 3 6 7 3 1 3 [-1 -3 5] 3 6 7 5 1 3 -1 [-3 5 3] 6 7 5 1 3 -1 -3 [5 3 6] 7 6 1 3 -1 -3 5 [3 6 7] 7 Note:You may assume k is always valid, 1 ≤ k ≤ input array’s size for non-empty array. Follow up:Could you solve it in linear time? 涉及知识点：最小栈，如何用两个队列实现一个栈， 双端队列。 c++ deque基本操作123456void push_front(const T&amp; x) //双端队列头部增加一个元素Xvoid push_back(const T&amp; x) //双端队列尾部增加一个元素xvoid pop_front() //删除双端队列中最前一个元素void pop_back() //删除双端队列中最后一个元素reference front() //返回首元素的引用reference back() //返回尾元素的引用 解法1解法2]]></content>
       <tags>
         <tag>剑指offer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[类型转换系列2]]></title>
-    <url>%2F2019%2F09%2F27%2F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%972%2F</url>
-    <content type="text"><![CDATA[对于类类型的类型转换,通过定义类型转换运算符完成.转换构造函数和类型转换运算符共同定义了类类型转换.类型转换运算符没有显式的返回类型,也没有星灿,而且必须定义成类的成员函数.类型转换运算符一般不改变待转换对象的内容.因此,类型转换运算符一般是const的. 123456789101112131415161718192021222324252627282930/** * SmallInt既定义了向类类型的转换,也定义了从类类型向其他类型的转换 * 构造函数将算类型的值转换成SmallInt类型对象,类型转换运算符将SmallInt对象转换成int */class SmallInt &#123;public: SmallInt(int i = 0) : val(i) &#123; if (i &lt; 0 || i &gt; 255) &#123; throw std::out_of_range("Bad SmallInt value"); &#125; &#125; // 类型转换运算符:把类类型SmallInt转成int类型 operator int() const &#123; return val; &#125;private: std::size_t val;&#125;;int main()&#123; SmallInt s = 4; // s是一个SmallInt类型对象,val=4 cout &lt;&lt; s + 4 &lt;&lt; endl; // 8 SmallInt si = 3.14; // si是一个SmallInt类型对象,val=3 cout &lt;&lt; si + 3.14 &lt;&lt; endl; // 6 return 0;&#125; SmallInt s = 4首先将4隐式地转换为SmallInt,然后调用SmallInt::operator=(拷贝赋值运算符). s + 4首先将s隐式地转换成int,然后执行整数的加法 si = 3.14, 首先内置类型转换将double实参转换成int,然后再调用SmallInt(int)构造函数 在表达式si + 3.14中, 首先SmallInt类型转换运算符将si转换成3,然后内置类型转换将所得int继续转换为double. 编译器一次只能执行一个用户定义的类型转换,但是隐式的用户定义类型转换可以置于一个标准类型转换之前或之后]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>类类型隐式转换</tag>
       </tags>
   </entry>
   <entry>

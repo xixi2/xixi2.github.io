@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="类类型隐式转换,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="对于类类型的类型转换,通过定义类型转换运算符完成.转换构造函数和类型转换运算符共同定义了类类型转换.类型转换运算符没有显式的返回类型,也没有星灿,而且必须定义成类的成员函数.类型转换运算符一般不改变待转换对象的内容.因此,类型转换运算符一般是const的.">
-<meta name="keywords" content="类类型隐式转换">
+<meta name="description" content="此文档总结一些易忘记和易混淆的基础概念。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="类型转换系列2">
-<meta property="og:url" content="http://yoursite.com/2019/09/27/类型转换系列2/index.html">
+<meta property="og:title" content="CS中一些易混淆和忘记的基本概念">
+<meta property="og:url" content="http://yoursite.com/2019/10/09/CS中一些易混淆和忘记的基本概念/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="对于类类型的类型转换,通过定义类型转换运算符完成.转换构造函数和类型转换运算符共同定义了类类型转换.类型转换运算符没有显式的返回类型,也没有星灿,而且必须定义成类的成员函数.类型转换运算符一般不改变待转换对象的内容.因此,类型转换运算符一般是const的.">
+<meta property="og:description" content="此文档总结一些易忘记和易混淆的基础概念。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-27T15:06:31.370Z">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/images/big_smal.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/images/big_smal2.png">
+<meta property="og:updated_time" content="2019-10-09T13:30:10.514Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="类型转换系列2">
-<meta name="twitter:description" content="对于类类型的类型转换,通过定义类型转换运算符完成.转换构造函数和类型转换运算符共同定义了类类型转换.类型转换运算符没有显式的返回类型,也没有星灿,而且必须定义成类的成员函数.类型转换运算符一般不改变待转换对象的内容.因此,类型转换运算符一般是const的.">
+<meta name="twitter:title" content="CS中一些易混淆和忘记的基本概念">
+<meta name="twitter:description" content="此文档总结一些易忘记和易混淆的基础概念。">
+<meta name="twitter:image" content="http://yoursite.com/2019/10/09/images/big_smal.png">
 
 
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/09/27/类型转换系列2/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/09/CS中一些易混淆和忘记的基本概念/">
 
 
 
 
 
-  <title>类型转换系列2 | xixi2</title>
+  <title>CS中一些易混淆和忘记的基本概念 | xixi2</title>
   
 
 
@@ -295,7 +297,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/27/类型转换系列2/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/09/CS中一些易混淆和忘记的基本概念/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -312,7 +314,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">类型转换系列2</h1>
+          <h1 class="post-title" itemprop="name headline">CS中一些易混淆和忘记的基本概念</h1>
         
 
         <div class="post-meta">
@@ -324,8 +326,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T23:06:31+08:00">
-                2019-09-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-09T21:30:10+08:00">
+                2019-10-09
               </time>
             
 
@@ -347,8 +349,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C-基础知识/" itemprop="url" rel="index">
-                    <span itemprop="name">C++基础知识</span>
+                  <a href="/categories/CS基础/" itemprop="url" rel="index">
+                    <span itemprop="name">CS基础</span>
                   </a>
                 </span>
 
@@ -389,24 +391,28 @@
       
 
       
-        <p>对于类类型的类型转换,通过定义<strong>类型转换运算符</strong>完成.转换构造函数和类型转换运算符共同定义了类类型转换.类型转换运算符没有显式的返回类型,也没有星灿,而且必须定义成类的成员函数.类型转换运算符一般不改变待转换对象的内容.因此,类型转换运算符一般是const的.</p>
+        <p>此文档总结一些易忘记和易混淆的基础概念。</p>
 <a id="more"></a>
 
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * SmallInt既定义了向类类型的转换,也定义了从类类型向其他类型的转换</span></span><br><span class="line"><span class="comment"> * 构造函数将算类型的值转换成SmallInt类型对象,类型转换运算符将SmallInt对象转换成int</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SmallInt</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    SmallInt(<span class="keyword">int</span> i = <span class="number">0</span>) : val(i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; <span class="number">0</span> || i &gt; <span class="number">255</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="built_in">std</span>::out_of_range(<span class="string">"Bad SmallInt value"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 类型转换运算符:把类类型SmallInt转成int类型</span></span><br><span class="line">    <span class="function"><span class="keyword">operator</span> <span class="title">int</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> val; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">std</span>::<span class="keyword">size_t</span> val;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SmallInt s = <span class="number">4</span>; <span class="comment">// s是一个SmallInt类型对象,val=4</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; s + <span class="number">4</span> &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 8</span></span><br><span class="line">    </span><br><span class="line">    SmallInt si = <span class="number">3.14</span>; <span class="comment">// si是一个SmallInt类型对象,val=3</span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; si + <span class="number">3.14</span> &lt;&lt; <span class="built_in">endl</span>;    <span class="comment">// 6</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="顶层const与底层const"><a href="#顶层const与底层const" class="headerlink" title="顶层const与底层const"></a>顶层const与底层const</h1><p>顶层const是指任意对象是const，而底层const指的是指针或引用的基本数据类型是const。<br>简单来说</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> a = <span class="number">1</span>;						<span class="comment">// 顶层const</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> b = <span class="number">0.0</span>;			<span class="comment">// 顶层const</span></span><br><span class="line"><span class="keyword">int</span> *<span class="keyword">const</span> ip = &amp;a;					<span class="comment">// 顶层const，ip本身是常量指针，不能指向其他变量了</span></span><br><span class="line"><span class="keyword">double</span> *<span class="keyword">const</span> dp =&amp;b;		<span class="comment">// 顶层const，dp本身是常量指针，不能指向其他变量了</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span>* ip1 = &amp;a;				<span class="comment">// 底层const，说明ip1指向的是常量，且ip1只能指向常量，但是ip1可以指向其他常量</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> *dp1 = &amp;b;		<span class="comment">// 底层const，说明dp1指向的是常量，且dp1只能指向常量，但是dp1可以指向其他常量</span></span><br></pre></td></tr></table></figure>
 
-<ul>
-<li><p>SmallInt s = 4首先将4隐式地转换为SmallInt,然后调用SmallInt::operator=(拷贝赋值运算符).</p>
-</li>
-<li><p>s + 4首先将s隐式地转换成int,然后执行整数的加法</p>
-</li>
-<li><p>si = 3.14, 首先内置类型转换将double实参转换成int,然后再调用SmallInt(int)构造函数</p>
-</li>
-<li><p>在表达式si + 3.14中, 首先SmallInt类型转换运算符将si转换成3,然后内置类型转换将所得int继续转换为double.</p>
-<ul>
-<li>编译器一次只能执行一个用户定义的类型转换,但是隐式的用户定义类型转换可以置于一个标准类型转换之前或之后</li>
-</ul>
-</li>
-</ul>
+<h1 id="大端和小端存储方式"><a href="#大端和小端存储方式" class="headerlink" title="大端和小端存储方式"></a>大端和小端存储方式</h1><p>大端方式：高位字节放在低位地址。<br>小端方式：低位字节放在高位方式。<br>对于16进制数0x12345678，大端方式存储时内存分布如图1(左边)，小端方式存储如图2(右边)。<img src="../images/big_smal.png" alt="big_smal"><img src="../images/big_smal2.png" alt="big_smal2"></p>
+<h2 id="大端和小端方式的检测"><a href="#大端和小端方式的检测" class="headerlink" title="大端和小端方式的检测"></a>大端和小端方式的检测</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>先说一下思路，首先主机字节序有上面说的两种，大端和小端方式。而网络字节序是规定好的，只能是大端方式，因此可以通过比较一个按照主机字节序存储的变量和一个按照网络字节序存储的变量。<br>函数htonl用于将数据从主机字节序转为网络字节序。其中h代表主机(host)字节序，n代表网络(network)字节序。另外，l指的是long(Linux中long类型占用4个字节，这很关键)。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdint.h&gt;      // unit8_t</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">0x12345678</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"sizoef(a):"</span> &lt;&lt; <span class="keyword">sizeof</span>(a) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"a="</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 把int型数据从主机字节序转化为网络字节序,网络字节序是大端方式</span></span><br><span class="line">    <span class="keyword">int</span> b = htonl(a);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"sizoef(b):"</span> &lt;&lt; <span class="keyword">sizeof</span>(b) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"b="</span> &lt;&lt; b &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; (a == b ? <span class="string">"大端方式"</span> : <span class="string">"小端方式"</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    test1();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果<br>在我的64位机器上运行结果，可知，我的机器是以小端方式来存储数据的。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sizoef(a):4</span><br><span class="line">a=305419896</span><br><span class="line">sizoef(b):4</span><br><span class="line">b=2018915346</span><br><span class="line">小端方式</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>上面是通过调用htonl函数来得到一个以大端方式存储的数据，我们也可以手动创建一个以大端方式存储的32位数据。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdint.h&gt;      // unit8_t</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">F</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 如果在以大端方式存储的机器上运行返回true,否则返回false</span></span><br><span class="line">    <span class="keyword">uint8_t</span> a[] = &#123;<span class="number">0x12</span>, <span class="number">0x34</span>, <span class="number">0x56</span>, <span class="number">0x78</span>&#125;;     <span class="comment">// 手动高位字节低位地址</span></span><br><span class="line">    <span class="keyword">uint32_t</span> b = <span class="number">0x12345678</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// a是数组首地址,是一个uint8_t类型的指针</span></span><br><span class="line">    <span class="comment">// (uint32_t *) a是使用旧式类型转换将a转换成一个uint32_t类型的指针</span></span><br><span class="line">    <span class="keyword">return</span> *(<span class="keyword">uint32_t</span> *) a == b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">F1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 如果在以大端方式存储的机器上运行返回true,否则返回false</span></span><br><span class="line">    <span class="keyword">uint8_t</span> a[] = &#123;<span class="number">0x12</span>, <span class="number">0x34</span>, <span class="number">0x56</span>, <span class="number">0x78</span>&#125;;     <span class="comment">// 手动高位字节低位地址</span></span><br><span class="line">    <span class="keyword">uint32_t</span> b = <span class="number">0x12345678</span>;                    <span class="comment">// 声明一个uint32_t类型变量,按照主机字节序进行存储</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用新式类型转换中的reinterpret_cast进行强转型</span></span><br><span class="line">    <span class="keyword">uint32_t</span> *p = <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">uint32_t</span> *&gt;(a);</span><br><span class="line">    <span class="keyword">return</span> (*p == b);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 这里只是为了测试,所以打印出来,可以看得更清楚</span></span><br><span class="line">    <span class="keyword">uint8_t</span> a[] = &#123;<span class="number">0x12</span>, <span class="number">0x34</span>, <span class="number">0x56</span>, <span class="number">0x78</span>&#125;;     <span class="comment">// 手动高位字节低位地址</span></span><br><span class="line">    <span class="keyword">uint32_t</span> b = <span class="number">0x12345678</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"a="</span> &lt;&lt; *(<span class="keyword">int</span> *) a &lt;&lt; <span class="string">" b="</span> &lt;&lt; b &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; (F() ? <span class="string">"大端方式"</span> : <span class="string">"小端方式"</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; (F1() ? <span class="string">"大端方式"</span> : <span class="string">"小端方式"</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    test2();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果<br>可以看出这里手动创建的32位数据(大端方式存储)和上面经过网络字节序转换之后的一样。<br>F()和F1()两个函数是等价的，两个函数实现的同样的功能。唯一的不同是，在F()使用的是旧式类型转换，而在F1()中则使用了新式类型转换。<br>另外，在使用新式类型转换时，<span style="color:goldenrod">无法使用static_cast，而能够使用reinterpret_cast，这是为什么，还没弄明白</span>。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a=2018915346 b=305419896</span><br><span class="line">小端方式</span><br><span class="line">小端方式</span><br></pre></td></tr></table></figure>
+
+<p>关于类型转换的更多知识，请自行查看<a href="[https://xixi2.github.io/2019/09/27/%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%97%EF%BC%91/](https://xixi2.github.io/2019/09/27/类型转换系列１/)">类型转换系列1</a>。</p>
+<h1 id="二叉树的高度和深度"><a href="#二叉树的高度和深度" class="headerlink" title="二叉树的高度和深度"></a>二叉树的高度和深度</h1><p>根节点到任一节点的路径长度，即该节点的深度。根节点的深度是0。<br>某个节点即其最深叶子节点的路径长度即高节点的高度。叶子节点的高度为0。整棵树的高度即根节点的高度。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]TCP/IP网络编程(尹圣雨著)</p>
 
       
     </div>
@@ -422,12 +428,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/类类型隐式转换/" rel="tag"># 类类型隐式转换</a>
-          
-        </div>
-      
 
       
       
@@ -437,8 +437,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/27/void*指针/" rel="next" title="void*指针">
-                <i class="fa fa-chevron-left"></i> void*指针
+              <a href="/2019/10/09/带缓冲的IO与不带缓冲的IO/" rel="next" title="带缓冲的IO与不带缓冲的IO">
+                <i class="fa fa-chevron-left"></i> 带缓冲的IO与不带缓冲的IO
               </a>
             
           </div>
@@ -447,8 +447,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/09/27/队列的最大值/" rel="prev" title="队列的最大值">
-                队列的最大值 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/09/类型转换系列2/" rel="prev" title="类型转换系列2">
+                类型转换系列2 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -501,8 +501,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -564,6 +573,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#顶层const与底层const"><span class="nav-number">1.</span> <span class="nav-text">顶层const与底层const</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#大端和小端存储方式"><span class="nav-number">2.</span> <span class="nav-text">大端和小端存储方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#大端和小端方式的检测"><span class="nav-number">2.1.</span> <span class="nav-text">大端和小端方式的检测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法一"><span class="nav-number">2.1.1.</span> <span class="nav-text">方法一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法二"><span class="nav-number">2.1.2.</span> <span class="nav-text">方法二</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二叉树的高度和深度"><span class="nav-number">3.</span> <span class="nav-text">二叉树的高度和深度</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
