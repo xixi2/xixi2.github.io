@@ -79,12 +79,12 @@
 
 
 
-<meta name="description" content="概念说明在进行解释之前，首先要说明几个概念：  用户空间和内核空间 进程切换 进程的阻塞 文件描述符 缓存 IO  用户空间与内核空间现在操作系统都是采用虚拟存储器，那么对32位操作系统而言，它的寻址空间(虚拟存储空间)为4G(2的32次方)。操作系统的核心是内核，独立于普通的应用程序，可以访问受保护的内存空间，也有访问底层硬件设备的所有权限。为了保证用户进程不能直接操作内核(kernel)，保证">
+<meta name="description" content="本文档讲解linux中的5种io模型。并非原创。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux中的5种IO模型">
-<meta property="og:url" content="http://yoursite.com/2019/10/07/linux中的5种IO模型/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/10/09/linux中的5种IO模型/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="概念说明在进行解释之前，首先要说明几个概念：  用户空间和内核空间 进程切换 进程的阻塞 文件描述符 缓存 IO  用户空间与内核空间现在操作系统都是采用虚拟存储器，那么对32位操作系统而言，它的寻址空间(虚拟存储空间)为4G(2的32次方)。操作系统的核心是内核，独立于普通的应用程序，可以访问受保护的内存空间，也有访问底层硬件设备的所有权限。为了保证用户进程不能直接操作内核(kernel)，保证">
+<meta property="og:description" content="本文档讲解linux中的5种io模型。并非原创。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://mmbiz.qpic.cn/mmbiz/9aPYe0E1fb11Io93ECiaoQys70EB6dcAzNwzp7DQyroj5EUfxUdKLV7bjQjkF5AH5lk2lnlACBoyP29gfvhYWdA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
 <meta property="og:image" content="http://mmbiz.qpic.cn/mmbiz/9aPYe0E1fb11Io93ECiaoQys70EB6dcAzmniaibBOuoh7AHNT4sJZianMufMlH7Vf1fgeicicXQwglQPrj0dQBNCQFBA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
@@ -97,10 +97,10 @@
 <meta property="og:image" content="http://mmbiz.qpic.cn/mmbiz/9aPYe0E1fb11Io93ECiaoQys70EB6dcAzf5miaD6HLic43sJ2G9142baNQribU04J9lrKPA0icELAt4Fn7BAVDj5KlA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
 <meta property="og:image" content="http://mmbiz.qpic.cn/mmbiz/9aPYe0E1fb11Io93ECiaoQys70EB6dcAzNOlSZdiampJg1VNkhT79Kzeul8IYferMoHDnNywRC4rKYMetM4udic2Q/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
 <meta property="og:image" content="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==">
-<meta property="og:updated_time" content="2019-10-06T15:04:55.463Z">
+<meta property="og:updated_time" content="2019-10-09T02:34:02.079Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux中的5种IO模型">
-<meta name="twitter:description" content="概念说明在进行解释之前，首先要说明几个概念：  用户空间和内核空间 进程切换 进程的阻塞 文件描述符 缓存 IO  用户空间与内核空间现在操作系统都是采用虚拟存储器，那么对32位操作系统而言，它的寻址空间(虚拟存储空间)为4G(2的32次方)。操作系统的核心是内核，独立于普通的应用程序，可以访问受保护的内存空间，也有访问底层硬件设备的所有权限。为了保证用户进程不能直接操作内核(kernel)，保证">
+<meta name="twitter:description" content="本文档讲解linux中的5种io模型。并非原创。">
 <meta name="twitter:image" content="http://mmbiz.qpic.cn/mmbiz/9aPYe0E1fb11Io93ECiaoQys70EB6dcAzNwzp7DQyroj5EUfxUdKLV7bjQjkF5AH5lk2lnlACBoyP29gfvhYWdA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
 
 
@@ -131,7 +131,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/10/07/linux中的5种IO模型/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/09/linux中的5种IO模型/">
 
 
 
@@ -306,7 +306,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/07/linux中的5种IO模型/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/09/linux中的5种IO模型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -335,8 +335,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-07T16:15:54+08:00">
-                2019-10-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-09T10:34:02+08:00">
+                2019-10-09
               </time>
             
 
@@ -400,7 +400,10 @@
       
 
       
-        <h1 id="概念说明"><a href="#概念说明" class="headerlink" title="概念说明"></a>概念说明</h1><p>在进行解释之前，首先要说明几个概念：</p>
+        <p>本文档讲解linux中的5种io模型。并非原创。</p>
+<a id="more"></a>
+
+<h1 id="概念说明"><a href="#概念说明" class="headerlink" title="概念说明"></a>概念说明</h1><p>在进行解释之前，首先要说明几个概念：</p>
 <blockquote>
 <p>用户空间和内核空间</p>
 <p>进程切换</p>
@@ -552,7 +555,7 @@
 <p>另外一种使用阻塞方式的理由是降低响应延迟。如果采用非阻塞方式，一个任务 A 被提交到后台，就开始做另一件事 B，但 B 还没做完，A 就完成了，这时要想让 A 的完成事件被尽快处理（比如 A 是个紧急事务），要么丢弃做到一半的 B，要么保存 B 的中间状态并切换回 A，任务的切换是需要时间的（不管是从磁盘载入到内存，还是从内存载入到高速缓存），这势必降低 A 的响应速度。因此，对实时系统或者延迟敏感的事务，有时采用阻塞方式比非阻塞方式更好。</p>
 <h2 id="五种IO模型"><a href="#五种IO模型" class="headerlink" title="五种IO模型"></a>五种IO模型</h2><p><img src="http://mmbiz.qpic.cn/mmbiz/9aPYe0E1fb11Io93ECiaoQys70EB6dcAzNOlSZdiampJg1VNkhT79Kzeul8IYferMoHDnNywRC4rKYMetM4udic2Q/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
 <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="在这里输入图片标题"></p>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a href="https://mp.weixin.qq.com/s?__biz=MzAxODI5ODMwOA==&amp;mid=2666538919&amp;idx=1&amp;sn=6013c451b5f14bf809aec77dd5df6cff&amp;scene=21#wechat_redirect">https://mp.weixin.qq.com/s?__biz=MzAxODI5ODMwOA==&amp;mid=2666538919&amp;idx=1&amp;sn=6013c451b5f14bf809aec77dd5df6cff&amp;scene=21#wechat_redirect</a></p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]原作者：<a href="https://mp.weixin.qq.com/s?__biz=MzAxODI5ODMwOA==&amp;mid=2666538919&amp;idx=1&amp;sn=6013c451b5f14bf809aec77dd5df6cff&amp;scene=21#wechat_redirect">https://mp.weixin.qq.com/s?__biz=MzAxODI5ODMwOA==&amp;mid=2666538919&amp;idx=1&amp;sn=6013c451b5f14bf809aec77dd5df6cff&amp;scene=21#wechat_redirect</a></p>
 
       
     </div>
@@ -577,8 +580,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/07/fork和vfork/" rel="next" title="fork和vfork">
-                <i class="fa fa-chevron-left"></i> fork和vfork
+              <a href="/2019/10/09/c++API/" rel="next" title="C++常用函数api">
+                <i class="fa fa-chevron-left"></i> C++常用函数api
               </a>
             
           </div>
@@ -586,10 +589,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/10/07/聊聊IO多路复用之select、poll、epoll详解/" rel="prev" title="聊聊IO多路复用之select、poll、epoll详解">
-                聊聊IO多路复用之select、poll、epoll详解 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
