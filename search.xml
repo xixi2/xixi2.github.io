@@ -452,14 +452,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[traits]]></title>
-    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
-    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
-      <categories>
-        <category>STL</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[bind与函数适配器]]></title>
     <url>%2F2019%2F09%2F27%2Fbind%E4%B8%8E%E5%87%BD%E6%95%B0%E9%80%82%E9%85%8D%E5%99%A8%2F</url>
     <content type="text"><![CDATA[bind是从c++11开始出现的新型适配器]]></content>
@@ -473,6 +465,14 @@
     <content type="text"><![CDATA[字符串系列]]></content>
       <categories>
         <category>牛客网</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[traits]]></title>
+    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
+    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
+      <categories>
+        <category>STL</category>
       </categories>
   </entry>
   <entry>
@@ -517,17 +517,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[可变模板参数(c++11新特性)]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%8F%AF%E5%8F%98%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0%2F</url>
-    <content type="text"><![CDATA[Variadic Templates Variadic Templates谈的是template function template class template 变化的是template parameters 参数个数：利用参数个数注意递减的特性，实现递归函数调用．使用function template完成 参数类型：利用参数个数逐一递减，参数类型也逐一递减的特性，实现递归继承或递归复合，以class template完成． 可变模板参数写的一个小例子针对函数模板参数包，函数参数类型包，函数参数包 123456789void print() &#123;&#125; //非模板，和模板的实例形成重载函数；函数没有特化和偏特化template&lt;typename T, typename... Types&gt;void print(const T &amp;firstArg, const Types &amp;... args) &#123; // firstArg是包中第一个元素的引用，输出包中剩余元素个数 cout &lt;&lt; sizeof...(args) &lt;&lt; " "; cout &lt;&lt; firstArg &lt;&lt; endl; print(args...); // 当args为空时，调用的是非模板函数print&#125; 可变模板参数实现hash function1234567891011121314151617181920212223242526template&lt;typename T&gt;inline void hash_combine(size_t &amp;seed, const T &amp;val) &#123; seed ^= std::hash&lt;T&gt;()(val) + 0x9e3779b9 // 0x9e3779b9黄金比例 + (seed &lt;&lt; 6) + (seed &gt;&gt; 2);&#125;template&lt;typename T&gt;inline void hash_val(size_t &amp;seed, const T &amp;val) &#123; hash_combine(seed, val);&#125;template&lt;typename T, typename...Types&gt;inline void hash_val(size_t &amp;seed, const T &amp;val, const Types &amp;...args) &#123; hash_combine(seed, val); hash_val(seed, args...);&#125;// 版本1// typename...Types：任意个模板参数// 第一个函数不是size_ttemplate&lt;typename...Types&gt;inline size_t hash_val(const Types &amp;...args) &#123; size_t seed = 0; hash_val(seed, args...); return seed;&#125; 可变模板参数实现printf1234567891011121314151617181920212223242526void printf(const char *s) &#123; while (*s) &#123; if (*s == '%' &amp;&amp; (*(++s) != '%')) &#123; throw std::runtime_error("invalid formal string::missing arguments"); &#125; cout &lt;&lt; *s++; &#125;&#125;template&lt;typename T, typename... Args&gt;void printf(const char *s, T value, Args... args) &#123; while (*s) &#123; if (*s == '%' &amp;&amp; (*(++s)) != '%') &#123; cout &lt;&lt; value; printf(++s, args...); return; &#125; cout &lt;&lt; *s++; // 如果s不是用于格式控制，则直接输出s &#125; throw std::logic_error("extra argument provided to printf");&#125;void test_printf() &#123; printf("%d\n%s\n%f\n", 15, "This is Alice", 3.1415926); printf("%d, %s, %f\n", 15, "This is Alice", 3.1415926);&#125; variadic templates与initializer_list若参数的类型相同，无须使用variadic templates,使用initializer_list&lt;T&gt;即可 使用initializer_list实现max 12345678910111213141516171819202122232425262728293031323334template&lt;typename __ForwardIterator, typename __Compare&gt;__ForwardIterator __max_element(__ForwardIterator __first, __ForwardIterator __last, __Compare _comp) &#123; if (__first == __last) &#123; return __first; &#125; __ForwardIterator __result = __first; while (++__first != __last) &#123; if (_comp(__result, __first)) __result = __first; &#125; return __result;&#125;// _Iter_less_iter是一种类型inline __Iter_less_iter __iter_less_iter() &#123; return __Iter_less_iter();&#125;template&lt;typename __ForwardIterator&gt;inline __ForwardIterator max_element(__ForwardIterator __first, __ForwardIterator __last) &#123; // _iter_less_iter()是一个函数调用，但是返回一个对象 return __max_element(__first, __last, __iter_less_iter());&#125;template&lt;typename _Tp&gt;inline _Tpmax(initializer_list&lt;_Tp&gt; _l) &#123; return *max_element(_l.begin(), _l.end());&#125;// 调用形式：max(&#123;1,2,43,2,41&#125;); 使用varadic templates实现max 123456789101112int maximum(int n) &#123; return n;&#125;template&lt;typename... Args&gt;int maximum(int n, Args... args) &#123; return max(maximum(args...), n);&#125;void test_maximum() &#123; cout &lt;&lt; maximum(57, 48, 60, 100, 20, 18) &lt;&lt; endl;&#125; 对异于一般的方式处理first元素和last元素12345678910111213141516171819202122232425template&lt;int IDX, int MAX, typename... Args&gt;struct PRINT_TUPLE &#123; static void print(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123; os &lt;&lt; get&lt;IDX&gt;(t) &lt;&lt; (IDX + 1 == MAX ? &quot;&quot; : &quot;,&quot;); PRINT_TUPLE&lt;IDX + 1, MAX, Args...&gt;::print(os, t); &#125;&#125;;// 当前元素是最后一个template&lt;int MAX, typename...Args&gt;struct PRINT_TUPLE&lt;MAX, MAX, Args...&gt; &#123; static void print(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123;&#125;&#125;;template&lt;typename... Args&gt;ostream &amp;operator&lt;&lt;(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123; PRINT_TUPLE&lt;0, sizeof...(Args), Args...&gt;::print(os, t); return os;&#125;void test_print_tuple() &#123; cout &lt;&lt; make_tuple(1.4, &quot;hello&quot;, 13, string(&quot;good&quot;)) &lt;&lt; endl;&#125; 可变模板参数实现tuple通过private 继承实现复合递归的继承 12345678910111213141516171819202122232425262728293031323334353637383940414243444546template&lt;typename...Values&gt;class tuple;template&lt;&gt;class tuple&lt;&gt; &#123;&#125;;// private继承template&lt;typename Head, typename... Tail&gt;class tuple&lt;Head, Tail...&gt; : private tuple&lt;Tail...&gt; &#123; typedef tuple&lt;Tail...&gt; inherited;protected: Head m_head;public: tuple() &#123;&#125; // inherited(vtail...)调用base ctor并给予参数(不是创建temp object) tuple(Head v, Tail... vtail) : m_head(v), inherited(vtail...) &#123;&#125; // 原始构想是取出Head指定的类型，但是head类型如何知道自己是什么type？// typename Head::type head() &#123; return m_head; &#125; // 通过decltype获取Head // m_head必须声明在此句之前 // auto head() -&gt; decltype(m_head) &#123; return m_head; &#125; // 更好的等价写法 // 可以直接这么写，Head本身就是指的类型 // Head head() &#123; return m_head; &#125; // return后转型为inherited // 返回值一定得是引用 // 调用tail之后，得到一个inhertied子对象，然后再对此子对象调用head时会改变此子对象，但是如果传回的是值(而非引用)，则被改变的是副本 inherited &amp;tail() &#123; return *this; &#125;&#125;;void test_tuple() &#123; tuple&lt;int, float, string&gt; t(41, 6.3, "nico"); cout &lt;&lt; sizeof(string) &lt;&lt; " " &lt;&lt; sizeof(int) &lt;&lt; " " &lt;&lt; sizeof(float) &lt;&lt; endl; // 32 4 4 cout &lt;&lt; sizeof(t) &lt;&lt; endl; // 40 cout &lt;&lt; t.head() &lt;&lt; endl; // 40 cout &lt;&lt; t.tail().head() &lt;&lt; endl; // 6.3 cout &lt;&lt; t.tail().tail().head() &lt;&lt; endl; // nico&#125; 通过composite实现复合1234567891011121314151617181920212223242526272829303132333435363738394041424344// 这两句存在的意义是什么？换言之，为什么需要这两句template&lt;typename... Values&gt; class tup;// 特化版本template&lt;&gt; class tup&lt;&gt; &#123; public: tup() &#123; cout &lt;&lt; "empty tup" &lt;&lt; endl; &#125; &#125;;// 特化版本template&lt;typename Head, typename...Tail&gt; class tup&lt;Head, Tail...&gt; &#123; typedef tup&lt;Tail...&gt; compositied; protected: compositied m_tail; Head m_head; public: tup() &#123;&#125;; // vtail...是一个函数参数包 tup(Head v, Tail... vtail) : m_head(v), m_tail(vtail...) &#123; cout &lt;&lt; m_head &lt;&lt; " " &lt;&lt; sizeof...(vtail) &lt;&lt; endl; &#125; Head head() &#123; return m_head; &#125; compositied &amp;tail() &#123; return m_tail; &#125; &#125;;void test_tup() &#123; tup&lt;int, float, string&gt; it1(41, 6.3, "nico"); cout &lt;&lt; endl; cout &lt;&lt; sizeof(it1) &lt;&lt; endl; cout &lt;&lt; it1.head() &lt;&lt; endl; cout &lt;&lt; it1.tail().head() &lt;&lt; endl; cout &lt;&lt; it1.tail().tail().head() &lt;&lt; endl;&#125; 运行结果 1234567891011# 由内到外构造对象empty tupnico 06.3 141 2# 依次输出tup中的内容56416.3nico]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>variadic templates</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[c++2.0新特性]]></title>
     <url>%2F2019%2F09%2F27%2Fc%2B%2B2.0%E6%96%B0%E7%89%B9%E6%80%A7%2F</url>
     <content type="text"><![CDATA[此文档整理c++11中新特性． autoauto和decltype的区别与联系variadic templatesrange base for]]></content>
@@ -536,6 +525,17 @@
       </categories>
       <tags>
         <tag>c++11新特性</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[可变模板参数(c++11新特性)]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%8F%AF%E5%8F%98%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0%2F</url>
+    <content type="text"><![CDATA[Variadic Templates Variadic Templates谈的是template function template class template 变化的是template parameters 参数个数：利用参数个数注意递减的特性，实现递归函数调用．使用function template完成 参数类型：利用参数个数逐一递减，参数类型也逐一递减的特性，实现递归继承或递归复合，以class template完成． 可变模板参数写的一个小例子针对函数模板参数包，函数参数类型包，函数参数包 123456789void print() &#123;&#125; //非模板，和模板的实例形成重载函数；函数没有特化和偏特化template&lt;typename T, typename... Types&gt;void print(const T &amp;firstArg, const Types &amp;... args) &#123; // firstArg是包中第一个元素的引用，输出包中剩余元素个数 cout &lt;&lt; sizeof...(args) &lt;&lt; " "; cout &lt;&lt; firstArg &lt;&lt; endl; print(args...); // 当args为空时，调用的是非模板函数print&#125; 可变模板参数实现hash function1234567891011121314151617181920212223242526template&lt;typename T&gt;inline void hash_combine(size_t &amp;seed, const T &amp;val) &#123; seed ^= std::hash&lt;T&gt;()(val) + 0x9e3779b9 // 0x9e3779b9黄金比例 + (seed &lt;&lt; 6) + (seed &gt;&gt; 2);&#125;template&lt;typename T&gt;inline void hash_val(size_t &amp;seed, const T &amp;val) &#123; hash_combine(seed, val);&#125;template&lt;typename T, typename...Types&gt;inline void hash_val(size_t &amp;seed, const T &amp;val, const Types &amp;...args) &#123; hash_combine(seed, val); hash_val(seed, args...);&#125;// 版本1// typename...Types：任意个模板参数// 第一个函数不是size_ttemplate&lt;typename...Types&gt;inline size_t hash_val(const Types &amp;...args) &#123; size_t seed = 0; hash_val(seed, args...); return seed;&#125; 可变模板参数实现printf1234567891011121314151617181920212223242526void printf(const char *s) &#123; while (*s) &#123; if (*s == '%' &amp;&amp; (*(++s) != '%')) &#123; throw std::runtime_error("invalid formal string::missing arguments"); &#125; cout &lt;&lt; *s++; &#125;&#125;template&lt;typename T, typename... Args&gt;void printf(const char *s, T value, Args... args) &#123; while (*s) &#123; if (*s == '%' &amp;&amp; (*(++s)) != '%') &#123; cout &lt;&lt; value; printf(++s, args...); return; &#125; cout &lt;&lt; *s++; // 如果s不是用于格式控制，则直接输出s &#125; throw std::logic_error("extra argument provided to printf");&#125;void test_printf() &#123; printf("%d\n%s\n%f\n", 15, "This is Alice", 3.1415926); printf("%d, %s, %f\n", 15, "This is Alice", 3.1415926);&#125; variadic templates与initializer_list若参数的类型相同，无须使用variadic templates,使用initializer_list&lt;T&gt;即可 使用initializer_list实现max 12345678910111213141516171819202122232425262728293031323334template&lt;typename __ForwardIterator, typename __Compare&gt;__ForwardIterator __max_element(__ForwardIterator __first, __ForwardIterator __last, __Compare _comp) &#123; if (__first == __last) &#123; return __first; &#125; __ForwardIterator __result = __first; while (++__first != __last) &#123; if (_comp(__result, __first)) __result = __first; &#125; return __result;&#125;// _Iter_less_iter是一种类型inline __Iter_less_iter __iter_less_iter() &#123; return __Iter_less_iter();&#125;template&lt;typename __ForwardIterator&gt;inline __ForwardIterator max_element(__ForwardIterator __first, __ForwardIterator __last) &#123; // _iter_less_iter()是一个函数调用，但是返回一个对象 return __max_element(__first, __last, __iter_less_iter());&#125;template&lt;typename _Tp&gt;inline _Tpmax(initializer_list&lt;_Tp&gt; _l) &#123; return *max_element(_l.begin(), _l.end());&#125;// 调用形式：max(&#123;1,2,43,2,41&#125;); 使用varadic templates实现max 123456789101112int maximum(int n) &#123; return n;&#125;template&lt;typename... Args&gt;int maximum(int n, Args... args) &#123; return max(maximum(args...), n);&#125;void test_maximum() &#123; cout &lt;&lt; maximum(57, 48, 60, 100, 20, 18) &lt;&lt; endl;&#125; 对异于一般的方式处理first元素和last元素12345678910111213141516171819202122232425template&lt;int IDX, int MAX, typename... Args&gt;struct PRINT_TUPLE &#123; static void print(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123; os &lt;&lt; get&lt;IDX&gt;(t) &lt;&lt; (IDX + 1 == MAX ? &quot;&quot; : &quot;,&quot;); PRINT_TUPLE&lt;IDX + 1, MAX, Args...&gt;::print(os, t); &#125;&#125;;// 当前元素是最后一个template&lt;int MAX, typename...Args&gt;struct PRINT_TUPLE&lt;MAX, MAX, Args...&gt; &#123; static void print(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123;&#125;&#125;;template&lt;typename... Args&gt;ostream &amp;operator&lt;&lt;(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123; PRINT_TUPLE&lt;0, sizeof...(Args), Args...&gt;::print(os, t); return os;&#125;void test_print_tuple() &#123; cout &lt;&lt; make_tuple(1.4, &quot;hello&quot;, 13, string(&quot;good&quot;)) &lt;&lt; endl;&#125; 可变模板参数实现tuple通过private 继承实现复合递归的继承 12345678910111213141516171819202122232425262728293031323334353637383940414243444546template&lt;typename...Values&gt;class tuple;template&lt;&gt;class tuple&lt;&gt; &#123;&#125;;// private继承template&lt;typename Head, typename... Tail&gt;class tuple&lt;Head, Tail...&gt; : private tuple&lt;Tail...&gt; &#123; typedef tuple&lt;Tail...&gt; inherited;protected: Head m_head;public: tuple() &#123;&#125; // inherited(vtail...)调用base ctor并给予参数(不是创建temp object) tuple(Head v, Tail... vtail) : m_head(v), inherited(vtail...) &#123;&#125; // 原始构想是取出Head指定的类型，但是head类型如何知道自己是什么type？// typename Head::type head() &#123; return m_head; &#125; // 通过decltype获取Head // m_head必须声明在此句之前 // auto head() -&gt; decltype(m_head) &#123; return m_head; &#125; // 更好的等价写法 // 可以直接这么写，Head本身就是指的类型 // Head head() &#123; return m_head; &#125; // return后转型为inherited // 返回值一定得是引用 // 调用tail之后，得到一个inhertied子对象，然后再对此子对象调用head时会改变此子对象，但是如果传回的是值(而非引用)，则被改变的是副本 inherited &amp;tail() &#123; return *this; &#125;&#125;;void test_tuple() &#123; tuple&lt;int, float, string&gt; t(41, 6.3, "nico"); cout &lt;&lt; sizeof(string) &lt;&lt; " " &lt;&lt; sizeof(int) &lt;&lt; " " &lt;&lt; sizeof(float) &lt;&lt; endl; // 32 4 4 cout &lt;&lt; sizeof(t) &lt;&lt; endl; // 40 cout &lt;&lt; t.head() &lt;&lt; endl; // 40 cout &lt;&lt; t.tail().head() &lt;&lt; endl; // 6.3 cout &lt;&lt; t.tail().tail().head() &lt;&lt; endl; // nico&#125; 通过composite实现复合1234567891011121314151617181920212223242526272829303132333435363738394041424344// 这两句存在的意义是什么？换言之，为什么需要这两句template&lt;typename... Values&gt; class tup;// 特化版本template&lt;&gt; class tup&lt;&gt; &#123; public: tup() &#123; cout &lt;&lt; "empty tup" &lt;&lt; endl; &#125; &#125;;// 特化版本template&lt;typename Head, typename...Tail&gt; class tup&lt;Head, Tail...&gt; &#123; typedef tup&lt;Tail...&gt; compositied; protected: compositied m_tail; Head m_head; public: tup() &#123;&#125;; // vtail...是一个函数参数包 tup(Head v, Tail... vtail) : m_head(v), m_tail(vtail...) &#123; cout &lt;&lt; m_head &lt;&lt; " " &lt;&lt; sizeof...(vtail) &lt;&lt; endl; &#125; Head head() &#123; return m_head; &#125; compositied &amp;tail() &#123; return m_tail; &#125; &#125;;void test_tup() &#123; tup&lt;int, float, string&gt; it1(41, 6.3, "nico"); cout &lt;&lt; endl; cout &lt;&lt; sizeof(it1) &lt;&lt; endl; cout &lt;&lt; it1.head() &lt;&lt; endl; cout &lt;&lt; it1.tail().head() &lt;&lt; endl; cout &lt;&lt; it1.tail().tail().head() &lt;&lt; endl;&#125; 运行结果 1234567891011# 由内到外构造对象empty tupnico 06.3 141 2# 依次输出tup中的内容56416.3nico]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>variadic templates</tag>
       </tags>
   </entry>
   <entry>
@@ -791,6 +791,19 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[模板实参推断和引用]]></title>
+    <url>%2F2019%2F09%2F27%2F%E6%A8%A1%E6%9D%BF%E5%AE%9E%E5%8F%82%E6%8E%A8%E6%96%AD%E5%92%8C%E5%BC%95%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[模板分为类模板，函数模板，还有成员模板． 编译器会对函数模板参数进行推导． 从左值引用函数参数推断类型从右值引用函数参数推断类型]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>引用</tag>
+        <tag>模板</tag>
+        <tag>函数参数</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[类型转换系列1]]></title>
     <url>%2F2019%2F09%2F27%2F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%97%EF%BC%91%2F</url>
     <content type="text"><![CDATA[显式转换旧式转型:T(expression)(T)expression 四种新式转型: cast-name&lt;type&gt;(expression): type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。 旧式转换表面上功能强大，但是转化时不够明确，不能进行错误检查，容易出错． const_cast通常被用来将对象的常量性移除.即将const对象转为非const对象． dynamic_cast 主要用来执行“安全向下转型”,也就是用来决定某对象是否归属继承体系中的某个类型. 用于动态类型转换，只能用于含有虚函数的类，用于类层次间的向上和向下转化．只能转指针或引用．向下转化时，如果是非法的，对于指针返回nullptr，对于引用抛出异常． 向上转换：子类向基类的转换 向下转换：基类向子类的转换 它通过判断在执行到该语句的时候变量的运行时类型和要转换的类型是否相同来判断是否能够进行向下转换． 它是唯一无法由旧式语法执行的动作,也是唯一可能耗费重大运行成本的转型动作. reinterpret_cast意图执行低级转型,实际动作(及结果)可能取决于编译器,这也就表示它不可移植.例如将一个pointer to int转型为一个int. 这一类型在低级代码以外很少见. static_cast用来强迫隐式转换. 将non-const对象转为const对象 (不能隐式地将一个左值转换为一个右值引用，但是可以)使用static_cast可以显式地将一个左值转换为一个右值引用 或将int转为double 用于多态向上转化，如果向下转型能成功但是不安全，结果未知． 也可以用来执行上述多种转换的反向转换 将void*指针转为typed指针, 将point-to-base转为pointer-to-derived. 但它无法将const转为non-const,这个只有const_cast才办得到.]]></content>
@@ -803,19 +816,6 @@
         <tag>显示转换</tag>
         <tag>cast</tag>
         <tag>const_cast</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[模板实参推断和引用]]></title>
-    <url>%2F2019%2F09%2F27%2F%E6%A8%A1%E6%9D%BF%E5%AE%9E%E5%8F%82%E6%8E%A8%E6%96%AD%E5%92%8C%E5%BC%95%E7%94%A8%2F</url>
-    <content type="text"><![CDATA[模板分为类模板，函数模板，还有成员模板． 编译器会对函数模板参数进行推导． 从左值引用函数参数推断类型从右值引用函数参数推断类型]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>引用</tag>
-        <tag>模板</tag>
-        <tag>函数参数</tag>
       </tags>
   </entry>
   <entry>
@@ -957,6 +957,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[类型转换系列2]]></title>
+    <url>%2F2019%2F09%2F27%2F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%972%2F</url>
+    <content type="text"><![CDATA[对于类类型的类型转换,通过定义类型转换运算符完成.转换构造函数和类型转换运算符共同定义了类类型转换.类型转换运算符没有显式的返回类型,也没有星灿,而且必须定义成类的成员函数.类型转换运算符一般不改变待转换对象的内容.因此,类型转换运算符一般是const的. 123456789101112131415161718192021222324252627282930/** * SmallInt既定义了向类类型的转换,也定义了从类类型向其他类型的转换 * 构造函数将算类型的值转换成SmallInt类型对象,类型转换运算符将SmallInt对象转换成int */class SmallInt &#123;public: SmallInt(int i = 0) : val(i) &#123; if (i &lt; 0 || i &gt; 255) &#123; throw std::out_of_range("Bad SmallInt value"); &#125; &#125; // 类型转换运算符:把类类型SmallInt转成int类型 operator int() const &#123; return val; &#125;private: std::size_t val;&#125;;int main()&#123; SmallInt s = 4; // s是一个SmallInt类型对象,val=4 cout &lt;&lt; s + 4 &lt;&lt; endl; // 8 SmallInt si = 3.14; // si是一个SmallInt类型对象,val=3 cout &lt;&lt; si + 3.14 &lt;&lt; endl; // 6 return 0;&#125; SmallInt s = 4首先将4隐式地转换为SmallInt,然后调用SmallInt::operator=(拷贝赋值运算符). s + 4首先将s隐式地转换成int,然后执行整数的加法 si = 3.14, 首先内置类型转换将double实参转换成int,然后再调用SmallInt(int)构造函数 在表达式si + 3.14中, 首先SmallInt类型转换运算符将si转换成3,然后内置类型转换将所得int继续转换为double. 编译器一次只能执行一个用户定义的类型转换,但是隐式的用户定义类型转换可以置于一个标准类型转换之前或之后]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>类类型隐式转换</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[void*指针]]></title>
     <url>%2F2019%2F09%2F27%2Fvoid*%E6%8C%87%E9%92%88%2F</url>
     <content type="text"><![CDATA[void*是一种特殊的指针类型,可以用于存放任意类型的对象地址.但是我们不知道该指针着存放的地址指向的对象的类型. 1234int d = 102;void *p = &amp;d;int *pa = static_cast&lt;int *&gt;(p);cout &lt;&lt; *pa &lt;&lt; endl; // 102 将指针p强制为int*类型,强制转换过程中应该确保指针的值即指针指向的对象地址不变; 因此我们进行强制转换时,必须确保转换的目标类型就是指针所指的类型,否则,将产生未定义的结果. 那么什么时候使用void*指针呢?未完待续]]></content>
@@ -966,17 +977,6 @@
       <tags>
         <tag>void*指针</tag>
         <tag>static_cast</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[类型转换系列2]]></title>
-    <url>%2F2019%2F09%2F27%2F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%972%2F</url>
-    <content type="text"><![CDATA[对于类类型的类型转换,通过定义类型转换运算符完成.转换构造函数和类型转换运算符共同定义了类类型转换.类型转换运算符没有显式的返回类型,也没有星灿,而且必须定义成类的成员函数.类型转换运算符一般不改变待转换对象的内容.因此,类型转换运算符一般是const的. 123456789101112131415161718192021222324252627282930/** * SmallInt既定义了向类类型的转换,也定义了从类类型向其他类型的转换 * 构造函数将算类型的值转换成SmallInt类型对象,类型转换运算符将SmallInt对象转换成int */class SmallInt &#123;public: SmallInt(int i = 0) : val(i) &#123; if (i &lt; 0 || i &gt; 255) &#123; throw std::out_of_range("Bad SmallInt value"); &#125; &#125; // 类型转换运算符:把类类型SmallInt转成int类型 operator int() const &#123; return val; &#125;private: std::size_t val;&#125;;int main()&#123; SmallInt s = 4; // s是一个SmallInt类型对象,val=4 cout &lt;&lt; s + 4 &lt;&lt; endl; // 8 SmallInt si = 3.14; // si是一个SmallInt类型对象,val=3 cout &lt;&lt; si + 3.14 &lt;&lt; endl; // 6 return 0;&#125; SmallInt s = 4首先将4隐式地转换为SmallInt,然后调用SmallInt::operator=(拷贝赋值运算符). s + 4首先将s隐式地转换成int,然后执行整数的加法 si = 3.14, 首先内置类型转换将double实参转换成int,然后再调用SmallInt(int)构造函数 在表达式si + 3.14中, 首先SmallInt类型转换运算符将si转换成3,然后内置类型转换将所得int继续转换为double. 编译器一次只能执行一个用户定义的类型转换,但是隐式的用户定义类型转换可以置于一个标准类型转换之前或之后]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>类类型隐式转换</tag>
       </tags>
   </entry>
   <entry>
@@ -1004,21 +1004,21 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[二叉树的下一个结点]]></title>
-    <url>%2F2019%2F09%2F27%2F%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E7%BB%93%E7%82%B9%2F</url>
-    <content type="text"><![CDATA[给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。 题目链接:https://www.nowcoder.com/questionTerminal/9023a0c988684a53960365b889ceaf5e 相关题目:寻找下一个节点]]></content>
-      <tags>
-        <tag>牛客网</tag>
-        <tag>binary tree</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[并查集基础知识]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%B9%B6%E6%9F%A5%E9%9B%86%2F</url>
     <content type="text"><![CDATA[并查集(不相交集合)不相交集合数据结构是这样一种数据结构: 它维护了一个不相交动态集的集合 $$S = {s_1, s_2, …, s_i, …, s_k}$$对于每个集合S中的每个元素集合si而言,用集合中的而一个元素来代表该集合.假设x是集合si中的一个元素,则有以下三种操作: make_set(x): 建立一个新的集合,它的唯一成员是x.因为各个集合是不相交的集合, 所以x不会出现在别的集合中.union(x, y): 将包含x和y的两个动态集合(表示为sx和sy合并成一个新的集合, 即这两个集合的并集)find_set(x): 返回一个指针,该指针指向包含x的(唯一)集合的代表.不相交集合可以用于求无向图的连通分量等.待后续加上代码 为了提交效率,建立并查集的过程往往会采用两种策略来提高性能.一种是按秩(秩是指节点高度的一个上界)合并, 另一种是路径压缩.按秩合并是在合并两个集合的过程中, 让具有较小秩的根指向较大秩的根.路径压缩是在查找节点的根节点的过程中, 使查找路径上的每个节点指向指向根(即令根节点成为查找路径上每个节点的父节点). 节点x的秩: 节点x的高度(从节点x到某一后代叶节点的最长简单路径上边的数目)的一个上界.当make_set(x)创建一个单元素x集合时, 节点x的秩为0.使用按秩合并union(x, y)合并两个集合时, 若两个集合的秩不同,则让较大秩的根成为较小秩的根的父节点, 秩本身保持不变.若两个集合的秩相同,则任意选择两个根中的一个作为父节点, 并使它的秩加1. 并查集的实现(伪代码)123456789101112131415161718make_set(x) x.p = x // x的父节点是自己,即x是x所在集合的根节点 x.rank = 0 // x.rank即x的秩link(x, y) if(x.rank &gt; y.rank) y.p = x else x.p = y if(x.rank == y.rank) y.rank = y.rank + 1union(x, y) link(find_set(x), find_set(y))find_set(x) if x != x.p x.p = find_set(x.p) return x.p find_set的非递归形式 12345678find_set(x) a = x while x != x.p x = x.p while a != a.p z = a a = a.p z.p = x]]></content>
       <tags>
         <tag>基础算法</tag>
         <tag>理论</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[二叉树的下一个结点]]></title>
+    <url>%2F2019%2F09%2F27%2F%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E7%BB%93%E7%82%B9%2F</url>
+    <content type="text"><![CDATA[给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。 题目链接:https://www.nowcoder.com/questionTerminal/9023a0c988684a53960365b889ceaf5e 相关题目:寻找下一个节点]]></content>
+      <tags>
+        <tag>牛客网</tag>
+        <tag>binary tree</tag>
       </tags>
   </entry>
   <entry>
