@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="std::move">
+<meta name="description" content="本文档主要整理并记录c++常用的api。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="move">
-<meta property="og:url" content="http://yoursite.com/2019/09/27/move/index.html">
+<meta property="og:title" content="C++常用函数api">
+<meta property="og:url" content="http://yoursite.com/2019/10/09/c++API/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="std::move">
+<meta property="og:description" content="本文档主要整理并记录c++常用的api。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-27T15:06:32.342Z">
+<meta property="og:updated_time" content="2019-10-09T02:30:42.882Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="move">
-<meta name="twitter:description" content="std::move">
+<meta name="twitter:title" content="C++常用函数api">
+<meta name="twitter:description" content="本文档主要整理并记录c++常用的api。">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/09/27/move/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/09/c++API/">
 
 
 
 
 
-  <title>move | xixi2</title>
+  <title>C++常用函数api | xixi2</title>
   
 
 
@@ -294,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/27/move/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/09/c++API/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -311,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">move</h1>
+          <h1 class="post-title" itemprop="name headline">C++常用函数api</h1>
         
 
         <div class="post-meta">
@@ -323,8 +323,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T23:06:32+08:00">
-                2019-09-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-09T10:31:09+08:00">
+                2019-10-09
               </time>
             
 
@@ -388,21 +388,39 @@
       
 
       
-        <p>std::move</p>
+        <p>本文档主要整理并记录c++常用的api。</p>
 <a id="more"></a>
 
-<h1 id="右值与右值引用"><a href="#右值与右值引用" class="headerlink" title="右值与右值引用"></a>右值与右值引用</h1><p>临时对象是一种右值．<br>字面常量是一种右值．<br>右值不可以放在赋值号的左边，即右值不可以被赋值．不可以对右值取地址．</p>
-<p>一个左值引用是某个对象的另一个名字．返回左值引用的函数，赋值，下标，解引用和前置递增/递减运算符都是返回左值的表达式的例子．注意：尽管常量无法改变，但是<span style="color:royalblue">常量是一个左值</span>．
-<strong>右值引用是必须绑定到右值的引用</strong>．不能将一个右值引用绑定到一个左值上．返回非引用类型的函数，包括算术，关系，位及递增/递减运算符，都生成右值．我们不能将一个左值引用绑定到这类表达式上，但是<strong>可以将一个const的左值引用或一个右值引用绑定到这类表达式(返回右值的表达式)上</strong>．</p>
-<p>右值引用通常用于两种情况：模板转发其实参或模板被重载．</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">42</span>;		</span><br><span class="line"><span class="keyword">int</span> &amp;r = i;			<span class="comment">// 正确，r是一个左值引用，绑定到一个左值上</span></span><br><span class="line"><span class="keyword">int</span> &amp;&amp;rr = i;		<span class="comment">// 错误，rr是一个右值引用，，不能将一个右值引用绑定到一个左值上</span></span><br><span class="line"><span class="keyword">int</span> &amp;r2 = i * <span class="number">42</span>;	<span class="comment">// 错误，不能将一个左值引用绑定到一个右值上</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;r3 = <span class="number">42</span>;	<span class="comment">// 正确，r2是一个const的左值引用，可以将一个const的左值引用绑定到一个右值上</span></span><br><span class="line"><span class="keyword">int</span> &amp;&amp;rr2 = i * <span class="number">42</span>;	<span class="comment">// 正确，可以将一个右值引用绑定到一个右值上</span></span><br></pre></td></tr></table></figure>
+<h1 id="uninitialized-fill-n"><a href="#uninitialized-fill-n" class="headerlink" title="uninitialized_fill_n"></a>uninitialized_fill_n</h1><p>函数原型：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">ForwardIterator</span>, <span class="title">class</span> <span class="title">Size</span>, <span class="title">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">ForwardIterator</span> <span class="title">uninitialized_fill_n</span>(<span class="title">ForwardIterator</span> <span class="title">first</span>, <span class="title">Size</span> <span class="title">n</span>, <span class="title">const</span> <span class="title">T</span>&amp;<span class="title">x</span>);</span></span><br></pre></td></tr></table></figure>
 
-<p>由于右值引用只能绑定到临时对象，所以：<br>右值引用的对象将要销毁，且该对象没有其他用户．因此使用右值引用的代码可以自由地接管所引用的对象的资源．</p>
-<p><span style="color:royalblue">变量是左值</span>，可以把变量看做是只有一个运算对象而没有运算符的表达式，变量表达式都是右值．因此不能将一个右值引用绑定到一个右值引用类型的变量上．</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> &amp;&amp;rr1 = <span class="number">42</span>;		<span class="comment">// 正确，rr1是一个右值引用类型的变量，绑定到一个右值42</span></span><br><span class="line"><span class="keyword">int</span> &amp;&amp;rr2 = rr1;	<span class="comment">// 错误，rr1是一个变量，它的类型是右值引用类型，但是rr1是一个变量，是左值，因此，不能将右值引用绑定到rr1上</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>功能：为以迭代器指向的起始位置的n个元素指定相同的初值．</li>
+<li>first: 迭代器first指向初始化空间的起始处．</li>
+<li>n: 表示欲初始化空间的大小</li>
+<li>x: 初值</li>
+<li>返回值：ForwardIterator first：即指向被赋值的尾元素下一位置的迭代器</li>
+<li>可参考：<a href="http://www.cplusplus.com/reference/memory/uninitialized_fill_n/">http://www.cplusplus.com/reference/memory/uninitialized_fill_n/</a></li>
+</ul>
+<h1 id="uninitialized-copy"><a href="#uninitialized-copy" class="headerlink" title="uninitialized_copy"></a>uninitialized_copy</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">InputIterator</span>, <span class="title">class</span> <span class="title">ForwardIterator</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">ForwardIterator</span> <span class="title">uninitialized_copy</span>(<span class="title">InputIterator</span> <span class="title">first</span>, <span class="title">InputIterator</span> <span class="title">last</span>, <span class="title">ForwardIterator</span> <span class="title">result</span>);</span></span><br></pre></td></tr></table></figure>
 
-<h1 id="move"><a href="#move" class="headerlink" title="move"></a>move</h1><p>尽管不能将一个右值引用直接绑定到一个左值上，但是可以<span style="color:royalblue">显式地将一个左值转换为对应的右值引用类型</span>．通过调用标准库的move函数来获得绑定到左值上的右值引用．<br>我们可以销毁一个移后源对象，也可以赋予它新值，但不能使用一个移后源对象的值．<br>移后源对象必须可析构，并且移后源对象必须仍然是有效的．对象有效是指可以安全地为其赋予新值或者可以安全地使用而不依赖其当前值．</p>
-<h1 id="forward-完美转发"><a href="#forward-完美转发" class="headerlink" title="forward(完美转发)"></a>forward(完美转发)</h1><p><span style="color:royalblue">某些函数需要将其一个或多个实参连同类型不变地转发给其他函数</span>．在此情况下，我们需要保持被转发实参的所有性质，包括实参类型是否是const的以及实参是左值还是右值．</p>
+<ul>
+<li>功能：将迭代器first和last指定的范围内中的元素拷贝到以迭代器result起始的区域内</li>
+<li>first: 指向源区域的起始处的迭代器</li>
+<li>last: 指向源区域的结尾处的迭代器</li>
+<li>result：指向目的区域的起始处的迭代器</li>
+<li>返回值：指向新的结束位置的迭代器</li>
+</ul>
+<h1 id="copy-backward"><a href="#copy-backward" class="headerlink" title="copy_backward"></a>copy_backward</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>copy_backward() 会复制前两个迭代器参数指定的序列。</li>
+<li>第三个参数是目的序列的结束迭代器，通过将源序列中的最后一个元素复制到目的序列的结束迭代器之前，源序列会被复制到目的序列中。</li>
+<li>copy_backward() 的 3 个参数都必须是可以自增或自减的双向迭代器，这意味着这个算法只能应用到序列容器的序列上。</li>
+</ul>
+<p><strong>什么情况下需要用到copy_backward</strong>?</p>
+<h1 id="STL-TRY"><a href="#STL-TRY" class="headerlink" title="__STL_TRY"></a>__STL_TRY</h1><p>__STL_TRY是宏定义</p>
+<p><a href="https://blog.csdn.net/Windgs_YF/article/details/80909170">https://blog.csdn.net/Windgs_YF/article/details/80909170</a></p>
 
       
     </div>
@@ -427,8 +445,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/27/c++11新特性/" rel="next" title="c++2.0新特性">
-                <i class="fa fa-chevron-left"></i> c++2.0新特性
+              <a href="/2019/10/09/mysql日志/" rel="next" title="mysql日志">
+                <i class="fa fa-chevron-left"></i> mysql日志
               </a>
             
           </div>
@@ -436,10 +454,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/09/27/move对效率的影响/" rel="prev" title="move对效率的影响">
-                move对效率的影响 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -518,7 +532,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">114</span>
+                  <span class="site-state-item-count">117</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -529,7 +543,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -573,7 +587,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#右值与右值引用"><span class="nav-number">1.</span> <span class="nav-text">右值与右值引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#move"><span class="nav-number">2.</span> <span class="nav-text">move</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#forward-完美转发"><span class="nav-number">3.</span> <span class="nav-text">forward(完美转发)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#uninitialized-fill-n"><span class="nav-number">1.</span> <span class="nav-text">uninitialized_fill_n</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#uninitialized-copy"><span class="nav-number">2.</span> <span class="nav-text">uninitialized_copy</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#copy-backward"><span class="nav-number">3.</span> <span class="nav-text">copy_backward</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#STL-TRY"><span class="nav-number">4.</span> <span class="nav-text">__STL_TRY</span></a></li></ol></div>
             
 
           </div>
