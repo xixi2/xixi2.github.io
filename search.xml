@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[带缓冲的IO与不带缓冲的IO]]></title>
+    <url>%2F2019%2F10%2F10%2F%E5%B8%A6%E7%BC%93%E5%86%B2%E7%9A%84IO%E4%B8%8E%E4%B8%8D%E5%B8%A6%E7%BC%93%E5%86%B2%E7%9A%84IO%2F</url>
+    <content type="text"><![CDATA[本文涉及到众多知识点。如内核态与用户态。 首先，什么是缓冲区？缓冲和缓存这是两个十分相似且容易混淆的概念。简单来看，缓冲区是为了解决通信的两个组件之间速度不匹配的问题。比如说，主存和磁盘。主存速度快，磁盘慢，那么进程要将主存中的数据写入到磁盘的时候，主存就不得不等待磁盘。如果不想等怎么办，所以就有缓冲区的概念。缓冲区就是在主存中专门开辟出一块空间，放置要写入磁盘的数据，当进程要把主存中的数据写入磁盘的时候，不真的等待操作系统把数据写入磁盘，而是直接把数据搬到缓冲区中(还在内存中)，然后操作系统告诉进程，我已经写好了，你可以继续了，进程就继续向前运行。之后，操作系统再默默把缓冲区中的数据写入到磁盘。 内核缓冲区和进程缓冲区除了在进程中设计缓冲区，内核也有自己的缓冲区。当一个用户进程要从磁盘读取数据时，内核一般不直接读磁盘，而是将内核缓冲区中的数据复制到进程缓冲区中。但是如果内核缓冲区中没有数据，内核会把对数据块的请求，加入到请求队列，然后把进程挂起，调度其他进程运行。等到数据已经读取到内核缓冲区时，把内核缓冲区中的数据读取到用户进程中，才会通知进程。可以认为，read系统调用是把数据从内核缓冲区复制到进程缓冲区，write系统调用把数据从进程缓冲区复制到内核缓冲区。 带缓冲和不带缓冲的IO所谓不带缓冲，不是指内核不提供缓冲，而是指系统调用(read和write)，不是函数库的调用。系统内核对磁盘的读写都会提供一个块缓冲(即内核缓冲区)。当调用write时，直接将数据写入到内核缓冲区，当内核缓冲区的数据到达一定量时，才会把数据写入到磁盘。因此，不带缓冲的IO是指进程不提供缓冲功能，内核缓冲区仍然存在。write是系统调用，每调用一次write都直接将数据写入到内核缓冲区中。write系统调用把数据从进程缓冲区复制到内核缓冲区，此时并不一定会发生内核缓冲区和磁盘之间的数据交换。只有当满足一定条件时，内核缓冲区中的数据才会写入磁盘。 123graph LR A[数据] --&gt; B[内核缓冲区] B --&gt; C[磁盘] 而带缓冲的IO是指进程对输入输出流进行了改进，提供了一个流缓冲，当用fwrite函数(不是系统调用，是标准库提供的IO函数)往磁盘写数据时，先把数据写入流磁盘缓冲区中。当满足一定条件时，如流缓冲区满了，或刷新流缓冲区，才把流缓冲区中的数据一次写入到内核缓冲区中(这个过程还是调用write系统调用)，再经内核缓冲区写入磁盘(双重缓冲)。 1234graph LR a[数据] --&gt; b[进程缓冲区] b --&gt; c[内核缓冲区] c --&gt; d[磁盘] 因此，带缓冲的IO在往磁盘写入相同的数据量时，会比不带缓冲的IO调用系统调用的次数要少。 总结一下，不带缓冲的IO对文件描述符进行操作，带缓冲的IO操作的则是流。标准IO就是带缓冲的IO。标准IO提供缓冲的目的是为了调用write和read的次数(这两个函数是系统调用，有开销)，它对每个IO流自动进行缓冲管理。 参考文献[1]带缓冲的IO与不带缓冲的IO：https://blog.csdn.net/u011402017/article/details/53747232[2]用户进程缓冲区和内核缓冲区：https://blog.csdn.net/huaiqu6460/article/details/89677420[3]内核缓冲区：https://blog.csdn.net/xiaofei0859/article/details/51145717[4]缓冲和缓存：https://www.cnblogs.com/tonycloud/articles/6568159.html]]></content>
+      <categories>
+        <category>unix 高级环境编程</category>
+      </categories>
+      <tags>
+        <tag>API</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[tex live安装与使用]]></title>
+    <url>%2F2019%2F10%2F10%2Flatex%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[本文档主要记录tex live的安装与使用。 latex各发行版本及编辑器比较：https://cn.soulmachine.me/2013-04-12-latex-distributions-and-editors/方法一：TeX Live 是 TUG (TeX User Group) 维护和发布的 TeX 系统，可说是「官方」的 TeX 系统。TeXworks是Windows版本的TeX Live默认提供的编辑器。TeXworks使用教程指南 ：http://blog.sina.com.cn/s/blog_5f234d470101igyd.html方法二：先安装texlive，然后安装textstudio。 安装安装texlive和textstudio[1]环境变量配置：https://blog.csdn.net/williamyi96/article/details/90732304 上述环境变量配置仅仅对一个会话有效，要永久生效，需要修改/etc/profile在/etc/profile文件中添加变量【对所有用户生效（永久的）】用vim在文件/etc/profile文件中增加变量，该变量将会对Linux下所有用户有效，并且是“永久的”。让修改马上生效，执行以下代码source /etc/profile [2]安装过程：https://www.linuxidc.com/Linux/2016-08/133913.htm[3]iso文件下载地址：https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/[4]tlmgr找不到命令错误的解决方法：https://tex.stackovernet.com/cn/q/8513[5]sudo equivs-build texlive-local执行出错：https://www.tug.org/texlive/files/debian-equivs-2019-ex.txt[6]dpkg-gencontrol: 错误: illegal package name ‘&lt;package name; defaults to equivs-dummy&gt;’: character ‘&lt;’ not allowed错误解决方案：正确的texlive-local文件内容：https://tex.stackexchange.com/questions/1092/how-to-install-vanilla-texlive-on-debian-or-ubuntu[7]sudo dpkg -i texlive-local_2019-1_all.deb执行出错：未安装软件包 freeglut3：https://tex.stackexchange.com/questions/412915/freeglut3-not-installed-trying-to-trick-ubuntu-to-thinking-texlive-is-isntalled[8]下载textstudio：https://www.bravotutorials.com/latex/recommended-programs/installing-texstudio[9]安装texlive：https://zhuanlan.zhihu.com/p/36240727[10]texlive和textstudio安装笔记：https://www.cnblogs.com/joyeecheung/p/3596255.html[11]textstudio支持中文环境：https://blog.csdn.net/qizaijie/article/details/79564079 安装字体安装思源字体： 1$ sudo apt install fonts-noto-cjk fonts-noto-cjk-extra 查看系统中文字体： 12345$ fc-list :lang=zh.../usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc: Noto Sans CJK SC,Noto Sans CJK SC Bold:style=Bold,Regular/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc: Noto Sans CJK SC,Noto Sans CJK SC Regular:style=Regular... 使用[1]Latex数学公式-求导、分数的表示: https://blog.csdn.net/qq_31880107/article/details/86592791[2]LaTeX实战经验：数学公式环境注意事项: https://blog.csdn.net/simple_the_best/article/details/52710740[3]latex的各种帽子: https://www.cnblogs.com/huangshiyu13/p/6936884.html[4]在博客中使用LaTeX插入数学公式: https://www.cnblogs.com/Sinte-Beuve/p/6160905.html[5]latex希腊字母: https://blog.csdn.net/qq_40587575/article/details/83387333[6]latex之转置符号: https://www.cnblogs.com/huangshiyu13/p/6946395.html[7]参考文献排版: https://zhuanlan.zhihu.com/p/25013341?refer=jeldor-latex[8]向上(下)取整: https://www.zhihu.com/question/27399809[9]latex插入项目符号和编号：http://blog.sina.com.cn/s/blog_3fe961ae0101eoht.htmlli[12]latex中给字体添加颜色：https://en.wikibooks.org/wiki/LaTeX/Colors]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[slding window 系列]]></title>
+    <url>%2F2019%2F10%2F09%2Fslding-window-%E7%B3%BB%E5%88%97%2F</url>
+    <content type="text"><![CDATA[滑动窗口系列 Maximum Average Subarray Ileetcode 643Given an array consisting of n integers, find the contiguous subarray of given length k that has the maximum average value. And you need to output the maximum average value. Example 1: 123Input: [1,12,-5,-6,50,3], k = 4Output: 12.75Explanation: Maximum average is (12-5-6+50)/4 = 51/4 = 12.75 Note: 1 &lt;= k &lt;= n &lt;= 30,000. Elements of the given array will be in the range [-10,000, 10,000]. 解法1：累积和]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>滑动窗口系列</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[CS中一些易混淆和忘记的基本概念]]></title>
+    <url>%2F2019%2F10%2F09%2FCS%E4%B8%AD%E4%B8%80%E4%BA%9B%E6%98%93%E6%B7%B7%E6%B7%86%E5%92%8C%E5%BF%98%E8%AE%B0%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%2F</url>
+    <content type="text"><![CDATA[此文档总结一些易忘记和易混淆的基础概念。 顶层const与底层const顶层const是指任意对象是const，而底层const指的是指针或引用的基本数据类型是const。简单来说 12345678const int a = 1; // 顶层constconst double b = 0.0; // 顶层constint *const ip = &amp;a; // 顶层const，ip本身是常量指针，不能指向其他变量了double *const dp =&amp;b; // 顶层const，dp本身是常量指针，不能指向其他变量了const int* ip1 = &amp;a; // 底层const，说明ip1指向的是常量，且ip1只能指向常量，但是ip1可以指向其他常量const double *dp1 = &amp;b; // 底层const，说明dp1指向的是常量，且dp1只能指向常量，但是dp1可以指向其他常量 大端和小端存储方式大端方式：高位字节放在低位地址。小端方式：低位字节放在高位方式。对于16进制数0x12345678，大端方式存储时内存分布如图1(左边)，小端方式存储如图2(右边)。对于大端方式来说，从地址0x000020到地址0x000023依次存放着0x12，0x34，0x56，0x78；而小端方式则相反，从地址0x000020到地址0x000023依次存放着0x78，0x56，0x34，0x12。 大端和小端方式的检测方法一先说一下思路，首先主机字节序有上面说的两种，大端和小端方式。而网络字节序是规定好的，只能是大端方式，因此可以通过比较一个按照主机字节序存储的变量和一个按照网络字节序存储的变量。函数htonl用于将数据从主机字节序转为网络字节序。其中h代表主机(host)字节序，n代表网络(network)字节序。另外，l指的是long(Linux中long类型占用4个字节，这很关键)。 12345678910111213141516171819202122#include &lt;iostream&gt;#include &lt;arpa/inet.h&gt;#include&lt;stdint.h&gt; // unit8_tusing namespace std;void test1() &#123; int a = 0x12345678; cout &lt;&lt; "sizoef(a):" &lt;&lt; sizeof(a) &lt;&lt; endl; cout &lt;&lt; "a=" &lt;&lt; a &lt;&lt; endl; // 把int型数据从主机字节序转化为网络字节序,网络字节序是大端方式 int b = htonl(a); cout &lt;&lt; "sizoef(b):" &lt;&lt; sizeof(b) &lt;&lt; endl; cout &lt;&lt; "b=" &lt;&lt; b &lt;&lt; endl; cout &lt;&lt; (a == b ? "大端方式" : "小端方式") &lt;&lt; endl;&#125;int main() &#123; test1(); return 0;&#125; 运行结果在我的64位机器上运行结果，可知，我的机器是以小端方式来存储数据的。以大端方式存储时，$$0x12345678 = {8} \times {16^0} + {7} \times {16^1} + {6} \times {16^2} + {5} \times {16^3} + {4} \times {16^4} + {3} \times {16^5} + {2} \times {16^6} + {1} \times {16^8}$$结果为305419896；而以小端方式存储，16进制数0x78563412转为10进制，结果为2018915346。 12345sizoef(a):4a=305419896sizoef(b):4b=2018915346小端方式 方法二上面是通过调用htonl函数来得到一个以大端方式存储的数据，我们也可以手动创建一个以大端方式存储的32位数据。 12345678910111213141516171819202122232425262728293031323334353637383940#include &lt;iostream&gt;#include &lt;arpa/inet.h&gt;#include&lt;stdint.h&gt; // unit8_tusing namespace std;bool F() &#123; // 如果在以大端方式存储的机器上运行返回true,否则返回false uint8_t a[] = &#123;0x12, 0x34, 0x56, 0x78&#125;; // 手动高位字节低位地址 uint32_t b = 0x12345678; // a是数组首地址,是一个uint8_t类型的指针 // (uint32_t *) a是使用旧式类型转换将a转换成一个uint32_t类型的指针 return *(uint32_t *) a == b;&#125;bool F1() &#123; // 如果在以大端方式存储的机器上运行返回true,否则返回false uint8_t a[] = &#123;0x12, 0x34, 0x56, 0x78&#125;; // 手动高位字节低位地址 uint32_t b = 0x12345678; // 声明一个uint32_t类型变量,按照主机字节序进行存储 // 使用新式类型转换中的reinterpret_cast进行强转型 uint32_t *p = reinterpret_cast&lt;uint32_t *&gt;(a); return (*p == b);&#125;void test2() &#123; // 这里只是为了测试,所以打印出来,可以看得更清楚 uint8_t a[] = &#123;0x12, 0x34, 0x56, 0x78&#125;; // 手动高位字节低位地址 uint32_t b = 0x12345678; cout &lt;&lt; "a=" &lt;&lt; *(int *) a &lt;&lt; " b=" &lt;&lt; b &lt;&lt; endl; cout &lt;&lt; (F() ? "大端方式" : "小端方式") &lt;&lt; endl; cout &lt;&lt; (F1() ? "大端方式" : "小端方式") &lt;&lt; endl;&#125;int main() &#123; test2(); return 0;&#125; 运行结果可以看出这里手动创建的32位数据(大端方式存储)和上面经过网络字节序转换之后的一样。F()和F1()两个函数是等价的，两个函数实现的同样的功能。唯一的不同是，在F()使用的是旧式类型转换，而在F1()中则使用了新式类型转换。另外，在使用新式类型转换时，无法使用static_cast，而能够使用reinterpret_cast，这是为什么，还没弄明白。 123a=2018915346 b=305419896小端方式小端方式 关于类型转换的更多知识，请自行查看类型转换系列1。 二叉树的高度和深度根节点到任一节点的路径长度，即该节点的深度。根节点的深度是0。某个节点即其最深叶子节点的路径长度即高节点的高度。叶子节点的高度为0。整棵树的高度即根节点的高度。 参考文献[1]TCP/IP网络编程(尹圣雨著)]]></content>
+      <categories>
+        <category>CS基础</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[类型转换系列1]]></title>
     <url>%2F2019%2F10%2F09%2F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%B3%BB%E5%88%97%EF%BC%91%2F</url>
     <content type="text"><![CDATA[类型转换 旧式转型有两种常见的形式： 12T(expression)(T)expression 四种新式转型：cast-name&lt;type&gt;(expression)，type是转换的目标类型，expression是要转换的值。若type是引用类型，则结果是左值。cast-name是static_cast，dynamic_cast，const_cast和reinterpret_cast中的一种。旧式转换表面上功能强大，但是转化时不够明确，不能进行错误检查，容易出错。 const_cast通常被用来将对象的常量性移除.即将const对象转为非const对象。 dynamic_cast 主要用来执行“安全向下转型”,也就是用来决定某对象是否归属继承体系中的某个类型. 用于动态类型转换，只能用于含有虚函数的类，用于类层次间的向上和向下转化．只能转指针或引用．向下转化时，如果是非法的，对于指针返回nullptr，对于引用抛出异常． 向上转换：子类向基类的转换 向下转换：基类向子类的转换 它通过判断在执行到该语句的时候变量的运行时类型和要转换的类型是否相同来判断是否能够进行向下转换． 它是唯一无法由旧式语法执行的动作,也是唯一可能耗费重大运行成本的转型动作. reinterpret_cast意图执行低级转型,实际动作(及结果)可能取决于编译器,这也就表示它不可移植.例如将一个pointer to int转型为一个int. 这一类型在低级代码以外很少见。 static_cast用来强迫隐式转换 将non-const对象转为const对象 (不能隐式地将一个左值转换为一个右值引用，但是可以)使用static_cast可以显式地将一个左值转换为一个右值引用 或将int转为double 用于多态向上转化，如果向下转型能成功但是不安全，结果未知 也可以用来执行上述多种转换的反向转换 将void*指针转为typed指针 将point-to-base转为pointer-to-derived。 但它无法将const转为non-const,这个只有const_cast才办得到。 参考文献 [1]更深入理解reinterpret_cast：https://www.cnblogs.com/ider/archive/2011/07/30/cpp_cast_operator_part3.html]]></content>
@@ -24,25 +59,6 @@
       </categories>
       <tags>
         <tag>类类型隐式转换</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[CS中一些易混淆和忘记的基本概念]]></title>
-    <url>%2F2019%2F10%2F09%2FCS%E4%B8%AD%E4%B8%80%E4%BA%9B%E6%98%93%E6%B7%B7%E6%B7%86%E5%92%8C%E5%BF%98%E8%AE%B0%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%2F</url>
-    <content type="text"><![CDATA[此文档总结一些易忘记和易混淆的基础概念。 顶层const与底层const顶层const是指任意对象是const，而底层const指的是指针或引用的基本数据类型是const。简单来说 12345678const int a = 1; // 顶层constconst double b = 0.0; // 顶层constint *const ip = &amp;a; // 顶层const，ip本身是常量指针，不能指向其他变量了double *const dp =&amp;b; // 顶层const，dp本身是常量指针，不能指向其他变量了const int* ip1 = &amp;a; // 底层const，说明ip1指向的是常量，且ip1只能指向常量，但是ip1可以指向其他常量const double *dp1 = &amp;b; // 底层const，说明dp1指向的是常量，且dp1只能指向常量，但是dp1可以指向其他常量 大端和小端存储方式大端方式：高位字节放在低位地址。小端方式：低位字节放在高位方式。对于16进制数0x12345678，大端方式存储时内存分布如图1(左边)，小端方式存储如图2(右边)。 大端和小端方式的检测方法一先说一下思路，首先主机字节序有上面说的两种，大端和小端方式。而网络字节序是规定好的，只能是大端方式，因此可以通过比较一个按照主机字节序存储的变量和一个按照网络字节序存储的变量。函数htonl用于将数据从主机字节序转为网络字节序。其中h代表主机(host)字节序，n代表网络(network)字节序。另外，l指的是long(Linux中long类型占用4个字节，这很关键)。 12345678910111213141516171819202122#include &lt;iostream&gt;#include &lt;arpa/inet.h&gt;#include&lt;stdint.h&gt; // unit8_tusing namespace std;void test1() &#123; int a = 0x12345678; cout &lt;&lt; "sizoef(a):" &lt;&lt; sizeof(a) &lt;&lt; endl; cout &lt;&lt; "a=" &lt;&lt; a &lt;&lt; endl; // 把int型数据从主机字节序转化为网络字节序,网络字节序是大端方式 int b = htonl(a); cout &lt;&lt; "sizoef(b):" &lt;&lt; sizeof(b) &lt;&lt; endl; cout &lt;&lt; "b=" &lt;&lt; b &lt;&lt; endl; cout &lt;&lt; (a == b ? "大端方式" : "小端方式") &lt;&lt; endl;&#125;int main() &#123; test1(); return 0;&#125; 运行结果在我的64位机器上运行结果，可知，我的机器是以小端方式来存储数据的。 12345sizoef(a):4a=305419896sizoef(b):4b=2018915346小端方式 方法二上面是通过调用htonl函数来得到一个以大端方式存储的数据，我们也可以手动创建一个以大端方式存储的32位数据。 12345678910111213141516171819202122232425262728293031323334353637383940#include &lt;iostream&gt;#include &lt;arpa/inet.h&gt;#include&lt;stdint.h&gt; // unit8_tusing namespace std;bool F() &#123; // 如果在以大端方式存储的机器上运行返回true,否则返回false uint8_t a[] = &#123;0x12, 0x34, 0x56, 0x78&#125;; // 手动高位字节低位地址 uint32_t b = 0x12345678; // a是数组首地址,是一个uint8_t类型的指针 // (uint32_t *) a是使用旧式类型转换将a转换成一个uint32_t类型的指针 return *(uint32_t *) a == b;&#125;bool F1() &#123; // 如果在以大端方式存储的机器上运行返回true,否则返回false uint8_t a[] = &#123;0x12, 0x34, 0x56, 0x78&#125;; // 手动高位字节低位地址 uint32_t b = 0x12345678; // 声明一个uint32_t类型变量,按照主机字节序进行存储 // 使用新式类型转换中的reinterpret_cast进行强转型 uint32_t *p = reinterpret_cast&lt;uint32_t *&gt;(a); return (*p == b);&#125;void test2() &#123; // 这里只是为了测试,所以打印出来,可以看得更清楚 uint8_t a[] = &#123;0x12, 0x34, 0x56, 0x78&#125;; // 手动高位字节低位地址 uint32_t b = 0x12345678; cout &lt;&lt; "a=" &lt;&lt; *(int *) a &lt;&lt; " b=" &lt;&lt; b &lt;&lt; endl; cout &lt;&lt; (F() ? "大端方式" : "小端方式") &lt;&lt; endl; cout &lt;&lt; (F1() ? "大端方式" : "小端方式") &lt;&lt; endl;&#125;int main() &#123; test2(); return 0;&#125; 运行结果可以看出这里手动创建的32位数据(大端方式存储)和上面经过网络字节序转换之后的一样。F()和F1()两个函数是等价的，两个函数实现的同样的功能。唯一的不同是，在F()使用的是旧式类型转换，而在F1()中则使用了新式类型转换。另外，在使用新式类型转换时，无法使用static_cast，而能够使用reinterpret_cast，这是为什么，还没弄明白。 123a=2018915346 b=305419896小端方式小端方式 关于类型转换的更多知识，请自行查看类型转换系列1。 二叉树的高度和深度根节点到任一节点的路径长度，即该节点的深度。根节点的深度是0。某个节点即其最深叶子节点的路径长度即高节点的高度。叶子节点的高度为0。整棵树的高度即根节点的高度。 参考文献[1]TCP/IP网络编程(尹圣雨著)]]></content>
-      <categories>
-        <category>CS基础</category>
-      </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[带缓冲的IO与不带缓冲的IO]]></title>
-    <url>%2F2019%2F10%2F09%2F%E5%B8%A6%E7%BC%93%E5%86%B2%E7%9A%84IO%E4%B8%8E%E4%B8%8D%E5%B8%A6%E7%BC%93%E5%86%B2%E7%9A%84IO%2F</url>
-    <content type="text"><![CDATA[本文涉及到众多知识点。如内核态与用户态。 参考文献[1]带缓冲的IO与不带缓冲的IO：https://blog.csdn.net/u011402017/article/details/53747232]]></content>
-      <categories>
-        <category>unix 高级环境编程</category>
-      </categories>
-      <tags>
-        <tag>API</tag>
       </tags>
   </entry>
   <entry>
@@ -378,11 +394,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[tex live安装与使用]]></title>
-    <url>%2F2019%2F10%2F02%2Flatex%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8%2F</url>
-    <content type="text"><![CDATA[本文档主要记录tex live的安装与使用。 latex各发行版本及编辑器比较：https://cn.soulmachine.me/2013-04-12-latex-distributions-and-editors/方法一：TeX Live 是 TUG (TeX User Group) 维护和发布的 TeX 系统，可说是「官方」的 TeX 系统。TeXworks是Windows版本的TeX Live默认提供的编辑器。TeXworks使用教程指南 ：http://blog.sina.com.cn/s/blog_5f234d470101igyd.html方法二：先安装texlive，然后安装textstudio。 安装[1]环境变量配置：https://blog.csdn.net/williamyi96/article/details/90732304 上述环境变量配置仅仅对一个会话有效，要永久生效，需要修改/etc/profile在/etc/profile文件中添加变量【对所有用户生效（永久的）】用vim在文件/etc/profile文件中增加变量，该变量将会对Linux下所有用户有效，并且是“永久的”。让修改马上生效，执行以下代码source /etc/profile [2]安装过程：https://www.linuxidc.com/Linux/2016-08/133913.htm[3]iso文件下载地址：https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/[4]tlmgr找不到命令错误的解决方法：https://tex.stackovernet.com/cn/q/8513[5]sudo equivs-build texlive-local执行出错：https://www.tug.org/texlive/files/debian-equivs-2019-ex.txt[6]dpkg-gencontrol: 错误: illegal package name ‘&lt;package name; defaults to equivs-dummy&gt;’: character ‘&lt;’ not allowed错误解决方案：正确的texlive-local文件内容：https://tex.stackexchange.com/questions/1092/how-to-install-vanilla-texlive-on-debian-or-ubuntu[7]sudo dpkg -i texlive-local_2019-1_all.deb执行出错：未安装软件包 freeglut3：https://tex.stackexchange.com/questions/412915/freeglut3-not-installed-trying-to-trick-ubuntu-to-thinking-texlive-is-isntalled[8]下载textstudio：https://www.bravotutorials.com/latex/recommended-programs/installing-texstudio[9]安装texlive：https://zhuanlan.zhihu.com/p/36240727[10]texlive和textstudio安装笔记：https://www.cnblogs.com/joyeecheung/p/3596255.html[11]textstudio支持中文环境：https://blog.csdn.net/qizaijie/article/details/79564079 使用[1]Latex数学公式-求导、分数的表示: https://blog.csdn.net/qq_31880107/article/details/86592791[2]LaTeX实战经验：数学公式环境注意事项: https://blog.csdn.net/simple_the_best/article/details/52710740[3]latex的各种帽子: https://www.cnblogs.com/huangshiyu13/p/6936884.html[4]在博客中使用LaTeX插入数学公式: https://www.cnblogs.com/Sinte-Beuve/p/6160905.html[5]latex希腊字母: https://blog.csdn.net/qq_40587575/article/details/83387333[6]latex之转置符号: https://www.cnblogs.com/huangshiyu13/p/6946395.html[7]参考文献排版: https://zhuanlan.zhihu.com/p/25013341?refer=jeldor-latex[8]向上(下)取整: https://www.zhihu.com/question/27399809[9]latex插入项目符号和编号：http://blog.sina.com.cn/s/blog_3fe961ae0101eoht.html]]></content>
-  </entry>
-  <entry>
     <title><![CDATA[703. Kth Largest Element in a Stream]]></title>
     <url>%2F2019%2F09%2F29%2F703.-Kth-Largest-Element-in-a-Stream%2F</url>
     <content type="text"><![CDATA[Design a class to find the kth largest element in a stream. Note that it is the kth largest element in the sorted order, not the kth distinct element. Your KthLargest class will have a constructor which accepts an integer k and an integer array nums, which contains initial elements from the stream. For each call to the method KthLargest.add, return the element representing the kth largest element in the stream. Example: 12345678int k = 3;int[] arr = [4,5,8,2];KthLargest kthLargest = new KthLargest(3, arr);kthLargest.add(3); // returns 4kthLargest.add(5); // returns 5kthLargest.add(10); // returns 5kthLargest.add(9); // returns 8kthLargest.add(4); // returns 8 Note:You may assume that nums‘ length ≥ k-1 and k ≥ 1. 解法11234567891011121314151617181920212223242526272829class KthLargest &#123;public: KthLargest(int k, vector&lt;int&gt;&amp; nums): vec(nums),kth(k) &#123; sort(vec.begin(), vec.end()); &#125; int add(int val) &#123; int i = vec.size()-1; vec.push_back(0); while(i&gt;=0 &amp;&amp; vec[i]&gt; val)&#123; vec[i+1] = vec[i]; --i; &#125; vec[i+1] = val; if(vec.size() &lt; kth)&#123; throw "no solution"; &#125; return vec[vec.size()-kth]; &#125;private: vector&lt;int&gt; vec; int kth;&#125;;/** * Your KthLargest object will be instantiated and called as such: * KthLargest* obj = new KthLargest(k, nums); * int param_1 = obj-&gt;add(val); */ 解法2能不能简化呢？ 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768class KthLargest &#123;public: KthLargest(int k, vector&lt;int&gt;&amp; nums):kth(k) &#123; if(kth == 0)&#123; return; &#125; int size = kth &gt; nums.size() ? nums.size() : kth; for(int i=0;i&lt;size;++i)&#123; heap.push_back(nums[i]); &#125; if(heap.empty())&#123; return; &#125; bulid_tree(heap); for(int i=size;i&lt;nums.size();++i)&#123; if(nums[i] &gt; heap[0])&#123; heap[0] = nums[i]; min_heapify(0, heap); &#125; &#125; &#125; int add(int val) &#123; if(heap.size() &lt; kth)&#123; heap.push_back(val); min_heapify(0, heap); &#125; else if(val &gt; heap[0])&#123; heap[0] = val; min_heapify(0, heap); &#125; return heap[0]; &#125; static void min_heapify(int k, vector&lt;int&gt;&amp; nums)&#123; int key = nums[k]; bool heap = false; while(!heap &amp;&amp; 2 * k + 1 &lt; nums.size())&#123; int j = 2 * k + 1; if(j + 1 &lt; nums.size())&#123; if(nums[j + 1] &lt; nums[j])&#123; j = j + 1; &#125; &#125; if(nums[j] &gt;= key)&#123; heap = true; &#125;else&#123; nums[k] = nums[j]; k = j; &#125; &#125; nums[k] = key; &#125; static void bulid_tree(vector&lt;int&gt;&amp; nums)&#123; for(int i=nums.size()/2;i&gt;=0;--i)&#123; min_heapify(i, nums); &#125; &#125; private: vector&lt;int&gt; heap; int kth;&#125;;/** * Your KthLargest object will be instantiated and called as such: * KthLargest* obj = new KthLargest(k, nums); * int param_1 = obj-&gt;add(val); */]]></content>
@@ -500,14 +511,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[traits]]></title>
-    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
-    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
-      <categories>
-        <category>STL</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[C++牛客网刷题总结]]></title>
     <url>%2F2019%2F09%2F27%2FC%2B%2B%E7%89%9B%E5%AE%A2%E7%BD%91%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93%2F</url>
     <content type="text"><![CDATA[字符串系列]]></content>
@@ -519,6 +522,14 @@
     <title><![CDATA[bind与函数适配器]]></title>
     <url>%2F2019%2F09%2F27%2Fbind%E4%B8%8E%E5%87%BD%E6%95%B0%E9%80%82%E9%85%8D%E5%99%A8%2F</url>
     <content type="text"><![CDATA[bind是从c++11开始出现的新型适配器]]></content>
+      <categories>
+        <category>STL</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[traits]]></title>
+    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
+    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
       <categories>
         <category>STL</category>
       </categories>
@@ -545,6 +556,14 @@
       </categories>
   </entry>
   <entry>
+    <title><![CDATA[对象模型]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%2F</url>
+    <content type="text"><![CDATA[多重继承下的对象模型 123456789101112131415161718192021class A &#123; public: virtual ~A() &#123;&#125;&#125;;class B &#123; public: virtual ~B() &#123;&#125;&#125;;class C : public A, public B &#123;&#125;;void test1() &#123; C *pC = new C(); A *pA = (A *) pC; B *pB = (B *) pC; cout &lt;&lt; pA &lt;&lt; endl; // 0x5652962dbe70 cout &lt;&lt; pB &lt;&lt; endl; // 0x5652962dbe78 cout &lt;&lt; pC &lt;&lt; endl; // 0x5652962dbe70&#125;]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[指针和引用]]></title>
     <url>%2F2019%2F09%2F27%2F%E6%8C%87%E9%92%88%E5%92%8C%E5%BC%95%E7%94%A8%2F</url>
     <content type="text"><![CDATA[什么是引用？ 引用和指针的区别与联系指针和引用的异同点 指针 引用 指针本身是对象 引用本身不是对象,只是对象的别名 允许对指针本身进行赋值和拷贝,在指针的生命期内可以指向不同的对象(只要指针不是常量指针) 引用定义时就和一个对象绑定,且始终和这个对象绑定,无法令引用重新绑定到另一个对象 指针无须在定义时赋初值,在块作用域内的指针如果没有被初始化,将拥有一个不确定的值. 引用必须初始化. 可以定义指向指针的指针 无法定义引用的引用 引用的常见用途引用通常不用于声明变量，而用于参数类型和返回类型的描述． 12345678910void func1(Cls* pobj)&#123; pobj-&gt;xxx();&#125;void func2(Cls obj)&#123;obj.xxx();&#125;void func3(Cls&amp; obj)&#123;obj.xxx();&#125;Cls obj;func1(&amp;obj); // 接口不同// 调用端口相同func2(obj);func3(obj); 以下两个函数被视为”same signature”(所以二者不能同时存在)： 12double imag(const double&amp; im)&#123;...&#125;double imag(const double im)&#123;...&#125; // Ambiguity Q：const是不是函数签名的一部分？A：是的，两个函数，一个函数有const，另一个没有，则可以看做函数重载．]]></content>
@@ -555,14 +574,6 @@
         <tag>指针</tag>
         <tag>引用</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[对象模型]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%2F</url>
-    <content type="text"><![CDATA[多重继承下的对象模型 123456789101112131415161718192021class A &#123; public: virtual ~A() &#123;&#125;&#125;;class B &#123; public: virtual ~B() &#123;&#125;&#125;;class C : public A, public B &#123;&#125;;void test1() &#123; C *pC = new C(); A *pA = (A *) pC; B *pB = (B *) pC; cout &lt;&lt; pA &lt;&lt; endl; // 0x5652962dbe70 cout &lt;&lt; pB &lt;&lt; endl; // 0x5652962dbe78 cout &lt;&lt; pC &lt;&lt; endl; // 0x5652962dbe70&#125;]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
   </entry>
   <entry>
     <title><![CDATA[可变模板参数(c++11新特性)]]></title>
@@ -651,14 +662,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[k sum 系列]]></title>
-    <url>%2F2019%2F09%2F27%2Fk-sum-%E7%B3%BB%E5%88%97%2F</url>
-    <content type="text"><![CDATA[two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[冒泡排序的优化和鸡尾酒排序]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%E7%9A%84%E4%BC%98%E5%8C%96%E5%92%8C%E9%B8%A1%E5%B0%BE%E9%85%92%E6%8E%92%E5%BA%8F%2F</url>
     <content type="text"><![CDATA[冒泡排序的优化有设置哨兵来表示当前整个数组已经有序，以及设置有序区间，下一次只对有序区间进行排序（尚未完全理解）． 详情可见 鸡尾酒排序鸡尾酒排序算法适用于大部分元素已经有序的情况．它能够在特定条件下，减少排序的回合数；但是缺点是代码量几乎扩大了一倍． 鸡尾酒排序 未进行优化的鸡尾酒排序 12345678910111213141516171819202122232425262728293031323334353637383940414243void clockTailSort(vector&lt;int&gt; &amp;nums) &#123; // 未进行优化的鸡尾酒排序 int tmp = 0; for (int i = 0; i &lt; nums.size() / 2 - 1; ++i) &#123; // 有序标记，每一轮的初始值是true bool isSorted = true; // 奇数轮:从做向右比较和交换 // 奇数轮：区间内最大的数会被冒泡到最右 for (int j = i; j &lt; nums.size() - i - 1; ++j) &#123; if (nums[j] &gt; nums[j + 1]) &#123; tmp = nums[j]; nums[j] = nums[j + 1]; nums[j + 1] = tmp; // 有元素交换，所以，不是有序，标记变为false isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; isSorted = true; // 8 1 2 3 4 // 偶数轮，从右向左比较和交换 // 偶数轮，最小的数会被冒泡到最左边 for (int j = nums.size() - i - 1; j &gt; i; j--) &#123; if (nums[j] &lt; nums[j - 1]) &#123; tmp = nums[j]; nums[j] = nums[j - 1]; nums[j - 1] = tmp; isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; &#125;&#125; 进行优化的鸡尾酒排序优化方法：]]></content>
@@ -668,6 +671,14 @@
       <tags>
         <tag>冒泡排序的优化</tag>
       </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[k sum 系列]]></title>
+    <url>%2F2019%2F09%2F27%2Fk-sum-%E7%B3%BB%E5%88%97%2F</url>
+    <content type="text"><![CDATA[two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
   </entry>
   <entry>
     <title><![CDATA[旋转数组]]></title>
@@ -892,8 +903,8 @@
     <url>%2F2019%2F09%2F27%2F%E6%9C%AA%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%B4%AF%E5%8A%A0%E5%92%8C%E4%B8%BA%E7%BB%99%E5%AE%9A%E5%80%BC%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E6%95%B0%E7%BB%84%E7%B3%BB%E5%88%97%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[原题给定一个无序数组,其中元素可正,可负,可0.给定一个整数k,求arr所有的子数组中累加和为k的最长子数组长度. 12345678910111213141516171819int maxLength(vector&lt;int&gt; &amp;arr, int k) &#123; if (arr.empty()) &#123; return 0; &#125; map&lt;int, int&gt; mp; mp[0] = -1; int len = 0; int sum = 0; for (int i = 0; i &lt; arr.size(); i++) &#123; sum += arr[i]; if (mp.find(sum - k) != mp.end()) &#123; len = max(len, i - mp[sum - k]); &#125; if (mp.find(sum) == mp.end()) &#123; mp[sum] = i; &#125; &#125; return len;&#125; 补充题1补充题2类似题138. 子数组之和给定一个整数数组，找到和为零的子数组。你的代码应该返回满足要求的子数组的起始位置和结束位置 样例 样例 1: 123输入: [-3, 1, 2, -3, 4]输出: [0,2] 或 [1,3] 样例解释： 返回任意一段和为0的区间即可。 样例 2: 12输入: [-3, 1, -4, 2, -3, 4]输出: [1,5] 样例 3: 12输入: [3,4,5,6,-3,-4,-5,-6]输出: [0,7] 样例 4: 12输入: [1,0,-1]输出: [1,1] 注意事项: 至少有一个子数组的和为 0 1234567891011121314151617181920212223242526272829303132class Solution &#123;public: /** * @param nums: A list of integers * @return: A list of integers includes the index of the first number and the index of the last number */ vector&lt;int&gt; subarraySum(vector&lt;int&gt; &amp;nums) &#123; // write your code here if(nums.empty())&#123; return &#123;&#125;; &#125; int sum = 0; vector&lt;int&gt; res; map&lt;int, int&gt; mp; for(int i=0;i&lt;nums.size();++i)&#123; sum += nums[i]; if(sum == 0)&#123; res.push_back(0); res.push_back(i); return res; &#125; if(mp.find(sum)!=mp.end())&#123; res.push_back(mp[sum]+1); res.push_back(i); return res; &#125; mp[sum] = i; &#125; return res; &#125;&#125;; 此题与上题的相似之处在于:需要用到相同的结论:s[i]= arr[0] + arr[1] +…+arr[i]s[j]= arr[0] + arr[1] +…+arr[j]假设i &gt; j,则s[i] - s[j] = arr[j+1] + arr[j+2] + … + arr[i] 复杂度分析 理论上, 时间复杂度为O(n).但实际实现时,时间复杂度为O(nlogn).因为map的find方法查找一个数的时间复杂度为O(logn)空间复杂度为O(n) 题目来源: leetcode 560. Subarray Sum Equals K930 binary subarrays with sum另有使用三指针的解法,可以尝试看看试用否,三指针解法时间复杂度为O(n),空间复杂度为O(1),是最优解法]]></content>
       <tags>
-        <tag>累积和</tag>
         <tag>leetcode</tag>
+        <tag>累积和</tag>
         <tag>程序员代码面试指南</tag>
       </tags>
   </entry>
@@ -1119,8 +1130,8 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>dynamic programming</tag>
         <tag>leetcode</tag>
+        <tag>dynamic programming</tag>
       </tags>
   </entry>
   <entry>
