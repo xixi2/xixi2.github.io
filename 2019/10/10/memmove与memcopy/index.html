@@ -86,14 +86,14 @@
 <meta property="og:site_name" content="xixi2">
 <meta property="og:description" content="memcpy memmove，memcpy和strcpy分别用">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://github.com/xixi2/images/blob/master/1568902492023.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/10/memmove与memcopy/1568902492023.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/10/images/1568902492023.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/10/images/1568902612796.png">
-<meta property="og:updated_time" content="2019-10-10T11:49:47.525Z">
+<meta property="og:updated_time" content="2019-10-10T12:10:32.707Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="memmove、memcpy和strcpy">
 <meta name="twitter:description" content="memcpy memmove，memcpy和strcpy分别用">
-<meta name="twitter:image" content="https://github.com/xixi2/images/blob/master/1568902492023.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/10/10/memmove与memcopy/1568902492023.png">
 
 
 
@@ -327,7 +327,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-10T19:49:47+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-10T20:10:32+08:00">
                 2019-10-10
               </time>
             
@@ -419,8 +419,8 @@
 <p>Move block of memory<br>Copies the values of <em>num</em> bytes from the location pointed by <em>source</em> to the memory block pointed by <em>destination</em>. Copying takes place as if an intermediate buffer were used, allowing the <em>destination</em> and <em>source</em> to overlap.<br>The underlying type of the objects pointed by both the <em>source</em> and <em>destination</em> pointers are irrelevant for this function; The result is a binary copy of the data.<br>The function does not check for any terminating null character in <em>source</em> - it always copies exactly <em>num</em> bytes.<br>To avoid overflows, the size of the arrays pointed by both the <em>destination</em> and <em>source</em> parameters, shall be at least <em>num</em> bytes.</p>
 </blockquote>
 <p>以字节为单位，拷贝内存块。允许dest和src指向的内存块有重叠。</p>
-<p>进行数组拷贝时，如果两段内存重叠，用memcpy函数可能会导致未定义。而memmove函数能够避免这种问题。下面是一种实现方式。<a href="https://www.nowcoder.com/test/question/done?tid=27815423&qid=14696#summary">题目链接</a><br>ptr1表示目的地址，ptr2表示源地址。如图所示，绿色表示数组2的元素，杏色表示数组1的元素．蓝色表示数组1和数组2重合的位置的元素。当pstr1 &gt; pstr2时，需要逆序移动．否则，属于pstr2数组的后几个元素会被覆盖。</p>
-<p><img src="https://github.com/xixi2/images/blob/master/1568902492023.png" alt="1568902492023"></p>
+<p>进行数组拷贝时，如果两段内存重叠，用memcpy函数可能会导致未定义。而memmove函数能够避免这种问题。下面是一种实现方式。<a href="https://www.nowcoder.com/test/question/done?tid=27815423&qid=14696#summary">题目链接</a><br>ptr1表示目的地址，ptr2表示源地址。如图所示，绿色表示数组2的元素，杏色表示数组1的元素．蓝色表示数组1和数组2重合的位置的元素。当pstr1 &gt; pstr2时，需要逆序移动．否则，属于pstr2数组的后几个元素会被覆盖。a</p>
+<p><img src="./1568902492023.png" alt="1568902492023"></p>
 <p><img src="../images/1568902492023.png" alt="1568902492023"></p>
 <p>当pstr1 &lt; pstr2时，正向移动。</p>
 <p><img src="../images/1568902612796.png" alt="../images/1568902612796"></p>
