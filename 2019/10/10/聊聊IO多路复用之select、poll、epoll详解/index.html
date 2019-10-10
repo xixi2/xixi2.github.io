@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="xixi2">
 <meta property="og:description" content="本文档非原创。主要总结io多路复用中的几个模型。IO多路复用是指内核一旦发现进程指定的一个或者多个IO条件准备读取，它就通知该进程。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-10T12:52:29.336Z">
+<meta property="og:updated_time" content="2019-10-10T12:56:07.492Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="聊聊IO多路复用之select、poll、epoll详解">
 <meta name="twitter:description" content="本文档非原创。主要总结io多路复用中的几个模型。IO多路复用是指内核一旦发现进程指定的一个或者多个IO条件准备读取，它就通知该进程。">
@@ -323,7 +323,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-10T20:52:29+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-10T20:56:07+08:00">
                 2019-10-10
               </time>
             
@@ -431,7 +431,7 @@
 </li>
 <li><p>ET是高速工作方式，只支持non-block socket。在这种模式下，当描述符从未就绪变为就绪时，内核通过epoll告诉你。然后它会假设你知道文件描述符已经就绪，并且不会再为那个文件描述符发送更多的就绪通知，直到你做了某些操作导致那个文件描述符不再为就绪状态了(比如，你在发送，接收或者接收请求，或者发送接收的数据少于一定量时导致了一个EWOULDBLOCK错误)。但是请注意，如果一直不对这个fd做IO操作(从而导致它再次变为未就绪)，内核不会发送更多的通知。ET模式在很大程度上减少了epoll事件被重复触发的次数，因此效率比LT模式高。epoll工作在ET模式的时候，必须使用非阻塞套接口，以避免由于一个文件句柄(<a href="https://blog.csdn.net/yanjun_1982/article/details/79421528">文件句柄和文件描述符类似，但是有一些区别</a>)的阻塞读/阻塞写操作把处理多个文件描述符的任务饿死。</p>
 </li>
-<li><p>在select/poll中，进程只有在调用一定的方法后，内核才对所有监视的文件描述符进行扫描，而epoll事先通过epoll_ctl()来注册一个文件描述符，一旦基于某个文件描述符就绪时，内核采用类似callback的回调机制，迅速激活这个文件描述符，当进程调用epoll_wait()便得到通知(此处去掉了遍历文件描述符，而是通过监听回调的的机制。这正是epoll的魅力所在)。</p>
+<li><p>在select/poll中，进程只有在调用一定的方法(什么方法？)后，内核才对所有监视的文件描述符进行扫描，而epoll事先通过epoll_ctl()来注册一个文件描述符，一旦基于某个文件描述符就绪时，内核采用类似callback的回调机制，迅速激活这个文件描述符，当进程调用epoll_wait()便得到通知(此处去掉了遍历文件描述符，而是通过监听回调的的机制。这正是epoll的魅力所在)。</p>
 </li>
 </ol>
 <p>注意：<br>如果没有大量的idle-connection或者dead-connection，epoll的效率并不会比select/poll高很多，但是当遇到大量的idle-connection，就会发现epoll的效率大大高于select/poll。</p>
@@ -531,8 +531,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/10/memmove与memcopy/" rel="next" title="memmove与memcopy">
-                <i class="fa fa-chevron-left"></i> memmove与memcopy
+              <a href="/2019/10/10/CS中一些易混淆和忘记的基本概念/" rel="next" title="CS中一些易混淆和忘记的基本概念">
+                <i class="fa fa-chevron-left"></i> CS中一些易混淆和忘记的基本概念
               </a>
             
           </div>
@@ -540,10 +540,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/10/10/CS中一些易混淆和忘记的基本概念/" rel="prev" title="CS中一些易混淆和忘记的基本概念">
-                CS中一些易混淆和忘记的基本概念 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
