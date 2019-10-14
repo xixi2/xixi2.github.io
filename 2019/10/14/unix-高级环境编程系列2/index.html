@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="xixi2">
 <meta property="og:description" content="此文档主要整理并记录liunx中常用的api．">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-14T01:55:34.267Z">
+<meta property="og:updated_time" content="2019-10-14T02:17:01.942Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="unix 高级环境编程系列2">
 <meta name="twitter:description" content="此文档主要整理并记录liunx中常用的api．">
@@ -324,7 +324,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-14T09:55:34+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-14T10:17:01+08:00">
                 2019-10-14
               </time>
             
@@ -479,7 +479,7 @@
 
 <p>exec函数族的函数执行成功后不会返回，调用失败时，会设置errno并返回-1，然后从原程序的调用点接着往下执行<br><strong>参数</strong><br>path：可执行文件的路径名字<br>arg：可执行程序所带的参数，第一个参数为可执行文件的名字，没有带路径且arg必须以空指针结束</p>
 <p><a href="https://blog.csdn.net/u014530704/article/details/73848573">https://blog.csdn.net/u014530704/article/details/73848573</a></p>
-<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><h2 id="pthread-create"><a href="#pthread-create" class="headerlink" title="pthread_create"></a>pthread_create</h2><p>函数原型</p>
+<h2 id="进程同步"><a href="#进程同步" class="headerlink" title="进程同步"></a>进程同步</h2><h3 id="用于进程的信号量"><a href="#用于进程的信号量" class="headerlink" title="用于进程的信号量"></a>用于进程的信号量</h3><h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><h2 id="pthread-create"><a href="#pthread-create" class="headerlink" title="pthread_create"></a>pthread_create</h2><p>函数原型</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_create</span><span class="params">(<span class="keyword">pthread_t</span> *thread, <span class="keyword">pthread_attr_t</span> *attr, <span class="keyword">void</span> *(*start_routine)(<span class="keyword">void</span>*), <span class="keyword">void</span>* arg)</span></span>;</span><br></pre></td></tr></table></figure>
 
 <ul>
@@ -499,9 +499,10 @@
 <h2 id="pthread-exit"><a href="#pthread-exit" class="headerlink" title="pthread_exit"></a>pthread_exit</h2><p>函数原型</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_exit</span><span class="params">(<span class="keyword">void</span> * rval_ptr)</span></span>;</span><br></pre></td></tr></table></figure>
 
-<h2 id="用于线程的信号量"><a href="#用于线程的信号量" class="headerlink" title="用于线程的信号量"></a>用于线程的信号量</h2><p>有两组接口函数用于信号量．一组取自POSIX的实时扩展，用于线程．另一组被称为系统V信号量，常用于进程的同步。<br><span style="color:cornflowerblue">信号量是一个特殊类型的变量，它可以被增加或减少，但对其的关键访问被保证是原子操作</span>。
+<h2 id="线程同步"><a href="#线程同步" class="headerlink" title="线程同步"></a>线程同步</h2><p>线程同步有几种方式。<br>信号量、互斥量、</p>
+<h3 id="用于线程的信号量"><a href="#用于线程的信号量" class="headerlink" title="用于线程的信号量"></a>用于线程的信号量</h3><p>有两组接口函数用于信号量．一组取自POSIX的实时扩展，用于线程．另一组被称为系统V信号量，常用于进程的同步。<br><span style="color:cornflowerblue">信号量是一个特殊类型的变量，它可以被增加或减少，但对其的关键访问被保证是原子操作</span>。
 在多线程程序中，如果一个程序中有两个(或多个)线程试图改变一个信号量的值，系统将保证所有的操作都依次进行。信号量有二进制信号量和计数信号量。信号量一般用来保护一段代码，使其每次只能被一个执行线程运行，使用二进制信号量来完成这个工作。允许有限数目的线程执行一段指定的代码，这时需要计数信号量。</p>
-<h3 id="sem-init"><a href="#sem-init" class="headerlink" title="sem_init"></a>sem_init</h3><p>函数原型</p>
+<h4 id="sem-init"><a href="#sem-init" class="headerlink" title="sem_init"></a>sem_init</h4><p>函数原型</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sem_init</span><span class="params">(<span class="keyword">sem_t</span> *sem, <span class="keyword">int</span> pshared, <span class="keyword">unsigned</span> <span class="keyword">int</span> value)</span></span>;</span><br></pre></td></tr></table></figure>
 
 <ul>
@@ -509,33 +510,36 @@
 <li>第一个参数为指向sem_t类型的信号量对象的指针．</li>
 <li>pshared表示该信号量对象的共享选项，若为0表示该信号量是<strong>当前进程的局部信号量</strong>，否则，这个信号量就可以在多个进程之间共享．</li>
 </ul>
-<h3 id="sem-wait"><a href="#sem-wait" class="headerlink" title="sem_wait"></a>sem_wait</h3><p>函数原型</p>
+<h4 id="sem-wait"><a href="#sem-wait" class="headerlink" title="sem_wait"></a>sem_wait</h4><p>函数原型</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sem_wait</span><span class="params">(<span class="keyword">sem_t</span>* sem)</span></span>;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>功能：以原子操作的方式给信号量的值减1.但是它会等待直到信号量有个非零值才会开始减法操作．</li>
 </ul>
-<h3 id="sem-post"><a href="#sem-post" class="headerlink" title="sem_post"></a>sem_post</h3><p>函数原型</p>
+<h4 id="sem-post"><a href="#sem-post" class="headerlink" title="sem_post"></a>sem_post</h4><p>函数原型</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sem_post</span><span class="params">(<span class="keyword">sem_t</span>* sem)</span></span>;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>功能：以原子操作的方式给信号量的值加1.</li>
 </ul>
-<h2 id="互斥量"><a href="#互斥量" class="headerlink" title="互斥量"></a>互斥量</h2><p>另一种用在多线程程序中的同步访问方法是使用互斥量．它允许程序锁住某个对象，使得每次只能有一个线程访问它．为了控制对关键代码的访问，必须在进入这段代码之前锁住一个互斥量，然后在完成操作之后解锁它．</p>
-<p>以下这些用于互斥量的基本函数成功时返回0，失败时返回错误代码，但是这些函数并不设置errno，必须对函数的返回代码进行检查．</p>
-<h3 id="pthread-mutex-init"><a href="#pthread-mutex-init" class="headerlink" title="pthread_mutex_init"></a>pthread_mutex_init</h3><p>函数原型</p>
+<h3 id="互斥量"><a href="#互斥量" class="headerlink" title="互斥量"></a>互斥量</h3><p>另一种用在多线程程序中的同步访问方法是使用互斥量。它允许程序锁住某个对象，使得每次只能有一个线程访问它。为了控制对关键代码的访问，必须在进入这段代码之前锁住一个互斥量，然后在完成操作之后解锁它。<br>互斥量又称为互斥锁，主要用于线程互斥，不能保证按序访问，可以和条件锁一起实现同步。当进入临界区时，需要获得互斥锁并加锁；当离开临界区时，需要对互斥锁解锁，以唤醒其他等待该互斥锁的线程。<br>以下这些用于互斥量的基本函数成功时返回0，失败时返回错误代码，但是这些函数并不设置errno，必须对函数的返回代码进行检查。</p>
+<h4 id="pthread-mutex-init"><a href="#pthread-mutex-init" class="headerlink" title="pthread_mutex_init"></a>pthread_mutex_init</h4><p>函数原型</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_mutex_init</span><span class="params">(<span class="keyword">pthread_mutext_t</span> *mutex, <span class="keyword">const</span> <span class="keyword">pthread_mutexattr_t</span> *mutexattr)</span></span>;</span><br></pre></td></tr></table></figure>
 
-<h3 id="pthread-mutex-lock"><a href="#pthread-mutex-lock" class="headerlink" title="pthread_mutex_lock"></a>pthread_mutex_lock</h3><p>函数原型</p>
+<p>功能：初始化互斥锁。</p>
+<h4 id="pthread-mutex-lock"><a href="#pthread-mutex-lock" class="headerlink" title="pthread_mutex_lock"></a>pthread_mutex_lock</h4><p>函数原型</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_mutex_lock</span><span class="params">(<span class="keyword">pthread_mutex_t</span> *mutex)</span></span></span><br></pre></td></tr></table></figure>
 
-<h3 id="pthread-mutex-unlock"><a href="#pthread-mutex-unlock" class="headerlink" title="pthread_mutex_unlock"></a>pthread_mutex_unlock</h3><p>函数原型</p>
+<p>功能：以原子操作的方式给一个互斥锁加锁，如果目标互斥锁已经被上锁，pthread_mutex_lock调用将阻塞，直到该互斥锁的占有者将其解锁。</p>
+<h4 id="pthread-mutex-unlock"><a href="#pthread-mutex-unlock" class="headerlink" title="pthread_mutex_unlock"></a>pthread_mutex_unlock</h4><p>函数原型</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_mutex_unlock</span><span class="params">(<span class="keyword">pthread_mutex_t</span> *mutex)</span></span>;</span><br></pre></td></tr></table></figure>
 
-<h3 id="pthread-mutex-destroy"><a href="#pthread-mutex-destroy" class="headerlink" title="pthread_mutex_destroy"></a>pthread_mutex_destroy</h3><p>函数原型</p>
+<h4 id="pthread-mutex-destroy"><a href="#pthread-mutex-destroy" class="headerlink" title="pthread_mutex_destroy"></a>pthread_mutex_destroy</h4><p>函数原型</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_mutex_destroy</span><span class="params">(<span class="keyword">pthread_mutex_t</span> *mutex)</span></span></span><br></pre></td></tr></table></figure>
 
-<h2 id="用于进程的信号量"><a href="#用于进程的信号量" class="headerlink" title="用于进程的信号量"></a>用于进程的信号量</h2>
+<p>功能：以原子操作的方式给一个互斥锁解锁。</p>
+<h3 id="条件变量"><a href="#条件变量" class="headerlink" title="条件变量"></a>条件变量</h3><p>条件变量又称条件锁，用于在线程之间同步共享数据的值。条件变量提供一种线程间通信机制；当某个共享数据达到某个值时，唤醒等待这个共享数据的一个/多个线程。即，当某个共享变量等于某个值时，调用signal/broadcast。此时操作共享变量需要加锁。其主要系统调用如下：<br>pthread_cond_init：初始化条件变量<br>pthread_cond_destory：销毁条件变量<br>pthread_cond_signal：唤醒一个等待目标条件变量的线程。哪个线程被唤醒取决于调度策略和优先级。<br>pthread_cond_wait：等待目标条件变量。需要一个加锁的互斥锁确保操作的原子性。该函数中在进入wait状态前首先进行解锁，然后接收到信号后会再加锁，保证该线程对共享资源正常访问。</p>
+
       
     </div>
     
@@ -574,6 +578,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/14/linux常用命令/" rel="prev" title="linux常用命令">
+                linux常用命令 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -652,7 +660,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">125</span>
+                  <span class="site-state-item-count">129</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -707,7 +715,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#IO"><span class="nav-number">1.</span> <span class="nav-text">IO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lseek"><span class="nav-number">1.1.</span> <span class="nav-text">lseek</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#read"><span class="nav-number">1.2.</span> <span class="nav-text">read</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.3.</span> <span class="nav-text">write</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fgetc"><span class="nav-number">1.4.</span> <span class="nav-text">fgetc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fputc"><span class="nav-number">1.5.</span> <span class="nav-text">fputc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fopen"><span class="nav-number">1.6.</span> <span class="nav-text">fopen</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fread"><span class="nav-number">1.7.</span> <span class="nav-text">fread</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fgets"><span class="nav-number">1.8.</span> <span class="nav-text">fgets</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fflush"><span class="nav-number">1.9.</span> <span class="nav-text">fflush</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#puts"><span class="nav-number">1.10.</span> <span class="nav-text">puts</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#目录"><span class="nav-number">2.</span> <span class="nav-text">目录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#opendir"><span class="nav-number">2.1.</span> <span class="nav-text">opendir</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程"><span class="nav-number">3.</span> <span class="nav-text">进程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fork"><span class="nav-number">3.1.</span> <span class="nav-text">fork</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vfork"><span class="nav-number">3.2.</span> <span class="nav-text">vfork</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wait"><span class="nav-number">3.3.</span> <span class="nav-text">wait</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#waitpid"><span class="nav-number">3.4.</span> <span class="nav-text">waitpid</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exec函数族"><span class="nav-number">3.5.</span> <span class="nav-text">exec函数族</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线程"><span class="nav-number">4.</span> <span class="nav-text">线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pthread-create"><span class="nav-number">4.1.</span> <span class="nav-text">pthread_create</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pthread-join"><span class="nav-number">4.2.</span> <span class="nav-text">pthread_join</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pthread-exit"><span class="nav-number">4.3.</span> <span class="nav-text">pthread_exit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用于线程的信号量"><span class="nav-number">4.4.</span> <span class="nav-text">用于线程的信号量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sem-init"><span class="nav-number">4.4.1.</span> <span class="nav-text">sem_init</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sem-wait"><span class="nav-number">4.4.2.</span> <span class="nav-text">sem_wait</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sem-post"><span class="nav-number">4.4.3.</span> <span class="nav-text">sem_post</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#互斥量"><span class="nav-number">4.5.</span> <span class="nav-text">互斥量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pthread-mutex-init"><span class="nav-number">4.5.1.</span> <span class="nav-text">pthread_mutex_init</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pthread-mutex-lock"><span class="nav-number">4.5.2.</span> <span class="nav-text">pthread_mutex_lock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pthread-mutex-unlock"><span class="nav-number">4.5.3.</span> <span class="nav-text">pthread_mutex_unlock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pthread-mutex-destroy"><span class="nav-number">4.5.4.</span> <span class="nav-text">pthread_mutex_destroy</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用于进程的信号量"><span class="nav-number">4.6.</span> <span class="nav-text">用于进程的信号量</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#IO"><span class="nav-number">1.</span> <span class="nav-text">IO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lseek"><span class="nav-number">1.1.</span> <span class="nav-text">lseek</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#read"><span class="nav-number">1.2.</span> <span class="nav-text">read</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.3.</span> <span class="nav-text">write</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fgetc"><span class="nav-number">1.4.</span> <span class="nav-text">fgetc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fputc"><span class="nav-number">1.5.</span> <span class="nav-text">fputc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fopen"><span class="nav-number">1.6.</span> <span class="nav-text">fopen</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fread"><span class="nav-number">1.7.</span> <span class="nav-text">fread</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fgets"><span class="nav-number">1.8.</span> <span class="nav-text">fgets</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fflush"><span class="nav-number">1.9.</span> <span class="nav-text">fflush</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#puts"><span class="nav-number">1.10.</span> <span class="nav-text">puts</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#目录"><span class="nav-number">2.</span> <span class="nav-text">目录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#opendir"><span class="nav-number">2.1.</span> <span class="nav-text">opendir</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程"><span class="nav-number">3.</span> <span class="nav-text">进程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fork"><span class="nav-number">3.1.</span> <span class="nav-text">fork</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vfork"><span class="nav-number">3.2.</span> <span class="nav-text">vfork</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wait"><span class="nav-number">3.3.</span> <span class="nav-text">wait</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#waitpid"><span class="nav-number">3.4.</span> <span class="nav-text">waitpid</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exec函数族"><span class="nav-number">3.5.</span> <span class="nav-text">exec函数族</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程同步"><span class="nav-number">3.6.</span> <span class="nav-text">进程同步</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用于进程的信号量"><span class="nav-number">3.6.1.</span> <span class="nav-text">用于进程的信号量</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线程"><span class="nav-number">4.</span> <span class="nav-text">线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pthread-create"><span class="nav-number">4.1.</span> <span class="nav-text">pthread_create</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pthread-join"><span class="nav-number">4.2.</span> <span class="nav-text">pthread_join</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pthread-exit"><span class="nav-number">4.3.</span> <span class="nav-text">pthread_exit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程同步"><span class="nav-number">4.4.</span> <span class="nav-text">线程同步</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用于线程的信号量"><span class="nav-number">4.4.1.</span> <span class="nav-text">用于线程的信号量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sem-init"><span class="nav-number">4.4.1.1.</span> <span class="nav-text">sem_init</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sem-wait"><span class="nav-number">4.4.1.2.</span> <span class="nav-text">sem_wait</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sem-post"><span class="nav-number">4.4.1.3.</span> <span class="nav-text">sem_post</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#互斥量"><span class="nav-number">4.4.2.</span> <span class="nav-text">互斥量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pthread-mutex-init"><span class="nav-number">4.4.2.1.</span> <span class="nav-text">pthread_mutex_init</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pthread-mutex-lock"><span class="nav-number">4.4.2.2.</span> <span class="nav-text">pthread_mutex_lock</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pthread-mutex-unlock"><span class="nav-number">4.4.2.3.</span> <span class="nav-text">pthread_mutex_unlock</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pthread-mutex-destroy"><span class="nav-number">4.4.2.4.</span> <span class="nav-text">pthread_mutex_destroy</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#条件变量"><span class="nav-number">4.4.3.</span> <span class="nav-text">条件变量</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
