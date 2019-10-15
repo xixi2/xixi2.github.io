@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[TCPIP网络编程系列之IO复用服务端]]></title>
+    <title><![CDATA[IO复用]]></title>
     <url>%2F2019%2F10%2F15%2FTCPIP%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%B3%BB%E5%88%97%E4%B9%8BIO%E5%A4%8D%E7%94%A8%2F</url>
     <content type="text"><![CDATA[IO复用是在阻塞IO基础上，通过某种机制同时对多个文件描述符进行监视的一种方式。 select服务端接收到来自客户端的消息后，不立即返回，而是等待几秒钟才继续向客户端回复消息。在客户端等待服务器回复的消息时，客户端处于睡眠状态，说明write系统调用是阻塞的。 epollepoll_create函数原型 1int epoll_create(int size); 功能：创建保存epoll文件描述符的空间。这些文件描述符正是监视对象。调用epoll_create函数时创建的文件描述符保存空间称为“epoll例程”。通过参数size传递的值决定epoll例程的大小，但该值只是向操作系统的建议。也就是该值并非用来决定epoll例程的大小，而仅供操作系统参考。epoll_create创建的这块空间归操作系统管理。因此，epoll_create返回文件描述符，此文件描述法主要用于区分epoll例程。返回值：成功时返回文件描述符，失败时返回-1。]]></content>
       <categories>
-        <category>TCPIP网络编程</category>
+        <category>网络编程</category>
+      </categories>
+      <tags>
+        <tag>IO复用</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[TCP和UDP通信实例实现]]></title>
+    <url>%2F2019%2F10%2F15%2FTCP%E5%92%8CUDP%E9%80%9A%E4%BF%A1%E5%AE%9E%E4%BE%8B1%2F</url>
+    <content type="text"><![CDATA[首先实现一个简单的服务器端和客户端通信的小例子． TCP方式服务器端代码 12 服务器端调用步骤： 调用socket函数创建套接字 调用bind函数分配IP地址和端口号 调用listen函数将套接字转为可接收连接状态 调用accept函数受理连接请求．如果在没有连接请求的情况下调用该函数，则不会返回，直到有连接请求为止． 使用write函数用于向客户端传输数据． TCP相关API创建socket函数原型如下： 1int socket(int domain, int type, int protocol) socket函数成功时返回一个文件描述符(见后续其他相关知识)，失败则返回-1. domain: 套接字中使用的协议族信息 PF_INET表示IPV4互联网协议族 type: 套接字数据传输类型信息 SOCK_STREAM表示面向连接的套接字 SOCK_DGRAM表示面向消息的套接字． 创建TCP套接字和UDP套接字： 12tcp_socket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);udp_socket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP); protocol: 计算机间通信中使用的协议信息 描述socket 接下来代码描述socket文件，包括socket文件的大小，接受的内容等 1234memset(&amp;serv_addr, ０, sizeof(serv_addr));serv_addr.sin_family = AF_INET;serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);serv_addr.sin_port = htons(atoi(argv[1])); sin_family: 地址族 每种协议族适用的地址族不同．IPV4使用4字节地址族．IPV6使用16字节地址族． AF_INET IPV4网络协议中使用的地址族 AF_INET6 IPV6网络协议中使用的地址族 sin_port: 该成员保存16位端口号，它以网络字节序保存 sin_addr: 该成员保存32位IP地址信息，且也以网络字节序保存． 地址绑定给套接字分配地址信息（IP地址和端口号） 1int bind(int sockfd, struct sockaddr* myaddr, socklen_t addrlen); 成功时返回0,失败时返回-1.sockfd: 要分配地址(IP地址和端口号)的套接字文件描述符myaddr: 存有地址信息的结构体变量地址值addrlen: 第二个结构体变量的长度 监听 绑定了地址信息后，只需要最后一步接收来自客户的连接请求了．这就是让套接字变成监听状态，之后，只要客户端向服务器发送请求，服务器就可以接收到了．通过listen函数进入等待连接请求状态．只有调用了listen函数，客户端才能进入可发出连接请求的状态．换言之，这时客户端才能调用connect函数(若提前调用将发生错误)． 1int listen(int sock, int backlog); 成功时返回0,失败时返回-1.sock：希望进入等待连接请求状态的套接字文件描述符，传递的描述符套接字参数成为服务器端套接字(监听套接字)backlog: 连接请求等待队列的长度, 若为5，则队列长度为5,表示最多使5个连接请求进入队列． 等待连接请求状态： 服务端处于等待连接请求状态是指，客户端请求连接时，受理连接前一直使请求处于等待状态． 连接请求队列：允许的连接请求的客户端个数 接受连接函数原型如下： 1int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen); sock: 服务器套接字的文件描述符 addr: 保存发起连接请求的客户端地址信息的变量地址值，调用函数后向传递来的地址变量参数填充客户端地址信息． addrlen: 第二个参数addr结构体的长度，但是存有长度的变量地址．函数调用完成后，该变量即被填入客户端地址长度． 返回值：accept函数成功时返回文件描述符，失败时返回-1 accept函数受理连接请求队列中待处理的客户端连接请求．函数调用成功时，accept函数内部将产生用于数据IO的套接字，并返回其文件描述符．套接字是自动创建的，并自动与发起连接请求的客户端建立连接 一个服务器端socket可以接收很多客户端的连接请求．当客户端发起连接请求时，服务器端需要调用accept函数受理客户端的请求．同时来自不同客户端的连接也会当成不同的socket文件，返回不同的文件描述符． connect1int connect(int sock, struct sockaddr* servaddr, socklen_t addrlen); 功能： 客户端调用connect函数后，发生以下情况之一才会返回(完成函数调用) 服务器接收连接请求 注意：接收连接请求并不意味着服务器调用accept函数，而是指服务器把连接请求信息记录到等待队列． 所以，connect函数返回后并不立即进行数据交换 发生断网等异常情况而中断连接请求 sock: 客户端套接字文件描述符 servaddr: 保存目标服务端地址信息的变量地址值 addrlen: 以字节为单位传递已传递给第二个结构体参数servaddr的地址变量长度 read和write1ssize_t read(int fd, void* buf, size_t nbytes); 成功时返回接收的字节数(但遇到文件结尾则返回0)，失败时返回-1.fd: 显示数据接收对象的文件描述符．buf: 要保存接收数据的缓冲地址值．nbytes: 要接收数据的最大字节数． 1ssize_t write(int fd, const void* buf, size_t nbytes); 成功时返回写入的字节数，失败时返回-1.fd: 显示数据传输对象的文件描述符．buf: 要保存传输数据的缓冲地址值．nbytes: 要传输数据的最大字节数． freadsize_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream) 功能：从给定流 stream 读取数据到 ptr 所指向的数组中 ptr – 这是指向带有最小尺寸 size\nmemb* 字节的内存块的指针。 size – 这是要读取的每个元素的大小，以字节为单位。 nmemb – 这是元素的个数，每个元素的大小为 size 字节。 stream – 这是指向 FILE 对象的指针，该 FILE 对象指定了一个输入流。 fgets函数原型为：char *fgets(char *str, int n, FILE *stream) 功能：从指定的流 stream 读取一行，并把它存储在 str 所指向的字符串内。fgets会把读到字符写到s指向的字符串里，直到出现下面某种情况： 遇到换行符 已经传输了n-1个字节 到达文件尾 它会把遇到的换行符也保存到s中．最后在s末尾加上一个表示结尾的空字符\0．一次调用最多只能传输n-1个字符，因为它必须把空字符加到字符串表示结尾． gets函数类似于fgets，但是它从标准输入流中取数据并丢弃遇到的换行符．它在接收字符串的尾部加上一个空字节(一个字符占一个字节)． fgetcfgetc从文件指针stream指向的文件中读取一个字符，读取一个字节后，光标位置后移一个字节。 fputc功能：把一个字符写到一个输出文件流中．它返回写入的值，如果失败，则返回EOF．putc函数的作用相当于fputc，但它可能被实现为一个宏．putchar相当于putc(c, stdout)，但它把单个字符写到标准输出．注意：putchar和getchar都是把字符当做int类型而不是char类型来使用的．这就允许文件尾标识取值-1，这是一个超出字符数字编码范围的值． fopenhttps://blog.csdn.net/hairetz/article/details/4150193 sigaction1sigaction(int signo, const sigaction* act, struct sigaction *oldact); 功能： signo：与signal函数相同，传递信号信息 act：对应于第一个参数的信号处理函数(信号处理器)信息 oldact：通过此参数获取之前注册的信号处理函数指针，若不需要则传递0 返回值：成功时返回0,失败时返回-1 UDP方式UDP相关APITCP套接字将会保持与对方套接字的连接。换言之，TCP套接字知道目标地址信息。但UDP套接字不会保持连接状态，因此每次传输数据都要添加目标地址信息。 sendto12#include&lt;sys/socket.h&gt;ssize_t sendto(int sock, void *buff, size_t nbytes, int flags, struct sockaddr* to, socklen_t addrlen); 功能：返回值：成功时返回传输的字节数，失败时返回-1。sock：用于传输数据的UDP套接字文件描述符。buff：保存待传输数据的缓冲地址值。nbytes：待传输的数据长度，以字节为单位。flags：可选项参数，若没有则传递0。to：存有目标地址信息的sockaddr结构体变量的地址值。addlen：传递给参数to的地址值结构体变量长度。这个函数在发送端主机上被调用，而发送数据的UDP套接字只有在发送端主机才有意义。 recvfrom12#include&lt;sys/socket.h&gt;ssize_t recvfrom(int sock, void* buff, size_t nbytes, int flags, struct sockaddr* from, socklen_t *addrlen); 返回值：成功时返回接收的字节数，失败时返回-1。sock：用于接收数据的UDP套接字文件描述符。buff：保存接收数据的缓冲地址值。nbytes：可接收的最大字节数，故无法超过参数buff所指的缓冲区大小。flags：可选项参数，若没有则传入0。from：存有发送端地址信息的sockaddr结构体变量的地址值。addlen：保存参数from的结构体变量长度的变量地址值。 其他相关知识 文件描述符 对linux来说，一切皆文件．套接字和本地的文件都是文件． 文件描述符是系统分配给文件或套接字的整数．是为了方便称呼操作系统分配的文件或套接字． 结构体sockaddr_in 参考文献[1] TCP/IP网络编程：https://blog.csdn.net/u011675745/article/details/78555250]]></content>
+      <categories>
+        <category>网络编程</category>
+      </categories>
+      <tags>
+        <tag>套接字</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[IO复用]]></title>
+    <url>%2F2019%2F10%2F15%2FIO%E5%A4%8D%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[IO复用是在阻塞IO基础上，通过某种机制同时对多个文件描述符进行监视的一种方式。 select服务端接收到来自客户端的消息后，不立即返回，而是等待几秒钟才继续向客户端回复消息。在客户端等待服务器回复的消息时，客户端处于睡眠状态，说明write系统调用是阻塞的。 epollepoll_create函数原型 1int epoll_create(int size); 功能：创建保存epoll文件描述符的空间。这些文件描述符正是监视对象。调用epoll_create函数时创建的文件描述符保存空间称为“epoll例程”。通过参数size传递的值决定epoll例程的大小，但该值只是向操作系统的建议。也就是该值并非用来决定epoll例程的大小，而仅供操作系统参考。epoll_create创建的这块空间归操作系统管理。因此，epoll_create返回文件描述符，此文件描述法主要用于区分epoll例程。返回值：成功时返回文件描述符，失败时返回-1。]]></content>
+      <categories>
+        <category>网络编程</category>
       </categories>
       <tags>
         <tag>IO复用</tag>
@@ -640,6 +662,14 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[C++牛客网刷题总结]]></title>
+    <url>%2F2019%2F09%2F27%2FC%2B%2B%E7%89%9B%E5%AE%A2%E7%BD%91%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93%2F</url>
+    <content type="text"><![CDATA[字符串系列]]></content>
+      <categories>
+        <category>牛客网</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[bind与函数适配器]]></title>
     <url>%2F2019%2F09%2F27%2Fbind%E4%B8%8E%E5%87%BD%E6%95%B0%E9%80%82%E9%85%8D%E5%99%A8%2F</url>
     <content type="text"><![CDATA[bind是从c++11开始出现的新型适配器]]></content>
@@ -653,14 +683,6 @@
     <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
       <categories>
         <category>STL</category>
-      </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[C++牛客网刷题总结]]></title>
-    <url>%2F2019%2F09%2F27%2FC%2B%2B%E7%89%9B%E5%AE%A2%E7%BD%91%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93%2F</url>
-    <content type="text"><![CDATA[字符串系列]]></content>
-      <categories>
-        <category>牛客网</category>
       </categories>
   </entry>
   <entry>
@@ -705,17 +727,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[c++2.0新特性]]></title>
-    <url>%2F2019%2F09%2F27%2Fc%2B%2B2.0%E6%96%B0%E7%89%B9%E6%80%A7%2F</url>
-    <content type="text"><![CDATA[此文档整理c++11中新特性． autoauto和decltype的区别与联系variadic templatesrange base for]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>c++11新特性</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[可变模板参数(c++11新特性)]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%8F%AF%E5%8F%98%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0%2F</url>
     <content type="text"><![CDATA[Variadic Templates Variadic Templates谈的是template function template class template 变化的是template parameters 参数个数：利用参数个数注意递减的特性，实现递归函数调用．使用function template完成 参数类型：利用参数个数逐一递减，参数类型也逐一递减的特性，实现递归继承或递归复合，以class template完成． 可变模板参数写的一个小例子针对函数模板参数包，函数参数类型包，函数参数包 123456789void print() &#123;&#125; //非模板，和模板的实例形成重载函数；函数没有特化和偏特化template&lt;typename T, typename... Types&gt;void print(const T &amp;firstArg, const Types &amp;... args) &#123; // firstArg是包中第一个元素的引用，输出包中剩余元素个数 cout &lt;&lt; sizeof...(args) &lt;&lt; " "; cout &lt;&lt; firstArg &lt;&lt; endl; print(args...); // 当args为空时，调用的是非模板函数print&#125; 可变模板参数实现hash function1234567891011121314151617181920212223242526template&lt;typename T&gt;inline void hash_combine(size_t &amp;seed, const T &amp;val) &#123; seed ^= std::hash&lt;T&gt;()(val) + 0x9e3779b9 // 0x9e3779b9黄金比例 + (seed &lt;&lt; 6) + (seed &gt;&gt; 2);&#125;template&lt;typename T&gt;inline void hash_val(size_t &amp;seed, const T &amp;val) &#123; hash_combine(seed, val);&#125;template&lt;typename T, typename...Types&gt;inline void hash_val(size_t &amp;seed, const T &amp;val, const Types &amp;...args) &#123; hash_combine(seed, val); hash_val(seed, args...);&#125;// 版本1// typename...Types：任意个模板参数// 第一个函数不是size_ttemplate&lt;typename...Types&gt;inline size_t hash_val(const Types &amp;...args) &#123; size_t seed = 0; hash_val(seed, args...); return seed;&#125; 可变模板参数实现printf1234567891011121314151617181920212223242526void printf(const char *s) &#123; while (*s) &#123; if (*s == '%' &amp;&amp; (*(++s) != '%')) &#123; throw std::runtime_error("invalid formal string::missing arguments"); &#125; cout &lt;&lt; *s++; &#125;&#125;template&lt;typename T, typename... Args&gt;void printf(const char *s, T value, Args... args) &#123; while (*s) &#123; if (*s == '%' &amp;&amp; (*(++s)) != '%') &#123; cout &lt;&lt; value; printf(++s, args...); return; &#125; cout &lt;&lt; *s++; // 如果s不是用于格式控制，则直接输出s &#125; throw std::logic_error("extra argument provided to printf");&#125;void test_printf() &#123; printf("%d\n%s\n%f\n", 15, "This is Alice", 3.1415926); printf("%d, %s, %f\n", 15, "This is Alice", 3.1415926);&#125; variadic templates与initializer_list若参数的类型相同，无须使用variadic templates,使用initializer_list&lt;T&gt;即可 使用initializer_list实现max 12345678910111213141516171819202122232425262728293031323334template&lt;typename __ForwardIterator, typename __Compare&gt;__ForwardIterator __max_element(__ForwardIterator __first, __ForwardIterator __last, __Compare _comp) &#123; if (__first == __last) &#123; return __first; &#125; __ForwardIterator __result = __first; while (++__first != __last) &#123; if (_comp(__result, __first)) __result = __first; &#125; return __result;&#125;// _Iter_less_iter是一种类型inline __Iter_less_iter __iter_less_iter() &#123; return __Iter_less_iter();&#125;template&lt;typename __ForwardIterator&gt;inline __ForwardIterator max_element(__ForwardIterator __first, __ForwardIterator __last) &#123; // _iter_less_iter()是一个函数调用，但是返回一个对象 return __max_element(__first, __last, __iter_less_iter());&#125;template&lt;typename _Tp&gt;inline _Tpmax(initializer_list&lt;_Tp&gt; _l) &#123; return *max_element(_l.begin(), _l.end());&#125;// 调用形式：max(&#123;1,2,43,2,41&#125;); 使用varadic templates实现max 123456789101112int maximum(int n) &#123; return n;&#125;template&lt;typename... Args&gt;int maximum(int n, Args... args) &#123; return max(maximum(args...), n);&#125;void test_maximum() &#123; cout &lt;&lt; maximum(57, 48, 60, 100, 20, 18) &lt;&lt; endl;&#125; 对异于一般的方式处理first元素和last元素12345678910111213141516171819202122232425template&lt;int IDX, int MAX, typename... Args&gt;struct PRINT_TUPLE &#123; static void print(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123; os &lt;&lt; get&lt;IDX&gt;(t) &lt;&lt; (IDX + 1 == MAX ? &quot;&quot; : &quot;,&quot;); PRINT_TUPLE&lt;IDX + 1, MAX, Args...&gt;::print(os, t); &#125;&#125;;// 当前元素是最后一个template&lt;int MAX, typename...Args&gt;struct PRINT_TUPLE&lt;MAX, MAX, Args...&gt; &#123; static void print(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123;&#125;&#125;;template&lt;typename... Args&gt;ostream &amp;operator&lt;&lt;(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123; PRINT_TUPLE&lt;0, sizeof...(Args), Args...&gt;::print(os, t); return os;&#125;void test_print_tuple() &#123; cout &lt;&lt; make_tuple(1.4, &quot;hello&quot;, 13, string(&quot;good&quot;)) &lt;&lt; endl;&#125; 可变模板参数实现tuple通过private 继承实现复合递归的继承 12345678910111213141516171819202122232425262728293031323334353637383940414243444546template&lt;typename...Values&gt;class tuple;template&lt;&gt;class tuple&lt;&gt; &#123;&#125;;// private继承template&lt;typename Head, typename... Tail&gt;class tuple&lt;Head, Tail...&gt; : private tuple&lt;Tail...&gt; &#123; typedef tuple&lt;Tail...&gt; inherited;protected: Head m_head;public: tuple() &#123;&#125; // inherited(vtail...)调用base ctor并给予参数(不是创建temp object) tuple(Head v, Tail... vtail) : m_head(v), inherited(vtail...) &#123;&#125; // 原始构想是取出Head指定的类型，但是head类型如何知道自己是什么type？// typename Head::type head() &#123; return m_head; &#125; // 通过decltype获取Head // m_head必须声明在此句之前 // auto head() -&gt; decltype(m_head) &#123; return m_head; &#125; // 更好的等价写法 // 可以直接这么写，Head本身就是指的类型 // Head head() &#123; return m_head; &#125; // return后转型为inherited // 返回值一定得是引用 // 调用tail之后，得到一个inhertied子对象，然后再对此子对象调用head时会改变此子对象，但是如果传回的是值(而非引用)，则被改变的是副本 inherited &amp;tail() &#123; return *this; &#125;&#125;;void test_tuple() &#123; tuple&lt;int, float, string&gt; t(41, 6.3, "nico"); cout &lt;&lt; sizeof(string) &lt;&lt; " " &lt;&lt; sizeof(int) &lt;&lt; " " &lt;&lt; sizeof(float) &lt;&lt; endl; // 32 4 4 cout &lt;&lt; sizeof(t) &lt;&lt; endl; // 40 cout &lt;&lt; t.head() &lt;&lt; endl; // 40 cout &lt;&lt; t.tail().head() &lt;&lt; endl; // 6.3 cout &lt;&lt; t.tail().tail().head() &lt;&lt; endl; // nico&#125; 通过composite实现复合1234567891011121314151617181920212223242526272829303132333435363738394041424344// 这两句存在的意义是什么？换言之，为什么需要这两句template&lt;typename... Values&gt; class tup;// 特化版本template&lt;&gt; class tup&lt;&gt; &#123; public: tup() &#123; cout &lt;&lt; "empty tup" &lt;&lt; endl; &#125; &#125;;// 特化版本template&lt;typename Head, typename...Tail&gt; class tup&lt;Head, Tail...&gt; &#123; typedef tup&lt;Tail...&gt; compositied; protected: compositied m_tail; Head m_head; public: tup() &#123;&#125;; // vtail...是一个函数参数包 tup(Head v, Tail... vtail) : m_head(v), m_tail(vtail...) &#123; cout &lt;&lt; m_head &lt;&lt; " " &lt;&lt; sizeof...(vtail) &lt;&lt; endl; &#125; Head head() &#123; return m_head; &#125; compositied &amp;tail() &#123; return m_tail; &#125; &#125;;void test_tup() &#123; tup&lt;int, float, string&gt; it1(41, 6.3, "nico"); cout &lt;&lt; endl; cout &lt;&lt; sizeof(it1) &lt;&lt; endl; cout &lt;&lt; it1.head() &lt;&lt; endl; cout &lt;&lt; it1.tail().head() &lt;&lt; endl; cout &lt;&lt; it1.tail().tail().head() &lt;&lt; endl;&#125; 运行结果 1234567891011# 由内到外构造对象empty tupnico 06.3 141 2# 依次输出tup中的内容56416.3nico]]></content>
@@ -724,6 +735,17 @@
       </categories>
       <tags>
         <tag>variadic templates</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[c++2.0新特性]]></title>
+    <url>%2F2019%2F09%2F27%2Fc%2B%2B2.0%E6%96%B0%E7%89%B9%E6%80%A7%2F</url>
+    <content type="text"><![CDATA[此文档整理c++11中新特性． autoauto和decltype的区别与联系variadic templatesrange base for]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>c++11新特性</tag>
       </tags>
   </entry>
   <entry>
@@ -1000,8 +1022,8 @@
     <url>%2F2019%2F09%2F27%2F%E6%9C%AA%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%B4%AF%E5%8A%A0%E5%92%8C%E4%B8%BA%E7%BB%99%E5%AE%9A%E5%80%BC%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E6%95%B0%E7%BB%84%E7%B3%BB%E5%88%97%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[原题给定一个无序数组,其中元素可正,可负,可0.给定一个整数k,求arr所有的子数组中累加和为k的最长子数组长度. 12345678910111213141516171819int maxLength(vector&lt;int&gt; &amp;arr, int k) &#123; if (arr.empty()) &#123; return 0; &#125; map&lt;int, int&gt; mp; mp[0] = -1; int len = 0; int sum = 0; for (int i = 0; i &lt; arr.size(); i++) &#123; sum += arr[i]; if (mp.find(sum - k) != mp.end()) &#123; len = max(len, i - mp[sum - k]); &#125; if (mp.find(sum) == mp.end()) &#123; mp[sum] = i; &#125; &#125; return len;&#125; 补充题1补充题2类似题138. 子数组之和给定一个整数数组，找到和为零的子数组。你的代码应该返回满足要求的子数组的起始位置和结束位置 样例 样例 1: 123输入: [-3, 1, 2, -3, 4]输出: [0,2] 或 [1,3] 样例解释： 返回任意一段和为0的区间即可。 样例 2: 12输入: [-3, 1, -4, 2, -3, 4]输出: [1,5] 样例 3: 12输入: [3,4,5,6,-3,-4,-5,-6]输出: [0,7] 样例 4: 12输入: [1,0,-1]输出: [1,1] 注意事项: 至少有一个子数组的和为 0 1234567891011121314151617181920212223242526272829303132class Solution &#123;public: /** * @param nums: A list of integers * @return: A list of integers includes the index of the first number and the index of the last number */ vector&lt;int&gt; subarraySum(vector&lt;int&gt; &amp;nums) &#123; // write your code here if(nums.empty())&#123; return &#123;&#125;; &#125; int sum = 0; vector&lt;int&gt; res; map&lt;int, int&gt; mp; for(int i=0;i&lt;nums.size();++i)&#123; sum += nums[i]; if(sum == 0)&#123; res.push_back(0); res.push_back(i); return res; &#125; if(mp.find(sum)!=mp.end())&#123; res.push_back(mp[sum]+1); res.push_back(i); return res; &#125; mp[sum] = i; &#125; return res; &#125;&#125;; 此题与上题的相似之处在于:需要用到相同的结论:s[i]= arr[0] + arr[1] +…+arr[i]s[j]= arr[0] + arr[1] +…+arr[j]假设i &gt; j,则s[i] - s[j] = arr[j+1] + arr[j+2] + … + arr[i] 复杂度分析 理论上, 时间复杂度为O(n).但实际实现时,时间复杂度为O(nlogn).因为map的find方法查找一个数的时间复杂度为O(logn)空间复杂度为O(n) 题目来源: leetcode 560. Subarray Sum Equals K930 binary subarrays with sum另有使用三指针的解法,可以尝试看看试用否,三指针解法时间复杂度为O(n),空间复杂度为O(1),是最优解法]]></content>
       <tags>
-        <tag>累积和</tag>
         <tag>leetcode</tag>
+        <tag>累积和</tag>
         <tag>程序员代码面试指南</tag>
       </tags>
   </entry>
@@ -1107,6 +1129,11 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[寻找下一个节点]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%AF%BB%E6%89%BE%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%2F</url>
+    <content type="text"><![CDATA[链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继返回-1。]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[可调用对象]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%8F%AF%E8%B0%83%E7%94%A8%E5%AF%B9%E8%B1%A1%2F</url>
     <content type="text"><![CDATA[可调用对象有函数,函数指针,lambda表达式,函数对象, bind创建的对象等.函数和函数指针不必多说.那么什么是函数对象呢?函数对象是一种重载了调用运算符的类类型.因为重载了调用运算符,所以我们可以像调用函数一样调用类的对象,因为称为函数对象.lambda表达式表示一个可调用的代码单元. 函数对象12345678910111213141516/** * absInt类只定义了一种操作:函数调用运算符 * 此类为函数对象 */struct absInt &#123; int operator()(int val) const &#123; return val &lt; 0 ? -val : val; &#125;&#125;;int main()&#123; absInt absObj; cout &lt;&lt; absObj(42) &lt;&lt; endl; // 42 cout &lt;&lt; absObj(-10) &lt;&lt; endl; // 10 return 0;&#125; 以上代码即定义了一个函数对象.调用该对象就像调用函数一样.仿佛该类型对象是一个函数.还可以定义有数据成员的函数对象 123456789101112131415161718class PrintString &#123;public: PrintString(ostream &amp;o = cout, char c = ' ') : os(o), sep(c) &#123;&#125; void operator()(const string &amp;s) const &#123; os &lt;&lt; s &lt;&lt; sep; &#125;private: ostream &amp;os; char sep;&#125;;int main()&#123; PrintString printer; printer("hello"); // 输出hello PrintString errors(cerr, '\n'); string s = "wrong answer"; errors(s); // 输出wrong answer return 0;&#125; lambda表达式lambda表达式在很多语言中都有.lambda可以理解为一个未命名的内联函数,但是与普通函数不同的是,lambda可能定义在函数内部;lambda表达式必须尾置返回; lambda表达式不能有默认参数; lambda表达式的参数列表和返回类型可以省略. 那么在c++中该怎么定义一个lambda表达式呢?一个lambda表达式具有以下形式: 1[capure list](parameter list)-&gt; return type &#123;function body&#125; 其中,捕获列表(capure list)是该lambda表达式所在函数中定义的局部变量(通常为空).参数列表(parameter list), 返回类型, 返回类型(return type)和函数体(function body)与普通函数相同. 当定义一个lambda时,编译器生成一个与lambda对象的新的(未命名的)类类型.当向一个函数传递一个lambda时,同时定义了一个新类型和该类型的一个对象. 123456vector&lt;string&gt; vc&#123;"good", "to", "see", "you", "again"&#125;;for_each(vc.begin(), vc.end(), PrintString(cout, '\n')); // 函数对象// 等价的lambda表达式string sep("\n");for_each(vc.begin(), vc.end(), [sep](const string &amp;s) &#123; cout &lt;&lt; s &lt;&lt; sep; &#125;); 使用函数对象打印出可变数组vc中的元素.同时定义了一个与函数对象PrintString等价的lambda表达式. 捕获变量与参数传递类似,捕获变量也有两种方式,值捕获和引用捕获.采用值捕获需要变量可以拷贝.与参数传递不同,被捕获的变量的值是在lambda创建时拷贝,而不是调用时拷贝.引用捕获需要保证lambda表达式执行时,该引用指向的对象仍然存在. 在一个基本类型为string类型的可变数组中找出第一个长度大于给定值sz的元素.下面分别用函数对象和lambda表达式的形式实现. 123456789101112131415161718192021222324252627class SizeCmp &#123;public: SizeCmp(size_t n) : sz(n) &#123;&#125; bool operator()(const string &amp;a) &#123; return a.size() &gt;= sz; &#125;private: size_t sz;&#125;;int main()&#123; vector&lt;string&gt; vc&#123;"good", "to", "see", "mango", "again", "day", "nana"&#125;; size_t sz = 6; // 使用lambda表达式// auto wc = find_if(vc.begin(), vc.end(), [sz](const string &amp;a) &#123; return a.size() &gt;= sz; &#125;); // 使用等价的函数对象 auto wc = find_if(vc.begin(), vc.end(), SizeCmp(sz)); // wc 为指向第一个长度不小于给定值sz的元素的迭代器 if (wc != vc.end()) cout &lt;&lt; (*wc) &lt;&lt; endl; else &#123; cout &lt;&lt; "empty result" &lt;&lt; endl; &#125; //当sz=5时,输出mango;当sz=6时,输出empty result&#125; bind参数绑定标准库的bind函数可以看做一个函数适配器.它接受一个可调用对象,生成一个新的可调用对象. 12345678910111213141516171819bool check_size(const string&amp; s, string::size_type sz)&#123; return s.size() &gt;= sz;&#125;// 给check_size函数的第一个参数绑定一个值// auto check6 = bind(check_size, std::placeholders::_1, 6);auto check6 = bind(check_size, std::placeholders::_1, 5);// 调用check6函数string s = "hello";cout &lt;&lt; check6(s) &lt;&lt; endl;vector&lt;string&gt; vc&#123;"good", "to", "see", "mango", "again", "day", "nana"&#125;;auto wc = find_if(vc.begin(), vc.end(), check6);// wc 为指向第一个长度不小于给定值sz的元素的迭代器if (wc != vc.end()) cout &lt;&lt; (*wc) &lt;&lt; endl;else &#123; cout &lt;&lt; "empty result" &lt;&lt; endl; 可调用对象与function每一个lambda表达式都是一种未命名的新类型;函数对象的类型是该对象的类类型;函数和函数指针的类型由参数列表和返回值决定. 多个调用对象有不同的类型,但是却共享相同的调用形式.调用形式指明了调用返回的类型以及传递给调用的实参类型(如何SizeCmp类型的函数对象和lambda表达式,类型不同,调用形式相同).一种调用形式对应一个函数类型.标准库中function模板可以表示函数类型. 123456789101112map&lt;string, function&lt;int(int, int)&gt;&gt; binops = &#123; &#123;"+", add&#125;, &#123;"-", std::minus&lt;int&gt;()&#125;, &#123;"/", Divide()&#125;, &#123;"*", [](int i, int j) &#123; return i * j; &#125;&#125;, &#123;"%", mod&#125;&#125;;cout &lt;&lt; binops["+"](10, 5) &lt;&lt; endl; // 15cout &lt;&lt; binops["-"](10, 5) &lt;&lt; endl; // 5cout &lt;&lt; binops["%"](11, 4) &lt;&lt; endl; // 3cout &lt;&lt; binops["*"](13, 2) &lt;&lt; endl; // 26 add, Divide(),mod等各个可调用对象的类型各不相同,但是它们都是调用形式为int(int, int)的可调用对象,因此可以赋值给function&lt;int(int,int)&gt;类型的对象.]]></content>
@@ -1116,11 +1143,6 @@
       <tags>
         <tag>可调用对象</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[寻找下一个节点]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%AF%BB%E6%89%BE%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%2F</url>
-    <content type="text"><![CDATA[链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继返回-1。]]></content>
   </entry>
   <entry>
     <title><![CDATA[二叉树的下一个结点]]></title>
