@@ -294,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/12/TCPIP网络编程系列之IO复用/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/13/类型转换系列１/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -313,7 +313,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/10/12/TCPIP网络编程系列之IO复用/" itemprop="url">TCPIP网络编程系列之IO复用服务端</a></h1>
+                <a class="post-title-link" href="/2019/10/13/类型转换系列１/" itemprop="url">类型转换系列1</a></h1>
         
 
         <div class="post-meta">
@@ -325,8 +325,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-12T23:28:48+08:00">
-                2019-10-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-13T12:24:42+08:00">
+                2019-10-13
               </time>
             
 
@@ -348,8 +348,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/TCPIP网络编程/" itemprop="url" rel="index">
-                    <span itemprop="name">TCPIP网络编程</span>
+                  <a href="/categories/C-基础知识/" itemprop="url" rel="index">
+                    <span itemprop="name">C++基础知识</span>
                   </a>
                 </span>
 
@@ -386,14 +386,14 @@
 
       
         
-          
-            <p>服务端接收到来自客户端的消息后，不立即返回，而是等待几秒钟才继续向客户端回复消息。在客户端等待服务器回复的消息时，客户端处于睡眠状态，说明write系统调用是阻塞的。</p>
-<h1 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h1><p>epoll_create<br>函数原型</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">epoll_create</span><span class="params">(<span class="keyword">int</span> size)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>功能：创建保存epoll文件描述符的空间。这些文件描述符正是监视对象。调用epoll_create函数时创建的文件描述符保存空间称为“<span style="color:cornflowerblue">epoll例程</span>”。通过参数size传递的值决定epoll例程的大小，但该值只是向操作系统的建议。也就是该值并非用来决定epoll例程的大小，而仅供操作系统参考。epoll_create创建的这块空间归操作系统管理。因此，epoll_create返回文件描述符，此文件描述法主要用于区分epoll例程。<br>返回值：成功时返回文件描述符，失败时返回-1。</p>
-
-          
+          <p>类型转换</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/10/13/类型转换系列１/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
