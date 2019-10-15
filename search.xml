@@ -337,8 +337,8 @@
         <category>计算机日常使用</category>
       </categories>
       <tags>
-        <tag>常用工具</tag>
         <tag>linux系统</tag>
+        <tag>常用工具</tag>
       </tags>
   </entry>
   <entry>
@@ -349,8 +349,8 @@
         <category>计算机日常使用</category>
       </categories>
       <tags>
-        <tag>liunx系统</tag>
         <tag>常用工具</tag>
+        <tag>liunx系统</tag>
       </tags>
   </entry>
   <entry>
@@ -640,11 +640,11 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[C++牛客网刷题总结]]></title>
-    <url>%2F2019%2F09%2F27%2FC%2B%2B%E7%89%9B%E5%AE%A2%E7%BD%91%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93%2F</url>
-    <content type="text"><![CDATA[字符串系列]]></content>
+    <title><![CDATA[traits]]></title>
+    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
+    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
       <categories>
-        <category>牛客网</category>
+        <category>STL</category>
       </categories>
   </entry>
   <entry>
@@ -656,11 +656,11 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[traits]]></title>
-    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
-    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
+    <title><![CDATA[C++牛客网刷题总结]]></title>
+    <url>%2F2019%2F09%2F27%2FC%2B%2B%E7%89%9B%E5%AE%A2%E7%BD%91%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93%2F</url>
+    <content type="text"><![CDATA[字符串系列]]></content>
       <categories>
-        <category>STL</category>
+        <category>牛客网</category>
       </categories>
   </entry>
   <entry>
@@ -685,14 +685,6 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[对象模型]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%2F</url>
-    <content type="text"><![CDATA[多重继承下的对象模型 123456789101112131415161718192021class A &#123; public: virtual ~A() &#123;&#125;&#125;;class B &#123; public: virtual ~B() &#123;&#125;&#125;;class C : public A, public B &#123;&#125;;void test1() &#123; C *pC = new C(); A *pA = (A *) pC; B *pB = (B *) pC; cout &lt;&lt; pA &lt;&lt; endl; // 0x5652962dbe70 cout &lt;&lt; pB &lt;&lt; endl; // 0x5652962dbe78 cout &lt;&lt; pC &lt;&lt; endl; // 0x5652962dbe70&#125;]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[指针和引用]]></title>
     <url>%2F2019%2F09%2F27%2F%E6%8C%87%E9%92%88%E5%92%8C%E5%BC%95%E7%94%A8%2F</url>
     <content type="text"><![CDATA[什么是引用？ 引用和指针的区别与联系指针和引用的异同点 指针 引用 指针本身是对象 引用本身不是对象,只是对象的别名 允许对指针本身进行赋值和拷贝,在指针的生命期内可以指向不同的对象(只要指针不是常量指针) 引用定义时就和一个对象绑定,且始终和这个对象绑定,无法令引用重新绑定到另一个对象 指针无须在定义时赋初值,在块作用域内的指针如果没有被初始化,将拥有一个不确定的值. 引用必须初始化. 可以定义指向指针的指针 无法定义引用的引用 引用的常见用途引用通常不用于声明变量，而用于参数类型和返回类型的描述． 12345678910void func1(Cls* pobj)&#123; pobj-&gt;xxx();&#125;void func2(Cls obj)&#123;obj.xxx();&#125;void func3(Cls&amp; obj)&#123;obj.xxx();&#125;Cls obj;func1(&amp;obj); // 接口不同// 调用端口相同func2(obj);func3(obj); 以下两个函数被视为”same signature”(所以二者不能同时存在)： 12double imag(const double&amp; im)&#123;...&#125;double imag(const double im)&#123;...&#125; // Ambiguity Q：const是不是函数签名的一部分？A：是的，两个函数，一个函数有const，另一个没有，则可以看做函数重载．]]></content>
@@ -705,15 +697,12 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[c++2.0新特性]]></title>
-    <url>%2F2019%2F09%2F27%2Fc%2B%2B2.0%E6%96%B0%E7%89%B9%E6%80%A7%2F</url>
-    <content type="text"><![CDATA[此文档整理c++11中新特性． autoauto和decltype的区别与联系variadic templatesrange base for]]></content>
+    <title><![CDATA[对象模型]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%2F</url>
+    <content type="text"><![CDATA[多重继承下的对象模型 123456789101112131415161718192021class A &#123; public: virtual ~A() &#123;&#125;&#125;;class B &#123; public: virtual ~B() &#123;&#125;&#125;;class C : public A, public B &#123;&#125;;void test1() &#123; C *pC = new C(); A *pA = (A *) pC; B *pB = (B *) pC; cout &lt;&lt; pA &lt;&lt; endl; // 0x5652962dbe70 cout &lt;&lt; pB &lt;&lt; endl; // 0x5652962dbe78 cout &lt;&lt; pC &lt;&lt; endl; // 0x5652962dbe70&#125;]]></content>
       <categories>
         <category>C++基础知识</category>
       </categories>
-      <tags>
-        <tag>c++11新特性</tag>
-      </tags>
   </entry>
   <entry>
     <title><![CDATA[可变模板参数(c++11新特性)]]></title>
@@ -724,6 +713,17 @@
       </categories>
       <tags>
         <tag>variadic templates</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[c++2.0新特性]]></title>
+    <url>%2F2019%2F09%2F27%2Fc%2B%2B2.0%E6%96%B0%E7%89%B9%E6%80%A7%2F</url>
+    <content type="text"><![CDATA[此文档整理c++11中新特性． autoauto和decltype的区别与联系variadic templatesrange base for]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>c++11新特性</tag>
       </tags>
   </entry>
   <entry>
@@ -791,14 +791,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[k sum 系列]]></title>
-    <url>%2F2019%2F09%2F27%2Fk-sum-%E7%B3%BB%E5%88%97%2F</url>
-    <content type="text"><![CDATA[two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[冒泡排序的优化和鸡尾酒排序]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%E7%9A%84%E4%BC%98%E5%8C%96%E5%92%8C%E9%B8%A1%E5%B0%BE%E9%85%92%E6%8E%92%E5%BA%8F%2F</url>
     <content type="text"><![CDATA[冒泡排序的优化有设置哨兵来表示当前整个数组已经有序，以及设置有序区间，下一次只对有序区间进行排序（尚未完全理解）． 详情可见 鸡尾酒排序鸡尾酒排序算法适用于大部分元素已经有序的情况．它能够在特定条件下，减少排序的回合数；但是缺点是代码量几乎扩大了一倍． 鸡尾酒排序 未进行优化的鸡尾酒排序 12345678910111213141516171819202122232425262728293031323334353637383940414243void clockTailSort(vector&lt;int&gt; &amp;nums) &#123; // 未进行优化的鸡尾酒排序 int tmp = 0; for (int i = 0; i &lt; nums.size() / 2 - 1; ++i) &#123; // 有序标记，每一轮的初始值是true bool isSorted = true; // 奇数轮:从做向右比较和交换 // 奇数轮：区间内最大的数会被冒泡到最右 for (int j = i; j &lt; nums.size() - i - 1; ++j) &#123; if (nums[j] &gt; nums[j + 1]) &#123; tmp = nums[j]; nums[j] = nums[j + 1]; nums[j + 1] = tmp; // 有元素交换，所以，不是有序，标记变为false isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; isSorted = true; // 8 1 2 3 4 // 偶数轮，从右向左比较和交换 // 偶数轮，最小的数会被冒泡到最左边 for (int j = nums.size() - i - 1; j &gt; i; j--) &#123; if (nums[j] &lt; nums[j - 1]) &#123; tmp = nums[j]; nums[j] = nums[j - 1]; nums[j - 1] = tmp; isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; &#125;&#125; 进行优化的鸡尾酒排序优化方法：]]></content>
@@ -808,6 +800,14 @@
       <tags>
         <tag>冒泡排序的优化</tag>
       </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[k sum 系列]]></title>
+    <url>%2F2019%2F09%2F27%2Fk-sum-%E7%B3%BB%E5%88%97%2F</url>
+    <content type="text"><![CDATA[two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
   </entry>
   <entry>
     <title><![CDATA[旋转数组]]></title>
@@ -1123,21 +1123,21 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[二叉树的下一个结点]]></title>
-    <url>%2F2019%2F09%2F27%2F%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E7%BB%93%E7%82%B9%2F</url>
-    <content type="text"><![CDATA[给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。 题目链接:https://www.nowcoder.com/questionTerminal/9023a0c988684a53960365b889ceaf5e 相关题目:寻找下一个节点]]></content>
-      <tags>
-        <tag>牛客网</tag>
-        <tag>binary tree</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[并查集基础知识]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%B9%B6%E6%9F%A5%E9%9B%86%2F</url>
     <content type="text"><![CDATA[并查集(不相交集合)不相交集合数据结构是这样一种数据结构: 它维护了一个不相交动态集的集合 $$S = {s_1, s_2, …, s_i, …, s_k}$$对于每个集合S中的每个元素集合si而言,用集合中的而一个元素来代表该集合.假设x是集合si中的一个元素,则有以下三种操作: make_set(x): 建立一个新的集合,它的唯一成员是x.因为各个集合是不相交的集合, 所以x不会出现在别的集合中.union(x, y): 将包含x和y的两个动态集合(表示为sx和sy合并成一个新的集合, 即这两个集合的并集)find_set(x): 返回一个指针,该指针指向包含x的(唯一)集合的代表.不相交集合可以用于求无向图的连通分量等.待后续加上代码 为了提交效率,建立并查集的过程往往会采用两种策略来提高性能.一种是按秩(秩是指节点高度的一个上界)合并, 另一种是路径压缩.按秩合并是在合并两个集合的过程中, 让具有较小秩的根指向较大秩的根.路径压缩是在查找节点的根节点的过程中, 使查找路径上的每个节点指向指向根(即令根节点成为查找路径上每个节点的父节点). 节点x的秩: 节点x的高度(从节点x到某一后代叶节点的最长简单路径上边的数目)的一个上界.当make_set(x)创建一个单元素x集合时, 节点x的秩为0.使用按秩合并union(x, y)合并两个集合时, 若两个集合的秩不同,则让较大秩的根成为较小秩的根的父节点, 秩本身保持不变.若两个集合的秩相同,则任意选择两个根中的一个作为父节点, 并使它的秩加1. 并查集的实现(伪代码)123456789101112131415161718make_set(x) x.p = x // x的父节点是自己,即x是x所在集合的根节点 x.rank = 0 // x.rank即x的秩link(x, y) if(x.rank &gt; y.rank) y.p = x else x.p = y if(x.rank == y.rank) y.rank = y.rank + 1union(x, y) link(find_set(x), find_set(y))find_set(x) if x != x.p x.p = find_set(x.p) return x.p find_set的非递归形式 12345678find_set(x) a = x while x != x.p x = x.p while a != a.p z = a a = a.p z.p = x]]></content>
       <tags>
         <tag>基础算法</tag>
         <tag>理论</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[二叉树的下一个结点]]></title>
+    <url>%2F2019%2F09%2F27%2F%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E7%BB%93%E7%82%B9%2F</url>
+    <content type="text"><![CDATA[给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。 题目链接:https://www.nowcoder.com/questionTerminal/9023a0c988684a53960365b889ceaf5e 相关题目:寻找下一个节点]]></content>
+      <tags>
+        <tag>牛客网</tag>
+        <tag>binary tree</tag>
       </tags>
   </entry>
   <entry>
@@ -1227,8 +1227,8 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>leetcode</tag>
         <tag>dynamic programming</tag>
+        <tag>leetcode</tag>
       </tags>
   </entry>
   <entry>
