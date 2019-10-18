@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[C++对象模型系列1]]></title>
+    <url>%2F2019%2F10%2F18%2FC%2B%2B%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%E7%B3%BB%E5%88%971%2F</url>
+    <content type="text"><![CDATA[在C++对象模型中，Nonstatic data members被配置于每一个class object之内，static data members则被放在个别的class object之外。static和nonstatic function members也被放在个别的class object之外。 virtual functions则通过下面两个步骤来实现： 每一个class产生出一堆指向virtual functions的指针，放在表格之中。这个表格被称为virtual table(vtbl)。 每一个class object被安插一个指针，指向相关的virtual table。通常这个指针被称为vtpr。vtpr的设定和重置由每一个class的constructor、destructor和copy assignment运算符自动完成。每一个class所关联的type_info object(用来支持runtime type identification，RTTI)也经由virtual table被指出来，通常放在表格的第一个slot。 示例1：虚拟继承下的C++对象模型在下面的代码示例中，Point3d和Vertex虚拟继承自Point2d，Vertex同时继承自Point3d和Vertex。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465#include &lt;iostream&gt;using namespace std;class Point2d &#123;public: virtual void print() &#123; cout &lt;&lt; "I am Point2d" &lt;&lt; endl; &#125; virtual ~Point2d() &#123;&#125;protected: float _x; // 4字节 float _y;&#125;;class Vertex : public virtual Point2d &#123;public: void print() &#123; cout &lt;&lt; "I am Vertex" &lt;&lt; endl; &#125; ~Vertex() &#123;&#125;protected: Vertex *next; // 指针,占8字节&#125;;class Point3d : public virtual Point2d &#123;public: // virtual function print1是Point3d独有的虚函数,不是从基类那里继承来的,但是无论这个虚函数是否存在都不影响Point3d的对象模型 virtual void print1() &#123; cout &lt;&lt; "This is my own virtual function, not inherient from my father" &lt;&lt; endl; &#125; ~Point3d() &#123;&#125;protected: float _z;&#125;;class Vertex3d : public Vertex, public Point3d &#123;public: ~Vertex3d() &#123;&#125;protected: float mumble;&#125;;void test1() &#123; Vertex vx;// vx.print(); cout &lt;&lt; "sizeof(Point2d): " &lt;&lt; sizeof(Point2d) &lt;&lt; endl; // 16 cout &lt;&lt; "sizeof(Point3d): " &lt;&lt; sizeof(Point3d) &lt;&lt; endl; // 32 cout &lt;&lt; "sizeof(Vertex) : " &lt;&lt; sizeof(Vertex) &lt;&lt; endl; // 32 cout &lt;&lt; "sizeof(Vertex3d) : " &lt;&lt; sizeof(Vertex3d) &lt;&lt; endl; // 48&#125;int main() &#123; test1(); return 0;&#125; 写这个示例的目的是为了验证：在Point3d的对象模型中有两个虚表指针，一个是从其基类Point2d那里继承而来的，另一个是Point3d自身的。 Point2d的对象模型： Point3d、Vertex、Vertex3d的对象模型。 从上图可知，在Point2d中有两个float类型的成员变量和一个指针。故Point2d的大小为16字节；Point3d对象有一个Point2d子对象和一个float类型数据成员z、一个虚表指针Point3d，故大小为16+4+8 = 28，但是因为28不是8的倍数(在64位系统上运行的)，所以28被边界对齐到32字节。同理Vertex的大小为16+8+8=32字节。对于Vertex3d，其大小为16+4+8+4+8+8 = 48字节。 示例2：继承模型下的地址多重继承下的对象模型 123456789101112131415161718192021222324class A &#123; public: virtual ~A() &#123;&#125;&#125;;class B &#123; public: virtual ~B() &#123;&#125;&#125;;class C : public A, public B &#123;&#125;;void test1() &#123; C *pC = new C(); A *pA = (A *) pC; B *pB = (B *) pC; cout &lt;&lt; pA &lt;&lt; endl; // 0x5652962dbe70 cout &lt;&lt; pB &lt;&lt; endl; // 0x5652962dbe78 cout &lt;&lt; pC &lt;&lt; endl; // 0x5652962dbe70 cout &lt;&lt; "sizeof(*pA):" &lt;&lt; sizeof(*pA) &lt;&lt; endl; cout &lt;&lt; "sizeof(*pB):" &lt;&lt; sizeof(*pB) &lt;&lt; endl; cout &lt;&lt; "sizeof(*pC):" &lt;&lt; sizeof(*pC) &lt;&lt; endl;&#125; A、B和C的对象模型： 在将A类型的指针指向C类型的对象时，因为指针指向的实际上是C类型对象中的class A子对象。因为，在A和C类型对象中，A类型子对象都是位于相同的位置(位于对象开始处，偏移量为0)，因此pA和pC的值相同。而在class C object中，B subobject的偏移量为8(即sizeof(A))，因此,pA和pC的值不同。]]></content>
+      <categories>
+        <category>C++对象模型</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[RTTI(运行时类型识别)]]></title>
+    <url>%2F2019%2F10%2F18%2FRTTI(%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%9F%A5)%2F</url>
+    <content type="text"><![CDATA[运行时类型识别，在C++层面主要体现在dynamic_cast和typeid，VS中虚函数表的-1位置存放了指向type_info的指针。对于存在虚函数的类型，typeid和dynamice_cast都回去查询type_info。 运行时类型识别RTTI由两个运算符实现： typeid运算符，用于返回表达式的类型 dynamic_cast运算符，用于将基类的指针或引用安全地转换成派生类的指针或引用。 dynamice_casttypeidtype_info参考文献[1]深度探索C++对象模型]]></content>
+      <categories>
+        <category>C++基础</category>
+      </categories>
+      <tags>
+        <tag>对象模型</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[模板实参推断和引用]]></title>
     <url>%2F2019%2F10%2F18%2F%E6%A8%A1%E6%9D%BF%E5%AE%9E%E5%8F%82%E6%8E%A8%E6%96%AD%E5%92%8C%E5%BC%95%E7%94%A8%2F</url>
     <content type="text"><![CDATA[模板分为类模板，函数模板，还有成员模板。 编译器会对函数模板参数进行推导。 从左值引用函数参数推断类型当一个函数参数是模板参数类型的一个（左值）引用时（即，形如T&amp;），绑定规则告诉我们，只能传递一个左值（如，一个变量或一个返回引用类型的表达式）。实参可以是const类型，也可以不是。如果实参是const的，则T将被推断为const类型： 1234template&lt;typename T&gt; void f1(T&amp;); // 实参必须是一个左值f1(i); // i是一个int，模板参数类型T是intf1(ci); // ci是一个const int ；模板参数类型T是const intf1(5); // 错误：传递给一个&amp;参数的参数必须是一个左值 如果一个函数参数的类型是const T&amp;，正常的绑定规则告诉我们可以传递给它任何类型的实参—一个对象(const 或非const)、一个临时对象或者一个字面常量值。当函数参数本身是const时，T的类型推断的结果不会是一个const类型。const已经是函数参数类型的一部分；因此，它不会是模板参数类型的一部分。 123456template&lt;typename T&gt;void f2(const T&amp;); //可以接受一个右值// f2的参数是const &amp;，实参中的const是无关的// 在每个调用中，f2的函数参数都被推断为const int&amp;f2(i); // i是一个int, 模板参数类型T是intf2(ci); // ci是一个const int，模板参数类型T是intf2(5); // 一个const &amp;可以绑定到一个右值，模板参数类型T是int 从右值引用函数参数推断类型当一个函数参数是一个右值引用类型（即，形如T&amp;&amp;）时，正常绑定规则告诉我们可以传递给它一个右值。当我们这样做时，类型推断过程类似普通左值引用函数参数的推断过程。推断出的T的类型是该右值实参的类型： 12template&lt;typename T&gt; void f3(T&amp;&amp;);f3(42); // 实参是一个int类型的右值；模板参数类型T是int 引用折叠和右值引用参数假定i是一个int对象，我们可能认为像f3(i)这样的调用是不合法的。毕竟，i是一个左值，而通常我们不能将一个右值引用绑定到一个左值上。但是C++语义在正常绑定规则之外定义了两个例外规则。这两个规则是move这种标准库设施正确工作的基础。 第一个例外规则影响右值引用参数的推断如何进行。当我们将一个左值（如i）传递给函数的右值引用类型参数，且此右值引用指向模板类型参数（如T&amp;&amp;）时，编译器推断模板类型参数为实参的左值引用类型。因此，当我们调用f3(i)时，编译器推断T的类型为int&amp;，而非int。 T被推断为int&amp;好像意味着f3的函数参数应该是一个类型int&amp;的右值引用。通常，我们不能（直接）定义一个引用的引用。但是，通过类型别名或通过模板类型参数间接定义是可以的。 在这种情况下，我们可以使用第二个绑定规则：如果我们间接创建一个引用的引用，则这些引用形成了折叠。对于一个给定的类型X： X&amp; &amp;、X&amp; &amp;&amp;和X&amp;&amp; &amp;都折叠成类型X&amp; 类型X&amp;&amp; &amp;&amp;折叠成X&amp;&amp; 如果将引用折叠规则和右值引用的特殊类型推断规则组合在一起，则意味着我们可以对一个左值调用f3。当我们将一个左值传递给f3的（右值引用）函数参数时，编译器推断T为一个左值引用类型。 12f3(i) // 实参是一个左值，模板参数T是int&amp;f3(ci); // 实参是一个左值，模板参数T是一个const int&amp; 当一个模板参数T被推断为引用类型时，折叠规则告诉我们函数参数T&amp;&amp;折叠 为一个左值引用类型。例如，f3(i)的实例化结果可能像下面这样： 12// 无效代码，只是用于演示目的void f3&lt;int&amp;&gt;(int &amp; &amp;&amp;); // 当T是int&amp;时，函数参数为T&amp; &amp;&amp; f3的函数参数是T&amp;&amp;且T是int&amp;，因此，T&amp;&amp;是int&amp; &amp;&amp;，会折叠成int&amp;。因此，即使f3的函数参数形式是一个右值引用（即T&amp;&amp;），此调用也会用一个左值引用类型（即，int&amp;）实例化f3： 1void f3&lt;int&amp;&gt;(int&amp;); // 当T是int&amp;时，函数参数折叠为int&amp; 这两个规则导致了两个重要结果： 如果一个函数参数是一个指向模板实参类型的右值引用，且函数参数被绑定到一个左值；且 如果实参是一个左值，则推断出的模板实参类型将是一个左值引用，且函数参数将被实例化为一个（普通）左值引用类型参数。 另外值得注意的是，这两个规则暗示，我们可以将任意类型的实参传递给T&amp;&amp;类型的函数参数。对于这种类型的参数，可以传递给它右值，亦可以传递给它左值。 forward(完美转发)某些函数需要将其一个或多个实参连同类型不变地转发给其他函数。在此情况下，我们需要保持被转发实参的所有性质，包括实参类型是否是const的以及实参是左值还是右值。]]></content>
@@ -42,14 +61,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[C++对象模型系列1]]></title>
-    <url>%2F2019%2F10%2F17%2FC%2B%2B%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%E7%B3%BB%E5%88%971%2F</url>
-    <content type="text"><![CDATA[在C++对象模型中，Nonstatic data members被配置于每一个class object之内，static data members则被放在个别的class object之外。static和nonstatic function members也被放在个别的class object之外。 virtual functions则通过下面两个步骤来实现： 每一个class产生出一堆指向virtual functions的指针，放在表格之中。这个表格被称为virtual table(vtbl)。 每一个class object被安插一个指针，指向相关的virtual table。通常这个指针被称为vtpr。vtpr的设定和重置由每一个class的constructor、destructor和copy assignment运算符自动完成。每一个class所关联的type_info object(用来支持runtime type identification，RTTI)也经由virtual table被指出来，通常放在表格的第一个slot。 示例1：虚拟继承下的C++对象模型在下面的代码示例中，Point3d和Vertex虚拟继承自Point2d，Vertex同时继承自Point3d和Vertex。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465#include &lt;iostream&gt;using namespace std;class Point2d &#123;public: virtual void print() &#123; cout &lt;&lt; "I am Point2d" &lt;&lt; endl; &#125; virtual ~Point2d() &#123;&#125;protected: float _x; // 4字节 float _y;&#125;;class Vertex : public virtual Point2d &#123;public: void print() &#123; cout &lt;&lt; "I am Vertex" &lt;&lt; endl; &#125; ~Vertex() &#123;&#125;protected: Vertex *next; // 指针,占8字节&#125;;class Point3d : public virtual Point2d &#123;public: // virtual function print1是Point3d独有的虚函数,不是从基类那里继承来的,但是无论这个虚函数是否存在都不影响Point3d的对象模型 virtual void print1() &#123; cout &lt;&lt; "This is my own virtual function, not inherient from my father" &lt;&lt; endl; &#125; ~Point3d() &#123;&#125;protected: float _z;&#125;;class Vertex3d : public Vertex, public Point3d &#123;public: ~Vertex3d() &#123;&#125;protected: float mumble;&#125;;void test1() &#123; Vertex vx;// vx.print(); cout &lt;&lt; "sizeof(Point2d): " &lt;&lt; sizeof(Point2d) &lt;&lt; endl; // 16 cout &lt;&lt; "sizeof(Point3d): " &lt;&lt; sizeof(Point3d) &lt;&lt; endl; // 32 cout &lt;&lt; "sizeof(Vertex) : " &lt;&lt; sizeof(Vertex) &lt;&lt; endl; // 32 cout &lt;&lt; "sizeof(Vertex3d) : " &lt;&lt; sizeof(Vertex3d) &lt;&lt; endl; // 48&#125;int main() &#123; test1(); return 0;&#125; 写这个示例的目的是为了验证：在Point3d的对象模型中有两个虚表指针，一个是从其基类Point2d那里继承而来的，另一个是Point3d自身的。 Point2d的对象模型： Point3d、Vertex、Vertex3d的对象模型。 从上图可知，在Point2d中有两个float类型的成员变量和一个指针。故Point2d的大小为16字节；Point3d对象有一个Point2d子对象和一个float类型数据成员z、一个虚表指针Point3d，故大小为16+4+8 = 28，但是因为28不是8的倍数(在64位系统上运行的)，所以28被边界对齐到32字节。同理Vertex的大小为16+8+8=32字节。对于Vertex3d，其大小为16+4+8+4+8+8 = 48字节。 示例2：继承模型下的地址多重继承下的对象模型 123456789101112131415161718192021222324class A &#123; public: virtual ~A() &#123;&#125;&#125;;class B &#123; public: virtual ~B() &#123;&#125;&#125;;class C : public A, public B &#123;&#125;;void test1() &#123; C *pC = new C(); A *pA = (A *) pC; B *pB = (B *) pC; cout &lt;&lt; pA &lt;&lt; endl; // 0x5652962dbe70 cout &lt;&lt; pB &lt;&lt; endl; // 0x5652962dbe78 cout &lt;&lt; pC &lt;&lt; endl; // 0x5652962dbe70 cout &lt;&lt; "sizeof(*pA):" &lt;&lt; sizeof(*pA) &lt;&lt; endl; cout &lt;&lt; "sizeof(*pB):" &lt;&lt; sizeof(*pB) &lt;&lt; endl; cout &lt;&lt; "sizeof(*pC):" &lt;&lt; sizeof(*pC) &lt;&lt; endl;&#125; A、B和C的对象模型： 在将A类型的指针指向C类型的对象时，因为指针指向的实际上是C类型对象中的class A子对象。因为，在A和C类型对象中，A类型子对象都是位于相同的位置(位于对象开始处，偏移量为0)，因此pA和pC的值相同。而在class C object中，B subobject的偏移量为8(即sizeof(A))，因此,pA和pC的值不同。]]></content>
-      <categories>
-        <category>C++对象模型</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[147. Insertion Sort List]]></title>
     <url>%2F2019%2F10%2F16%2F147.-Insertion-Sort-List%2F</url>
     <content type="text"><![CDATA[Sort a linked list using insertion sort. A graphical example of insertion sort. The partial sorted list (black) initially contains only the first element in the list.With each iteration one element (red) is removed from the input data and inserted in-place into the sorted list Algorithm of Insertion Sort: Insertion sort iterates, consuming one input element each repetition, and growing a sorted output list. At each iteration, insertion sort removes one element from the input data, finds the location it belongs within the sorted list, and inserts it there. It repeats until no input elements remain. Example 1: 12Input: 4-&gt;2-&gt;1-&gt;3Output: 1-&gt;2-&gt;3-&gt;4 Example 2: 12Input: -1-&gt;5-&gt;3-&gt;4-&gt;0Output: -1-&gt;0-&gt;3-&gt;4-&gt;5 解法11234567891011121314151617181920212223242526272829303132333435363738394041/** * Definition for singly-linked list. * struct ListNode &#123; * int val; * ListNode *next; * ListNode(int x) : val(x), next(NULL) &#123;&#125; * &#125;; */class Solution &#123;public: ListNode* insertionSortList(ListNode* head) &#123; if(head == nullptr || head-&gt;next == nullptr)&#123; return head; &#125; ListNode* cur = head-&gt;next; ListNode* prev = head; while(cur!=nullptr)&#123; if(head-&gt;val &gt; cur-&gt;val)&#123; prev-&gt;next = cur-&gt;next; cur-&gt;next = head; head = cur; cur = prev-&gt;next; &#125;else&#123; ListNode* p = head; while(p-&gt;next != cur &amp;&amp; p-&gt;next-&gt;val &lt;= cur-&gt;val)&#123; p = p-&gt;next; &#125; if(p-&gt;next != cur)&#123; prev-&gt;next = cur-&gt;next; cur-&gt;next = p-&gt;next; p-&gt;next = cur; cur = prev-&gt;next; &#125;else&#123; prev = cur; cur = cur-&gt;next; &#125; &#125; &#125; return head; &#125;&#125;; 解法212345678910111213141516171819202122232425262728293031323334353637/** * Definition for singly-linked list. * struct ListNode &#123; * int val; * ListNode *next; * ListNode(int x) : val(x), next(NULL) &#123;&#125; * &#125;; */class Solution &#123;public: ListNode* insertionSortList(ListNode* head) &#123; if(head == nullptr || head-&gt;next == nullptr)&#123; return head; &#125; ListNode* pHead = head; ListNode* p = head-&gt;next; pHead-&gt;next = nullptr; while(p)&#123; ListNode* cur = pHead; ListNode* tmp = p-&gt;next; if(pHead-&gt;val &gt; p-&gt;val)&#123; p-&gt;next = pHead; pHead = p; &#125;else&#123; while(cur-&gt;next != nullptr &amp;&amp; cur-&gt;next-&gt;val &lt;= p-&gt;val)&#123; cur = cur-&gt;next; &#125; p-&gt;next = cur-&gt;next; cur-&gt;next = p; &#125; p = tmp; &#125; return pHead; &#125;&#125;;]]></content>
@@ -70,17 +81,6 @@
       </categories>
       <tags>
         <tag>减治</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[RTTI(运行时类型检查)]]></title>
-    <url>%2F2019%2F10%2F16%2FRTTI(%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%9F%A5)%2F</url>
-    <content type="text"><![CDATA[运行时类型检查，在C++层面主要体现在dynamic_cast和typeid，VS中虚函数表的-1位置存放了指向type_info的指针。对于存在虚函数的类型，typeid和dynamice_cast都回去查询type_info。 参考文献[1]深度探索C++对象模型]]></content>
-      <categories>
-        <category>C++基础</category>
-      </categories>
-      <tags>
-        <tag>对象模型</tag>
       </tags>
   </entry>
   <entry>
@@ -892,14 +892,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[k sum 系列]]></title>
-    <url>%2F2019%2F09%2F27%2Fk-sum-%E7%B3%BB%E5%88%97%2F</url>
-    <content type="text"><![CDATA[two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[冒泡排序的优化和鸡尾酒排序]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%E7%9A%84%E4%BC%98%E5%8C%96%E5%92%8C%E9%B8%A1%E5%B0%BE%E9%85%92%E6%8E%92%E5%BA%8F%2F</url>
     <content type="text"><![CDATA[冒泡排序的优化有设置哨兵来表示当前整个数组已经有序，以及设置有序区间，下一次只对有序区间进行排序（尚未完全理解）． 详情可见 鸡尾酒排序鸡尾酒排序算法适用于大部分元素已经有序的情况．它能够在特定条件下，减少排序的回合数；但是缺点是代码量几乎扩大了一倍． 鸡尾酒排序 未进行优化的鸡尾酒排序 12345678910111213141516171819202122232425262728293031323334353637383940414243void clockTailSort(vector&lt;int&gt; &amp;nums) &#123; // 未进行优化的鸡尾酒排序 int tmp = 0; for (int i = 0; i &lt; nums.size() / 2 - 1; ++i) &#123; // 有序标记，每一轮的初始值是true bool isSorted = true; // 奇数轮:从做向右比较和交换 // 奇数轮：区间内最大的数会被冒泡到最右 for (int j = i; j &lt; nums.size() - i - 1; ++j) &#123; if (nums[j] &gt; nums[j + 1]) &#123; tmp = nums[j]; nums[j] = nums[j + 1]; nums[j + 1] = tmp; // 有元素交换，所以，不是有序，标记变为false isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; isSorted = true; // 8 1 2 3 4 // 偶数轮，从右向左比较和交换 // 偶数轮，最小的数会被冒泡到最左边 for (int j = nums.size() - i - 1; j &gt; i; j--) &#123; if (nums[j] &lt; nums[j - 1]) &#123; tmp = nums[j]; nums[j] = nums[j - 1]; nums[j - 1] = tmp; isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; &#125;&#125; 进行优化的鸡尾酒排序优化方法：]]></content>
@@ -909,6 +901,14 @@
       <tags>
         <tag>冒泡排序的优化</tag>
       </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[k sum 系列]]></title>
+    <url>%2F2019%2F09%2F27%2Fk-sum-%E7%B3%BB%E5%88%97%2F</url>
+    <content type="text"><![CDATA[two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
   </entry>
   <entry>
     <title><![CDATA[旋转数组]]></title>
@@ -1088,8 +1088,8 @@
     <url>%2F2019%2F09%2F27%2F%E6%9C%AA%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%B4%AF%E5%8A%A0%E5%92%8C%E4%B8%BA%E7%BB%99%E5%AE%9A%E5%80%BC%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E6%95%B0%E7%BB%84%E7%B3%BB%E5%88%97%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[原题给定一个无序数组,其中元素可正,可负,可0.给定一个整数k,求arr所有的子数组中累加和为k的最长子数组长度. 12345678910111213141516171819int maxLength(vector&lt;int&gt; &amp;arr, int k) &#123; if (arr.empty()) &#123; return 0; &#125; map&lt;int, int&gt; mp; mp[0] = -1; int len = 0; int sum = 0; for (int i = 0; i &lt; arr.size(); i++) &#123; sum += arr[i]; if (mp.find(sum - k) != mp.end()) &#123; len = max(len, i - mp[sum - k]); &#125; if (mp.find(sum) == mp.end()) &#123; mp[sum] = i; &#125; &#125; return len;&#125; 补充题1补充题2类似题138. 子数组之和给定一个整数数组，找到和为零的子数组。你的代码应该返回满足要求的子数组的起始位置和结束位置 样例 样例 1: 123输入: [-3, 1, 2, -3, 4]输出: [0,2] 或 [1,3] 样例解释： 返回任意一段和为0的区间即可。 样例 2: 12输入: [-3, 1, -4, 2, -3, 4]输出: [1,5] 样例 3: 12输入: [3,4,5,6,-3,-4,-5,-6]输出: [0,7] 样例 4: 12输入: [1,0,-1]输出: [1,1] 注意事项: 至少有一个子数组的和为 0 1234567891011121314151617181920212223242526272829303132class Solution &#123;public: /** * @param nums: A list of integers * @return: A list of integers includes the index of the first number and the index of the last number */ vector&lt;int&gt; subarraySum(vector&lt;int&gt; &amp;nums) &#123; // write your code here if(nums.empty())&#123; return &#123;&#125;; &#125; int sum = 0; vector&lt;int&gt; res; map&lt;int, int&gt; mp; for(int i=0;i&lt;nums.size();++i)&#123; sum += nums[i]; if(sum == 0)&#123; res.push_back(0); res.push_back(i); return res; &#125; if(mp.find(sum)!=mp.end())&#123; res.push_back(mp[sum]+1); res.push_back(i); return res; &#125; mp[sum] = i; &#125; return res; &#125;&#125;; 此题与上题的相似之处在于:需要用到相同的结论:s[i]= arr[0] + arr[1] +…+arr[i]s[j]= arr[0] + arr[1] +…+arr[j]假设i &gt; j,则s[i] - s[j] = arr[j+1] + arr[j+2] + … + arr[i] 复杂度分析 理论上, 时间复杂度为O(n).但实际实现时,时间复杂度为O(nlogn).因为map的find方法查找一个数的时间复杂度为O(logn)空间复杂度为O(n) 题目来源: leetcode 560. Subarray Sum Equals K930 binary subarrays with sum另有使用三指针的解法,可以尝试看看试用否,三指针解法时间复杂度为O(n),空间复杂度为O(1),是最优解法]]></content>
       <tags>
-        <tag>leetcode</tag>
         <tag>累积和</tag>
+        <tag>leetcode</tag>
         <tag>程序员代码面试指南</tag>
       </tags>
   </entry>
@@ -1153,8 +1153,8 @@
     <url>%2F2019%2F09%2F27%2F%E5%8F%98%E5%BD%A2%E8%AF%8D%E7%B3%BB%E5%88%97%2F</url>
     <content type="text"><![CDATA[此类题比较麻烦，但其实并不难。 242. Valid Anagram49. Group Anagrams找出可以通过改变一个字母变成其他单词的单词许多单词都和另外一些单词想死。例如，通过改变第1个字母，单词wine可以变成dine，fine，line，mine，pine或vine。通过改变第3个字母可以变成wide，wife，wipe或wire以及其他一些单词。通过改变第4个字母可以变成wind，wing，wink或wins以及其他一些单词。我们想要编写一个程序来找出通过单个字母的替换变成至少15个其他单词的单词。假设有一本字典，由大约89000个各种长度的不同单词组成。大部分单词在6到11个字母之间。其中6字母单词8205个，7字母单词11989个，8字母单词13672个，9字母单词13014个，10字母单词11297个，11字母单词8617个。题目来源：数据结构与算法分析(c++语言描述，第4版) p144。]]></content>
       <tags>
-        <tag>字符串</tag>
         <tag>leetcode</tag>
+        <tag>字符串</tag>
       </tags>
   </entry>
   <entry>
@@ -1195,11 +1195,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[寻找下一个节点]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%AF%BB%E6%89%BE%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%2F</url>
-    <content type="text"><![CDATA[链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继返回-1。]]></content>
-  </entry>
-  <entry>
     <title><![CDATA[可调用对象]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%8F%AF%E8%B0%83%E7%94%A8%E5%AF%B9%E8%B1%A1%2F</url>
     <content type="text"><![CDATA[可调用对象有函数,函数指针,lambda表达式,函数对象, bind创建的对象等.函数和函数指针不必多说.那么什么是函数对象呢?函数对象是一种重载了调用运算符的类类型.因为重载了调用运算符,所以我们可以像调用函数一样调用类的对象,因为称为函数对象.lambda表达式表示一个可调用的代码单元. 函数对象12345678910111213141516/** * absInt类只定义了一种操作:函数调用运算符 * 此类为函数对象 */struct absInt &#123; int operator()(int val) const &#123; return val &lt; 0 ? -val : val; &#125;&#125;;int main()&#123; absInt absObj; cout &lt;&lt; absObj(42) &lt;&lt; endl; // 42 cout &lt;&lt; absObj(-10) &lt;&lt; endl; // 10 return 0;&#125; 以上代码即定义了一个函数对象.调用该对象就像调用函数一样.仿佛该类型对象是一个函数.还可以定义有数据成员的函数对象 123456789101112131415161718class PrintString &#123;public: PrintString(ostream &amp;o = cout, char c = ' ') : os(o), sep(c) &#123;&#125; void operator()(const string &amp;s) const &#123; os &lt;&lt; s &lt;&lt; sep; &#125;private: ostream &amp;os; char sep;&#125;;int main()&#123; PrintString printer; printer("hello"); // 输出hello PrintString errors(cerr, '\n'); string s = "wrong answer"; errors(s); // 输出wrong answer return 0;&#125; lambda表达式lambda表达式在很多语言中都有.lambda可以理解为一个未命名的内联函数,但是与普通函数不同的是,lambda可能定义在函数内部;lambda表达式必须尾置返回; lambda表达式不能有默认参数; lambda表达式的参数列表和返回类型可以省略. 那么在c++中该怎么定义一个lambda表达式呢?一个lambda表达式具有以下形式: 1[capure list](parameter list)-&gt; return type &#123;function body&#125; 其中,捕获列表(capure list)是该lambda表达式所在函数中定义的局部变量(通常为空).参数列表(parameter list), 返回类型, 返回类型(return type)和函数体(function body)与普通函数相同. 当定义一个lambda时,编译器生成一个与lambda对象的新的(未命名的)类类型.当向一个函数传递一个lambda时,同时定义了一个新类型和该类型的一个对象. 123456vector&lt;string&gt; vc&#123;"good", "to", "see", "you", "again"&#125;;for_each(vc.begin(), vc.end(), PrintString(cout, '\n')); // 函数对象// 等价的lambda表达式string sep("\n");for_each(vc.begin(), vc.end(), [sep](const string &amp;s) &#123; cout &lt;&lt; s &lt;&lt; sep; &#125;); 使用函数对象打印出可变数组vc中的元素.同时定义了一个与函数对象PrintString等价的lambda表达式. 捕获变量与参数传递类似,捕获变量也有两种方式,值捕获和引用捕获.采用值捕获需要变量可以拷贝.与参数传递不同,被捕获的变量的值是在lambda创建时拷贝,而不是调用时拷贝.引用捕获需要保证lambda表达式执行时,该引用指向的对象仍然存在. 在一个基本类型为string类型的可变数组中找出第一个长度大于给定值sz的元素.下面分别用函数对象和lambda表达式的形式实现. 123456789101112131415161718192021222324252627class SizeCmp &#123;public: SizeCmp(size_t n) : sz(n) &#123;&#125; bool operator()(const string &amp;a) &#123; return a.size() &gt;= sz; &#125;private: size_t sz;&#125;;int main()&#123; vector&lt;string&gt; vc&#123;"good", "to", "see", "mango", "again", "day", "nana"&#125;; size_t sz = 6; // 使用lambda表达式// auto wc = find_if(vc.begin(), vc.end(), [sz](const string &amp;a) &#123; return a.size() &gt;= sz; &#125;); // 使用等价的函数对象 auto wc = find_if(vc.begin(), vc.end(), SizeCmp(sz)); // wc 为指向第一个长度不小于给定值sz的元素的迭代器 if (wc != vc.end()) cout &lt;&lt; (*wc) &lt;&lt; endl; else &#123; cout &lt;&lt; "empty result" &lt;&lt; endl; &#125; //当sz=5时,输出mango;当sz=6时,输出empty result&#125; bind参数绑定标准库的bind函数可以看做一个函数适配器.它接受一个可调用对象,生成一个新的可调用对象. 12345678910111213141516171819bool check_size(const string&amp; s, string::size_type sz)&#123; return s.size() &gt;= sz;&#125;// 给check_size函数的第一个参数绑定一个值// auto check6 = bind(check_size, std::placeholders::_1, 6);auto check6 = bind(check_size, std::placeholders::_1, 5);// 调用check6函数string s = "hello";cout &lt;&lt; check6(s) &lt;&lt; endl;vector&lt;string&gt; vc&#123;"good", "to", "see", "mango", "again", "day", "nana"&#125;;auto wc = find_if(vc.begin(), vc.end(), check6);// wc 为指向第一个长度不小于给定值sz的元素的迭代器if (wc != vc.end()) cout &lt;&lt; (*wc) &lt;&lt; endl;else &#123; cout &lt;&lt; "empty result" &lt;&lt; endl; 可调用对象与function每一个lambda表达式都是一种未命名的新类型;函数对象的类型是该对象的类类型;函数和函数指针的类型由参数列表和返回值决定. 多个调用对象有不同的类型,但是却共享相同的调用形式.调用形式指明了调用返回的类型以及传递给调用的实参类型(如何SizeCmp类型的函数对象和lambda表达式,类型不同,调用形式相同).一种调用形式对应一个函数类型.标准库中function模板可以表示函数类型. 123456789101112map&lt;string, function&lt;int(int, int)&gt;&gt; binops = &#123; &#123;"+", add&#125;, &#123;"-", std::minus&lt;int&gt;()&#125;, &#123;"/", Divide()&#125;, &#123;"*", [](int i, int j) &#123; return i * j; &#125;&#125;, &#123;"%", mod&#125;&#125;;cout &lt;&lt; binops["+"](10, 5) &lt;&lt; endl; // 15cout &lt;&lt; binops["-"](10, 5) &lt;&lt; endl; // 5cout &lt;&lt; binops["%"](11, 4) &lt;&lt; endl; // 3cout &lt;&lt; binops["*"](13, 2) &lt;&lt; endl; // 26 add, Divide(),mod等各个可调用对象的类型各不相同,但是它们都是调用形式为int(int, int)的可调用对象,因此可以赋值给function&lt;int(int,int)&gt;类型的对象.]]></content>
@@ -1209,6 +1204,11 @@
       <tags>
         <tag>可调用对象</tag>
       </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[寻找下一个节点]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%AF%BB%E6%89%BE%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%2F</url>
+    <content type="text"><![CDATA[链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继返回-1。]]></content>
   </entry>
   <entry>
     <title><![CDATA[并查集基础知识]]></title>
