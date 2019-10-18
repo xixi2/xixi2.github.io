@@ -82,11 +82,11 @@
 <meta name="description" content="本文档主要整理并记录c++常用的api。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++常用函数api">
-<meta property="og:url" content="http://yoursite.com/2019/10/09/c++API/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/10/18/c++API/index.html">
 <meta property="og:site_name" content="xixi2">
 <meta property="og:description" content="本文档主要整理并记录c++常用的api。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-09T02:30:42.882Z">
+<meta property="og:updated_time" content="2019-10-18T09:59:41.543Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++常用函数api">
 <meta name="twitter:description" content="本文档主要整理并记录c++常用的api。">
@@ -119,7 +119,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/10/09/c++API/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/18/c++API/">
 
 
 
@@ -294,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/09/c++API/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/18/c++API/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -323,8 +323,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-09T10:31:09+08:00">
-                2019-10-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-18T17:59:41+08:00">
+                2019-10-18
               </time>
             
 
@@ -411,14 +411,19 @@
 <li>result：指向目的区域的起始处的迭代器</li>
 <li>返回值：指向新的结束位置的迭代器</li>
 </ul>
-<h1 id="copy-backward"><a href="#copy-backward" class="headerlink" title="copy_backward"></a>copy_backward</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="copy-backward"><a href="#copy-backward" class="headerlink" title="copy_backward"></a>copy_backward</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt; <span class="class"><span class="keyword">class</span> <span class="title">BidirIt1</span>, <span class="title">class</span> <span class="title">BidirIt2</span> &gt;</span></span><br><span class="line"><span class="class"><span class="title">BidirIt2</span> <span class="title">copy_backward</span>( <span class="title">BidirIt1</span> <span class="title">first</span>, <span class="title">BidirIt1</span> <span class="title">last</span>, <span class="title">BidirIt2</span> <span class="title">d_last</span> );</span></span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>copy_backward() 会复制前两个迭代器参数指定的序列。</li>
-<li>第三个参数是目的序列的结束迭代器，通过将源序列中的最后一个元素复制到目的序列的结束迭代器之前，源序列会被复制到目的序列中。</li>
+<li>copy_backward() 会复制前两个迭代器参数指定的序列到以第三个迭代器为下一个位置的区间内。</li>
+<li>第三个参数是目的序列的结束迭代器，通过将源序列中的最后一个元素复制到目的迭代器之前的内存空间内。</li>
 <li>copy_backward() 的 3 个参数都必须是可以自增或自减的双向迭代器，这意味着这个算法只能应用到序列容器的序列上。</li>
 </ul>
 <p><strong>什么情况下需要用到copy_backward</strong>?</p>
+<h2 id="测试程序"><a href="#测试程序" class="headerlink" title="测试程序"></a>测试程序</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test_copy_backward</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v1&#123;<span class="number">2</span>, <span class="number">443</span>, <span class="number">121</span>, <span class="number">64</span>&#125;;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v2(<span class="number">10</span>, <span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">auto</span> beg = v2.begin() + v1.size() + <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">    copy_backward(v1.begin(), v1.end(), beg);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; v2.size(); ++i) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="string">"\t"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; v2.size(); ++i) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; v2[i] &lt;&lt; <span class="string">"\t"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0	1	2	3	4	5	6	7	8	9	</span><br><span class="line">-1	-1	-1	2	443	121	64	-1	-1	-1</span><br></pre></td></tr></table></figure>
+
 <h1 id="STL-TRY"><a href="#STL-TRY" class="headerlink" title="__STL_TRY"></a>__STL_TRY</h1><p>__STL_TRY是宏定义</p>
 <p><a href="https://blog.csdn.net/Windgs_YF/article/details/80909170">https://blog.csdn.net/Windgs_YF/article/details/80909170</a></p>
 
@@ -445,8 +450,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/09/mysql日志/" rel="next" title="mysql日志">
-                <i class="fa fa-chevron-left"></i> mysql日志
+              <a href="/2019/10/18/c++标准库/" rel="next" title="c++标准库">
+                <i class="fa fa-chevron-left"></i> c++标准库
               </a>
             
           </div>
@@ -455,8 +460,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/10/09/字典树/" rel="prev" title="字典树">
-                字典树 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/18/vector的实现/" rel="prev" title="vector的实现">
+                vector的实现 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -536,7 +541,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-count">138</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -547,7 +552,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -558,7 +563,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">101</span>
+                  <span class="site-state-item-count">102</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -591,7 +596,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#uninitialized-fill-n"><span class="nav-number">1.</span> <span class="nav-text">uninitialized_fill_n</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#uninitialized-copy"><span class="nav-number">2.</span> <span class="nav-text">uninitialized_copy</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#copy-backward"><span class="nav-number">3.</span> <span class="nav-text">copy_backward</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#STL-TRY"><span class="nav-number">4.</span> <span class="nav-text">__STL_TRY</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#uninitialized-fill-n"><span class="nav-number">1.</span> <span class="nav-text">uninitialized_fill_n</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#uninitialized-copy"><span class="nav-number">2.</span> <span class="nav-text">uninitialized_copy</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#copy-backward"><span class="nav-number">3.</span> <span class="nav-text">copy_backward</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#测试程序"><span class="nav-number">3.1.</span> <span class="nav-text">测试程序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#STL-TRY"><span class="nav-number">4.</span> <span class="nav-text">__STL_TRY</span></a></li></ol></div>
             
 
           </div>

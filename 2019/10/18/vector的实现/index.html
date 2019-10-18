@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="vector,">
 
 
 
@@ -79,23 +79,30 @@
 
 
 
-<meta name="description" content="几个可以参考的网站：http://www.cplusplus.comhttps://en.cppreference.com/whttps://gcc.gnu.org">
+<meta name="description" content="STL SGI 2.9.2版本源码中vector的实现细节。">
+<meta name="keywords" content="vector">
 <meta property="og:type" content="article">
-<meta property="og:title" content="c++标准库">
-<meta property="og:url" content="http://yoursite.com/2019/09/27/c++标准库/index.html">
+<meta property="og:title" content="vector的实现">
+<meta property="og:url" content="http://yoursite.com/2019/10/18/vector的实现/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="几个可以参考的网站：http://www.cplusplus.comhttps://en.cppreference.com/whttps://gcc.gnu.org">
+<meta property="og:description" content="STL SGI 2.9.2版本源码中vector的实现细节。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/home/xixi2/.config/Typora/typora-user-images/1568792176139.png">
-<meta property="og:image" content="http://yoursite.com/home/xixi2/.config/Typora/typora-user-images/1568792151484.png">
-<meta property="og:image" content="http://yoursite.com/home/xixi2/.config/Typora/typora-user-images/1568792347185.png">
-<meta property="og:image" content="http://yoursite.com/home/xixi2/.config/Typora/typora-user-images/1568793668051.png">
-<meta property="og:image" content="http://yoursite.com/home/xixi2/.config/Typora/typora-user-images/1568793713183.png">
-<meta property="og:updated_time" content="2019-09-27T15:06:32.242Z">
+<meta property="og:image" content="http://yoursite.com/2019/10/18/vector的实现/a1.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/18/vector的实现/a2.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/18/vector的实现/a3.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/18/vector的实现/a4.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/18/vector的实现/a5.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/18/vector的实现/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/18/vector的实现/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/18/vector的实现/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/18/vector的实现/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/18/vector的实现/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/18/vector的实现/6.png">
+<meta property="og:updated_time" content="2019-10-18T11:08:14.838Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="c++标准库">
-<meta name="twitter:description" content="几个可以参考的网站：http://www.cplusplus.comhttps://en.cppreference.com/whttps://gcc.gnu.org">
-<meta name="twitter:image" content="http://yoursite.com/home/xixi2/.config/Typora/typora-user-images/1568792176139.png">
+<meta name="twitter:title" content="vector的实现">
+<meta name="twitter:description" content="STL SGI 2.9.2版本源码中vector的实现细节。">
+<meta name="twitter:image" content="http://yoursite.com/2019/10/18/vector的实现/a1.png">
 
 
 
@@ -125,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/09/27/c++标准库/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/18/vector的实现/">
 
 
 
 
 
-  <title>c++标准库 | xixi2</title>
+  <title>vector的实现 | xixi2</title>
   
 
 
@@ -300,7 +307,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/27/c++标准库/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/18/vector的实现/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -317,7 +324,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">c++标准库</h1>
+          <h1 class="post-title" itemprop="name headline">vector的实现</h1>
         
 
         <div class="post-meta">
@@ -329,8 +336,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T23:06:32+08:00">
-                2019-09-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-18T19:08:14+08:00">
+                2019-10-18
               </time>
             
 
@@ -352,8 +359,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C-基础知识/" itemprop="url" rel="index">
-                    <span itemprop="name">C++基础知识</span>
+                  <a href="/categories/STL/" itemprop="url" rel="index">
+                    <span itemprop="name">STL</span>
                   </a>
                 </span>
 
@@ -394,107 +401,36 @@
       
 
       
-        <p>几个可以参考的网站：<br><a href="http://www.cplusplus.com">http://www.cplusplus.com</a><br><a href="https://en.cppreference.com/w">https://en.cppreference.com/w</a><br><a href="https://gcc.gnu.org">https://gcc.gnu.org</a></p>
+        <p>STL SGI 2.9.2版本源码中vector的实现细节。</p>
 <a id="more"></a>
 
-<p>如何学习标准库．</p>
-<p>标准库源码：gnu c++ 2.9.1版本．如何找到gnu c++2.9.1版本代码？</p>
-<p>OOP: 将data和methods关联起来；<br>GP: 将data和methods分开来．</p>
-<p>模板分为：</p>
-<h1 id="分配器"><a href="#分配器" class="headerlink" title="分配器"></a>分配器</h1><p>先谈一谈operator new()和malloc()<br>标准库中allocator的实现往往是使用operator new和operator delete，而operator new和operator delete又调用malloc和free来分配和释放内存．<br>SGI主要使用的是alloc．尽量减少调用malloc的次数．当使用自由链表来保存内存空间的大小时，不再需要在</p>
-<p>set和map中都有一个rb_tree，set和rb_tree之间的关系是composition.</p>
-<h1 id="iterator"><a href="#iterator" class="headerlink" title="iterator"></a>iterator</h1><p>Iterator需要遵循的原则</p>
-<ul>
-<li>value_type: Iterator所指向的元素的类型</li>
-<li>difference_type: 两个Iterator之间的距离</li>
-<li>iterator_category: Iterator有5种类型：输入迭代器，输出迭代器，单向迭代器，双向迭代器(bidirectional_iterator_tag)，随机迭代器(random_access_iterator_tag)</li>
-</ul>
-<p>后面两种很少被用到．</p>
-<ul>
-<li>reference</li>
-<li>pointer</li>
-</ul>
-<p>traits机制</p>
-<p>如果Iterator是类类型，可以在类中定义value_type等，但若Iterator不是类类型，而是native pointer(native pointer也是一种迭代器).<br>特性萃取机必须有能力分辨它所获取的iterator是class Iterator T还是native pointer to T．</p>
-<p>type traits  &lt;c++/type_traits&gt;</p>
-<p>type_traits不属于stl，但属于标准库．</p>
-<p>iterator traits &lt;c++/bits/stl_iterator.h&gt;</p>
-<p>属于stl．</p>
-<p>char traits  &lt;c++/bits/char_traits.h&gt;<br>allocator traits &lt;c++/bits/alloc_traits.h&gt;<br>pointer traits &lt;c++/bits/ptr_traits.h&gt;<br>array traits &lt;c++/array&gt;</p>
-<table>
-<thead>
-<tr>
-<th>容器</th>
-<th>迭代器类型</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>array</td>
-<td>random_access_iterator</td>
-</tr>
-<tr>
-<td>vector</td>
-<td>random_access_iterator</td>
-</tr>
-<tr>
-<td>deque</td>
-<td>random_access_iterator</td>
-</tr>
-<tr>
-<td>list</td>
-<td>bidirectional_iterator</td>
-</tr>
-<tr>
-<td>forward list</td>
-<td>forward_iterator</td>
-</tr>
-<tr>
-<td>rb tree</td>
-<td>bidirectional_iterator</td>
-</tr>
-<tr>
-<td>unordered containers</td>
-<td>取决于底层的链表是单向还是双向的</td>
-</tr>
-</tbody></table>
-<p>istream_iterator的iterator_category<br>某些类之间的继承关系是为了继承typedef</p>
-<p>outstream_iterator的iterator_category</p>
-<p>算法分类（iterator category）和type traits对算法效率的影响：</p>
-<ul>
-<li>distance</li>
-<li>advance</li>
-<li>copy</li>
-<li>copy_unique</li>
-</ul>
-<h1 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h1><h2 id="vector"><a href="#vector" class="headerlink" title="vector"></a>vector</h2><p>vector和array的区别是：array的空间固定，一旦用尽，如果用户还希望使用更多空间，需要自己分配一个更大容量的array，并把旧的元素搬到新的array中，然后将旧的array的内存空间还给系统．而vector是动态空间，随着元素的加入，它的内部机制会自行扩充空间以容纳新元素．<br>vector每次扩充空间都分配当前容量两倍的空间．</p>
-<h2 id="array"><a href="#array" class="headerlink" title="array"></a>array</h2><p> array没有ctor，dtor<br>array与其他容器的区别在于，它需要一个size_t类型参数，表示数组的大小．<br>array的迭代器就是指针T*</p>
-<h2 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h2><p>扩充：分配一个缓冲区．</p>
-<h3 id="reallocate-map"><a href="#reallocate-map" class="headerlink" title="reallocate_map"></a>reallocate_map</h3><p>情形1: map_size = 14, old_num_nodes = 4, nodes_to_add = 2, add_at_front = true<br>new_num_nodes = 6;<br>map_size &gt; 2 * new_num_nodes</p>
-<p>如下图1所示：</p>
-<p><img src="/home/xixi2/.config/Typora/typora-user-images/1568792176139.png" alt="1568792176139"></p>
-<p>接下来我们计算，new_start = map + (14-6)/2 + 2 = map + 6</p>
-<p><img src="/home/xixi2/.config/Typora/typora-user-images/1568792151484.png" alt="1568792151484"></p>
-<p>之后，移动元素，修改start和finish迭代器所在的位置．蓝色部分是新配置的两个map_node.</p>
-<p><img src="/home/xixi2/.config/Typora/typora-user-images/1568792347185.png" alt="1568792347185"></p>
-<p>情形2: map_size = 6, old_num_nodes = 3, nodes_to_add = 1, add_at_front = true<br>new_num_nodes = 4;<br>map_size &lt; 2 * new_num_nodes<br>new_map_size = 6 + 6 + 1 = 13<br>new_start = new_map + (13 - 4) / 2 + 2 = new_map + 6</p>
-<p><img src="/home/xixi2/.config/Typora/typora-user-images/1568793668051.png" alt="1568793668051"></p>
-<p>蓝色部分是新配置的map_node</p>
-<p><img src="/home/xixi2/.config/Typora/typora-user-images/1568793713183.png" alt="1568793713183"></p>
-<h2 id="hashtable"><a href="#hashtable" class="headerlink" title="hashtable"></a>hashtable</h2><p>seperate chaing<br>当bucket中的链表过长时，就说明冲突的可能性很大了，需要扩容．<br>扩容过程：首先分配一块更大的内存，新内存的容量是大于旧的内存的两倍的一个质数．stl源码中准备了28个质数备用．<br>然后将旧内存中的每一个元素搬到新内存中去．这个过程中需要为每一个元素重新计算位置．<br>最后，释放旧的内存．</p>
-<p>bucket所在的内存是连续的吗？底层使用的是什么结构？<br>buckets聚合体底层使用的是vector，</p>
-<h3 id="一个万能的hash-Function"><a href="#一个万能的hash-Function" class="headerlink" title="一个万能的hash Function"></a>一个万能的hash Function</h3><h1 id="Algorithm"><a href="#Algorithm" class="headerlink" title="Algorithm"></a>Algorithm</h1><h1 id="functor"><a href="#functor" class="headerlink" title="functor"></a>functor</h1><p>为算法服务．</p>
-<p>自己写functor并继承标准库的binary_function和unary_function.<br>functor要被Adapter改造时，Adapter可能会问functor一些问题，所以，自定义的functor应该继承unary_function, binary_function等．</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">Arg</span>, <span class="title">class</span> <span class="title">Result</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">struct</span> <span class="title">unary_function</span> &#123;</span></span><br><span class="line">    <span class="keyword">typedef</span> Arg argument_type;</span><br><span class="line">    <span class="keyword">typedef</span> Result result_type;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">Arg1</span>, <span class="title">class</span> <span class="title">Arg2</span>, <span class="title">class</span> <span class="title">Result</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">struct</span> <span class="title">binary_function</span> &#123;</span></span><br><span class="line">    <span class="keyword">typedef</span> Arg1 first_argument_type;</span><br><span class="line">    <span class="keyword">typedef</span> Arg2 second_argument_type;</span><br><span class="line">    <span class="keyword">typedef</span> Result result_type;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 从position处（包括）开始插入n个相同的元素x</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">Alloc</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">vector</span>&lt;T, Alloc&gt;:</span>:insert(iterator position, size_type n, <span class="keyword">const</span> T &amp;x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (n != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// end_of_storage表示可用空间的尾, finish表示未使用空间内存的起始处</span></span><br><span class="line">        <span class="comment">// 可用空间个数大于等于n</span></span><br><span class="line">        <span class="keyword">if</span> (size_type(end_of_storage - finish) &gt;= n) &#123;</span><br><span class="line">            T x_copy = x;</span><br><span class="line">            <span class="keyword">const</span> size_type elems_after = finish - position;</span><br><span class="line">            iterator old_finish = finish;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 插入点之后的现有元素个数大于新增元素个数</span></span><br><span class="line">            <span class="keyword">if</span> (elems_after &gt; n) &#123;</span><br><span class="line">                <span class="comment">// uninitialized_copy将迭代器first和last指定的范围内中的元素拷贝到以迭代器result起始的区域内</span></span><br><span class="line">                <span class="comment">// 从finish - n 到finish(不包括finish)共有n个元素</span></span><br><span class="line">                uninitialized_copy(finish - n, finish, finish);</span><br><span class="line">                finish += n;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 把[position, old_finish - n)中的元素拷贝到[old_finish - n - position, old_finish)指定的范围内</span></span><br><span class="line">                copy_backward(position, old_finish - n, old_finish);</span><br><span class="line">                fill(position, position + n, x_copy);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// 插入点之后的现有元素个数小于新增元素个数</span></span><br><span class="line">                <span class="comment">// 为以finish开始的内存空间指定n-elems_after个x_copy的初值</span></span><br><span class="line">                <span class="comment">// 返回值：被赋值的尾元素下一位置的迭代器</span></span><br><span class="line">                uninitialized_fill_n(finish, n - elems_after, x_copy);</span><br><span class="line">                finish += n - elems_after;</span><br><span class="line">                uninitialized_copy(position, old_finish, finish);</span><br><span class="line">                finish += elems_after;</span><br><span class="line">                fill(position, old_finish, x_copy);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> size_type old_size = size();</span><br><span class="line">            <span class="keyword">const</span> size_type len = old_size + max(old_size, n);</span><br><span class="line">            iterator new_start = data_allocator::allocate(len);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 配置新的内存空间</span></span><br><span class="line">            iterator new_finish = new_start;</span><br><span class="line">            __STL_TRY&#123;</span><br><span class="line">                    <span class="comment">// 将插入点之前的元素拷贝到新空间中</span></span><br><span class="line">                    new_finish = uninitialized_copy(start, position, new_start);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 插入新元素</span></span><br><span class="line">                    new_finish = uninitialized_fill_n(new_finish, n, x);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 将插入点之后的元素拷贝到新空间中</span></span><br><span class="line">                    new_finish = uninitialized_copy(position, finish, new_finish);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 如有异常发生，实现"commit or rollback" semantics</span></span><br><span class="line"><span class="meta">#         <span class="meta-keyword">ifdef</span>  __STL_USE_EXCEPTIONS</span></span><br><span class="line">            <span class="keyword">catch</span>(...) &#123;</span><br><span class="line">              destroy(new_start, new_finish);</span><br><span class="line">              data_allocator::deallocate(new_start, len);</span><br><span class="line">              <span class="keyword">throw</span>;</span><br><span class="line">            &#125;</span><br><span class="line"><span class="meta">#         <span class="meta-keyword">endif</span> <span class="comment">/* __STL_USE_EXCEPTIONS */</span></span></span><br><span class="line">            <span class="comment">// 调用旧的元素的额析构函数,释放旧的内存空间</span></span><br><span class="line">            destroy(start, finish);</span><br><span class="line">            deallocate();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 调整迭代器</span></span><br><span class="line">            start = new_start;</span><br><span class="line">            finish = new_finish;</span><br><span class="line">            end_of_storage = new_start + len;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>自定义的仿函数要能够被适配器改造，应该继承unary_function或者binary_function．</p>
-<h1 id="Adapter"><a href="#Adapter" class="headerlink" title="Adapter"></a>Adapter</h1><p>通过内含的方式实现．</p>
-<p>container adapter：stack，queue</p>
-<p>functor adapter<br>iterator adapter</p>
-<p>function Adaptable的条件是：继承unary_function或者binary_function．</p>
-<p>&lt;c++\backward\backward_warning.h&gt;<br>reverse_iterator</p>
-<p>inserter</p>
-<p>ostream_iterator</p>
-<p>istream_iterator</p>
+<p>向可变数组中position指定的位置之后加入n个元素x_copy。</p>
+<h1 id="插入点之后的元素个数大于等于新增元素个数n"><a href="#插入点之后的元素个数大于等于新增元素个数n" class="headerlink" title="插入点之后的元素个数大于等于新增元素个数n"></a>插入点之后的元素个数大于等于新增元素个数n</h1><p>n=3，elems_after=7，x_copy = 17。</p>
+<p>假设vector的当前状态如下：</p>
+<p><img src="./a1.png" alt="a1"></p>
+<p>执行uninitialized_copy(finish - n, finish, finish);之后</p>
+<p><img src="./a2.png" alt="a2"></p>
+<p>执行finish += n;之后，</p>
+<p><img src="./a3.png" alt="a3"></p>
+<p>执行copy_backward(position, old_finish - n, old_finish);之后，</p>
+<p><img src="./a4.png" alt="a4"></p>
+<p>执行fill(position, position + n, x_copy);之后，</p>
+<p><img src="./a5.png" alt="a5"></p>
+<h1 id="插入点之后的元素个数小于新增元素个数n"><a href="#插入点之后的元素个数小于新增元素个数n" class="headerlink" title="插入点之后的元素个数小于新增元素个数n"></a>插入点之后的元素个数小于新增元素个数n</h1><p>n=3, elems_after = 2, x_copy = 17。</p>
+<p>假设vector的当前状态为：</p>
+<p><img src="./1.png" alt="1"></p>
+<p>执行uninitialized_fill_n(finish, n - elems_after, x_copy);后的状态：</p>
+<p><img src="./2.png" alt="22"></p>
+<p>执行finish += n - elems_after;后</p>
+<p><img src="./3.png" alt="31"></p>
+<p>执行uninitialized_copy(position, old_finish, finish);后</p>
+<p><img src="./4.png" alt="3"></p>
+<p>执行finish += elems_after;后</p>
+<p><img src="./5.png" alt="51"></p>
+<p>执行fill(position, old_finish, x_copy);后</p>
+<p><img src="./6.png" alt="61"></p>
 
       
     </div>
@@ -510,6 +446,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/vector/" rel="tag"># vector</a>
+          
+        </div>
+      
 
       
       
@@ -519,8 +461,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/27/const关键字的妙用/" rel="next" title="const关键字的妙用">
-                <i class="fa fa-chevron-left"></i> const关键字的妙用
+              <a href="/2019/10/18/c++API/" rel="next" title="C++常用函数api">
+                <i class="fa fa-chevron-left"></i> C++常用函数api
               </a>
             
           </div>
@@ -528,10 +470,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/09/27/Palindromic-Substrings系列/" rel="prev" title="Palindromic Substrings系列">
-                Palindromic Substrings系列 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -610,7 +548,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-count">138</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -621,7 +559,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -632,7 +570,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">101</span>
+                  <span class="site-state-item-count">102</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -665,7 +603,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分配器"><span class="nav-number">1.</span> <span class="nav-text">分配器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#iterator"><span class="nav-number">2.</span> <span class="nav-text">iterator</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#容器"><span class="nav-number">3.</span> <span class="nav-text">容器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#vector"><span class="nav-number">3.1.</span> <span class="nav-text">vector</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#array"><span class="nav-number">3.2.</span> <span class="nav-text">array</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#deque"><span class="nav-number">3.3.</span> <span class="nav-text">deque</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#reallocate-map"><span class="nav-number">3.3.1.</span> <span class="nav-text">reallocate_map</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hashtable"><span class="nav-number">3.4.</span> <span class="nav-text">hashtable</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一个万能的hash-Function"><span class="nav-number">3.4.1.</span> <span class="nav-text">一个万能的hash Function</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Algorithm"><span class="nav-number">4.</span> <span class="nav-text">Algorithm</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#functor"><span class="nav-number">5.</span> <span class="nav-text">functor</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Adapter"><span class="nav-number">6.</span> <span class="nav-text">Adapter</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#插入点之后的元素个数大于等于新增元素个数n"><span class="nav-number">1.</span> <span class="nav-text">插入点之后的元素个数大于等于新增元素个数n</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#插入点之后的元素个数小于新增元素个数n"><span class="nav-number">2.</span> <span class="nav-text">插入点之后的元素个数小于新增元素个数n</span></a></li></ol></div>
             
 
           </div>
