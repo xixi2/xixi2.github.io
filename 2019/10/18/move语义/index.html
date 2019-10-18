@@ -82,17 +82,17 @@
 <meta name="description" content="std::move">
 <meta property="og:type" content="article">
 <meta property="og:title" content="move语义">
-<meta property="og:url" content="http://yoursite.com/2019/10/15/move语义/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/10/18/move语义/index.html">
 <meta property="og:site_name" content="xixi2">
 <meta property="og:description" content="std::move">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2019/10/15/move语义/before.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/15/move语义/after.png">
-<meta property="og:updated_time" content="2019-10-15T08:05:24.572Z">
+<meta property="og:image" content="http://yoursite.com/2019/10/18/move语义/before.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/18/move语义/after.png">
+<meta property="og:updated_time" content="2019-10-18T07:03:44.599Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="move语义">
 <meta name="twitter:description" content="std::move">
-<meta name="twitter:image" content="http://yoursite.com/2019/10/15/move语义/before.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/10/18/move语义/before.png">
 
 
 
@@ -122,7 +122,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/10/15/move语义/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/18/move语义/">
 
 
 
@@ -297,7 +297,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/15/move语义/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/18/move语义/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -326,8 +326,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-15T16:05:24+08:00">
-                2019-10-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-18T15:03:44+08:00">
+                2019-10-18
               </time>
             
 
@@ -395,19 +395,18 @@
 <a id="more"></a>
 
 <h1 id="右值与右值引用"><a href="#右值与右值引用" class="headerlink" title="右值与右值引用"></a>右值与右值引用</h1><p>临时对象是一种右值；字面常量是一种右值。<br>右值不可以放在赋值号的左边，即右值不可以被赋值；不可以对右值取地址。</p>
-<p>一个左值引用是某个对象的另一个名字．返回左值引用的函数，赋值，下标，解引用和前置递增/递减运算符都是返回左值的表达式的例子．注意：尽管常量无法改变，但是<span style="color:royalblue">常量是一个左值</span>．
-<strong>右值引用是必须绑定到右值的引用</strong>．不能将一个右值引用绑定到一个左值上．返回非引用类型的函数，包括算术，关系，位及递增/递减运算符，都生成右值．我们不能将一个左值引用绑定到这类表达式上，但是<strong>可以将一个const的左值引用或一个右值引用绑定到这类表达式(返回右值的表达式)上</strong>。
-右值引用通常用于两种情况：模板转发其实参或模板被重载．</p>
+<p>一个左值引用是某个对象的另一个名字。返回左值引用的函数，赋值，下标，解引用和前置递增/递减运算符都是返回左值的表达式的例子。注意：尽管常量无法改变，但是<span style="color:royalblue">常量是一个左值</span>。
+<strong>右值引用是必须绑定到右值的引用</strong>。不能将一个右值引用绑定到一个左值上。返回非引用类型的函数，包括算术，关系，位及递增/递减运算符，都生成右值。我们不能将一个左值引用绑定到这类表达式上，但是<strong>可以将一个const的左值引用或一个右值引用绑定到这类表达式(返回右值的表达式)上</strong>。也就是说不能将左值引用绑定到一个右值上，但是<span style="color:royalblue">可以将一个<span style="color:firebrick">const的左值引用</span>和一个右值引用绑定到右值上</span>。
+右值引用通常用于两种情况：<a href>模板转发其实参或模板被重载</a>。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">42</span>;		</span><br><span class="line"><span class="keyword">int</span> &amp;r = i;			<span class="comment">// 正确，r是一个左值引用，绑定到一个左值上</span></span><br><span class="line"><span class="keyword">int</span> &amp;&amp;rr = i;		<span class="comment">// 错误，rr是一个右值引用，，不能将一个右值引用绑定到一个左值上</span></span><br><span class="line"><span class="keyword">int</span> &amp;r2 = i * <span class="number">42</span>;	<span class="comment">// 错误，不能将一个左值引用绑定到一个右值上</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;r3 = <span class="number">42</span>;	<span class="comment">// 正确，r2是一个const的左值引用，可以将一个const的左值引用绑定到一个右值上</span></span><br><span class="line"><span class="keyword">int</span> &amp;&amp;rr2 = i * <span class="number">42</span>;	<span class="comment">// 正确，可以将一个右值引用绑定到一个右值上</span></span><br></pre></td></tr></table></figure>
 
-<p>由于右值引用只能绑定到临时对象，所以：<br>右值引用的对象将要销毁，且该对象没有其他用户．因此使用右值引用的代码可以自由地接管所引用的对象的资源。<br><span style="color:royalblue">变量是左值</span>，可以把变量看做是只有一个运算对象而没有运算符的表达式，变量表达式都是右值．因此不能将一个右值引用绑定到一个右值引用类型的变量上。</p>
+<p>由于右值引用只能绑定到临时对象，所以：<br>右值引用的对象将要销毁，且该对象没有其他用户。因此使用右值引用的代码可以自由地接管所引用的对象的资源。<br><span style="color:royalblue">变量是左值</span>，可以把变量看做是只有一个运算对象而没有运算符的表达式，变量表达式都是左值。因此不能将一个右值引用绑定到一个变量上，即使这个变量是右值引用类型，也不行。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> &amp;&amp;rr1 = <span class="number">42</span>;		<span class="comment">// 正确，rr1是一个右值引用类型的变量，绑定到一个右值42</span></span><br><span class="line"><span class="keyword">int</span> &amp;&amp;rr2 = rr1;	<span class="comment">// 错误，rr1是一个变量，它的类型是右值引用类型，但是rr1是一个变量，是左值，因此，不能将右值引用绑定到rr1上</span></span><br></pre></td></tr></table></figure>
 
-<h1 id="标准库move函数"><a href="#标准库move函数" class="headerlink" title="标准库move函数"></a>标准库move函数</h1><p>尽管不能将一个右值引用直接绑定到一个左值上，但是可以<span style="color:royalblue">显式地将一个左值转换为对应的右值引用类型</span>．通过调用标准库的move函数来获得绑定到左值上的右值引用。</p>
+<h1 id="标准库move函数"><a href="#标准库move函数" class="headerlink" title="标准库move函数"></a>标准库move函数</h1><p>尽管不能将一个右值引用直接绑定到一个左值上，但是可以<span style="color:royalblue">显式地将一个左值转换为对应的右值引用类型</span>。通过调用标准库的move函数来获得绑定到左值上的右值引用。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> &amp;&amp;rr1 = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">int</span> &amp;&amp;rr3 = <span class="built_in">std</span>::move(rr1);		<span class="comment">// ok，std::move显式地将一个左值转换为对应的右值引用类型</span></span><br></pre></td></tr></table></figure>
 
-<p>我们可以销毁一个移后源对象，也可以赋予它新值，但不能使用一个移后源对象的值。移后源对象必须可析构，并且移后源对象必须仍然是有效的．对象有效是指可以安全为其赋予新值或者可以安全地使用而不依赖其当前值。</p>
-<h1 id="forward-完美转发"><a href="#forward-完美转发" class="headerlink" title="forward(完美转发)"></a>forward(完美转发)</h1><p><span style="color:royalblue">某些函数需要将其一个或多个实参连同类型不变地转发给其他函数</span>。在此情况下，我们需要保持被转发实参的所有性质，包括实参类型是否是const的以及实参是左值还是右值。</p>
+<p>我们可以销毁一个移后源对象，也可以赋予它新值，但不能使用一个移后源对象的值。移后源对象必须可析构，并且移后源对象必须仍然是有效的。对象有效是指可以安全为其赋予新值或者可以安全地使用而不依赖其当前值。</p>
 <h1 id="move语义的几个疑问"><a href="#move语义的几个疑问" class="headerlink" title="move语义的几个疑问"></a>move语义的几个疑问</h1><h2 id="strVec类"><a href="#strVec类" class="headerlink" title="strVec类"></a>strVec类</h2><p>C++ Primer》中有关右值引用的例子，书中先是定义了一个类StrVec：<br>然后定义了一个移动构造函数：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">StrVec::StrVec(StrVec &amp;&amp;s) <span class="keyword">noexcept</span></span><br><span class="line">    :elements(s.elements), first_free(s.first_free), cap(s.cap)</span><br><span class="line">&#123;</span><br><span class="line">    s.elements = s.first_free = s.cap = <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -483,8 +482,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/15/TCPIP网络编程系列之IO复用/" rel="next" title="IO复用">
-                <i class="fa fa-chevron-left"></i> IO复用
+              <a href="/2019/10/18/模板实参推断和引用/" rel="next" title="模板实参推断和引用">
+                <i class="fa fa-chevron-left"></i> 模板实参推断和引用
               </a>
             
           </div>
@@ -493,8 +492,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/10/15/fork和vfork/" rel="prev" title="fork和vfork">
-                fork和vfork <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/18/内存分配的几个函数/" rel="prev" title="内存分配的几个函数">
+                内存分配的几个函数 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -574,7 +573,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">135</span>
+                  <span class="site-state-item-count">136</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -596,7 +595,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">99</span>
+                  <span class="site-state-item-count">101</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -629,7 +628,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#右值与右值引用"><span class="nav-number">1.</span> <span class="nav-text">右值与右值引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#标准库move函数"><span class="nav-number">2.</span> <span class="nav-text">标准库move函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#forward-完美转发"><span class="nav-number">3.</span> <span class="nav-text">forward(完美转发)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#move语义的几个疑问"><span class="nav-number">4.</span> <span class="nav-text">move语义的几个疑问</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#strVec类"><span class="nav-number">4.1.</span> <span class="nav-text">strVec类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器"><span class="nav-number">4.2.</span> <span class="nav-text">容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充几条"><span class="nav-number">4.3.</span> <span class="nav-text">补充几条</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#右值与右值引用"><span class="nav-number">1.</span> <span class="nav-text">右值与右值引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#标准库move函数"><span class="nav-number">2.</span> <span class="nav-text">标准库move函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#move语义的几个疑问"><span class="nav-number">3.</span> <span class="nav-text">move语义的几个疑问</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#strVec类"><span class="nav-number">3.1.</span> <span class="nav-text">strVec类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器"><span class="nav-number">3.2.</span> <span class="nav-text">容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充几条"><span class="nav-number">3.3.</span> <span class="nav-text">补充几条</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>

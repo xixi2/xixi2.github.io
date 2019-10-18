@@ -1,6 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[内存分配的几个函数]]></title>
+    <url>%2F2019%2F10%2F18%2F%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%9A%84%E5%87%A0%E4%B8%AA%E5%87%BD%E6%95%B0%2F</url>
+    <content type="text"><![CDATA[用于内存分配的函数有：malloc，calloc、realloc等。]]></content>
+      <categories>
+        <category>C++基础</category>
+      </categories>
+      <tags>
+        <tag>malloc</tag>
+        <tag>calloc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[move语义]]></title>
+    <url>%2F2019%2F10%2F18%2Fmove%E8%AF%AD%E4%B9%89%2F</url>
+    <content type="text"><![CDATA[std::move 右值与右值引用临时对象是一种右值；字面常量是一种右值。右值不可以放在赋值号的左边，即右值不可以被赋值；不可以对右值取地址。 一个左值引用是某个对象的另一个名字。返回左值引用的函数，赋值，下标，解引用和前置递增/递减运算符都是返回左值的表达式的例子。注意：尽管常量无法改变，但是常量是一个左值。 右值引用是必须绑定到右值的引用。不能将一个右值引用绑定到一个左值上。返回非引用类型的函数，包括算术，关系，位及递增/递减运算符，都生成右值。我们不能将一个左值引用绑定到这类表达式上，但是可以将一个const的左值引用或一个右值引用绑定到这类表达式(返回右值的表达式)上。也就是说不能将左值引用绑定到一个右值上，但是可以将一个const的左值引用和一个右值引用绑定到右值上。 右值引用通常用于两种情况：模板转发其实参或模板被重载。 123456int i = 42; int &amp;r = i; // 正确，r是一个左值引用，绑定到一个左值上int &amp;&amp;rr = i; // 错误，rr是一个右值引用，，不能将一个右值引用绑定到一个左值上int &amp;r2 = i * 42; // 错误，不能将一个左值引用绑定到一个右值上const int &amp;r3 = 42; // 正确，r2是一个const的左值引用，可以将一个const的左值引用绑定到一个右值上int &amp;&amp;rr2 = i * 42; // 正确，可以将一个右值引用绑定到一个右值上 由于右值引用只能绑定到临时对象，所以：右值引用的对象将要销毁，且该对象没有其他用户。因此使用右值引用的代码可以自由地接管所引用的对象的资源。变量是左值，可以把变量看做是只有一个运算对象而没有运算符的表达式，变量表达式都是左值。因此不能将一个右值引用绑定到一个变量上，即使这个变量是右值引用类型，也不行。 12int &amp;&amp;rr1 = 42; // 正确，rr1是一个右值引用类型的变量，绑定到一个右值42int &amp;&amp;rr2 = rr1; // 错误，rr1是一个变量，它的类型是右值引用类型，但是rr1是一个变量，是左值，因此，不能将右值引用绑定到rr1上 标准库move函数尽管不能将一个右值引用直接绑定到一个左值上，但是可以显式地将一个左值转换为对应的右值引用类型。通过调用标准库的move函数来获得绑定到左值上的右值引用。 12int &amp;&amp;rr1 = 42;int &amp;&amp;rr3 = std::move(rr1); // ok，std::move显式地将一个左值转换为对应的右值引用类型 我们可以销毁一个移后源对象，也可以赋予它新值，但不能使用一个移后源对象的值。移后源对象必须可析构，并且移后源对象必须仍然是有效的。对象有效是指可以安全为其赋予新值或者可以安全地使用而不依赖其当前值。 move语义的几个疑问strVec类C++ Primer》中有关右值引用的例子，书中先是定义了一个类StrVec：然后定义了一个移动构造函数： 12345StrVec::StrVec(StrVec &amp;&amp;s) noexcept :elements(s.elements), first_free(s.first_free), cap(s.cap)&#123; s.elements = s.first_free = s.cap = nullptr;&#125; 问：既然elements,first_free和cap都是指针，这里如何体现了一个对象被移动，难道这个函数难道不是仅仅复制了指针，这和一个只执行了浅拷贝的拷贝构造函数的作用有什么区别？ 答：从上述代码中，可以看到，除了浅拷贝(从源对象那里拷贝指针)，还把源对象的指针清零了。浅拷贝是共享资源，而move是独占资源，浅拷贝因共享资源从而可能引发重复析构的问题，而move是独占则不会。具体而言，浅拷贝时，仅仅修改目的对象的成员指针，令它和源对象指向相同的堆内存，而move则会同时修改源对象和目的对象的成员指针，令目的对象指向源对象的堆内存，但是源对象却不再指向这块内存，从而实现了move从源对象处窃取资源。 问：如果把原对象的成员指针变量变为空指针，而原对象的析构函数会执行释放指针指向的资源的操作，运行的时候会不会出现错误。 123456789101112131415StrVec::~StrVec() &#123;free();&#125;void StrVec::free() &#123; // free有两个责任: destory元素,释放StrVec自己分配的内存空间 // 不能给deallocate传一个空指针,因此若elements为空,就什么都不做 if (elements) &#123; // 逆序销毁元素 for (auto p = first_free; p != elements;) &#123; alloc.destroy(--p); &#125; alloc.deallocate(elements, cap - elements); &#125;&#125; 答：不会出现错误。根据前文的代码，释放前会判断elements是否为空指针，所以并不会出现错误。 容器另外一个疑惑是和容器有关的。知乎上的一个问题的回答提到了这两个函数： 12void push_back( const T&amp; value ); // (1)void push_back( T&amp;&amp; value ); // (2) 问：第二个版本的函数为什么能实现对象的移动，容器的存储空间难道不是Allocator分配的一段连续的内存空间，如果只是转移了对象持有资源的所有权，又怎么能保证容器中的存放的对象是在一片连续的内存空间上的？ 答：标准中有明确说明两个版本的push_back并没有语义上的差别，都是在容器末尾追加value的副本。所以题目中声称的实现对象的移动是无稽之谈。追加value的副本的过程传递的是对象的值而非对象本身。参数本身的左右值引用属性，决定了value的值是通过拷贝构造函数还是移动构造函数传递。 问：vector重新申请的内容到底有没有被使用，应为没有复制不就意味着之前的内容依然保存在原内存上，而不能被释放。 答：上一个问题中提到传递的是对象的值，而非对象本身。也就是说，对于int这种内置类型来说，复制和移动没有区别；而对于std::string/std::vector来说，对象除了拥有它本身所占的内存(栈内存)，还拥有由它管理的动态分配出来的内存中的内容，移动相比复制会轻松。 上图是源对象，被移动前，左边是源对象本身所占的内存，右边是源对象管理的内存。 ​ ​ 移动会从源对象那里窃取资源。移动完成后，源对象不再指向被移动的资源—这些资源的所有权已经归属目的 对象。移后源对象应该处于析构安全的状态，并且对象应该还是有效的。 补充几条 move语义必须和RAll结合起来才能安全使用，因为move涉及到堆内存的管理权的转移，如果不RAll，多转移几次，你完全都不知道指针现在归谁管理了。 move语义转移的move构造函数中指定的堆空间使用权，而不是对象，也就是说对于简单对象，比如int，即使对它使用move语义也是没用的。 问题中提到的顺序容器vector，使用move用处不大，因为最终它还是要使用拷贝语义来保证容器的内存顺序 一个例子说明对于使用连续内存空间的容器vector和list而言，移动的区别。 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970#include &lt;iostream&gt;#include &lt;vector&gt;#include &lt;list&gt;using namespace std;class A &#123;public: A(int a) &#123; p = new int; *p = a; &#125; A(const A &amp;a) &#123; std::cout &lt;&lt; "this is left-ref copy ctor:" &lt;&lt; *a.p &lt;&lt; std::endl; p = new int; *p = *a.p; &#125; A(A &amp;&amp;a) &#123; std::cout &lt;&lt; "this is move copy ctor" &lt;&lt; std::endl; p = a.p; a.p = nullptr; &#125; void print() const &#123; if (p == nullptr) &#123; std::cout &lt;&lt; "null" &lt;&lt; std::endl; return; &#125; std::cout &lt;&lt; p &lt;&lt; ":" &lt;&lt; *p &lt;&lt; std::endl; return; &#125; ~A() &#123; if (p == nullptr) &#123; return; &#125; delete p; &#125;protected: int *p;&#125;;template&lt;typename T&gt;void test() &#123; A a(123); A b(456); A c(789); cout &lt;&lt; "sizoef(A): " &lt;&lt; sizeof(A) &lt;&lt; endl; // A的大小为8个字节 T v; // 对于vector,插入完成后,容器的可用空间由0变为1,已经用了1 v.push_back(std::move(a)); cout &lt;&lt; endl; // 对于vector,插入完成后,容器的可用空间由1变为2,已经用了2 v.push_back(std::move(b)); cout &lt;&lt; endl; // 对于vector,插入完成后,容器的可用空间由2变为4,已经用了3 v.push_back(std::move(c)); cout &lt;&lt; endl; for (auto it = v.begin(); it != v.end(); ++it) &#123; cout &lt;&lt; "address:" &lt;&lt; &amp;(*it) &lt;&lt; " "; it-&gt;print(); &#125;&#125; 对于list 123void test1() &#123; test&lt;std::list&lt;A&gt;&gt;();&#125; 运行结果 12345678910sizoef(A): 8this is move copy ctorthis is move copy ctorthis is move copy ctoraddress:0x55b0184102f0 0x55b01840fe70:123address:0x55b018410310 0x55b01840fe90:456address:0x55b018410330 0x55b01840feb0:789 list每次分配一个元素的内存空间，并调用元素的移动构造函数构造一个对象，加入到链表中。 对于vector 123void test2() &#123; test&lt;std::vector&lt;A&gt;&gt;();&#125; 运行结果 12345678910111213141516sizoef(A): 8# 插入第一个元素this is move copy ctor# 插入第二个元素，vector需要扩容，所以分配一块更大的内存，将元素拷贝到新内存上this is move copy ctorthis is left-ref copy ctor:123# 插入第三个元素，再次扩容this is move copy ctorthis is left-ref copy ctor:123this is left-ref copy ctor:456address:0x55734343c340 0x55734343c2e0:123address:0x55734343c348 0x55734343be70:456address:0x55734343c350 0x55734343beb0:789 vector要保证所有元素的内存地址连续，所以，每次分配一块内存。当加入新元素时，如果当前还有剩余空间，就把新元素直接加入到尾部，如果没有剩余空间，就需要进行扩容，扩容时会发生元素的拷贝。 参考文献[1]如何理解C++中的move语义：https://www.zhihu.com/question/43513150[2]C++ 11的移动语义：https://www.cnblogs.com/sunchaothu/p/11392116.html]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[模板实参推断和引用]]></title>
+    <url>%2F2019%2F10%2F18%2F%E6%A8%A1%E6%9D%BF%E5%AE%9E%E5%8F%82%E6%8E%A8%E6%96%AD%E5%92%8C%E5%BC%95%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[模板分为类模板，函数模板，还有成员模板． 编译器会对函数模板参数进行推导． 从左值引用函数参数推断类型当一个函数参数是模板参数类型的一个（左值）引用时（即，形如T&amp;），绑定规则告诉我们，只能传递一个左值（如，一个变量或一个返回引用类型的表达式）。实参可以是const类型，也可以不是。如果实参是const的，则T将被推断为const类型： 1234template&lt;typename T&gt; void f1(T&amp;); // 实参必须是一个左值f1(i); // i是一个int，模板参数类型T是intf1(ci); // ci是一个const int ；模板参数类型T是const intf1(5); // 错误：传递给一个&amp;参数的参数必须是一个左值 如果一个函数参数的类型是const T&amp;，正常的绑定规则告诉我们可以传递给它任何类型的实参—一个对象(const 或非const)、一个临时对象或者一个字面常量值。当函数参数本身是const时，T的类型推断的结果不会是一个const类型。const已经是函数参数类型的一部分；因此，它不会是模板参数类型的一部分。 123456template&lt;typename T&gt;void f2(const T&amp;); //可以接受一个右值// f2的参数是const &amp;，实参中的const是无关的// 在每个调用中，f2的函数参数都被推断为const int&amp;f2(i); // i是一个int, 模板参数类型T是intf2(ci); // ci是一个const int，模板参数类型T是intf2(5); // 一个const &amp;可以绑定到一个右值，模板参数类型T是int 从右值引用函数参数推断类型当一个函数参数是一个右值引用类型（即，形如T&amp;&amp;）时，正常绑定规则告诉我们可以传递给它一个右值。当我们这样做时，类型推断过程类似普通左值引用函数参数的推断过程。推断出的T的类型是该右值实参的类型： 12template&lt;typename T&gt; void f3(T&amp;&amp;);f3(42); // 实参是一个int类型的右值；模板参数类型T是int 引用折叠和右值引用参数假定i是一个int对象，我们可能认为像f3(i)这样的调用是不合法的。毕竟，i是一个左值，而通常我们不能将一个右值引用绑定到一个左值上。但是C++语义在正常绑定规则之外定义了两个例外规则。这两个规则是move这种标准库设施正确工作的基础。 第一个例外规则影响右值引用参数的推断如何进行。当我们将一个左值（如i）传递给函数的右值引用类型参数，且此右值引用指向模板类型参数（如T&amp;&amp;）时，编译器推断模板类型参数为实参的左值引用类型。因此，当我们调用f3(i)时，编译器推断T的类型为int&amp;，而非int。 T被推断为int&amp;好像意味着f3的函数参数应该是一个类型int&amp;的右值引用。通常，我们不能（直接）定义一个引用的引用。但是，通过类型别名或通过模板类型参数间接定义是可以的。 在这种情况下，我们可以使用第二个绑定规则：如果我们间接创建一个引用的引用，则这些引用形成了折叠。对于一个给定的类型X： X&amp; &amp;、X&amp; &amp;&amp;和X&amp;&amp; &amp;都折叠成类型X&amp; 类型X&amp;&amp; &amp;&amp;折叠成X&amp;&amp; 如果将引用折叠规则和右值引用的特殊类型推断规则组合在一起，则意味着我们可以对一个左值调用f3。当我们将一个左值传递给f3的（右值引用）函数参数时，编译器推断T为一个左值引用类型。 12f3(i) // 实参是一个左值，模板参数T是int&amp;f3(ci); // 实参是一个左值，模板参数T是一个const int&amp; 当一个模板参数T被推断为引用类型时，折叠规则告诉我们函数参数T&amp;&amp;折叠 为一个左值引用类型。例如，f3(i)的实例化结果可能像下面这样： 12// 无效代码，只是用于演示目的void f3&lt;int&amp;&gt;(int &amp; &amp;&amp;); // 当T是int&amp;时，函数参数为T&amp; &amp;&amp; f3的函数参数是T&amp;&amp;且T是int&amp;，因此，T&amp;&amp;是int&amp; &amp;&amp;，会折叠成int&amp;。因此，即使f3的函数参数形式是一个右值引用（即T&amp;&amp;），此调用也会用一个左值引用类型（即，int&amp;）实例化f3： 1void f3&lt;int&amp;&gt;(int&amp;); // 当T是int&amp;时，函数参数折叠为int&amp; 这两个规则导致了两个重要结果： 如果一个函数参数是一个指向模板实参类型的右值引用，且函数参数被绑定到一个左值；且 如果实参是一个左值，则推断出的模板实参类型将是一个左值引用，且函数参数将被实例化为一个（普通）左值引用类型参数。 另外值得注意的是，这两个规则暗示，我们可以将任意类型的实参传递给T&amp;&amp;类型的函数参数。对于这种类型的参数，可以传递给它右值，亦可以传递给它左值。 forward(完美转发)某些函数需要将其一个或多个实参连同类型不变地转发给其他函数。在此情况下，我们需要保持被转发实参的所有性质，包括实参类型是否是const的以及实参是左值还是右值。]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>引用</tag>
+        <tag>模板</tag>
+        <tag>函数参数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[二分查找各种不同的应用场景]]></title>
+    <url>%2F2019%2F10%2F17%2F%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E5%90%84%E7%A7%8D%E4%B8%8D%E5%90%8C%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%2F</url>
+    <content type="text"><![CDATA[二分查找是一种十分重要的查找算法．通常在有序数组中查找某个指定的数． Find peak Element: https://leetcode.com/problems/find-peak-element 如何处理一个数组中所有元素都相等的情况． https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/submissions/&gt; 数字在排序数组中出现的次数：https://www.nowcoder.com/practice/70610bf967994b22bb1c26f9ae901fa2?tpId=13&amp;tqId=11190&amp;tPage=1&amp;rp=1&amp;ru=/ta/coding-interviews&amp;qru=/ta/coding-interviews/question-ranking 相似题：https://leetcode.com/problems/first-bad-version/ 12345678910111213int findLastPos(vector&lt;int&gt;&amp; nums, int target)&#123; int i = 0, j = nums.size()-1; int mid = -1; while(i &lt;= j)&#123; mid = (i + j) / 2; if(nums[mid] &gt; target)&#123; j = mid - 1; &#125;else&#123; i = mid; &#125; &#125; return mid;&#125; 从有序数组中大于等于某个数的元素第一次出现的位置123456789101112131415int getLessIndex(vector&lt;int&gt; &amp;help, int num) &#123; // 从有序数组中找出大于某个值的元素第一次出现的位置 int l = 0, r = help.size() - 1; int index = -1; while (l &lt;= r) &#123; int mid = (l + r) / 2; if (help[mid] &gt;= num) &#123; index = mid; r = mid - 1; &#125; else &#123; l = mid + 1; &#125; &#125; return index;&#125; 测试用例: 1234[1, 3, 3, 3, 3] // 1, 元素3(最早出现的元素3)[1, 2, 4, 5, 6] // 2, 元素4[1, 2, 2, 2, 2] // -1, 所有元素都比3小[4, 5, 6, 9, 12] // 0, 所有元素都比3大 从有重复元素的有序数组中找出某个元素第一次出现的位置123456789101112131415int getLessIndex(vector&lt;int&gt; &amp;help, int num) &#123; // 从有序数组中找出某个值第一次出现的位置 int l = 0, r = help.size() - 1; int index = -1; while (l &lt;= r) &#123; int mid = (l + r) / 2; if (help[mid] &gt;= num) &#123; index = mid; r = mid - 1; &#125; else &#123; l = mid + 1; &#125; &#125; return index;&#125; 测试用例 123[1, 3, 3, 3, 3] // 1, 第一个元素3[-1, 1, 2, 3, 5] //3, 元素3[1, 2, 4, 5, 6] // -1, 不存在元素3 在有序旋转数组中搜索某个给定的数题目链接]]></content>
+      <tags>
+        <tag>二分查找</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[C++对象模型系列1]]></title>
     <url>%2F2019%2F10%2F17%2FC%2B%2B%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%E7%B3%BB%E5%88%971%2F</url>
     <content type="text"><![CDATA[在C++对象模型中，Nonstatic data members被配置于每一个class object之内，static data members则被放在个别的class object之外。static和nonstatic function members也被放在个别的class object之外。 virtual functions则通过下面两个步骤来实现： 每一个class产生出一堆指向virtual functions的指针，放在表格之中。这个表格被称为virtual table(vtbl)。 每一个class object被安插一个指针，指向相关的virtual table。通常这个指针被称为vtpr。vtpr的设定和重置由每一个class的constructor、destructor和copy assignment运算符自动完成。每一个class所关联的type_info object(用来支持runtime type identification，RTTI)也经由virtual table被指出来，通常放在表格的第一个slot。 示例1：虚拟继承下的C++对象模型在下面的代码示例中，Point3d和Vertex虚拟继承自Point2d，Vertex同时继承自Point3d和Vertex。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465#include &lt;iostream&gt;using namespace std;class Point2d &#123;public: virtual void print() &#123; cout &lt;&lt; "I am Point2d" &lt;&lt; endl; &#125; virtual ~Point2d() &#123;&#125;protected: float _x; // 4字节 float _y;&#125;;class Vertex : public virtual Point2d &#123;public: void print() &#123; cout &lt;&lt; "I am Vertex" &lt;&lt; endl; &#125; ~Vertex() &#123;&#125;protected: Vertex *next; // 指针,占8字节&#125;;class Point3d : public virtual Point2d &#123;public: // virtual function print1是Point3d独有的虚函数,不是从基类那里继承来的,但是无论这个虚函数是否存在都不影响Point3d的对象模型 virtual void print1() &#123; cout &lt;&lt; "This is my own virtual function, not inherient from my father" &lt;&lt; endl; &#125; ~Point3d() &#123;&#125;protected: float _z;&#125;;class Vertex3d : public Vertex, public Point3d &#123;public: ~Vertex3d() &#123;&#125;protected: float mumble;&#125;;void test1() &#123; Vertex vx;// vx.print(); cout &lt;&lt; "sizeof(Point2d): " &lt;&lt; sizeof(Point2d) &lt;&lt; endl; // 16 cout &lt;&lt; "sizeof(Point3d): " &lt;&lt; sizeof(Point3d) &lt;&lt; endl; // 32 cout &lt;&lt; "sizeof(Vertex) : " &lt;&lt; sizeof(Vertex) &lt;&lt; endl; // 32 cout &lt;&lt; "sizeof(Vertex3d) : " &lt;&lt; sizeof(Vertex3d) &lt;&lt; endl; // 48&#125;int main() &#123; test1(); return 0;&#125; 写这个示例的目的是为了验证：在Point3d的对象模型中有两个虚表指针，一个是从其基类Point2d那里继承而来的，另一个是Point3d自身的。 Point2d的对象模型： Point3d、Vertex、Vertex3d的对象模型。 从上图可知，在Point2d中有两个float类型的成员变量和一个指针。故Point2d的大小为16字节；Point3d对象有一个Point2d子对象和一个float类型数据成员z、一个虚表指针Point3d，故大小为16+4+8 = 28，但是因为28不是8的倍数(在64位系统上运行的)，所以28被边界对齐到32字节。同理Vertex的大小为16+8+8=32字节。对于Vertex3d，其大小为16+4+8+4+8+8 = 48字节。 示例2：继承模型下的地址多重继承下的对象模型 123456789101112131415161718192021222324class A &#123; public: virtual ~A() &#123;&#125;&#125;;class B &#123; public: virtual ~B() &#123;&#125;&#125;;class C : public A, public B &#123;&#125;;void test1() &#123; C *pC = new C(); A *pA = (A *) pC; B *pB = (B *) pC; cout &lt;&lt; pA &lt;&lt; endl; // 0x5652962dbe70 cout &lt;&lt; pB &lt;&lt; endl; // 0x5652962dbe78 cout &lt;&lt; pC &lt;&lt; endl; // 0x5652962dbe70 cout &lt;&lt; "sizeof(*pA):" &lt;&lt; sizeof(*pA) &lt;&lt; endl; cout &lt;&lt; "sizeof(*pB):" &lt;&lt; sizeof(*pB) &lt;&lt; endl; cout &lt;&lt; "sizeof(*pC):" &lt;&lt; sizeof(*pC) &lt;&lt; endl;&#125; A、B和C的对象模型： 在将A类型的指针指向C类型的对象时，因为指针指向的实际上是C类型对象中的class A子对象。因为，在A和C类型对象中，A类型子对象都是位于相同的位置(位于对象开始处，偏移量为0)，因此pA和pC的值相同。而在class C object中，B subobject的偏移量为8(即sizeof(A))，因此,pA和pC的值不同。]]></content>
@@ -16,8 +57,8 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>插入排序</tag>
         <tag>链表</tag>
+        <tag>插入排序</tag>
       </tags>
   </entry>
   <entry>
@@ -92,14 +133,6 @@
     <content type="text"><![CDATA[fork和vfork fork基本概念一个进程, 包括代码, 数据和分配给该进程的资源. fork()通过系统调用创建一个与原来进程几乎完全相同的进程.也就是两个进程做完全相同的事.但是如果初始参数或者传入的变量不同,两个进程也可以做不同的事情。 一个进程调用fork()函数后,系统先给新的进程分配资源.如存储数据和代码的存储空间.然后吧原来的进程的所有值都复制到新进程中,只有少数值与原来的进程的值不同.相当于克隆了一个自己.创建新进程成功后, 系统中出现两个几乎完全相同的进程,这两个进程执行没有固定的先后顺序, 哪个进程先执行要看系统的进程调度策略. 由fork函数创建的新进程被称为子进程。fork函数被调用一次，但是返回两次。父进程返回的值是新进程的进程ID，而子进程返回的值是0。 fork函数返回值的三种情况 返回子进程Id给父进程 因为一个进程的子进程可能有多个，并且没有一个函数可以获得一个进程的所有子进程ID。 返回给子进程值为0 一个进程只会有一个父进程，所以子进程总是可以调用getpid以获得当前进程Id以及调用getppid获得父进程Id. 出现错误，返回负值 当前进程数已经达到系统规定的上限，这时errno的值被设置为EAGAIN 系统内存不足，这时errno的值被设置为ENOMEM 子进程执行代码开始位置 fork可以创建一个子进程并完全复制父进程,但是子进程是从fork后面那条指令开始执行的.如果子进程也从main开始执行所有指令,那么它执行到fork指令时必然会创建一个新的子进程. 从而导致不停地创建子进程,程序永不结束。 示例1fork创建子进程1234567891011121314151617181920212223242526272829303132#include &lt;iostream&gt;#include &lt;stdlib.h&gt;#include &lt;unistd.h&gt;using namespace std;int main() &#123; pid_t pid; string message; int n; cout &lt;&lt; "fork program starting" &lt;&lt; endl; pid = fork(); switch (pid) &#123; case -1: perror("fork failed"); break; case 0: message = "this is the child"; n = 5; break; default: message = "this is the parent"; n = 3; break; &#125; for (; n &gt; 0; --n) &#123; cout &lt;&lt; message &lt;&lt; endl; sleep(3); &#125; return 0;&#125; 运行结果 123456789101112xixi@xixi:~/linux_cource/11.3$ ./a.out fork program startingthis is the parentthis is the childthis is the parentthis is the childthis is the parentthis is the childthis is the childxixi@xixi:~linux_cource/11.3$ this is the childxixi@xixi:~/linux_cource/11.3$ 程序在调用fork时被分为两个独立的进程.当用fork启动一个子进程时, 子进程就有了它自己的生命周期并将独立运行.父进程在子进程之前结束, 因此在输出内容中有一个shell提示符. 让父进程等待子进程结束如果希望父进程等待子进程结束,可以调用wait函数.函数原型: pid_t wait(int* stat_loc);wait系统调用返回子进程的pid, 通常是已经结束运行的子进程的pid.状态信息允许父进程了解子进程的退出状态, 即子进程的main函数返回的值或者子进程中exit函数的退出码.如果stat_loc不是空指针, 状态信息将被写入到它所指向的位置. 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647#include &lt;iostream&gt;#include &lt;stdlib.h&gt;#include &lt;unistd.h&gt;#include &lt;sys/wait.h&gt;using namespace std;int main() &#123; pid_t pid; string message; int n; int exit_code; cout &lt;&lt; "fork program starting" &lt;&lt; endl; pid = fork(); switch (pid) &#123; case -1: perror("fork failed"); exit(1); case 0: message = "this is the child"; n = 5; exit_code = 37; break; default: message = "this is the parent"; n = 3; exit_code = 0; break; &#125; for (; n &gt; 0; --n) &#123; cout &lt;&lt; message &lt;&lt; endl; sleep(1); &#125; if (pid != 0) &#123; int stat_val; pid_t child_pid; child_pid = wait(&amp;stat_val); cout &lt;&lt; "child has finished: PID: " &lt;&lt; child_pid &lt;&lt; endl; if (WIFEXITED(stat_val)) cout &lt;&lt; "child exited with code " &lt;&lt; WEXITSTATUS(stat_val) &lt;&lt; endl; else &#123; cout &lt;&lt; "Child terminated abnormally" &lt;&lt; endl; &#125; &#125; return exit_code;&#125; 运行结果 1234567891011fork program startingthis is the parentthis is the childthis is the parentthis is the childthis is the parentthis is the childthis is the childthis is the childchild has finished: PID: 15467child exited with code 37 查看僵尸进程子进程终止时,它与父进程之间的关联还会保持, 直到父进程也正常终止或父进程调用wait才会结束.因此,进程表中代表子进程的表项不会立即释放.虽然子进程已经不再运行,但它仍然存在于系统中,因为它的退出码还需要保存起来,以备父进程今后的wait调用使用.这时候它将成为一个死进程或者僵尸进程.所以,僵尸进程就是这样一种进程: 它自身运行已经结束,但是进程控制块还没有释放.因为还有其他进程需要它的运行状态等信息. 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647#include &lt;iostream&gt;#include &lt;stdlib.h&gt;#include &lt;unistd.h&gt;#include &lt;sys/wait.h&gt;using namespace std;int main() &#123; pid_t pid; string message; int n; int exit_code; cout &lt;&lt; "fork program starting" &lt;&lt; endl; pid = fork(); switch (pid) &#123; case -1: perror("fork failed"); exit(1); case 0: message = "this is the child"; n = 5; exit_code = 37; break; default: message = "this is the parent"; n = 10; exit_code = 0; break; &#125; for (; n &gt; 0; --n) &#123; cout &lt;&lt; message &lt;&lt; endl; sleep(1); &#125; if (pid != 0) &#123; int stat_val; pid_t child_pid; child_pid = wait(&amp;stat_val); // stat_val中保存这子进程的状态信息 cout &lt;&lt; "child has finished: PID: " &lt;&lt; child_pid &lt;&lt; endl; if (WIFEXITED(stat_val)) cout &lt;&lt; "child exited with code " &lt;&lt; WEXITSTATUS(stat_val) &lt;&lt; endl; else &#123; cout &lt;&lt; "Child terminated abnormally" &lt;&lt; endl; &#125; &#125; return exit_code;&#125; 运行过程中在命令行中查看wait进程的信息(上面这个程序在编译时被命名为wait) 12345678xixi@xixi:~$ ps -f -C waitUID PID PPID C STIME TTY TIME CMDxixi 16389 13738 0 19:32 pts/3 00:00:00 ./waitxixi 16390 16389 0 19:32 pts/3 00:00:00 ./waitxixi@xixi:~$ ps -f -C waitUID PID PPID C STIME TTY TIME CMDxixi 16389 13738 0 19:32 pts/3 00:00:00 ./waitxixi 16390 16389 0 19:32 pts/3 00:00:00 [wait] &lt;defunct&gt; 上面的运行结果可以看出,一开始子进程正常运行,后来子进程变成了僵尸进程.如果父进程异常终止, 子进程将自动把pid等于1的进程(即init进程)作为自己的父进程.子进程现在是一个不再运行的僵尸进程,但是由于父进程异常终止,所以它由init进程接管.僵尸进程将一直保留在进程表中知道被init进程发现并释放.进程表越大,这一过程越慢. 常用的两种应用场景 一个父进程希望复制自己,使父子进程同时执行不同的代码段.这在网络服务中是常见的. 父进程等待客户端的服务请求.当这种请求到达时,父进程调用fork,使子进程处理此请求.父进程则继续等待下一个服务请求的到达. 一个进程要执行一个不同的程序.这是shell常见的情况.子进程从fork返回后立即调用exec. 123456789101112131415161718192021pid_t pid;int ctr = 0;cout &lt;&lt; "当前进程, id=" &lt;&lt; getpid() &lt;&lt; endl;// 在这个位置,仅仅父进程会执行cout &lt;&lt; "unique" &lt;&lt; endl;pid = fork(); // 仅调用一次,返回两次if (pid &lt; 0) &#123; cout &lt;&lt; "异常退出" &lt;&lt; endl; exit(1);&#125; else if (pid == 0) &#123; ++ctr; cout &lt;&lt; "进入子进程, 当前进程id=" &lt;&lt; getpid() &lt;&lt; " 父进程id=" &lt;&lt; getppid() &lt;&lt; " ctr=" &lt;&lt; ctr &lt;&lt; endl;&#125; else &#123; ++ctr; cout &lt;&lt; "当前进程id=" &lt;&lt; getpid() &lt;&lt; " ctr=" &lt;&lt; ctr &lt;&lt; endl;&#125;// 在这个位置,则父子进程都会执行cout &lt;&lt; "reduant" &lt;&lt; endl; 执行结果 123456当前进程, id=7346unique当前进程id=7346 ctr=1reduant进入子进程, 当前进程id=7347 父进程id=7346 ctr=1reduant 执行fork前, ctr=0; 执行fork后,对于父进程而言会执行ctr自增和打印进程信息两个操作. 因此打印出的ctr=1.对于子进程而言,由于执行fork前ctr=0,因此在子进程中ctr=0, 同样子进程执行ctr自增和打印进程信息操作.因此打印出的ctr=1 12345678910111213141516pid_t pid;int loop;// cout &lt;&lt; "我是父进程, 当前进程, id=" &lt;&lt; getpid() &lt;&lt; endl;for (loop = 0; loop &lt; 2; ++loop) &#123; pid = fork(); //一个子进程第一次调用fork,返回0,表示该进程本身是子进程,第二次fork产生一个以当前子进程为父进程的子进程 if (pid &lt; 0) &#123; cout &lt;&lt; "异常退出" &lt;&lt; endl; exit(1); &#125; else if (pid == 0) &#123; cout &lt;&lt; "loop=" &lt;&lt; loop &lt;&lt; " 我是进程" &lt;&lt; getpid() &lt;&lt; " 父进程id=" &lt;&lt; getppid() &lt;&lt; " 我刚刚fork了子进程 pid=" &lt;&lt; pid&lt;&lt; endl; &#125; else &#123; cout &lt;&lt; "loop=" &lt;&lt; loop &lt;&lt; " 我是进程" &lt;&lt; getpid() &lt;&lt; " 父进程id=" &lt;&lt; getppid() &lt;&lt; " 我刚刚fork了子进程 pid=" &lt;&lt; pid &lt;&lt; endl; sleep(5); &#125;&#125; 执行结果 123456loop=0 我是进程5947 父进程id=19893 我刚刚fork了子进程 pid=5948loop=0 我是进程5948 父进程id=5947 我刚刚fork了子进程 pid=0loop=1 我是进程5948 父进程id=5947 我刚刚fork了子进程 pid=5949loop=1 我是进程5949 父进程id=5948 我刚刚fork了子进程 pid=0loop=1 我是进程5947 父进程id=19893 我刚刚fork了子进程 pid=5952loop=1 我是进程5952 父进程id=5947 我刚刚fork了子进程 pid=0 过程解释 进程5947使用fork产生一个子进程5948. fork执行时loop=0.因此子进程5948中loop=0. 子进程5948第一次调用fork的返回值pid是0,表明进程5948是子进程, 因此直接打印出”loop=0 我是进程5948 父进程id=5947 我刚刚fork了子进程 pid=0”; 当进程5948第二次调用fork时, 产生一个新的子进程5949. 在进程5948中,调用fork函数前, loop=1,因此在新的子进程5949中loop=1. 也因此子进程5949只会调用一次fork(就会因为loop&gt;=2而跳出循环). 在子进程5949的运行过程中只会打印出”loop=1 我是进程5949 父进程id=5948 我刚刚fork了子进程 pid=0” 而对于进程5947, 在第一次循环结束后继续执行第二次循环. 此时loop=1. 调用fork后, 产生一个新的子进程5952, 该子进程中loop=1. 因此类似的, 进程5952只会打印出”loop=1 我是进程5952 父进程id=5947 我刚刚fork了子进程 pid=0” 参考文献[1] https://www.cnblogs.com/bastard/archive/2012/08/31/2664896.html[2] https://www.jianshu.com/p/586300fdb1ce]]></content>
       <categories>
         <category>linux基础</category>
-      </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[move语义]]></title>
-    <url>%2F2019%2F10%2F15%2Fmove%E8%AF%AD%E4%B9%89%2F</url>
-    <content type="text"><![CDATA[std::move 右值与右值引用临时对象是一种右值；字面常量是一种右值。右值不可以放在赋值号的左边，即右值不可以被赋值；不可以对右值取地址。 一个左值引用是某个对象的另一个名字．返回左值引用的函数，赋值，下标，解引用和前置递增/递减运算符都是返回左值的表达式的例子．注意：尽管常量无法改变，但是常量是一个左值． 右值引用是必须绑定到右值的引用．不能将一个右值引用绑定到一个左值上．返回非引用类型的函数，包括算术，关系，位及递增/递减运算符，都生成右值．我们不能将一个左值引用绑定到这类表达式上，但是可以将一个const的左值引用或一个右值引用绑定到这类表达式(返回右值的表达式)上。 右值引用通常用于两种情况：模板转发其实参或模板被重载． 123456int i = 42; int &amp;r = i; // 正确，r是一个左值引用，绑定到一个左值上int &amp;&amp;rr = i; // 错误，rr是一个右值引用，，不能将一个右值引用绑定到一个左值上int &amp;r2 = i * 42; // 错误，不能将一个左值引用绑定到一个右值上const int &amp;r3 = 42; // 正确，r2是一个const的左值引用，可以将一个const的左值引用绑定到一个右值上int &amp;&amp;rr2 = i * 42; // 正确，可以将一个右值引用绑定到一个右值上 由于右值引用只能绑定到临时对象，所以：右值引用的对象将要销毁，且该对象没有其他用户．因此使用右值引用的代码可以自由地接管所引用的对象的资源。变量是左值，可以把变量看做是只有一个运算对象而没有运算符的表达式，变量表达式都是右值．因此不能将一个右值引用绑定到一个右值引用类型的变量上。 12int &amp;&amp;rr1 = 42; // 正确，rr1是一个右值引用类型的变量，绑定到一个右值42int &amp;&amp;rr2 = rr1; // 错误，rr1是一个变量，它的类型是右值引用类型，但是rr1是一个变量，是左值，因此，不能将右值引用绑定到rr1上 标准库move函数尽管不能将一个右值引用直接绑定到一个左值上，但是可以显式地将一个左值转换为对应的右值引用类型．通过调用标准库的move函数来获得绑定到左值上的右值引用。 12int &amp;&amp;rr1 = 42;int &amp;&amp;rr3 = std::move(rr1); // ok，std::move显式地将一个左值转换为对应的右值引用类型 我们可以销毁一个移后源对象，也可以赋予它新值，但不能使用一个移后源对象的值。移后源对象必须可析构，并且移后源对象必须仍然是有效的．对象有效是指可以安全为其赋予新值或者可以安全地使用而不依赖其当前值。 forward(完美转发)某些函数需要将其一个或多个实参连同类型不变地转发给其他函数。在此情况下，我们需要保持被转发实参的所有性质，包括实参类型是否是const的以及实参是左值还是右值。 move语义的几个疑问strVec类C++ Primer》中有关右值引用的例子，书中先是定义了一个类StrVec：然后定义了一个移动构造函数： 12345StrVec::StrVec(StrVec &amp;&amp;s) noexcept :elements(s.elements), first_free(s.first_free), cap(s.cap)&#123; s.elements = s.first_free = s.cap = nullptr;&#125; 问：既然elements,first_free和cap都是指针，这里如何体现了一个对象被移动，难道这个函数难道不是仅仅复制了指针，这和一个只执行了浅拷贝的拷贝构造函数的作用有什么区别？ 答：从上述代码中，可以看到，除了浅拷贝(从源对象那里拷贝指针)，还把源对象的指针清零了。浅拷贝是共享资源，而move是独占资源，浅拷贝因共享资源从而可能引发重复析构的问题，而move是独占则不会。具体而言，浅拷贝时，仅仅修改目的对象的成员指针，令它和源对象指向相同的堆内存，而move则会同时修改源对象和目的对象的成员指针，令目的对象指向源对象的堆内存，但是源对象却不再指向这块内存，从而实现了move从源对象处窃取资源。 问：如果把原对象的成员指针变量变为空指针，而原对象的析构函数会执行释放指针指向的资源的操作，运行的时候会不会出现错误。 123456789101112131415StrVec::~StrVec() &#123;free();&#125;void StrVec::free() &#123; // free有两个责任: destory元素,释放StrVec自己分配的内存空间 // 不能给deallocate传一个空指针,因此若elements为空,就什么都不做 if (elements) &#123; // 逆序销毁元素 for (auto p = first_free; p != elements;) &#123; alloc.destroy(--p); &#125; alloc.deallocate(elements, cap - elements); &#125;&#125; 答：不会出现错误。根据前文的代码，释放前会判断elements是否为空指针，所以并不会出现错误。 容器另外一个疑惑是和容器有关的。知乎上的一个问题的回答提到了这两个函数： 12void push_back( const T&amp; value ); // (1)void push_back( T&amp;&amp; value ); // (2) 问：第二个版本的函数为什么能实现对象的移动，容器的存储空间难道不是Allocator分配的一段连续的内存空间，如果只是转移了对象持有资源的所有权，又怎么能保证容器中的存放的对象是在一片连续的内存空间上的？ 答：标准中有明确说明两个版本的push_back并没有语义上的差别，都是在容器末尾追加value的副本。所以题目中声称的实现对象的移动是无稽之谈。追加value的副本的过程传递的是对象的值而非对象本身。参数本身的左右值引用属性，决定了value的值是通过拷贝构造函数还是移动构造函数传递。 问：vector重新申请的内容到底有没有被使用，应为没有复制不就意味着之前的内容依然保存在原内存上，而不能被释放。 答：上一个问题中提到传递的是对象的值，而非对象本身。也就是说，对于int这种内置类型来说，复制和移动没有区别；而对于std::string/std::vector来说，对象除了拥有它本身所占的内存(栈内存)，还拥有由它管理的动态分配出来的内存中的内容，移动相比复制会轻松。 上图是源对象，被移动前，左边是源对象本身所占的内存，右边是源对象管理的内存。 ​ ​ 移动会从源对象那里窃取资源。移动完成后，源对象不再指向被移动的资源—这些资源的所有权已经归属目的 对象。移后源对象应该处于析构安全的状态，并且对象应该还是有效的。 补充几条 move语义必须和RAll结合起来才能安全使用，因为move涉及到堆内存的管理权的转移，如果不RAll，多转移几次，你完全都不知道指针现在归谁管理了。 move语义转移的move构造函数中指定的堆空间使用权，而不是对象，也就是说对于简单对象，比如int，即使对它使用move语义也是没用的。 问题中提到的顺序容器vector，使用move用处不大，因为最终它还是要使用拷贝语义来保证容器的内存顺序 一个例子说明对于使用连续内存空间的容器vector和list而言，移动的区别。 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970#include &lt;iostream&gt;#include &lt;vector&gt;#include &lt;list&gt;using namespace std;class A &#123;public: A(int a) &#123; p = new int; *p = a; &#125; A(const A &amp;a) &#123; std::cout &lt;&lt; "this is left-ref copy ctor:" &lt;&lt; *a.p &lt;&lt; std::endl; p = new int; *p = *a.p; &#125; A(A &amp;&amp;a) &#123; std::cout &lt;&lt; "this is move copy ctor" &lt;&lt; std::endl; p = a.p; a.p = nullptr; &#125; void print() const &#123; if (p == nullptr) &#123; std::cout &lt;&lt; "null" &lt;&lt; std::endl; return; &#125; std::cout &lt;&lt; p &lt;&lt; ":" &lt;&lt; *p &lt;&lt; std::endl; return; &#125; ~A() &#123; if (p == nullptr) &#123; return; &#125; delete p; &#125;protected: int *p;&#125;;template&lt;typename T&gt;void test() &#123; A a(123); A b(456); A c(789); cout &lt;&lt; "sizoef(A): " &lt;&lt; sizeof(A) &lt;&lt; endl; // A的大小为8个字节 T v; // 对于vector,插入完成后,容器的可用空间由0变为1,已经用了1 v.push_back(std::move(a)); cout &lt;&lt; endl; // 对于vector,插入完成后,容器的可用空间由1变为2,已经用了2 v.push_back(std::move(b)); cout &lt;&lt; endl; // 对于vector,插入完成后,容器的可用空间由2变为4,已经用了3 v.push_back(std::move(c)); cout &lt;&lt; endl; for (auto it = v.begin(); it != v.end(); ++it) &#123; cout &lt;&lt; "address:" &lt;&lt; &amp;(*it) &lt;&lt; " "; it-&gt;print(); &#125;&#125; 对于list 123void test1() &#123; test&lt;std::list&lt;A&gt;&gt;();&#125; 运行结果 12345678910sizoef(A): 8this is move copy ctorthis is move copy ctorthis is move copy ctoraddress:0x55b0184102f0 0x55b01840fe70:123address:0x55b018410310 0x55b01840fe90:456address:0x55b018410330 0x55b01840feb0:789 list每次分配一个元素的内存空间，并调用元素的移动构造函数构造一个对象，加入到链表中。 对于vector 123void test2() &#123; test&lt;std::vector&lt;A&gt;&gt;();&#125; 运行结果 12345678910111213141516sizoef(A): 8# 插入第一个元素this is move copy ctor# 插入第二个元素，vector需要扩容，所以分配一块更大的内存，将元素拷贝到新内存上this is move copy ctorthis is left-ref copy ctor:123# 插入第三个元素，再次扩容this is move copy ctorthis is left-ref copy ctor:123this is left-ref copy ctor:456address:0x55734343c340 0x55734343c2e0:123address:0x55734343c348 0x55734343be70:456address:0x55734343c350 0x55734343beb0:789 vector要保证所有元素的内存地址连续，所以，每次分配一块内存。当加入新元素时，如果当前还有剩余空间，就把新元素直接加入到尾部，如果没有剩余空间，就需要进行扩容，扩容时会发生元素的拷贝。 参考文献[1]如何理解C++中的move语义：https://www.zhihu.com/question/43513150[2]C++ 11的移动语义：https://www.cnblogs.com/sunchaothu/p/11392116.html]]></content>
-      <categories>
-        <category>C++基础知识</category>
       </categories>
   </entry>
   <entry>
@@ -437,8 +470,8 @@
         <category>计算机日常使用</category>
       </categories>
       <tags>
-        <tag>常用工具</tag>
         <tag>linux系统</tag>
+        <tag>常用工具</tag>
       </tags>
   </entry>
   <entry>
@@ -449,8 +482,8 @@
         <category>计算机日常使用</category>
       </categories>
       <tags>
-        <tag>liunx系统</tag>
         <tag>常用工具</tag>
+        <tag>liunx系统</tag>
       </tags>
   </entry>
   <entry>
@@ -681,14 +714,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[二分查找各种不同的应用场景]]></title>
-    <url>%2F2019%2F09%2F27%2F%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E5%90%84%E7%A7%8D%E4%B8%8D%E5%90%8C%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%2F</url>
-    <content type="text"><![CDATA[二分查找是一种十分重要的查找算法．通常在有序数组中查找某个指定的数． Find peak Element: https://leetcode.com/problems/find-peak-element 如何处理一个数组中所有元素都相等的情况． https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/submissions/&gt; 相似题：https://leetcode.com/problems/first-bad-version/ 12345678910111213int findLastPos(vector&lt;int&gt;&amp; nums, int target)&#123; int i = 0, j = nums.size()-1; int mid = -1; while(i &lt;= j)&#123; mid = (i + j) / 2; if(nums[mid] &gt; target)&#123; j = mid - 1; &#125;else&#123; i = mid; &#125; &#125; return mid;&#125; 从有序数组中大于等于某个数的元素第一次出现的位置123456789101112131415int getLessIndex(vector&lt;int&gt; &amp;help, int num) &#123; // 从有序数组中找出大于某个值的元素第一次出现的位置 int l = 0, r = help.size() - 1; int index = -1; while (l &lt;= r) &#123; int mid = (l + r) / 2; if (help[mid] &gt;= num) &#123; index = mid; r = mid - 1; &#125; else &#123; l = mid + 1; &#125; &#125; return index;&#125; 测试用例: 1234[1, 3, 3, 3, 3] // 1, 元素3(最早出现的元素3)[1, 2, 4, 5, 6] // 2, 元素4[1, 2, 2, 2, 2] // -1, 所有元素都比3小[4, 5, 6, 9, 12] // 0, 所有元素都比3大 从有重复元素的有序数组中找出某个元素第一次出现的位置123456789101112131415int getLessIndex(vector&lt;int&gt; &amp;help, int num) &#123; // 从有序数组中找出某个值第一次出现的位置 int l = 0, r = help.size() - 1; int index = -1; while (l &lt;= r) &#123; int mid = (l + r) / 2; if (help[mid] &gt;= num) &#123; index = mid; r = mid - 1; &#125; else &#123; l = mid + 1; &#125; &#125; return index;&#125; 测试用例 123[1, 3, 3, 3, 3] // 1, 第一个元素3[-1, 1, 2, 3, 5] //3, 元素3[1, 2, 4, 5, 6] // -1, 不存在元素3 在有序旋转数组中搜索某个给定的数题目链接]]></content>
-      <tags>
-        <tag>二分查找</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[内置指针]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%86%85%E7%BD%AE%E6%8C%87%E9%92%88%2F</url>
     <content type="text"><![CDATA[什么是指针?指针是一种特殊的变量.它的值是一个对象的地址,也称指针指向该对象.对指针进行解引用可以获取该对象.指针本身是一个对象,可以赋值和拷贝. 指针中保存着它指向的对象的地址.直接输出指针的内容即指针指向的对象的地址.对指针进行解引用得到指针指向的对象 二级指针中保存一个指针的地址, 这个被指向的指针中才真正保存着对象的地址.直接输出指针得到指针指向的一级指针的地址.对二级指针进行解引用得到一级指针指向的最终对象的地址(即一级指针的值).对一级指针进行解引用,得到最终对象 关于指针有一些很容易混淆的地方,下面举几个例子辨析一下. 示例1 1234567int a = 10;int *p = &amp;a;int **pp = &amp;p; // pp是指向指针的指针，它指向指针p。解引用后是指针p。cout&lt;&lt;"pp:"&lt;&lt;(pp)&lt;&lt;" &amp;p"&lt;&lt;(&amp;p)&lt;&lt;endl; // pp是指向指针变量p的指针，所以，pp中存放着整形指针变量p的地址cout&lt;&lt;"*pp:"&lt;&lt;(*pp)&lt;&lt;" p"&lt;&lt;(p)&lt;&lt;endl; // pp是指向指针变量p的指针，*pp解引用pp会得到整形指针变量p，而p的值是一个整形变量a的地址cout&lt;&lt;"p:"&lt;&lt;p&lt;&lt;" &amp;a:"&lt;&lt;(&amp;a)&lt;&lt;endl; // p是指向整形变量a的指针，所以，p中存放着整形变量a的地址cout&lt;&lt;"*p:"&lt;&lt;p&lt;&lt;" a:"&lt;&lt;(a)&lt;&lt;endl; // p是指向整形变量a的指针。*p解引用整形指针p会得到一个整形数 运行结果 1234pp:0x7fff5ce9bf48 &amp;p0x7fff5ce9bf48*pp:0x7fff5ce9bf44 p0x7fff5ce9bf44p:0x7fff5ce9bf44 &amp;a:0x7fff5ce9bf44*p:0x7fff5ce9bf44 a:10 示例2 123456789101112131415161718192021int a[5] = &#123;1, 2, 3, 4, 5&#125;; int *p, **k; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *p:" &lt;&lt; *p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(p++):" &lt;&lt; *(p++) &lt;&lt; " "; cout &lt;&lt; "after p++" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; cout &lt;&lt; "=============================" &lt;&lt; endl; p = a; k = &amp;p; cout &lt;&lt; "a:" &lt;&lt; a &lt;&lt; " *a:" &lt;&lt; *a &lt;&lt; endl; cout &lt;&lt; "p:" &lt;&lt; p &lt;&lt; " *(++p):" &lt;&lt; *(++p) &lt;&lt; " "; cout &lt;&lt; "after ++p" &lt;&lt; p &lt;&lt; endl; cout &lt;&lt; "k:" &lt;&lt; k &lt;&lt; " *k:" &lt;&lt; *k &lt;&lt; " **k:" &lt;&lt; **k &lt;&lt; endl; 运行结果 1234567891011a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *p:1k:0x7ffcd38cc920 *k:0x7ffcd38cc930 **k:1=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(p++):1 after p++0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2=============================a:0x7ffcd38cc930 *a:1p:0x7ffcd38cc930 *(++p):2 after ++p0x7ffcd38cc934k:0x7ffcd38cc920 *k:0x7ffcd38cc934 **k:2 可知, a是数组的名字,也是指向数组首元素的指针.p=a将指针p指向数组首元素.因此p的值是数组首元素的地址. p是数组首元素的值.\*k表明k是指向指向指针的指针, k指向指针p,因此,k中保存这指针p的地址,*k是指针p的值,也就是指针指向的对象地址,这里就是数组a首元素的地址.**k就是*(p)就是指针p指向的对象的值.]]></content>
@@ -732,19 +757,19 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[bind与函数适配器]]></title>
-    <url>%2F2019%2F09%2F27%2Fbind%E4%B8%8E%E5%87%BD%E6%95%B0%E9%80%82%E9%85%8D%E5%99%A8%2F</url>
-    <content type="text"><![CDATA[bind是从c++11开始出现的新型适配器]]></content>
-      <categories>
-        <category>STL</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[C++牛客网刷题总结]]></title>
     <url>%2F2019%2F09%2F27%2FC%2B%2B%E7%89%9B%E5%AE%A2%E7%BD%91%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93%2F</url>
     <content type="text"><![CDATA[字符串系列]]></content>
       <categories>
         <category>牛客网</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[bind与函数适配器]]></title>
+    <url>%2F2019%2F09%2F27%2Fbind%E4%B8%8E%E5%87%BD%E6%95%B0%E9%80%82%E9%85%8D%E5%99%A8%2F</url>
+    <content type="text"><![CDATA[bind是从c++11开始出现的新型适配器]]></content>
+      <categories>
+        <category>STL</category>
       </categories>
   </entry>
   <entry>
@@ -867,14 +892,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[k sum 系列]]></title>
-    <url>%2F2019%2F09%2F27%2Fk-sum-%E7%B3%BB%E5%88%97%2F</url>
-    <content type="text"><![CDATA[two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[冒泡排序的优化和鸡尾酒排序]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%E7%9A%84%E4%BC%98%E5%8C%96%E5%92%8C%E9%B8%A1%E5%B0%BE%E9%85%92%E6%8E%92%E5%BA%8F%2F</url>
     <content type="text"><![CDATA[冒泡排序的优化有设置哨兵来表示当前整个数组已经有序，以及设置有序区间，下一次只对有序区间进行排序（尚未完全理解）． 详情可见 鸡尾酒排序鸡尾酒排序算法适用于大部分元素已经有序的情况．它能够在特定条件下，减少排序的回合数；但是缺点是代码量几乎扩大了一倍． 鸡尾酒排序 未进行优化的鸡尾酒排序 12345678910111213141516171819202122232425262728293031323334353637383940414243void clockTailSort(vector&lt;int&gt; &amp;nums) &#123; // 未进行优化的鸡尾酒排序 int tmp = 0; for (int i = 0; i &lt; nums.size() / 2 - 1; ++i) &#123; // 有序标记，每一轮的初始值是true bool isSorted = true; // 奇数轮:从做向右比较和交换 // 奇数轮：区间内最大的数会被冒泡到最右 for (int j = i; j &lt; nums.size() - i - 1; ++j) &#123; if (nums[j] &gt; nums[j + 1]) &#123; tmp = nums[j]; nums[j] = nums[j + 1]; nums[j + 1] = tmp; // 有元素交换，所以，不是有序，标记变为false isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; isSorted = true; // 8 1 2 3 4 // 偶数轮，从右向左比较和交换 // 偶数轮，最小的数会被冒泡到最左边 for (int j = nums.size() - i - 1; j &gt; i; j--) &#123; if (nums[j] &lt; nums[j - 1]) &#123; tmp = nums[j]; nums[j] = nums[j - 1]; nums[j - 1] = tmp; isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; &#125;&#125; 进行优化的鸡尾酒排序优化方法：]]></content>
@@ -884,6 +901,14 @@
       <tags>
         <tag>冒泡排序的优化</tag>
       </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[k sum 系列]]></title>
+    <url>%2F2019%2F09%2F27%2Fk-sum-%E7%B3%BB%E5%88%97%2F</url>
+    <content type="text"><![CDATA[two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
   </entry>
   <entry>
     <title><![CDATA[旋转数组]]></title>
@@ -1012,19 +1037,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[模板实参推断和引用]]></title>
-    <url>%2F2019%2F09%2F27%2F%E6%A8%A1%E6%9D%BF%E5%AE%9E%E5%8F%82%E6%8E%A8%E6%96%AD%E5%92%8C%E5%BC%95%E7%94%A8%2F</url>
-    <content type="text"><![CDATA[模板分为类模板，函数模板，还有成员模板． 编译器会对函数模板参数进行推导． 从左值引用函数参数推断类型从右值引用函数参数推断类型]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>引用</tag>
-        <tag>模板</tag>
-        <tag>函数参数</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[动态内存]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%8A%A8%E6%80%81%E5%86%85%E5%AD%98%2F</url>
     <content type="text"><![CDATA[静态内存用来保存局部静态对象,类静态数据成员以及定义在任何函数之外的变量.栈内存用来保存定义在函数内的非static对象.分配在静态或栈内存的对象由编译器自动创建和销毁. 栈对象在其定义的程序块运行时才存在;静态对象在使用之前分配,在程序结束时销毁.堆用来存储动态分配的对象, 即在程序运行时分配的对象.动态对象的生命期由程序控制.也就是说,当动态对象不再使用时,必须在代码中显式地销毁它们.c++动态内存的管理由一对运算符new和delete来完成.new在动态内存中为对象分配空间并返回一个指向该对象的指针.delete:接受一个动态对象的指针,销毁该对象,并释放该对象占用的内存. 常规指针的缺陷如果忘记了释放内存,就会导致内存泄露.如果在还有指针引用内存的情况就释放了内存会产生引用非法内存的指针. 智能指针与常规指针的区别在于, 智能指针是类类型, 在离开作用域时会自动调用析构函数, 自动释放内存. 程序使用动态内存的原因 原因 例子 程序不知道自己需要使用多少对象 容器类 程序不知道所需对象的准确类型 动态绑定 程序需要在多个对象间共享数据 strBlob类 shared_ptr: 多个指针可以指向同一个对象.使用引用计数来记录该对象的资源被多少个指针共享.当引用计数为0时, 资源自动释放. unique_ptr:同一时刻只能有一个unique_ptr指向一个给定对象.unique_ptr独占对象的资源.unique_ptr不支持普通的拷贝和赋值.可以通过release和reset将指针的所有权从一个unique_ptr转移到另一个unique_ptr. weak_ptr:不控制所指向对象生存期的智能指针,它指向由一个shared_ptr管理的对象.将一个weak_ptr绑定到一个shared_ptr不会改变该shared_ptr的引用计数.因此, weak_ptr指向的对象可能被释放掉.]]></content>
@@ -1076,8 +1088,8 @@
     <url>%2F2019%2F09%2F27%2F%E6%9C%AA%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%B4%AF%E5%8A%A0%E5%92%8C%E4%B8%BA%E7%BB%99%E5%AE%9A%E5%80%BC%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E6%95%B0%E7%BB%84%E7%B3%BB%E5%88%97%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[原题给定一个无序数组,其中元素可正,可负,可0.给定一个整数k,求arr所有的子数组中累加和为k的最长子数组长度. 12345678910111213141516171819int maxLength(vector&lt;int&gt; &amp;arr, int k) &#123; if (arr.empty()) &#123; return 0; &#125; map&lt;int, int&gt; mp; mp[0] = -1; int len = 0; int sum = 0; for (int i = 0; i &lt; arr.size(); i++) &#123; sum += arr[i]; if (mp.find(sum - k) != mp.end()) &#123; len = max(len, i - mp[sum - k]); &#125; if (mp.find(sum) == mp.end()) &#123; mp[sum] = i; &#125; &#125; return len;&#125; 补充题1补充题2类似题138. 子数组之和给定一个整数数组，找到和为零的子数组。你的代码应该返回满足要求的子数组的起始位置和结束位置 样例 样例 1: 123输入: [-3, 1, 2, -3, 4]输出: [0,2] 或 [1,3] 样例解释： 返回任意一段和为0的区间即可。 样例 2: 12输入: [-3, 1, -4, 2, -3, 4]输出: [1,5] 样例 3: 12输入: [3,4,5,6,-3,-4,-5,-6]输出: [0,7] 样例 4: 12输入: [1,0,-1]输出: [1,1] 注意事项: 至少有一个子数组的和为 0 1234567891011121314151617181920212223242526272829303132class Solution &#123;public: /** * @param nums: A list of integers * @return: A list of integers includes the index of the first number and the index of the last number */ vector&lt;int&gt; subarraySum(vector&lt;int&gt; &amp;nums) &#123; // write your code here if(nums.empty())&#123; return &#123;&#125;; &#125; int sum = 0; vector&lt;int&gt; res; map&lt;int, int&gt; mp; for(int i=0;i&lt;nums.size();++i)&#123; sum += nums[i]; if(sum == 0)&#123; res.push_back(0); res.push_back(i); return res; &#125; if(mp.find(sum)!=mp.end())&#123; res.push_back(mp[sum]+1); res.push_back(i); return res; &#125; mp[sum] = i; &#125; return res; &#125;&#125;; 此题与上题的相似之处在于:需要用到相同的结论:s[i]= arr[0] + arr[1] +…+arr[i]s[j]= arr[0] + arr[1] +…+arr[j]假设i &gt; j,则s[i] - s[j] = arr[j+1] + arr[j+2] + … + arr[i] 复杂度分析 理论上, 时间复杂度为O(n).但实际实现时,时间复杂度为O(nlogn).因为map的find方法查找一个数的时间复杂度为O(logn)空间复杂度为O(n) 题目来源: leetcode 560. Subarray Sum Equals K930 binary subarrays with sum另有使用三指针的解法,可以尝试看看试用否,三指针解法时间复杂度为O(n),空间复杂度为O(1),是最优解法]]></content>
       <tags>
-        <tag>leetcode</tag>
         <tag>累积和</tag>
+        <tag>leetcode</tag>
         <tag>程序员代码面试指南</tag>
       </tags>
   </entry>
@@ -1183,6 +1195,11 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[寻找下一个节点]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%AF%BB%E6%89%BE%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%2F</url>
+    <content type="text"><![CDATA[链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继返回-1。]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[可调用对象]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%8F%AF%E8%B0%83%E7%94%A8%E5%AF%B9%E8%B1%A1%2F</url>
     <content type="text"><![CDATA[可调用对象有函数,函数指针,lambda表达式,函数对象, bind创建的对象等.函数和函数指针不必多说.那么什么是函数对象呢?函数对象是一种重载了调用运算符的类类型.因为重载了调用运算符,所以我们可以像调用函数一样调用类的对象,因为称为函数对象.lambda表达式表示一个可调用的代码单元. 函数对象12345678910111213141516/** * absInt类只定义了一种操作:函数调用运算符 * 此类为函数对象 */struct absInt &#123; int operator()(int val) const &#123; return val &lt; 0 ? -val : val; &#125;&#125;;int main()&#123; absInt absObj; cout &lt;&lt; absObj(42) &lt;&lt; endl; // 42 cout &lt;&lt; absObj(-10) &lt;&lt; endl; // 10 return 0;&#125; 以上代码即定义了一个函数对象.调用该对象就像调用函数一样.仿佛该类型对象是一个函数.还可以定义有数据成员的函数对象 123456789101112131415161718class PrintString &#123;public: PrintString(ostream &amp;o = cout, char c = ' ') : os(o), sep(c) &#123;&#125; void operator()(const string &amp;s) const &#123; os &lt;&lt; s &lt;&lt; sep; &#125;private: ostream &amp;os; char sep;&#125;;int main()&#123; PrintString printer; printer("hello"); // 输出hello PrintString errors(cerr, '\n'); string s = "wrong answer"; errors(s); // 输出wrong answer return 0;&#125; lambda表达式lambda表达式在很多语言中都有.lambda可以理解为一个未命名的内联函数,但是与普通函数不同的是,lambda可能定义在函数内部;lambda表达式必须尾置返回; lambda表达式不能有默认参数; lambda表达式的参数列表和返回类型可以省略. 那么在c++中该怎么定义一个lambda表达式呢?一个lambda表达式具有以下形式: 1[capure list](parameter list)-&gt; return type &#123;function body&#125; 其中,捕获列表(capure list)是该lambda表达式所在函数中定义的局部变量(通常为空).参数列表(parameter list), 返回类型, 返回类型(return type)和函数体(function body)与普通函数相同. 当定义一个lambda时,编译器生成一个与lambda对象的新的(未命名的)类类型.当向一个函数传递一个lambda时,同时定义了一个新类型和该类型的一个对象. 123456vector&lt;string&gt; vc&#123;"good", "to", "see", "you", "again"&#125;;for_each(vc.begin(), vc.end(), PrintString(cout, '\n')); // 函数对象// 等价的lambda表达式string sep("\n");for_each(vc.begin(), vc.end(), [sep](const string &amp;s) &#123; cout &lt;&lt; s &lt;&lt; sep; &#125;); 使用函数对象打印出可变数组vc中的元素.同时定义了一个与函数对象PrintString等价的lambda表达式. 捕获变量与参数传递类似,捕获变量也有两种方式,值捕获和引用捕获.采用值捕获需要变量可以拷贝.与参数传递不同,被捕获的变量的值是在lambda创建时拷贝,而不是调用时拷贝.引用捕获需要保证lambda表达式执行时,该引用指向的对象仍然存在. 在一个基本类型为string类型的可变数组中找出第一个长度大于给定值sz的元素.下面分别用函数对象和lambda表达式的形式实现. 123456789101112131415161718192021222324252627class SizeCmp &#123;public: SizeCmp(size_t n) : sz(n) &#123;&#125; bool operator()(const string &amp;a) &#123; return a.size() &gt;= sz; &#125;private: size_t sz;&#125;;int main()&#123; vector&lt;string&gt; vc&#123;"good", "to", "see", "mango", "again", "day", "nana"&#125;; size_t sz = 6; // 使用lambda表达式// auto wc = find_if(vc.begin(), vc.end(), [sz](const string &amp;a) &#123; return a.size() &gt;= sz; &#125;); // 使用等价的函数对象 auto wc = find_if(vc.begin(), vc.end(), SizeCmp(sz)); // wc 为指向第一个长度不小于给定值sz的元素的迭代器 if (wc != vc.end()) cout &lt;&lt; (*wc) &lt;&lt; endl; else &#123; cout &lt;&lt; "empty result" &lt;&lt; endl; &#125; //当sz=5时,输出mango;当sz=6时,输出empty result&#125; bind参数绑定标准库的bind函数可以看做一个函数适配器.它接受一个可调用对象,生成一个新的可调用对象. 12345678910111213141516171819bool check_size(const string&amp; s, string::size_type sz)&#123; return s.size() &gt;= sz;&#125;// 给check_size函数的第一个参数绑定一个值// auto check6 = bind(check_size, std::placeholders::_1, 6);auto check6 = bind(check_size, std::placeholders::_1, 5);// 调用check6函数string s = "hello";cout &lt;&lt; check6(s) &lt;&lt; endl;vector&lt;string&gt; vc&#123;"good", "to", "see", "mango", "again", "day", "nana"&#125;;auto wc = find_if(vc.begin(), vc.end(), check6);// wc 为指向第一个长度不小于给定值sz的元素的迭代器if (wc != vc.end()) cout &lt;&lt; (*wc) &lt;&lt; endl;else &#123; cout &lt;&lt; "empty result" &lt;&lt; endl; 可调用对象与function每一个lambda表达式都是一种未命名的新类型;函数对象的类型是该对象的类类型;函数和函数指针的类型由参数列表和返回值决定. 多个调用对象有不同的类型,但是却共享相同的调用形式.调用形式指明了调用返回的类型以及传递给调用的实参类型(如何SizeCmp类型的函数对象和lambda表达式,类型不同,调用形式相同).一种调用形式对应一个函数类型.标准库中function模板可以表示函数类型. 123456789101112map&lt;string, function&lt;int(int, int)&gt;&gt; binops = &#123; &#123;"+", add&#125;, &#123;"-", std::minus&lt;int&gt;()&#125;, &#123;"/", Divide()&#125;, &#123;"*", [](int i, int j) &#123; return i * j; &#125;&#125;, &#123;"%", mod&#125;&#125;;cout &lt;&lt; binops["+"](10, 5) &lt;&lt; endl; // 15cout &lt;&lt; binops["-"](10, 5) &lt;&lt; endl; // 5cout &lt;&lt; binops["%"](11, 4) &lt;&lt; endl; // 3cout &lt;&lt; binops["*"](13, 2) &lt;&lt; endl; // 26 add, Divide(),mod等各个可调用对象的类型各不相同,但是它们都是调用形式为int(int, int)的可调用对象,因此可以赋值给function&lt;int(int,int)&gt;类型的对象.]]></content>
@@ -1194,9 +1211,13 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[寻找下一个节点]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%AF%BB%E6%89%BE%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%2F</url>
-    <content type="text"><![CDATA[链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继返回-1。]]></content>
+    <title><![CDATA[二叉树的下一个结点]]></title>
+    <url>%2F2019%2F09%2F27%2F%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E7%BB%93%E7%82%B9%2F</url>
+    <content type="text"><![CDATA[给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。 题目链接:https://www.nowcoder.com/questionTerminal/9023a0c988684a53960365b889ceaf5e 相关题目:寻找下一个节点]]></content>
+      <tags>
+        <tag>牛客网</tag>
+        <tag>binary tree</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[并查集基础知识]]></title>
@@ -1205,15 +1226,6 @@
       <tags>
         <tag>基础算法</tag>
         <tag>理论</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[二叉树的下一个结点]]></title>
-    <url>%2F2019%2F09%2F27%2F%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E7%BB%93%E7%82%B9%2F</url>
-    <content type="text"><![CDATA[给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。 题目链接:https://www.nowcoder.com/questionTerminal/9023a0c988684a53960365b889ceaf5e 相关题目:寻找下一个节点]]></content>
-      <tags>
-        <tag>牛客网</tag>
-        <tag>binary tree</tag>
       </tags>
   </entry>
   <entry>
