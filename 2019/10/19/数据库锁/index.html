@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="xixi2">
 <meta property="og:description" content="mysql数据库中存在多种锁。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-19T12:52:46.905Z">
+<meta property="og:updated_time" content="2019-10-19T13:03:29.054Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库锁">
 <meta name="twitter:description" content="mysql数据库中存在多种锁。">
@@ -323,7 +323,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-19T20:52:46+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-19T21:03:29+08:00">
                 2019-10-19
               </time>
             
@@ -413,7 +413,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> select * from scores where id = 2 for update;</span><br><span class="line">+----+------+---------+------+---------+</span><br><span class="line">| id | name | chinese | math | english |</span><br><span class="line">+----+------+---------+------+---------+</span><br><span class="line">|  2 | lisi |      98 |   89 |      91 |</span><br><span class="line">+----+------+---------+------+---------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
 
 <p>此时，select for update加的是行锁，所以不会阻塞对另一行执行另一个select for update加另一把写锁。</p>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]深入理解数据库行锁与表锁：<a href="https://zhuanlan.zhihu.com/p/52678870">https://zhuanlan.zhihu.com/p/52678870</a><br>[2]select for update/lock in share mode：<a href="https://www.cnblogs.com/liushuiwuqing/p/3966898.html">https://www.cnblogs.com/liushuiwuqing/p/3966898.html</a><br>[3]基本建表语句：<a href="https://www.runoob.com/mysql/mysql-create-tables.html">https://www.runoob.com/mysql/mysql-create-tables.html</a><br>[4]数据库系统原理简单总结：<a href="https://github.com/CyC2018/CS-Notes/blob/master/docs/notes/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86.md">https://github.com/CyC2018/CS-Notes/blob/master/docs/notes/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86.md</a></p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]深入理解数据库行锁与表锁：<a href="https://zhuanlan.zhihu.com/p/52678870">https://zhuanlan.zhihu.com/p/52678870</a><br>[2]select for update/lock in share mode：<a href="https://www.cnblogs.com/liushuiwuqing/p/3966898.html">https://www.cnblogs.com/liushuiwuqing/p/3966898.html</a><br>[3]基本建表语句：<a href="https://www.runoob.com/mysql/mysql-create-tables.html">https://www.runoob.com/mysql/mysql-create-tables.html</a><br>[4]数据库系统原理简单总结：<a href="https://github.com/CyC2018/CS-Notes/blob/master/docs/notes/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86.md">https://github.com/CyC2018/CS-Notes/blob/master/docs/notes/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86.md</a><br>[5]数据库加锁过程详解：<a href="https://www.cnblogs.com/crazylqy/p/7611069.html">https://www.cnblogs.com/crazylqy/p/7611069.html</a></p>
 
       
     </div>
@@ -438,8 +438,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/19/linux常用命令/" rel="next" title="linux常用命令">
-                <i class="fa fa-chevron-left"></i> linux常用命令
+              <a href="/2019/10/19/fork和vfork/" rel="next" title="fork和vfork">
+                <i class="fa fa-chevron-left"></i> fork和vfork
               </a>
             
           </div>
@@ -447,6 +447,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/19/linux常用命令/" rel="prev" title="linux常用命令">
+                linux常用命令 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
