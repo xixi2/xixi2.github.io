@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="加密方法可以分为两大类。一类是单钥加密（private key cryptography），还有一类叫做双钥加密（public key cryptography）。前者的加密和解密过程都用同一套密码，后者的加密和解密过程用的是两套密码。">
+<meta name="description" content="mysql数据库中存在多种锁。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SSL&#x2F;TLS与https">
-<meta property="og:url" content="http://yoursite.com/2019/10/08/SSLTLS与https/index.html">
+<meta property="og:title" content="数据库锁">
+<meta property="og:url" content="http://yoursite.com/2019/10/19/数据库锁/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="加密方法可以分为两大类。一类是单钥加密（private key cryptography），还有一类叫做双钥加密（public key cryptography）。前者的加密和解密过程都用同一套密码，后者的加密和解密过程用的是两套密码。">
+<meta property="og:description" content="mysql数据库中存在多种锁。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-08T09:39:20.643Z">
+<meta property="og:updated_time" content="2019-10-19T10:17:11.202Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SSL&#x2F;TLS与https">
-<meta name="twitter:description" content="加密方法可以分为两大类。一类是单钥加密（private key cryptography），还有一类叫做双钥加密（public key cryptography）。前者的加密和解密过程都用同一套密码，后者的加密和解密过程用的是两套密码。">
+<meta name="twitter:title" content="数据库锁">
+<meta name="twitter:description" content="mysql数据库中存在多种锁。">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/10/08/SSLTLS与https/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/19/数据库锁/">
 
 
 
 
 
-  <title>SSL/TLS与https | xixi2</title>
+  <title>数据库锁 | xixi2</title>
   
 
 
@@ -294,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/08/SSLTLS与https/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/19/数据库锁/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -311,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">SSL/TLS与https</h1>
+          <h1 class="post-title" itemprop="name headline">数据库锁</h1>
         
 
         <div class="post-meta">
@@ -323,8 +323,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-08T17:39:20+08:00">
-                2019-10-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-19T18:17:11+08:00">
+                2019-10-19
               </time>
             
 
@@ -346,8 +346,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/安全基础/" itemprop="url" rel="index">
-                    <span itemprop="name">安全基础</span>
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
                   </a>
                 </span>
 
@@ -388,50 +388,32 @@
       
 
       
-        <p>加密方法可以分为两大类。一类是单钥加密（private key cryptography），还有一类叫做双钥加密（public key cryptography）。前者的加密和解密过程都用同一套密码，后者的加密和解密过程用的是两套密码。</p>
+        <p>mysql数据库中存在多种锁。</p>
 <a id="more"></a>
 
-<p>在双钥加密的情况下，密钥有两把，一把是公开的公钥，还有一把是不公开的私钥。<br>双钥加密的原理如下：<br>a) 公钥和私钥是一一对应的关系，有一把公钥就必然有一把与之对应的、独一无二的私钥，反之亦成立。<br>b) 所有的（公钥, 私钥）对都是不同的。<br>c) 用公钥可以解开私钥加密的信息，反之亦成立。<br>d) 同时生成公钥和私钥应该相对比较容易，但是从公钥推算出私钥，应该是很困难或者是不可能的。</p>
-<h1 id="数字签名是什么"><a href="#数字签名是什么" class="headerlink" title="数字签名是什么"></a>数字签名是什么</h1><p>鲍勃有两把钥匙，一把是公钥，另一把是私钥。鲍勃把公钥送给他的朋友们—-帕蒂、道格、苏珊—-每人一把。苏珊要给鲍勃写一封保密的信。她写完后用鲍勃的公钥加密，就可以达到保密的效果。鲍勃收信后，用私钥解密，就看到了信件内容。这里要强调的是，只要鲍勃的私钥不泄露，这封信就是安全的，即使落在别人手里，也无法解密。鲍勃给苏珊回信，决定采用”数字签名”。他写完后先用Hash函数，生成信件的摘要（digest）。然后，鲍勃使用私钥，对这个摘要加密，生成”数字签名”（signature）。鲍勃将这个签名，附在信件下面，一起发给苏珊。苏珊再对信件本身使用Hash函数，将得到的结果，与上一步得到的摘要进行对比。如果两者一致，就证明这封信未被修改过。</p>
-<p>复杂的情况出现了。道格想欺骗苏珊，他偷偷使用了苏珊的电脑，用自己的公钥换走了鲍勃的公钥。此时，苏珊实际拥有的是道格的公钥，但是还以为这是鲍勃的公钥。因此，道格就可以冒充鲍勃，用自己的私钥做成”数字签名”，写信给苏珊，让苏珊用假的鲍勃公钥进行解密。后来，苏珊感觉不对劲，发现自己无法确定公钥是否真的属于鲍勃。她想到了一个办法，要求鲍勃去找”证书中心”（certificate authority，简称CA），为公钥做认证。证书中心用自己的私钥，对鲍勃的公钥和一些相关信息一起加密，生成”数字证书”（Digital Certificate）。鲍勃拿到数字证书以后，就可以放心了。以后再给苏珊写信，只要在签名的同时，再附上数字证书就行了。苏珊收信后，用CA的公钥解开数字证书，就可以拿到鲍勃真实的公钥了，然后就能证明”数字签名”是否真的是鲍勃签的。</p>
-<p>在双钥体系中，<strong>公钥用来加密信息，私钥用来数字签名</strong>。</p>
-<p>为什么不必担心CA的公钥被被人偷偷替换？</p>
-<p>下面，我们看一个应用”数字证书”的实例：https协议。这个协议主要用于网页加密。<br>服务器用自己的私钥加密网页以后，连同本身的数字证书，一起发送给客户端。客户端（浏览器）的”证书管理器”，有”受信任的根证书颁发机构”列表。客户端会根据这张列表，查看解开数字证书的公钥是否在列表之内。如果数字证书记载的网址，与你正在浏览的网址不一致，就说明这张证书可能被冒用，浏览器会发出警告。如果这张数字证书不是由受信任的机构颁发的，浏览器会发出另一种警告。如果数字证书是可靠的，客户端就可以使用证书中的服务器公钥，对信息进行加密，然后与服务器交换加密信息。</p>
-<h1 id="SSL-TLS协议运行机制的概述"><a href="#SSL-TLS协议运行机制的概述" class="headerlink" title="SSL/TLS协议运行机制的概述"></a>SSL/TLS协议运行机制的概述</h1><h2 id="基本的运行过程"><a href="#基本的运行过程" class="headerlink" title="基本的运行过程"></a>基本的运行过程</h2><p>SSL/TLS协议的基本思路是采用<a href="http://en.wikipedia.org/wiki/Public-key_cryptography">公钥加密法</a>，也就是说，客户端先向服务器端索要公钥，然后用公钥加密信息，服务器收到密文后，用自己的私钥解密。但是，这里有两个问题。</p>
-<p><strong>（1）如何保证公钥不被篡改？</strong></p>
-<blockquote>
-<p>解决方法：将公钥放在<a href="http://en.wikipedia.org/wiki/Digital_certificate">数字证书</a>中。只要证书是可信的，公钥就是可信的。</p>
-</blockquote>
-<p><strong>（2）公钥加密计算量太大，如何减少耗用的时间？</strong></p>
-<blockquote>
-<p>解决方法：每一次对话（session），客户端和服务器端都生成一个”对话密钥”（session key），用它来加密信息。由于”对话密钥”是对称加密，所以运算速度非常快，而服务器公钥只用于加密”对话密钥”本身，这样就减少了加密运算的消耗时间。</p>
-</blockquote>
-<p>因此，SSL/TLS协议的基本过程是这样的：</p>
-<blockquote>
-<p>（1） 客户端向服务器端索要并验证公钥。<br>（2） 双方协商生成”对话密钥”。<br>（3） 双方采用”对话密钥”进行加密通信。</p>
-</blockquote>
-<p>上面过程的前两步，又称为”握手阶段”（handshake）。”握手阶段”涉及四次通信，我们一个个来看。需要注意的是，”握手阶段”的所有通信都是明文的。</p>
-<p><strong>客户端发出请求（ClientHello）</strong></p>
-<p>首先，客户端（通常是浏览器）先向服务器发出加密通信的请求，这被叫做ClientHello请求。在这一步，客户端主要向服务器提供以下信息。</p>
-<blockquote>
-<p>（1） 支持的协议版本，比如TLS 1.0版。<br>（2） 一个客户端生成的随机数，稍后用于生成”对话密钥”。<br>（3） 支持的加密方法，比如RSA(双钥加密算法)公钥加密。<br>（4） 支持的压缩方法。</p>
-</blockquote>
-<p>这里需要注意的是，客户端发送的信息之中不包括服务器的域名。也就是说，理论上服务器只能包含一个网站，否则会分不清应该向客户端提供哪一个网站的数字证书。这就是为什么通常一台服务器只能有一张数字证书的原因。</p>
-<p>服务器回应（SeverHello）</p>
-<p>服务器收到客户端请求后，向客户端发出回应，这叫做SeverHello。服务器的回应包含以下内容。</p>
-<blockquote>
-<p>（1） 确认使用的加密通信协议版本，比如TLS 1.0版本。如果浏览器与服务器支持的版本不一致，服务器关闭加密通信。<br>（2） 一个服务器生成的随机数，稍后用于生成”对话密钥”。<br>（3） 确认使用的加密方法，比如RSA公钥加密。<br>（4） 服务器证书。</p>
-</blockquote>
-<p>除了上面这些信息，如果服务器需要确认客户端的身份，就会再包含一项请求，要求客户端提供”客户端证书”。比如，金融机构往往只允许认证客户连入自己的网络，就会向正式客户提供USB密钥，里面就包含了一张客户端证书。</p>
-<p><strong>客户端回应</strong></p>
-<p>客户端收到服务器回应以后，首先验证服务器证书。如果证书不是可信机构颁布、或者证书中的域名与实际域名不一致、或者证书已经过期，就会向访问者显示一个警告，由其选择是否还要继续通信。<br>如果证书没有问题，客户端就会从证书中取出服务器的公钥。然后，向服务器发送下面三项信息。</p>
-<p>服务器的最后回应</p>
-<p>服务器收到客户端的第三个随机数pre-master key之后，计算生成本次会话所用的”会话密钥”。然后，向客户端最后发送下面信息。</p>
-<blockquote>
-<p>（1）编码改变通知，表示随后的信息都将用双方商定的加密方法和密钥发送。<br>（2）服务器握手结束通知，表示服务器的握手阶段已经结束。这一项同时也是前面发送的所有内容的hash值，用来供客户端校验。</p>
-</blockquote>
-<p>至此，整个握手阶段全部结束。接下来，客户端与服务器进入加密通信，就完全是使用普通的HTTP协议，只不过用”会话密钥”加密内容。</p>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]公钥、私钥、加密：<a href="http://www.ruanyifeng.com/blog/2006/12/notes_on_cryptography.html">http://www.ruanyifeng.com/blog/2006/12/notes_on_cryptography.html</a><br>[2]数字签名是什么：<a href="http://www.ruanyifeng.com/blog/2011/08/what_is_a_digital_signature.html">http://www.ruanyifeng.com/blog/2011/08/what_is_a_digital_signature.html</a><br>[3]SSL/TLS协议运行机制的概述：<a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html">http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html</a><br>[4]图解SSL/TLS协议：<a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html">http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html</a><br>[5]从 HTTP 到 HTTPS - 什么是 HTTPS：<a href="https://tasaid.com/Blog/20161003001126.html?sgs=sf1190000007064737">https://tasaid.com/Blog/20161003001126.html?sgs=sf1190000007064737</a><br>[6]HTTPS工作原理：<a href="https://cattail.me/tech/2015/11/30/how-https-works.html">https://cattail.me/tech/2015/11/30/how-https-works.html</a></p>
+<p>按照锁模式可以分为乐观锁，悲观锁。<br>按照范围可以分为行锁和表锁。<br>按照算法可以分为临间锁、间隙锁、记录锁。<br>按照属性可以分为共享锁、排它锁。共享锁又称为读锁。排它锁又称为写锁。写锁的优先级比读锁高。<br>按照状态可以分为意向共享锁和意向排它锁。</p>
+<h1 id="行锁和表锁"><a href="#行锁和表锁" class="headerlink" title="行锁和表锁"></a>行锁和表锁</h1><p>行锁就是锁住一行或者多行记录。mysql的<span style="color:cornflowerblue">行锁是基于索引加的</span>。所以行锁是要加在索引响应的行上，即命中索引。行锁锁定的数据量少，并发程度高，但是加锁的开销大。<br>表锁会锁住整张表，在表锁定期间，仅有一个事务能对该表进行操作。表锁响应的是非索引字段，即全表扫描。</p>
+<h1 id="读锁和写锁"><a href="#读锁和写锁" class="headerlink" title="读锁和写锁"></a>读锁和写锁</h1><h2 id="select-for-update和select-lock-in-share-mode"><a href="#select-for-update和select-lock-in-share-mode" class="headerlink" title="select for update和select lock in share mode"></a>select for update和select lock in share mode</h2><p>在执行select for update时会对</p>
+<p>如果只有一个事务对一个表执行select lock in share mode，此后该事务还可以对该表进行update操作，但是如果有多于一个事务对该表进行了select lock in share mode，则任何事务都无法对该表执行update操作。</p>
+<p>select for update和select lock in share mode同样遵循行锁和表锁的规则。</p>
+<p>建立一张成绩表：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> create table scores(id int not null auto_increment, name varchar(20) not null,      not null default 0, primary key(id))engine InnoDB charset=utf8;</span><br><span class="line">Query OK, 0 rows affected (0.08 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span> insert into scores(name, chinese, math, english) values("Bob", 75, 90, 75);</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span> select * from scores;                                                    +----+----------+---------+------+---------+</span><br><span class="line">| id | name     | chinese | math | english |</span><br><span class="line">+----+----------+---------+------+---------+</span><br><span class="line">|  1 | zhangsan |      78 |   89 |      94 |</span><br><span class="line">|  2 | lisi     |      98 |   89 |      91 |</span><br><span class="line">|  3 | Alice    |      66 |   82 |     100 |</span><br><span class="line">|  4 | Bob      |      75 |   90 |      75 |</span><br><span class="line">+----+----------+---------+------+---------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h3 id="表级写锁"><a href="#表级写锁" class="headerlink" title="表级写锁"></a>表级写锁</h3><p>在第一个事务中执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> select * from scores where english = 94 for update;</span><br><span class="line">+----+----------+---------+------+---------+</span><br><span class="line">| id | name     | chinese | math | english |</span><br><span class="line">+----+----------+---------+------+---------+</span><br><span class="line">|  1 | zhangsan |      78 |   89 |      94 |</span><br><span class="line">+----+----------+---------+------+---------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>在另一个事务中执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> select * from scores where english = 91 for update;</span><br><span class="line">ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction</span><br></pre></td></tr></table></figure>
+
+<p>这时候第二个事务会被阻塞，因为，第一个事务中的select for update加的表级的写锁，会禁止其他事务对整个表的写操作。所以，这里的事务无法执行，直到超时退出。</p>
+<h3 id="行级写锁"><a href="#行级写锁" class="headerlink" title="行级写锁"></a>行级写锁</h3><p>如果在第一个事务中执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> select * from scores where id = 1 for update;</span><br><span class="line">+----+----------+---------+------+---------+</span><br><span class="line">| id | name     | chinese | math | english |</span><br><span class="line">+----+----------+---------+------+---------+</span><br><span class="line">|  1 | zhangsan |      78 |   89 |      94 |</span><br><span class="line">+----+----------+---------+------+---------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>然后在第二个事务中执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> select * from scores where id = 2 for update;</span><br><span class="line">+----+------+---------+------+---------+</span><br><span class="line">| id | name | chinese | math | english |</span><br><span class="line">+----+------+---------+------+---------+</span><br><span class="line">|  2 | lisi |      98 |   89 |      91 |</span><br><span class="line">+----+------+---------+------+---------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>此时，select for update加的是行锁，所以不会阻塞对另一行执行另一个select for update加另一把写锁。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]深入理解数据库行锁与表锁：<a href="https://zhuanlan.zhihu.com/p/52678870">https://zhuanlan.zhihu.com/p/52678870</a><br>[2]select for update/lock in share mode：<a href="https://www.cnblogs.com/liushuiwuqing/p/3966898.html">https://www.cnblogs.com/liushuiwuqing/p/3966898.html</a><br>[3]基本建表语句：<a href="https://www.runoob.com/mysql/mysql-create-tables.html">https://www.runoob.com/mysql/mysql-create-tables.html</a></p>
 
       
     </div>
@@ -456,8 +438,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/08/空间配置器/" rel="next" title="空间配置器">
-                <i class="fa fa-chevron-left"></i> 空间配置器
+              <a href="/2019/10/19/ssh协议/" rel="next" title="ssh协议">
+                <i class="fa fa-chevron-left"></i> ssh协议
               </a>
             
           </div>
@@ -466,7 +448,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/10/09/mysql日志/" rel="prev" title="mysql日志">
+              <a href="/2019/10/19/mysql日志/" rel="prev" title="mysql日志">
                 mysql日志 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -547,7 +529,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">138</span>
+                  <span class="site-state-item-count">140</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -602,7 +584,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数字签名是什么"><span class="nav-number">1.</span> <span class="nav-text">数字签名是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSL-TLS协议运行机制的概述"><span class="nav-number">2.</span> <span class="nav-text">SSL/TLS协议运行机制的概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本的运行过程"><span class="nav-number">2.1.</span> <span class="nav-text">基本的运行过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">3.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#行锁和表锁"><span class="nav-number">1.</span> <span class="nav-text">行锁和表锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#读锁和写锁"><span class="nav-number">2.</span> <span class="nav-text">读锁和写锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#select-for-update和select-lock-in-share-mode"><span class="nav-number">2.1.</span> <span class="nav-text">select for update和select lock in share mode</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#表级写锁"><span class="nav-number">2.1.1.</span> <span class="nav-text">表级写锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#行级写锁"><span class="nav-number">2.1.2.</span> <span class="nav-text">行级写锁</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">3.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>
