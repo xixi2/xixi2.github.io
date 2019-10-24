@@ -856,11 +856,11 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[C++牛客网刷题总结]]></title>
-    <url>%2F2019%2F09%2F27%2FC%2B%2B%E7%89%9B%E5%AE%A2%E7%BD%91%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93%2F</url>
-    <content type="text"><![CDATA[字符串系列]]></content>
+    <title><![CDATA[traits]]></title>
+    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
+    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
       <categories>
-        <category>牛客网</category>
+        <category>STL</category>
       </categories>
   </entry>
   <entry>
@@ -872,11 +872,11 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[traits]]></title>
-    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
-    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
+    <title><![CDATA[C++牛客网刷题总结]]></title>
+    <url>%2F2019%2F09%2F27%2FC%2B%2B%E7%89%9B%E5%AE%A2%E7%BD%91%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93%2F</url>
+    <content type="text"><![CDATA[字符串系列]]></content>
       <categories>
-        <category>STL</category>
+        <category>牛客网</category>
       </categories>
   </entry>
   <entry>
@@ -905,17 +905,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[可变模板参数(c++11新特性)]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%8F%AF%E5%8F%98%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0%2F</url>
-    <content type="text"><![CDATA[Variadic Templates Variadic Templates谈的是template function template class template 变化的是template parameters 参数个数：利用参数个数注意递减的特性，实现递归函数调用．使用function template完成 参数类型：利用参数个数逐一递减，参数类型也逐一递减的特性，实现递归继承或递归复合，以class template完成． 可变模板参数写的一个小例子针对函数模板参数包，函数参数类型包，函数参数包 123456789void print() &#123;&#125; //非模板，和模板的实例形成重载函数；函数没有特化和偏特化template&lt;typename T, typename... Types&gt;void print(const T &amp;firstArg, const Types &amp;... args) &#123; // firstArg是包中第一个元素的引用，输出包中剩余元素个数 cout &lt;&lt; sizeof...(args) &lt;&lt; " "; cout &lt;&lt; firstArg &lt;&lt; endl; print(args...); // 当args为空时，调用的是非模板函数print&#125; 可变模板参数实现hash function1234567891011121314151617181920212223242526template&lt;typename T&gt;inline void hash_combine(size_t &amp;seed, const T &amp;val) &#123; seed ^= std::hash&lt;T&gt;()(val) + 0x9e3779b9 // 0x9e3779b9黄金比例 + (seed &lt;&lt; 6) + (seed &gt;&gt; 2);&#125;template&lt;typename T&gt;inline void hash_val(size_t &amp;seed, const T &amp;val) &#123; hash_combine(seed, val);&#125;template&lt;typename T, typename...Types&gt;inline void hash_val(size_t &amp;seed, const T &amp;val, const Types &amp;...args) &#123; hash_combine(seed, val); hash_val(seed, args...);&#125;// 版本1// typename...Types：任意个模板参数// 第一个函数不是size_ttemplate&lt;typename...Types&gt;inline size_t hash_val(const Types &amp;...args) &#123; size_t seed = 0; hash_val(seed, args...); return seed;&#125; 可变模板参数实现printf1234567891011121314151617181920212223242526void printf(const char *s) &#123; while (*s) &#123; if (*s == '%' &amp;&amp; (*(++s) != '%')) &#123; throw std::runtime_error("invalid formal string::missing arguments"); &#125; cout &lt;&lt; *s++; &#125;&#125;template&lt;typename T, typename... Args&gt;void printf(const char *s, T value, Args... args) &#123; while (*s) &#123; if (*s == '%' &amp;&amp; (*(++s)) != '%') &#123; cout &lt;&lt; value; printf(++s, args...); return; &#125; cout &lt;&lt; *s++; // 如果s不是用于格式控制，则直接输出s &#125; throw std::logic_error("extra argument provided to printf");&#125;void test_printf() &#123; printf("%d\n%s\n%f\n", 15, "This is Alice", 3.1415926); printf("%d, %s, %f\n", 15, "This is Alice", 3.1415926);&#125; variadic templates与initializer_list若参数的类型相同，无须使用variadic templates,使用initializer_list&lt;T&gt;即可 使用initializer_list实现max 12345678910111213141516171819202122232425262728293031323334template&lt;typename __ForwardIterator, typename __Compare&gt;__ForwardIterator __max_element(__ForwardIterator __first, __ForwardIterator __last, __Compare _comp) &#123; if (__first == __last) &#123; return __first; &#125; __ForwardIterator __result = __first; while (++__first != __last) &#123; if (_comp(__result, __first)) __result = __first; &#125; return __result;&#125;// _Iter_less_iter是一种类型inline __Iter_less_iter __iter_less_iter() &#123; return __Iter_less_iter();&#125;template&lt;typename __ForwardIterator&gt;inline __ForwardIterator max_element(__ForwardIterator __first, __ForwardIterator __last) &#123; // _iter_less_iter()是一个函数调用，但是返回一个对象 return __max_element(__first, __last, __iter_less_iter());&#125;template&lt;typename _Tp&gt;inline _Tpmax(initializer_list&lt;_Tp&gt; _l) &#123; return *max_element(_l.begin(), _l.end());&#125;// 调用形式：max(&#123;1,2,43,2,41&#125;); 使用varadic templates实现max 123456789101112int maximum(int n) &#123; return n;&#125;template&lt;typename... Args&gt;int maximum(int n, Args... args) &#123; return max(maximum(args...), n);&#125;void test_maximum() &#123; cout &lt;&lt; maximum(57, 48, 60, 100, 20, 18) &lt;&lt; endl;&#125; 对异于一般的方式处理first元素和last元素12345678910111213141516171819202122232425template&lt;int IDX, int MAX, typename... Args&gt;struct PRINT_TUPLE &#123; static void print(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123; os &lt;&lt; get&lt;IDX&gt;(t) &lt;&lt; (IDX + 1 == MAX ? &quot;&quot; : &quot;,&quot;); PRINT_TUPLE&lt;IDX + 1, MAX, Args...&gt;::print(os, t); &#125;&#125;;// 当前元素是最后一个template&lt;int MAX, typename...Args&gt;struct PRINT_TUPLE&lt;MAX, MAX, Args...&gt; &#123; static void print(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123;&#125;&#125;;template&lt;typename... Args&gt;ostream &amp;operator&lt;&lt;(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123; PRINT_TUPLE&lt;0, sizeof...(Args), Args...&gt;::print(os, t); return os;&#125;void test_print_tuple() &#123; cout &lt;&lt; make_tuple(1.4, &quot;hello&quot;, 13, string(&quot;good&quot;)) &lt;&lt; endl;&#125; 可变模板参数实现tuple通过private 继承实现复合递归的继承 12345678910111213141516171819202122232425262728293031323334353637383940414243444546template&lt;typename...Values&gt;class tuple;template&lt;&gt;class tuple&lt;&gt; &#123;&#125;;// private继承template&lt;typename Head, typename... Tail&gt;class tuple&lt;Head, Tail...&gt; : private tuple&lt;Tail...&gt; &#123; typedef tuple&lt;Tail...&gt; inherited;protected: Head m_head;public: tuple() &#123;&#125; // inherited(vtail...)调用base ctor并给予参数(不是创建temp object) tuple(Head v, Tail... vtail) : m_head(v), inherited(vtail...) &#123;&#125; // 原始构想是取出Head指定的类型，但是head类型如何知道自己是什么type？// typename Head::type head() &#123; return m_head; &#125; // 通过decltype获取Head // m_head必须声明在此句之前 // auto head() -&gt; decltype(m_head) &#123; return m_head; &#125; // 更好的等价写法 // 可以直接这么写，Head本身就是指的类型 // Head head() &#123; return m_head; &#125; // return后转型为inherited // 返回值一定得是引用 // 调用tail之后，得到一个inhertied子对象，然后再对此子对象调用head时会改变此子对象，但是如果传回的是值(而非引用)，则被改变的是副本 inherited &amp;tail() &#123; return *this; &#125;&#125;;void test_tuple() &#123; tuple&lt;int, float, string&gt; t(41, 6.3, "nico"); cout &lt;&lt; sizeof(string) &lt;&lt; " " &lt;&lt; sizeof(int) &lt;&lt; " " &lt;&lt; sizeof(float) &lt;&lt; endl; // 32 4 4 cout &lt;&lt; sizeof(t) &lt;&lt; endl; // 40 cout &lt;&lt; t.head() &lt;&lt; endl; // 40 cout &lt;&lt; t.tail().head() &lt;&lt; endl; // 6.3 cout &lt;&lt; t.tail().tail().head() &lt;&lt; endl; // nico&#125; 通过composite实现复合1234567891011121314151617181920212223242526272829303132333435363738394041424344// 这两句存在的意义是什么？换言之，为什么需要这两句template&lt;typename... Values&gt; class tup;// 特化版本template&lt;&gt; class tup&lt;&gt; &#123; public: tup() &#123; cout &lt;&lt; "empty tup" &lt;&lt; endl; &#125; &#125;;// 特化版本template&lt;typename Head, typename...Tail&gt; class tup&lt;Head, Tail...&gt; &#123; typedef tup&lt;Tail...&gt; compositied; protected: compositied m_tail; Head m_head; public: tup() &#123;&#125;; // vtail...是一个函数参数包 tup(Head v, Tail... vtail) : m_head(v), m_tail(vtail...) &#123; cout &lt;&lt; m_head &lt;&lt; " " &lt;&lt; sizeof...(vtail) &lt;&lt; endl; &#125; Head head() &#123; return m_head; &#125; compositied &amp;tail() &#123; return m_tail; &#125; &#125;;void test_tup() &#123; tup&lt;int, float, string&gt; it1(41, 6.3, "nico"); cout &lt;&lt; endl; cout &lt;&lt; sizeof(it1) &lt;&lt; endl; cout &lt;&lt; it1.head() &lt;&lt; endl; cout &lt;&lt; it1.tail().head() &lt;&lt; endl; cout &lt;&lt; it1.tail().tail().head() &lt;&lt; endl;&#125; 运行结果 1234567891011# 由内到外构造对象empty tupnico 06.3 141 2# 依次输出tup中的内容56416.3nico]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>variadic templates</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[c++2.0新特性]]></title>
     <url>%2F2019%2F09%2F27%2Fc%2B%2B2.0%E6%96%B0%E7%89%B9%E6%80%A7%2F</url>
     <content type="text"><![CDATA[此文档整理c++11中新特性． autoauto和decltype的区别与联系variadic templatesrange base for]]></content>
@@ -924,6 +913,17 @@
       </categories>
       <tags>
         <tag>c++11新特性</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[可变模板参数(c++11新特性)]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%8F%AF%E5%8F%98%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0%2F</url>
+    <content type="text"><![CDATA[Variadic Templates Variadic Templates谈的是template function template class template 变化的是template parameters 参数个数：利用参数个数注意递减的特性，实现递归函数调用．使用function template完成 参数类型：利用参数个数逐一递减，参数类型也逐一递减的特性，实现递归继承或递归复合，以class template完成． 可变模板参数写的一个小例子针对函数模板参数包，函数参数类型包，函数参数包 123456789void print() &#123;&#125; //非模板，和模板的实例形成重载函数；函数没有特化和偏特化template&lt;typename T, typename... Types&gt;void print(const T &amp;firstArg, const Types &amp;... args) &#123; // firstArg是包中第一个元素的引用，输出包中剩余元素个数 cout &lt;&lt; sizeof...(args) &lt;&lt; " "; cout &lt;&lt; firstArg &lt;&lt; endl; print(args...); // 当args为空时，调用的是非模板函数print&#125; 可变模板参数实现hash function1234567891011121314151617181920212223242526template&lt;typename T&gt;inline void hash_combine(size_t &amp;seed, const T &amp;val) &#123; seed ^= std::hash&lt;T&gt;()(val) + 0x9e3779b9 // 0x9e3779b9黄金比例 + (seed &lt;&lt; 6) + (seed &gt;&gt; 2);&#125;template&lt;typename T&gt;inline void hash_val(size_t &amp;seed, const T &amp;val) &#123; hash_combine(seed, val);&#125;template&lt;typename T, typename...Types&gt;inline void hash_val(size_t &amp;seed, const T &amp;val, const Types &amp;...args) &#123; hash_combine(seed, val); hash_val(seed, args...);&#125;// 版本1// typename...Types：任意个模板参数// 第一个函数不是size_ttemplate&lt;typename...Types&gt;inline size_t hash_val(const Types &amp;...args) &#123; size_t seed = 0; hash_val(seed, args...); return seed;&#125; 可变模板参数实现printf1234567891011121314151617181920212223242526void printf(const char *s) &#123; while (*s) &#123; if (*s == '%' &amp;&amp; (*(++s) != '%')) &#123; throw std::runtime_error("invalid formal string::missing arguments"); &#125; cout &lt;&lt; *s++; &#125;&#125;template&lt;typename T, typename... Args&gt;void printf(const char *s, T value, Args... args) &#123; while (*s) &#123; if (*s == '%' &amp;&amp; (*(++s)) != '%') &#123; cout &lt;&lt; value; printf(++s, args...); return; &#125; cout &lt;&lt; *s++; // 如果s不是用于格式控制，则直接输出s &#125; throw std::logic_error("extra argument provided to printf");&#125;void test_printf() &#123; printf("%d\n%s\n%f\n", 15, "This is Alice", 3.1415926); printf("%d, %s, %f\n", 15, "This is Alice", 3.1415926);&#125; variadic templates与initializer_list若参数的类型相同，无须使用variadic templates,使用initializer_list&lt;T&gt;即可 使用initializer_list实现max 12345678910111213141516171819202122232425262728293031323334template&lt;typename __ForwardIterator, typename __Compare&gt;__ForwardIterator __max_element(__ForwardIterator __first, __ForwardIterator __last, __Compare _comp) &#123; if (__first == __last) &#123; return __first; &#125; __ForwardIterator __result = __first; while (++__first != __last) &#123; if (_comp(__result, __first)) __result = __first; &#125; return __result;&#125;// _Iter_less_iter是一种类型inline __Iter_less_iter __iter_less_iter() &#123; return __Iter_less_iter();&#125;template&lt;typename __ForwardIterator&gt;inline __ForwardIterator max_element(__ForwardIterator __first, __ForwardIterator __last) &#123; // _iter_less_iter()是一个函数调用，但是返回一个对象 return __max_element(__first, __last, __iter_less_iter());&#125;template&lt;typename _Tp&gt;inline _Tpmax(initializer_list&lt;_Tp&gt; _l) &#123; return *max_element(_l.begin(), _l.end());&#125;// 调用形式：max(&#123;1,2,43,2,41&#125;); 使用varadic templates实现max 123456789101112int maximum(int n) &#123; return n;&#125;template&lt;typename... Args&gt;int maximum(int n, Args... args) &#123; return max(maximum(args...), n);&#125;void test_maximum() &#123; cout &lt;&lt; maximum(57, 48, 60, 100, 20, 18) &lt;&lt; endl;&#125; 对异于一般的方式处理first元素和last元素12345678910111213141516171819202122232425template&lt;int IDX, int MAX, typename... Args&gt;struct PRINT_TUPLE &#123; static void print(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123; os &lt;&lt; get&lt;IDX&gt;(t) &lt;&lt; (IDX + 1 == MAX ? &quot;&quot; : &quot;,&quot;); PRINT_TUPLE&lt;IDX + 1, MAX, Args...&gt;::print(os, t); &#125;&#125;;// 当前元素是最后一个template&lt;int MAX, typename...Args&gt;struct PRINT_TUPLE&lt;MAX, MAX, Args...&gt; &#123; static void print(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123;&#125;&#125;;template&lt;typename... Args&gt;ostream &amp;operator&lt;&lt;(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123; PRINT_TUPLE&lt;0, sizeof...(Args), Args...&gt;::print(os, t); return os;&#125;void test_print_tuple() &#123; cout &lt;&lt; make_tuple(1.4, &quot;hello&quot;, 13, string(&quot;good&quot;)) &lt;&lt; endl;&#125; 可变模板参数实现tuple通过private 继承实现复合递归的继承 12345678910111213141516171819202122232425262728293031323334353637383940414243444546template&lt;typename...Values&gt;class tuple;template&lt;&gt;class tuple&lt;&gt; &#123;&#125;;// private继承template&lt;typename Head, typename... Tail&gt;class tuple&lt;Head, Tail...&gt; : private tuple&lt;Tail...&gt; &#123; typedef tuple&lt;Tail...&gt; inherited;protected: Head m_head;public: tuple() &#123;&#125; // inherited(vtail...)调用base ctor并给予参数(不是创建temp object) tuple(Head v, Tail... vtail) : m_head(v), inherited(vtail...) &#123;&#125; // 原始构想是取出Head指定的类型，但是head类型如何知道自己是什么type？// typename Head::type head() &#123; return m_head; &#125; // 通过decltype获取Head // m_head必须声明在此句之前 // auto head() -&gt; decltype(m_head) &#123; return m_head; &#125; // 更好的等价写法 // 可以直接这么写，Head本身就是指的类型 // Head head() &#123; return m_head; &#125; // return后转型为inherited // 返回值一定得是引用 // 调用tail之后，得到一个inhertied子对象，然后再对此子对象调用head时会改变此子对象，但是如果传回的是值(而非引用)，则被改变的是副本 inherited &amp;tail() &#123; return *this; &#125;&#125;;void test_tuple() &#123; tuple&lt;int, float, string&gt; t(41, 6.3, "nico"); cout &lt;&lt; sizeof(string) &lt;&lt; " " &lt;&lt; sizeof(int) &lt;&lt; " " &lt;&lt; sizeof(float) &lt;&lt; endl; // 32 4 4 cout &lt;&lt; sizeof(t) &lt;&lt; endl; // 40 cout &lt;&lt; t.head() &lt;&lt; endl; // 40 cout &lt;&lt; t.tail().head() &lt;&lt; endl; // 6.3 cout &lt;&lt; t.tail().tail().head() &lt;&lt; endl; // nico&#125; 通过composite实现复合1234567891011121314151617181920212223242526272829303132333435363738394041424344// 这两句存在的意义是什么？换言之，为什么需要这两句template&lt;typename... Values&gt; class tup;// 特化版本template&lt;&gt; class tup&lt;&gt; &#123; public: tup() &#123; cout &lt;&lt; "empty tup" &lt;&lt; endl; &#125; &#125;;// 特化版本template&lt;typename Head, typename...Tail&gt; class tup&lt;Head, Tail...&gt; &#123; typedef tup&lt;Tail...&gt; compositied; protected: compositied m_tail; Head m_head; public: tup() &#123;&#125;; // vtail...是一个函数参数包 tup(Head v, Tail... vtail) : m_head(v), m_tail(vtail...) &#123; cout &lt;&lt; m_head &lt;&lt; " " &lt;&lt; sizeof...(vtail) &lt;&lt; endl; &#125; Head head() &#123; return m_head; &#125; compositied &amp;tail() &#123; return m_tail; &#125; &#125;;void test_tup() &#123; tup&lt;int, float, string&gt; it1(41, 6.3, "nico"); cout &lt;&lt; endl; cout &lt;&lt; sizeof(it1) &lt;&lt; endl; cout &lt;&lt; it1.head() &lt;&lt; endl; cout &lt;&lt; it1.tail().head() &lt;&lt; endl; cout &lt;&lt; it1.tail().tail().head() &lt;&lt; endl;&#125; 运行结果 1234567891011# 由内到外构造对象empty tupnico 06.3 141 2# 依次输出tup中的内容56416.3nico]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>variadic templates</tag>
       </tags>
   </entry>
   <entry>
@@ -1187,8 +1187,8 @@
     <url>%2F2019%2F09%2F27%2F%E6%9C%AA%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%B4%AF%E5%8A%A0%E5%92%8C%E4%B8%BA%E7%BB%99%E5%AE%9A%E5%80%BC%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E6%95%B0%E7%BB%84%E7%B3%BB%E5%88%97%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[原题给定一个无序数组,其中元素可正,可负,可0.给定一个整数k,求arr所有的子数组中累加和为k的最长子数组长度. 12345678910111213141516171819int maxLength(vector&lt;int&gt; &amp;arr, int k) &#123; if (arr.empty()) &#123; return 0; &#125; map&lt;int, int&gt; mp; mp[0] = -1; int len = 0; int sum = 0; for (int i = 0; i &lt; arr.size(); i++) &#123; sum += arr[i]; if (mp.find(sum - k) != mp.end()) &#123; len = max(len, i - mp[sum - k]); &#125; if (mp.find(sum) == mp.end()) &#123; mp[sum] = i; &#125; &#125; return len;&#125; 补充题1补充题2类似题138. 子数组之和给定一个整数数组，找到和为零的子数组。你的代码应该返回满足要求的子数组的起始位置和结束位置 样例 样例 1: 123输入: [-3, 1, 2, -3, 4]输出: [0,2] 或 [1,3] 样例解释： 返回任意一段和为0的区间即可。 样例 2: 12输入: [-3, 1, -4, 2, -3, 4]输出: [1,5] 样例 3: 12输入: [3,4,5,6,-3,-4,-5,-6]输出: [0,7] 样例 4: 12输入: [1,0,-1]输出: [1,1] 注意事项: 至少有一个子数组的和为 0 1234567891011121314151617181920212223242526272829303132class Solution &#123;public: /** * @param nums: A list of integers * @return: A list of integers includes the index of the first number and the index of the last number */ vector&lt;int&gt; subarraySum(vector&lt;int&gt; &amp;nums) &#123; // write your code here if(nums.empty())&#123; return &#123;&#125;; &#125; int sum = 0; vector&lt;int&gt; res; map&lt;int, int&gt; mp; for(int i=0;i&lt;nums.size();++i)&#123; sum += nums[i]; if(sum == 0)&#123; res.push_back(0); res.push_back(i); return res; &#125; if(mp.find(sum)!=mp.end())&#123; res.push_back(mp[sum]+1); res.push_back(i); return res; &#125; mp[sum] = i; &#125; return res; &#125;&#125;; 此题与上题的相似之处在于:需要用到相同的结论:s[i]= arr[0] + arr[1] +…+arr[i]s[j]= arr[0] + arr[1] +…+arr[j]假设i &gt; j,则s[i] - s[j] = arr[j+1] + arr[j+2] + … + arr[i] 复杂度分析 理论上, 时间复杂度为O(n).但实际实现时,时间复杂度为O(nlogn).因为map的find方法查找一个数的时间复杂度为O(logn)空间复杂度为O(n) 题目来源: leetcode 560. Subarray Sum Equals K930 binary subarrays with sum另有使用三指针的解法,可以尝试看看试用否,三指针解法时间复杂度为O(n),空间复杂度为O(1),是最优解法]]></content>
       <tags>
-        <tag>leetcode</tag>
         <tag>累积和</tag>
+        <tag>leetcode</tag>
         <tag>程序员代码面试指南</tag>
       </tags>
   </entry>
@@ -1243,8 +1243,8 @@
         <category>指针</category>
       </categories>
       <tags>
-        <tag>函数指针</tag>
         <tag>函数</tag>
+        <tag>函数指针</tag>
       </tags>
   </entry>
   <entry>
@@ -1310,21 +1310,21 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[二叉树的下一个结点]]></title>
-    <url>%2F2019%2F09%2F27%2F%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E7%BB%93%E7%82%B9%2F</url>
-    <content type="text"><![CDATA[给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。 题目链接:https://www.nowcoder.com/questionTerminal/9023a0c988684a53960365b889ceaf5e 相关题目:寻找下一个节点]]></content>
-      <tags>
-        <tag>牛客网</tag>
-        <tag>binary tree</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[并查集基础知识]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%B9%B6%E6%9F%A5%E9%9B%86%2F</url>
     <content type="text"><![CDATA[并查集(不相交集合)不相交集合数据结构是这样一种数据结构: 它维护了一个不相交动态集的集合 $$S = {s_1, s_2, …, s_i, …, s_k}$$对于每个集合S中的每个元素集合si而言,用集合中的而一个元素来代表该集合.假设x是集合si中的一个元素,则有以下三种操作: make_set(x): 建立一个新的集合,它的唯一成员是x.因为各个集合是不相交的集合, 所以x不会出现在别的集合中.union(x, y): 将包含x和y的两个动态集合(表示为sx和sy合并成一个新的集合, 即这两个集合的并集)find_set(x): 返回一个指针,该指针指向包含x的(唯一)集合的代表.不相交集合可以用于求无向图的连通分量等.待后续加上代码 为了提交效率,建立并查集的过程往往会采用两种策略来提高性能.一种是按秩(秩是指节点高度的一个上界)合并, 另一种是路径压缩.按秩合并是在合并两个集合的过程中, 让具有较小秩的根指向较大秩的根.路径压缩是在查找节点的根节点的过程中, 使查找路径上的每个节点指向指向根(即令根节点成为查找路径上每个节点的父节点). 节点x的秩: 节点x的高度(从节点x到某一后代叶节点的最长简单路径上边的数目)的一个上界.当make_set(x)创建一个单元素x集合时, 节点x的秩为0.使用按秩合并union(x, y)合并两个集合时, 若两个集合的秩不同,则让较大秩的根成为较小秩的根的父节点, 秩本身保持不变.若两个集合的秩相同,则任意选择两个根中的一个作为父节点, 并使它的秩加1. 并查集的实现(伪代码)123456789101112131415161718make_set(x) x.p = x // x的父节点是自己,即x是x所在集合的根节点 x.rank = 0 // x.rank即x的秩link(x, y) if(x.rank &gt; y.rank) y.p = x else x.p = y if(x.rank == y.rank) y.rank = y.rank + 1union(x, y) link(find_set(x), find_set(y))find_set(x) if x != x.p x.p = find_set(x.p) return x.p find_set的非递归形式 12345678find_set(x) a = x while x != x.p x = x.p while a != a.p z = a a = a.p z.p = x]]></content>
       <tags>
         <tag>基础算法</tag>
         <tag>理论</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[二叉树的下一个结点]]></title>
+    <url>%2F2019%2F09%2F27%2F%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E7%BB%93%E7%82%B9%2F</url>
+    <content type="text"><![CDATA[给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。 题目链接:https://www.nowcoder.com/questionTerminal/9023a0c988684a53960365b889ceaf5e 相关题目:寻找下一个节点]]></content>
+      <tags>
+        <tag>牛客网</tag>
+        <tag>binary tree</tag>
       </tags>
   </entry>
   <entry>
