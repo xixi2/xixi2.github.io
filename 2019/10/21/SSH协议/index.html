@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="二分查找,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="二分查找是一种十分重要的查找算法．通常在有序数组中查找某个指定的数．">
-<meta name="keywords" content="二分查找">
+<meta name="description" content="什么是SSH？">
 <meta property="og:type" content="article">
-<meta property="og:title" content="二分查找各种不同的应用场景">
-<meta property="og:url" content="http://yoursite.com/2019/10/17/二分查找各种不同的应用场景/index.html">
+<meta property="og:title" content="SSH协议">
+<meta property="og:url" content="http://yoursite.com/2019/10/21/SSH协议/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="二分查找是一种十分重要的查找算法．通常在有序数组中查找某个指定的数．">
+<meta property="og:description" content="什么是SSH？">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-17T14:53:22.052Z">
+<meta property="og:updated_time" content="2019-10-21T09:43:34.094Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="二分查找各种不同的应用场景">
-<meta name="twitter:description" content="二分查找是一种十分重要的查找算法．通常在有序数组中查找某个指定的数．">
+<meta name="twitter:title" content="SSH协议">
+<meta name="twitter:description" content="什么是SSH？">
 
 
 
@@ -120,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/10/17/二分查找各种不同的应用场景/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/21/SSH协议/">
 
 
 
 
 
-  <title>二分查找各种不同的应用场景 | xixi2</title>
+  <title>SSH协议 | xixi2</title>
   
 
 
@@ -295,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/17/二分查找各种不同的应用场景/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/21/SSH协议/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -312,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">二分查找各种不同的应用场景</h1>
+          <h1 class="post-title" itemprop="name headline">SSH协议</h1>
         
 
         <div class="post-meta">
@@ -324,8 +323,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-17T22:53:22+08:00">
-                2019-10-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-21T17:43:34+08:00">
+                2019-10-21
               </time>
             
 
@@ -334,6 +333,28 @@
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/安全基础/" itemprop="url" rel="index">
+                    <span itemprop="name">安全基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -367,31 +388,75 @@
       
 
       
-        <p>二分查找是一种十分重要的查找算法．通常在有序数组中查找某个指定的数．</p>
+        <p>什么是SSH？</p>
 <a id="more"></a>
 
-<ul>
-<li>Find peak Element: <a href="https://leetcode.com/problems/find-peak-element">https://leetcode.com/problems/find-peak-element</a><ul>
-<li>如何处理一个数组中所有元素都相等的情况．</li>
-</ul>
-</li>
-<li><a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/submissions/&gt;">https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/submissions/&gt;</a></li>
-<li>数字在排序数组中出现的次数：<a href="https://www.nowcoder.com/practice/70610bf967994b22bb1c26f9ae901fa2?tpId=13&amp;tqId=11190&amp;tPage=1&amp;rp=1&amp;ru=/ta/coding-interviews&amp;qru=/ta/coding-interviews/question-ranking">https://www.nowcoder.com/practice/70610bf967994b22bb1c26f9ae901fa2?tpId=13&amp;tqId=11190&amp;tPage=1&amp;rp=1&amp;ru=/ta/coding-interviews&amp;qru=/ta/coding-interviews/question-ranking</a></li>
-<li>相似题：<a href="https://leetcode.com/problems/first-bad-version/">https://leetcode.com/problems/first-bad-version/</a></li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">findLastPos</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, j = nums.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(i &lt;= j)&#123;</span><br><span class="line">        mid = (i + j) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(nums[mid] &gt; target)&#123;</span><br><span class="line">            j = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            i = mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> mid;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="SSH协议"><a href="#SSH协议" class="headerlink" title="SSH协议"></a>SSH协议</h1><p>SSH是一种网络协议，用于计算机之间的加密登录。如果一个用户从本地计算机，使用SSH协议登录到另一台远程计算机，我们就可以认为，这种登录是安全的，即使被中途接货，密码也不会泄露。最早的时候，互联网通信都是明文通信，一旦被截获，内容就暴露无疑。1995年，芬兰学者Tatu Ylonen设计了SSH协议，将登录信息全部加密，成为互联网安全的一个基本解决方案，迅速在全世界获得推广，目前已经成为Linux系统的标准配置。</p>
+<p>需要指出的是，SSH只是一种协议，存在多种实现，既有商业实现，也有开源实现。本文针对的实现是<a href="http://www.openssh.com/">OpenSSH</a>，它是自由软件，应用非常广泛。</p>
+<p>此外，本文只讨论SSH在Linux Shell中的用法。如果要在Windows系统中使用SSH，会用到另一种软件<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty">PuTTY</a>，这需要另文介绍。</p>
+<h1 id="中间人攻击"><a href="#中间人攻击" class="headerlink" title="中间人攻击"></a>中间人攻击</h1><p>SSH之所以能够保证安全，是因为它采用了公钥加密。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">　　　participant 用户</span><br><span class="line">　　　用户-&gt;&gt;远程主机:登录请求</span><br><span class="line">　　　远程主机--&gt;&gt;用户:公钥</span><br><span class="line">　　　用户--&gt;&gt;远程主机:登录密码</span><br><span class="line">　　　远程主机--&gt;&gt;用户:同意or不同意登录</span><br></pre></td></tr></table></figure>
 
-<h1 id="从有序数组中大于等于某个数的元素第一次出现的位置"><a href="#从有序数组中大于等于某个数的元素第一次出现的位置" class="headerlink" title="从有序数组中大于等于某个数的元素第一次出现的位置"></a>从有序数组中大于等于某个数的元素第一次出现的位置</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getLessIndex</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;help, <span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 从有序数组中找出大于某个值的元素第一次出现的位置</span></span><br><span class="line">    <span class="keyword">int</span> l = <span class="number">0</span>, r = help.size() - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> index = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span> (l &lt;= r) &#123;</span><br><span class="line">        <span class="keyword">int</span> mid = (l + r) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (help[mid] &gt;= num) &#123;</span><br><span class="line">            index = mid;</span><br><span class="line">            r = mid - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            l = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> index;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>第一步：用户向远程主机发送自己的登录请求。</li>
+<li>第二步：远程主机收到用户发送的登录请求后，把自己的公钥发送给用户。</li>
+<li>第三步：用户使用这个公钥，将登录密码加密后，发送给远程主机。</li>
+<li>第四步：远程主机用自己的私钥，解密登录密码，如果密码正确，就同意用户登录。</li>
+</ol>
+<p>这个过程本身是安全的，但是存在一个风险：如果有人截获了登录请求，然后冒充远程主机，将伪造的公钥发送给用户，但是用户不知道这个公钥是伪造的，他将自己的登录密码使用伪造的公钥加密后发送给了伪造的远程主机，就会造成用户密码的泄露。因为不像https协议，SSH协议的公钥是没有证书中心（CA）公证的，也就是说，都是自己签发的。<br>可以设想，如果攻击者插在用户与远程主机之间（比如在公共的wifi区域），用伪造的公钥，获取用户的登录密码。再用这个密码登录远程主机，那么SSH的安全机制就荡然无存了。这种风险就是著名的<a href="http://en.wikipedia.org/wiki/Man-in-the-middle_attack">“中间人攻击”</a>（Man-in-the-middle attack）。SSH协议是如何应对的呢？</p>
+<h1 id="口令登录"><a href="#口令登录" class="headerlink" title="口令登录"></a>口令登录</h1><p>如果你是第一次登录对方主机，系统会出现下面的提示：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> ssh user@host</span><br><span class="line">The authenticity of host 'host (12.18.429.21)' can't be established.</span><br><span class="line">RSA key fingerprint is 98:2e:d7:e0:de:9f:ac:67:28:c2:42:2d:37:16:58:4d.</span><br><span class="line">Are you sure you want to continue connecting (yes/no)?</span><br></pre></td></tr></table></figure>
 
-<p>测试用例:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[1, 3, 3, 3, 3] // 1, 元素3(最早出现的元素3)</span><br><span class="line">[1, 2, 4, 5, 6] // 2, 元素4</span><br><span class="line">[1, 2, 2, 2, 2] // -1, 所有元素都比3小</span><br><span class="line">[4, 5, 6, 9, 12] // 0, 所有元素都比3大</span><br></pre></td></tr></table></figure>
+<p>这段话的意思是，无法确认host主机的真实性，只知道它的公钥指纹，问你还想继续连接吗？所谓”公钥指纹”，是指公钥长度较长（这里采用RSA算法，长达1024位），很难比对，所以对其进行MD5计算，将它变成一个128位的指纹。上例中是98:2e:d7:e0:de:9f:ac:67:28:c2:42:2d:37:16:58:4d，再进行比较，就容易多了。<br>很自然的一个问题就是，用户怎么知道远程主机的公钥指纹应该是多少？回答是没有好办法，<span style="color:royalblue">远程主机必须在自己的网站上贴出公钥指纹，以便用户自行核对</span>。假定经过风险衡量以后，用户决定接受这个远程主机的公钥。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Are you sure you want to continue connecting (yes/no)? yes</span><br></pre></td></tr></table></figure>
 
-<h1 id="从有重复元素的有序数组中找出某个元素第一次出现的位置"><a href="#从有重复元素的有序数组中找出某个元素第一次出现的位置" class="headerlink" title="从有重复元素的有序数组中找出某个元素第一次出现的位置"></a>从有重复元素的有序数组中找出某个元素第一次出现的位置</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getLessIndex</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;help, <span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 从有序数组中找出某个值第一次出现的位置</span></span><br><span class="line">    <span class="keyword">int</span> l = <span class="number">0</span>, r = help.size() - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> index = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span> (l &lt;= r) &#123;</span><br><span class="line">        <span class="keyword">int</span> mid = (l + r) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (help[mid] &gt;= num) &#123;</span><br><span class="line">            index = mid;</span><br><span class="line">            r = mid - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            l = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> index;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>系统会出现一句提示，表示host主机已经得到认可。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Warning: Permanently added 'host,12.18.429.21' (RSA) to the list of known hosts.</span><br></pre></td></tr></table></figure>
 
-<p>测试用例</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[1, 3, 3, 3, 3] // 1, 第一个元素3</span><br><span class="line">[-1, 1, 2, 3, 5] //3, 元素3</span><br><span class="line">[1, 2, 4, 5, 6] // -1, 不存在元素3</span><br></pre></td></tr></table></figure>
+<p>然后，会要求输入密码。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Password: (enter password)</span><br></pre></td></tr></table></figure>
 
-<h1 id="在有序旋转数组中搜索某个给定的数"><a href="#在有序旋转数组中搜索某个给定的数" class="headerlink" title="在有序旋转数组中搜索某个给定的数"></a>在有序旋转数组中搜索某个给定的数</h1><p><a href="https://leetcode.com/problems/search-in-rotated-sorted-array">题目链接</a></p>
+<p>如果密码正确，就可以登录了。当远程主机的公钥被接受以后，它就会被保存在文件$HOME/.ssh/known_hosts之中。下次再连接这台主机，系统就会认出它的公钥已经保存在本地了，从而跳过警告部分，直接提示输入密码。每个SSH用户都有自己的known_hosts文件，此外系统也有一个这样的文件，通是/etc/ssh/ssh_known_hosts，保存一些对所有用户都可信赖的远程主机的公钥。</p>
+<h1 id="公钥登录"><a href="#公钥登录" class="headerlink" title="公钥登录"></a>公钥登录</h1><p>使用密码登录，每次都需要输入密码，非常麻烦。所以SSH还提供了公钥登录，可以不用输入密码。<br>所谓“公钥登录”，就是用户将自己的公钥存储在远程主机上。登录的时候，远程主机会向用户发送一段随机字符串，用户用自己的私钥加密后，再发回来。远程主机用事先存储的公钥进行解密，如果成功，就证明用户是可信的，直接运行登录shell，不再要求密码。<br>这种方法要求用户必须提供自己的公钥。如果没有现成的，可以用ssh-keygen生成一个。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的命令以后，系统会出现一系列提示，可以一路回车。其中有一个问题是，要不要对私钥设置口令（passphrase），如果担心私钥的安全，这里可以设置一个。<br>运行结束之后，在$HOME/.ssh/目录下，会新生成两个文件：id_rsa.pub和id_rsa。前者是生成的公玥，后者是对应的私钥。<br>这时候，再输入下面的命令，将公钥传送到远程主机host上面。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id user@host</span><br></pre></td></tr></table></figure>
+
+<p>从此以后再登录，就不需要输入密码了。如果还是不行，就打开远程主机的/etc/ssh/sshd_config这个文件，检查下面几行前面的#注释是否取消掉。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RSAAuthentication yes</span><br><span class="line">PubkeyAuthentication yes</span><br><span class="line">AuthorizedKeysFile .ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+
+<p>然后，重启远程主机的ssh服务。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// ubuntu系统</span><br><span class="line">service ssh restart</span><br><span class="line"></span><br><span class="line">// debian系统</span><br><span class="line">/etc/init.d/ssh restart</span><br></pre></td></tr></table></figure>
+
+<h1 id="authorized-keys文件"><a href="#authorized-keys文件" class="headerlink" title="authorized_keys文件"></a>authorized_keys文件</h1><p>远程主机将用户的公钥，保存在登录后的用户主目录的$HOME/.ssh/authorized_keys文件中。公钥就是一段字符串，只要把它追加在authorized_keys文件的末尾就行了。这里不使用上面的ssh-copy-id命令，改用下面的命令，解释公钥的保存过程：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> ssh user@host 'mkdir -p .ssh &amp;&amp; cat &gt;&gt; .ssh/authorized_keys' &lt; ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
+
+<p>这条命令由多个语句组成，依次分解开来看：(1)”$ ssh user@host”表示登录远程主机；（2）单引号中的mkdir .ssh &amp;&amp; cat &gt;&gt; .ssh/authorized_keys，表示登录后在远程shell上执行的命令：（3）”$ mkdir -p .ssh”的作用是，如果用户目录中的.ssh目录不存在，就创建一个；（4）’cat &gt;&gt; .ssh/authorized_keys’ &lt; <del>/.ssh/id_rsa.pub的作用是，将本地的公钥文件</del>/.ssh/id_rsa.pub，重定向追加到远程文件.ssh/authorized_keys文件的末尾。<br>写入authorized_keys文件后，公钥登录的设置就完成了。</p>
+<h1 id="绑定本地端口"><a href="#绑定本地端口" class="headerlink" title="绑定本地端口"></a>绑定本地端口</h1><p>SSH可以传送数据，所以可以让那些不加密的网络连接，全部改走SSH连接，从而提高安全性。假定我们要让8080端口的数据，都通过SSH传向远程主机，命令可以这样写：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> ssh -D 8080 user@host</span><br></pre></td></tr></table></figure>
+
+<p>SSH会建立一个socket，去监听本地的8080端口。一旦有数据传向那个端口，就自动把它转移到SSH连接上面，发往远程主机。可以想象，如果8080端口原来是一个不加密端口，现在将变成一个加密端口。</p>
+<h1 id="本地端口转发"><a href="#本地端口转发" class="headerlink" title="本地端口转发"></a>本地端口转发</h1><p>有时候，绑定本地端口还不够，还必须指定数据传送的目标主机，从而形成点对点的“端口转发”。为了区别后文的“远程端口转发”，我们把这种情况称为“本地端口转发”。</p>
+<p>假定host1是本地主机，host2是远程主机。由于种种原因，这两台主机之间无法连通。但是，另外还有一台host3，可以同时连通前面两台主机。因此，很自然的想法就是，通过host3，将host1连上host2。我们在host1执行下面的命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> ssh -L 2121:host2:21 host3</span><br></pre></td></tr></table></figure>
+
+<p>命令中的L参数一共接受三个值，分别是“本地端口: 目标主机:目标主机端口”。这条命令的意思是，指定SSH绑定本地端口2121，然后指定host3将所有的数据，转发到目标主机host2的21端口（假定host2运行FTP，默认端口为21）。</p>
+<p>这样一来，我们只要连接host1的2121端口，就等于连上了host2的21端口。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> ftp localhost:2121</span><br></pre></td></tr></table></figure>
+
+<p>“本地端口转发”使得host1和host3之间仿佛形成一个数据传输的密码隧道，因此又称为SSH隧道。</p>
+<p>下面是一个比较有趣的例子。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> ssh -L 5900:localhost:5900 host3</span><br></pre></td></tr></table></figure>
+
+<p>它表示将本机的5900端口绑定host3的5900端口（这里的localhost指的是host3，因为目标主机是相对host3而言的）。另一个例子是通过host3的端口转发，ssh登录host2。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> ssh -L 9001:host2:22 host3</span><br></pre></td></tr></table></figure>
+
+<p>这时，只要ssh登录本机的9001端口，就相当于登录host2了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> ssh -p 9001 localhost</span><br></pre></td></tr></table></figure>
+
+<p>上面的-p参数表示指定登录端口。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]ssh协议：<a href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html">http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html</a><br>[2]ssh原理与运用，远程操作与端口转发：<a href="http://www.ruanyifeng.com/blog/2011/12/ssh_port_forwarding.html">http://www.ruanyifeng.com/blog/2011/12/ssh_port_forwarding.html</a></p>
 
       
     </div>
@@ -407,12 +472,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/二分查找/" rel="tag"># 二分查找</a>
-          
-        </div>
-      
 
       
       
@@ -422,8 +481,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/16/147.-Insertion-Sort-List/" rel="next" title="147. Insertion Sort List">
-                <i class="fa fa-chevron-left"></i> 147. Insertion Sort List
+              <a href="/2019/10/20/vector的实现/" rel="next" title="vector的实现">
+                <i class="fa fa-chevron-left"></i> vector的实现
               </a>
             
           </div>
@@ -432,8 +491,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/10/18/内存分配的几个函数/" rel="prev" title="内存分配的几个函数">
-                内存分配的几个函数 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/22/数据库索引/" rel="prev" title="数据库索引">
+                数据库索引 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -513,7 +572,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">140</span>
+                  <span class="site-state-item-count">148</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -524,7 +583,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -568,7 +627,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#从有序数组中大于等于某个数的元素第一次出现的位置"><span class="nav-number">1.</span> <span class="nav-text">从有序数组中大于等于某个数的元素第一次出现的位置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#从有重复元素的有序数组中找出某个元素第一次出现的位置"><span class="nav-number">2.</span> <span class="nav-text">从有重复元素的有序数组中找出某个元素第一次出现的位置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在有序旋转数组中搜索某个给定的数"><span class="nav-number">3.</span> <span class="nav-text">在有序旋转数组中搜索某个给定的数</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SSH协议"><span class="nav-number">1.</span> <span class="nav-text">SSH协议</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#中间人攻击"><span class="nav-number">2.</span> <span class="nav-text">中间人攻击</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#口令登录"><span class="nav-number">3.</span> <span class="nav-text">口令登录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#公钥登录"><span class="nav-number">4.</span> <span class="nav-text">公钥登录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#authorized-keys文件"><span class="nav-number">5.</span> <span class="nav-text">authorized_keys文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#绑定本地端口"><span class="nav-number">6.</span> <span class="nav-text">绑定本地端口</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本地端口转发"><span class="nav-number">7.</span> <span class="nav-text">本地端口转发</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">8.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>

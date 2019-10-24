@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="【非原创】MySQL中的事务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql中事务的实现">
+<meta property="og:url" content="http://yoursite.com/2019/10/24/Mysql中事务的实现/index.html">
+<meta property="og:site_name" content="xixi2">
+<meta property="og:description" content="【非原创】MySQL中的事务">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://img.draveness.me/2019-02-21-Redo-Logging.jpg">
+<meta property="og:image" content="https://img.draveness.me/2017-08-20-Transaction-Log.jpg-1000width">
+<meta property="og:image" content="https://img.draveness.me/2017-08-20-Transaction-Isolation-Matrix.jpg-1000width">
+<meta property="og:image" content="https://img.draveness.me/2017-08-20-Timestamps-Record.jpg-1000width">
+<meta property="og:updated_time" content="2019-10-24T09:33:08.272Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mysql中事务的实现">
+<meta name="twitter:description" content="【非原创】MySQL中的事务">
+<meta name="twitter:image" content="https://img.draveness.me/2019-02-21-Redo-Logging.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/10/24/Mysql中事务的实现/">
+
+
+
+
+
+  <title>Mysql中事务的实现 | xixi2</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xixi2</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/24/Mysql中事务的实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xixi2">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixi2">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Mysql中事务的实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-24T17:33:08+08:00">
+                2019-10-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>【非原创】<br>MySQL中的事务</p>
+<a id="more"></a>
+
+<h1 id="自动提交（autocommit）"><a href="#自动提交（autocommit）" class="headerlink" title="自动提交（autocommit）"></a>自动提交（autocommit）</h1><p><span style="color:royalblue">MySQL默认采用自动提交模式。也就是说，如果不是显式地开始一个事务，则每个查询都会被当做一个事务执行提交操作</span>。在当前连接中，可以通过设置AUTOCOMMIT变量来启用或禁用自动提交模式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> show variables like 'AUTOCOMMIT';</span><br><span class="line">+---------------+-------+</span><br><span class="line">| Variable_name | Value |</span><br><span class="line">+---------------+-------+</span><br><span class="line">| autocommit    | ON    |</span><br><span class="line">+---------------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>1或者ON表示启用，0或者OFF表示禁用。<span style="color:royalblue">当AUTOCOMMIT=0时，所有的查询都是在一个事务中，直到显式地执行COMMIT提交或者ROLLBACK回滚，该事务结束，同时又开始了另一个新事务</span>。</p>
+<h1 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h1><p>事务就是一系列的操作，要么全部都执行，要都不执行。那么全部都执行，要么都不执行就是说明事务的原子性。</p>
+<h2 id="回滚日志"><a href="#回滚日志" class="headerlink" title="回滚日志"></a>回滚日志</h2><p>要想保证事务的原子性，就需要在异常发生时，对已经执行的操作进行回滚，而在MySQL中，恢复机制是通过回滚日志（undo log）实现的，所有事务进行的修改都会先记录到这个回滚日志中，然后对数据库中的对应行进行写入。<br>这个过程其实非常好理解，为了能够在发生错误时撤销之前的全部操作，肯定是需要将之前的操作都记录下来的，这样在发生错误时才可以回滚。<br>回滚日志除了能够在发生错误或用户执行ROLLBACK时提供回滚相关的信息，它还能够在整个系统发生崩溃、数据库进程直接被杀死后，当用户再次启动数据库进程时，还能够立刻通过查询回滚日志将之前未完成的事务进行回滚，这就需要回滚日志必须先于数据持久化到磁盘上。<br>回滚日志并不能将数据库物理地恢复到执行语句或者事务之前的样子；它是逻辑日志，当回滚日志被使用时，它只会按照日志<strong>逻辑地</strong>将数据库中的修改撤销掉看，可以<strong>理解</strong>为，我们在事务中使用的每一条 <code>INSERT</code> 都对应了一条 <code>DELETE</code>，每一条 <code>UPDATE</code> 也都对应一条相反的 <code>UPDATE</code> 语句。</p>
+<h1 id="持久性"><a href="#持久性" class="headerlink" title="持久性"></a>持久性</h1><p>事务的持久性体现在，一旦事务被提交，那么数据一定会被写入到数据库中并持久存储起来。当事务被提交之后，也就无法回滚了，唯一能够撤回已经提交的事务的方式就是创建一个相反的事务对原操作进行补偿，这也是事务持久性的体现之一。</p>
+<p>与原子性一样，事务的持久性也是通过日志来实现的，mysql使用重做日志（redo log）实现事务的持久性，重做日志由两部分组成，一是内存中的重做日志缓冲区。重做日志缓冲区在内存中，所以它是易失的。另一个是存储在磁盘上的重做日志文件，它是持久的。</p>
+<p><img src="https://img.draveness.me/2019-02-21-Redo-Logging.jpg" alt="Redo-Logging"></p>
+<p>当我们在一个事务中尝试对数据进行修改时，它会先将数据从磁盘读入内存，并更新内存中缓存的数据，然后生成一条重做日志并写入重做日志缓存，当事务真正提交时，Mysql会将重做日志缓存中的内容刷新到重做日志文件，再将内存中的数据更新到磁盘上，图中的第4、5步就是在事务提交时执行的。</p>
+<p>在InnoDB中，重做日志都是以512字节的块的形式进行存储的，同时因为块的大小与磁盘扇区大小相同，所以重做日志的写入可以保证原子性，不会由于机器断电导致重做日志仅写入一半并留下脏数据。（不太明白）</p>
+<p>除了所有对数据库的修改可会产生重做日志，因为回滚日志也是需要持久存储的，它们也会创建对应的重做日志，在发生错误时，数据库重启时会从重做日志中找出未被更新到数据库磁盘中的日志重新执行以满足事务的持久性。</p>
+<h2 id="回滚日志和重做日志"><a href="#回滚日志和重做日志" class="headerlink" title="回滚日志和重做日志"></a>回滚日志和重做日志</h2><p>回滚日志（undo log）和重做日志（redo log）。在数据库系统中，事务的原子性和持久性是由事务日志保证的，在实现时也就是上面提到的两种日志，前者用于对事务的影响进行撤销，后者在错误处理时对提交的事务进行重做，它们能保证两点：</p>
+<ol>
+<li>发生错误或者需要回滚的事务能够成功回滚（原子性）；</li>
+<li>在事务提交后，数据没来得及写入磁盘就宕机时，在下次重新启动后能够成功恢复数据（持久性）；</li>
+</ol>
+<p>在数据库中，这两种日志经常都是一起工作的，我们可以将它们整体看做一条事务日志，其中包含了事务的ID、修改的行元素以及修改前后的值。</p>
+<p><img src="https://img.draveness.me/2017-08-20-Transaction-Log.jpg-1000width" alt="Transaction-Log"></p>
+<p>一条事务日志同时包含了修改前后的值，能够非常简单地进行回滚和重做两种操作。</p>
+<h1 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h1><p>隔离性是指多个用户并发访问数据库时，比如操作同一张表时，数据库为每个用户开启的事务，不能被其他事务所干扰，多个并发事务之间要相互隔离。</p>
+<p>SQL标准中定义了四种数据库的事务的隔离级别：<code>READ UNCOMMIT</code> 、 <code>READ COMMITED</code> 、<code>REPEATABLE READ</code>和<code>SERIALIZABLE</code>；每个事务的隔离级别都比上一级多解决了一个问题。</p>
+<ul>
+<li><code>READ UNCOMMITED</code>：<ul>
+<li>使用查询语句不会加锁，可能会读到未提交的行（dirty read）。</li>
+<li>脏读是指事务可以读取未提交的数据。</li>
+</ul>
+</li>
+<li><code>READ COMMITED</code>：<ul>
+<li>提交读，又称为不可重复读。</li>
+<li>一个事务开始时，只能“看见”已经提交的事务所做的修改。换句话说，一个事物从开始直到提交之前，所有的修改对其他事务是不可见的。</li>
+<li>只对记录加记录锁，而不会在记录之间加间隙锁，所以允许新的记录插入到被锁定记录的附近，所以在多次使用查询语句时，可能得到不同的结果（Non-Repeatable Read）；</li>
+</ul>
+</li>
+<li><code>REPEATABLE READ</code>：<ul>
+<li>可重复读。可重复读解决了脏读的问题。该级别保证了在同一个事务中多次读取同样记录的结果是一致的。</li>
+<li>可重复读是Mysql的默认事务隔离级别。</li>
+<li>多次读取同一范围的数据会返回第一次查询的快照，不会返回不同的数据行，但是可能发生幻读（Phantom Read）；<ul>
+<li>幻读是指当某个事务在读取某个范围内的记录时，另外一个事务又在该范围内插入了新的记录，当之前的事务再次读取该范围内的记录时，会产生幻行。</li>
+<li>InnoDB和XtraDB存储引擎通过<span style="color:royalblue">多版本并发控制</span>解决了幻读的问题。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>SERIALIZABLE</code>：<ul>
+<li>可串行化是最高的隔离级别。它通过强制事务串行执行，避免了幻读的问题。</li>
+<li>可串行化会在读取的每一行数据上都加锁，所以可能导致大量的超时和锁争用的问题。</li>
+<li>只有在非常需要确保数据的一致性而且可以接受没有并发的情况下，才考虑采用该级别。</li>
+<li>InnoDB隐式地将全部的查询语句加上共享锁，解决了幻读的问题。</li>
+</ul>
+</li>
+</ul>
+<p>以上的所有的事务隔离级别都不允许脏写入（dirty write），也就是当前事务更新了另一个事务已经更新但是还未提交的数据，大部分的数据库中都是用了<code>READ COMMITED</code>作为默认事务隔离级别，但是Mysql使用了可重复读作为默认的事务隔离级别。</p>
+<p>下面的图用来展示各个隔离级别对脏读、不可重复读和幻读这三个问题的解决情况。</p>
+<p><img src="https://img.draveness.me/2017-08-20-Transaction-Isolation-Matrix.jpg-1000width" alt="Transaction-Isolation-Matrix"></p>
+<h2 id="脏读、不可重复读和幻读的深入理解"><a href="#脏读、不可重复读和幻读的深入理解" class="headerlink" title="脏读、不可重复读和幻读的深入理解"></a>脏读、不可重复读和幻读的深入理解</h2><h2 id="隔离级别的实现"><a href="#隔离级别的实现" class="headerlink" title="隔离级别的实现"></a>隔离级别的实现</h2><p>数据库对隔离级别的实现就是使用<span style="color:royalblue">并发控制机制</span>在同一时间执行的事务进行控制，限制不同的事务对于统一资源的访问和更新，而最重要也最常见的并发控制机制，在这里简单介绍三种最重要的并发控制机制的工作原理。</p>
+<h3 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h3><p>锁是最为常见的并发控制机制，在一个事务中，我们并不会将整个数据库都加锁，而是只会锁住那些需要访问的数据项。MySQL和常见数据库中的锁都分为两种，共享锁和互斥锁，前者也叫读锁，后者也叫写锁。</p>
+<p>读锁保证了读操作可以并发执行，相互不会影响，而写锁保证了在更新数据库时不会有其他的事务访问或者更改同一条记录造成不可预知的问题。</p>
+<h3 id="时间戳"><a href="#时间戳" class="headerlink" title="时间戳"></a>时间戳</h3><p>除了锁，另一种实现事务的隔离性的方式就是通过时间戳，使用这种方式实现事务的数据库，例如 PostgreSQL 会为每一条记录保留两个字段；<em>读时间戳</em>中包括了所有访问该记录的事务中的最大时间戳，而记录行的<em>写时间戳</em>中保存了将记录改到当前值的事务的时间戳。</p>
+<p><img src="https://img.draveness.me/2017-08-20-Timestamps-Record.jpg-1000width" alt="Timestamps-Record"></p>
+<p>使用时间戳实现事务的隔离性时，往往都会使用乐观锁，先对数据进行修改，在写回时再去判断当前值，也就是时间戳是否改变过，如果没有改变过，就写入，否则，生成一个新的时间戳并再次更新数据，乐观锁其实并不是真正的锁机制，它只是一种思想。</p>
+<h3 id="多版本和快照隔离"><a href="#多版本和快照隔离" class="headerlink" title="多版本和快照隔离"></a>多版本和快照隔离</h3><p>通过维护多个版本的数据，数据库可以允许事务在数据被其他事务更新时对旧版本的数据进行读取，很多数据库都对这一机制进行了实现偏；因为所有的读操作不再需要等待写锁的释放，所以能够显著地提升读的性能，MySQL 和 PostgreSQL 都对这一机制进行自己的实现，也就是 MVCC，虽然各自实现的方式有所不同，MySQL 就通过文章中提到的回滚日志实现了 MVCC，保证事务并行执行时能够不等待互斥锁的释放直接获取数据。</p>
+<p>可以认为MVCC是行级锁的一个变种，但是它在很多情况下避免了加锁操作，因此开销更低。虽然实现机制有所不同，但大都实现了非阻塞的读操作，写操作也只锁定必要的行。</p>
+<p><span style="color:royalblue">MVCC的实现，是通过保存数据在某个时间点的快照来实现的</span>。也就是说，不管需要执行多长时间，每个事务看到的数据都是一致的。根据事务开始的时间不同，每个事务对同一张表，同一时刻看到的数据可能是不一样的。</p>
+<p>下面通过InnoDB的简化版行为来说明MVCC是如何工作的。<br>InnoDB的MVCC，是通过在每行记录后面保存两个隐藏的列来实现的。这两个列，一个保存了行的创建时间，一个保存行的过期时间（或删除时间）。当然存储的病史实际的时间值，而是<span style="color:royalblue">系统版本号</span>。没开始一个新的事务，系统版本号自动递增。事务开始时刻的系统版本号会作为事务的版本号，用来和查询到的每行记录的版本号进行比较。下面看一下在REPEATABLE READ隔离级别下，MVCC具体是如何操作的。</p>
+<ul>
+<li><p>select </p>
+<p>InnoDB会根据以下两个条件检查每行记录：</p>
+<ul>
+<li>InnoDB只查找版本早于当前事务版本的数据行（也就是，行的系统版本号小于或等于事务的系统版本号），这样可以确保事务读取的行，要么是在事务开始前已经存在的，要么是事务自身插入或者修改过的。</li>
+<li>行的删除版本要么 未定义，要么大于当前事务版本号。这可以确保事务读取到的行，在事务开始之前未被删除。</li>
+</ul>
+<p>只有符合上述两个条件的记录，才能返回作为查询结果。</p>
+</li>
+<li><p>insert</p>
+<ul>
+<li>InnoDB为新插入的每一行保存当前系统版本号作为行版本号。</li>
+</ul>
+</li>
+<li><p>delete</p>
+<ul>
+<li>InnoDB为删除的每一行保存当前系统版本号作为行删除标识。</li>
+</ul>
+</li>
+<li><p>update</p>
+<ul>
+<li>InnoDB为插入一行新记录，保存当前系统版本号作为行版本号，同时保存当前系统版本号到原来的行作为行删除标识。</li>
+</ul>
+</li>
+</ul>
+<p>保存这两个额外系统版本号，使大多数读操作都可以不用加锁。这样设计使得读数据操作很简单，性能很好，并且也能保证只会读取到符合标准的行。不足之处是每行记录都需要额外的存储空间，需要做更多的行检查工作，以及一些额外的维护工作。</p>
+<p>MVCC只在REPEATABLE READ和READ COMMITED两个隔离级别下工作。其他两个隔离级别都和MVCC不兼容，因为READ UNCOMMITED总是读取最新的数据行，而不是符合当前事务版本的数据行。而SERIALIZABLE则会对所有读取的行都加锁。</p>
+<h2 id="隔离性与原子性"><a href="#隔离性与原子性" class="headerlink" title="隔离性与原子性"></a>隔离性与原子性</h2><p>在这里简单提一下在原子性一节中遇到的级联回滚问题了，如果一个事务对数据进行了写入，这时就会获取一个互斥锁，其他的事务如果想要获得该行数据的读锁必须等待写锁的释放，自然不会发生级联回滚问题了。</p>
+<p>不过在大多数的数据库，比如 MySQL 中都使用了 MVCC 等特性，也就是正常的读方法是不需要获取锁的，在想要对读取的数据进行更新时需要使用 <code>SELECT ... FOR UPDATE</code> 尝试获取对应行的互斥锁，以保证不同事务可以正常工作。</p>
+<h2 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h2><p>如果一个事务在一个一致的数据库中独立运行，那么在它执行之后，数据库的状态一定是一致的。</p>
+<p>对于这个概念，它的第一层意思就是对于数据完整性的约束，包括主键约束、引用约束以及一些约束检查等等，在事务的执行的前后以及过程中不会违背对数据完整性的约束，所有对数据库写入的操作都应该是合法的，并不能产生不合法的数据状态。而第二层意思其实是指逻辑上的对于开发者的要求，我们要在代码中写出正确的事务逻辑，比如银行转账，事务中的逻辑不可能只扣钱或者只加钱，这是应用层面上对于数据库一致性的要求。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]深入浅出mysql中事务的实现：<a href="https://draveness.me/mysql-transaction">https://draveness.me/mysql-transaction</a><br>[2]InnoDB存储引擎MVCC实现原理：<a href="https://liuzhengyang.github.io/2017/04/18/innodb-mvcc/">https://liuzhengyang.github.io/2017/04/18/innodb-mvcc/</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/24/归并排序/" rel="next" title="归并排序">
+                <i class="fa fa-chevron-left"></i> 归并排序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="xixi2">
+            
+              <p class="site-author-name" itemprop="name">xixi2</p>
+              <p class="site-description motion-element" itemprop="description">一去不复返的远方还有无法抵达的过去</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">148</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">102</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#自动提交（autocommit）"><span class="nav-number">1.</span> <span class="nav-text">自动提交（autocommit）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原子性"><span class="nav-number">2.</span> <span class="nav-text">原子性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#回滚日志"><span class="nav-number">2.1.</span> <span class="nav-text">回滚日志</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#持久性"><span class="nav-number">3.</span> <span class="nav-text">持久性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#回滚日志和重做日志"><span class="nav-number">3.1.</span> <span class="nav-text">回滚日志和重做日志</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#隔离性"><span class="nav-number">4.</span> <span class="nav-text">隔离性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#脏读、不可重复读和幻读的深入理解"><span class="nav-number">4.1.</span> <span class="nav-text">脏读、不可重复读和幻读的深入理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隔离级别的实现"><span class="nav-number">4.2.</span> <span class="nav-text">隔离级别的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#锁"><span class="nav-number">4.2.1.</span> <span class="nav-text">锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时间戳"><span class="nav-number">4.2.2.</span> <span class="nav-text">时间戳</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多版本和快照隔离"><span class="nav-number">4.2.3.</span> <span class="nav-text">多版本和快照隔离</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隔离性与原子性"><span class="nav-number">4.3.</span> <span class="nav-text">隔离性与原子性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一致性"><span class="nav-number">4.4.</span> <span class="nav-text">一致性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xixi2</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme:'forest' });
+}
+  </script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

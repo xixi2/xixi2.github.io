@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="对于快速排序过程中一个的问题：为什么在qsort中递归时，需要将递归范围改为[lo, pos-1]而不是[lo, pos]?">
+<meta name="description" content="归并排序和快速排序是两个经典的分治算法的应用。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="快速排序算法">
-<meta property="og:url" content="http://yoursite.com/2019/10/14/快速排序算法/index.html">
+<meta property="og:title" content="归并排序">
+<meta property="og:url" content="http://yoursite.com/2019/10/24/归并排序/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="对于快速排序过程中一个的问题：为什么在qsort中递归时，需要将递归范围改为[lo, pos-1]而不是[lo, pos]?">
+<meta property="og:description" content="归并排序和快速排序是两个经典的分治算法的应用。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-14T10:44:52.961Z">
+<meta property="og:updated_time" content="2019-10-24T03:40:19.960Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="快速排序算法">
-<meta name="twitter:description" content="对于快速排序过程中一个的问题：为什么在qsort中递归时，需要将递归范围改为[lo, pos-1]而不是[lo, pos]?">
+<meta name="twitter:title" content="归并排序">
+<meta name="twitter:description" content="归并排序和快速排序是两个经典的分治算法的应用。">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/10/14/快速排序算法/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/24/归并排序/">
 
 
 
 
 
-  <title>快速排序算法 | xixi2</title>
+  <title>归并排序 | xixi2</title>
   
 
 
@@ -294,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/14/快速排序算法/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/24/归并排序/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -311,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">快速排序算法</h1>
+          <h1 class="post-title" itemprop="name headline">归并排序</h1>
         
 
         <div class="post-meta">
@@ -323,8 +323,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-14T18:44:52+08:00">
-                2019-10-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-24T11:40:19+08:00">
+                2019-10-24
               </time>
             
 
@@ -346,8 +346,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
+                  <a href="/categories/基础算法/" itemprop="url" rel="index">
+                    <span itemprop="name">基础算法</span>
                   </a>
                 </span>
 
@@ -388,14 +388,12 @@
       
 
       
-        <p>对于快速排序过程中一个的问题：为什么在qsort中递归时，需要将递归范围改为[lo, pos-1]而不是[lo, pos]?</p>
+        <p>归并排序和快速排序是两个经典的分治算法的应用。</p>
 <a id="more"></a>
 
-<p>以下看一个具体例子：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;arr, <span class="keyword">int</span> lo, <span class="keyword">int</span> hi)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = lo - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> key = arr[hi];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = lo; j &lt; hi; ++j) &#123;</span><br><span class="line">        <span class="keyword">if</span> (arr[j] &lt;= key) &#123;</span><br><span class="line">            ++i;</span><br><span class="line">            <span class="keyword">int</span> temp = arr[j];</span><br><span class="line">            arr[j] = arr[i];</span><br><span class="line">            arr[i] = temp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    arr[hi] = arr[i + <span class="number">1</span>];</span><br><span class="line">    arr[i + <span class="number">1</span>] = key;</span><br><span class="line">    <span class="keyword">return</span> i + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">qsort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;arr, <span class="keyword">int</span> lo, <span class="keyword">int</span> hi)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (lo &gt;= hi) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> pos = partition(arr, lo, hi);   <span class="comment">// 这里返回了pos=5,所以出现了递归调用，而且这个递归调用和之前的调用一模一样</span></span><br><span class="line">    qsort(arr, lo, pos - <span class="number">1</span>);</span><br><span class="line">    qsort(arr, pos + <span class="number">1</span>, hi);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; arr&#123;<span class="number">12</span>, <span class="number">34</span>, <span class="number">11</span>, <span class="number">46</span>, <span class="number">12</span>, <span class="number">89</span>&#125;;</span><br><span class="line">    qsort(arr, <span class="number">0</span>, arr.size() - <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> c:arr) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; c &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>在归并排序过程中，递归的两个子范围为[lo, mid]和[mid+1, hi]。那是因为[lo, mid]区间必然是[lo, hi]区间的子区间，而不会和区间[lo, hi]重叠。而这里的pos是通过partition函数返回的，表示在数组中小于等于key的元素范围，pos有可能等于hi,这时区间[lo, pos]和区间[lo, hi]重叠，便会造成无法终止的递归调用。</p>
-<p>但实际上，在快速排序的过程中，每次我们至少可以确定一个元素的位置，即主元的位置，因此，问题的规模会慢慢变小。</p>
+
+<h1 id="求逆序数"><a href="#求逆序数" class="headerlink" title="求逆序数"></a>求逆序数</h1><h1 id="相关题目"><a href="#相关题目" class="headerlink" title="相关题目"></a>相关题目</h1><p>[1]求每个元素的逆序数：<a href="https://leetcode.com/problems/count-of-smaller-numbers-after-self/">https://leetcode.com/problems/count-of-smaller-numbers-after-self/</a><br>[2]<a href="https://leetcode.com/problems/non-decreasing-array/">https://leetcode.com/problems/non-decreasing-array/</a></p>
 
       
     </div>
@@ -420,8 +418,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/14/145.-Binary-Tree-Postorder-Traversal/" rel="next" title="145. Binary Tree Postorder Traversal">
-                <i class="fa fa-chevron-left"></i> 145. Binary Tree Postorder Traversal
+              <a href="/2019/10/24/快速排序算法/" rel="next" title="快速排序算法">
+                <i class="fa fa-chevron-left"></i> 快速排序算法
               </a>
             
           </div>
@@ -430,8 +428,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/10/14/Single-Number系列/" rel="prev" title="Single Number系列">
-                Single Number系列 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/24/Mysql中事务的实现/" rel="prev" title="Mysql中事务的实现">
+                Mysql中事务的实现 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -484,8 +482,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -502,7 +509,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">140</span>
+                  <span class="site-state-item-count">148</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -513,7 +520,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -547,6 +554,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#求逆序数"><span class="nav-number">1.</span> <span class="nav-text">求逆序数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#相关题目"><span class="nav-number">2.</span> <span class="nav-text">相关题目</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
