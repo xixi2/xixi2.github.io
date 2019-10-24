@@ -79,25 +79,21 @@
 
 
 
-<meta name="description" content="索引是存储引擎用于快速找到记录的一种数据结构。索引是按用户任意指定的字段对数据进行排序的一种数据结构。索引是为了加快查询的速度．">
+<meta name="description" content="ZooKeeper是一种分布式协调服务。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据库索引">
-<meta property="og:url" content="http://yoursite.com/2019/10/22/数据库索引/index.html">
+<meta property="og:title" content="zookeeper基础">
+<meta property="og:url" content="http://yoursite.com/2019/10/24/zookeeper基础/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="索引是存储引擎用于快速找到记录的一种数据结构。索引是按用户任意指定的字段对数据进行排序的一种数据结构。索引是为了加快查询的速度．">
+<meta property="og:description" content="ZooKeeper是一种分布式协调服务。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2019/10/22/数据库索引/b_plus1.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/22/数据库索引/b_plus2.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/22/数据库索引/b_plus4.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/22/数据库索引/b_plus5.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/22/数据库索引/b_plus6.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/22/数据库索引/b_plus7.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/22/数据库索引/b_plus8.png">
-<meta property="og:updated_time" content="2019-10-22T12:46:37.495Z">
+<meta property="og:image" content="http://yoursite.com/2019/10/24/zookeeper基础/arch.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/24/zookeeper基础/namespace.png">
+<meta property="og:image" content="https://atts.w3cschool.cn/attachments/image/20161229/1482990578752713.png">
+<meta property="og:updated_time" content="2019-10-24T15:09:00.582Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据库索引">
-<meta name="twitter:description" content="索引是存储引擎用于快速找到记录的一种数据结构。索引是按用户任意指定的字段对数据进行排序的一种数据结构。索引是为了加快查询的速度．">
-<meta name="twitter:image" content="http://yoursite.com/2019/10/22/数据库索引/b_plus1.png">
+<meta name="twitter:title" content="zookeeper基础">
+<meta name="twitter:description" content="ZooKeeper是一种分布式协调服务。">
+<meta name="twitter:image" content="http://yoursite.com/2019/10/24/zookeeper基础/arch.png">
 
 
 
@@ -127,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/10/22/数据库索引/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/24/zookeeper基础/">
 
 
 
 
 
-  <title>数据库索引 | xixi2</title>
+  <title>zookeeper基础 | xixi2</title>
   
 
 
@@ -302,7 +298,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/22/数据库索引/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/24/zookeeper基础/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -319,7 +315,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">数据库索引</h1>
+          <h1 class="post-title" itemprop="name headline">zookeeper基础</h1>
         
 
         <div class="post-meta">
@@ -331,8 +327,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-22T20:46:37+08:00">
-                2019-10-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-24T23:09:00+08:00">
+                2019-10-24
               </time>
             
 
@@ -354,8 +350,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据库/" itemprop="url" rel="index">
-                    <span itemprop="name">数据库</span>
+                  <a href="/categories/分布式基础/" itemprop="url" rel="index">
+                    <span itemprop="name">分布式基础</span>
                   </a>
                 </span>
 
@@ -396,79 +392,149 @@
       
 
       
-        <p>索引是存储引擎用于<span style="color:cornflowerblue">快速找到记录的一种数据结构</span>。索引是按用户任意指定的字段对数据进行排序的一种数据结构。索引是为了加快查询的速度．</p>
+        <p>ZooKeeper是一种分布式协调服务。</p>
 <a id="more"></a>
 
-<h1 id="使用索引"><a href="#使用索引" class="headerlink" title="使用索引"></a>使用索引</h1><ul>
-<li>优点<ul>
-<li>通过建立唯一索引或主键索引保证数据库中每一行数据的唯一性，提高检索的数据的效率以及减少表的检索行数</li>
-</ul>
-</li>
-<li>缺点：<ul>
-<li>创建索引和维护索引会浪费时间，随着数据量的增加而增加；</li>
-<li>索引文件会占用<span style="color:cornflowerblue">磁盘空间(数据库索引存储在磁盘上)</span>；</li>
-<li>当对表中的数据进行增删改的时候，也需要动态地维护索引，这样会降低数据更新的速度．</li>
-</ul>
-</li>
-<li>适用的场景：<ul>
-<li>适合查询操作多于更新操作的场景．</li>
-<li>表中数据量较大．</li>
-<li>建立索引的字段应该有较多值，比如说实值．比如说，字段gender，只有两个值，男和女，就不适合建立索引．</li>
-</ul>
-</li>
-<li>索引类型<ul>
-<li>单列索引：一个索引只包含一个列；可以有多个单列索引；主键索引，唯一索引，普通索引</li>
-<li>联合索引：一个联合索引包含两个或两个以上的列；当索引包含多个列时，列的顺序十分重要．因为存储引擎只能高效地使用最左前缀列．</li>
-</ul>
-</li>
-<li>查询类型<ul>
-<li>B-Tree(实际上是B+树)索引适用于全键值，键值范围查询，键前缀查找(最左前缀查找)．</li>
-</ul>
-</li>
-</ul>
-<p>建立索引：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">普通索引 create index 索引名　on 表名(字段名);</span><br><span class="line">alter table 表名　add index 索引名(字段名)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 唯一索引与普通索引类似，必须唯一，可以有空值 </span><br><span class="line">create unique index 索引名 on 表名(字段名)</span><br><span class="line">alter table 表名 add unique(字段名)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 主键索引，必须唯一，不可以有空值</span><br><span class="line"><span class="meta">#</span> 创建表时添加</span><br><span class="line">alter table 表名 add primary key(字段);</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 组合索引</span><br><span class="line">create index 索引名　on 表名(字段名1, 字段名2...);</span><br><span class="line">alter table 表名　add index 索引名(字段名1, 字段名2)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 删除索引</span><br><span class="line">drop index 索引名 on 表名</span><br></pre></td></tr></table></figure>
-
-<h1 id="B-tree索引"><a href="#B-tree索引" class="headerlink" title="B-tree索引"></a>B-tree索引</h1><h2 id="B树"><a href="#B树" class="headerlink" title="B树"></a>B树</h2><p>数据库索引存储在磁盘上，当数据量比较大的时候，索引也很大，可能有几个G甚至更多．<br>当我们利用索引查询的时候，能把整个索引全部加载到内存吗？显然不可能，只能一页一页地加载磁盘页．这里的磁盘页对应着索引树的节点．<br>如果利用二叉查找树作为索引结构，假设二叉查找树的高度为n．那么最差情况下，要查询的节点是处于最深层次上的叶子节点，磁盘IO次数等于树的高度．为了减少磁盘IO次数，需要把原本”瘦高”的树结构变得”矮胖”，这就是B-树的特征之一．<br>B树是一种<span style="color:cornflowerblue">多路平衡查找树</span>，它的每一个节点最多包含k个孩子，k被称为B树的阶。k的大小取决于磁盘页的大小。</p>
-<blockquote>
-<p>一个m阶的B树具有如下特征：<br>１．根节点至少有两个孩子<br>２．每个中间节点都包含k-1个元素和k个孩子，其中m/2(向上取整) &lt;= k &lt;= m．<br>３．每一个叶子节点都包含k-1个元素，其中m/2(向上取整) &lt;= k &lt;= m<br>４．所有的叶子节点都位于同一层．<br>５．每个节点中的元素从小到大排列，节点当中k-1个元素正好是k个孩子包含的元素的值域的分割．</p>
-</blockquote>
-<p>B树在查询过程中的比较次数并不比二叉查找树少，尤其是当单一节点中的元素数量很多时。可是相比磁盘IO的速度，内存中的比较耗时几乎可以忽略．只要树的高度足够低，IO次数足够少，就可以提升查找性能。<br>在一个节点内的内部元素多一些也没有关系，只不过需要在内存中多做几次比较。<br>B树主要应用于文件系统及部分数据库索引，如非关系型数据库MongoDB．大部分关系型数据库，如mysql，使用B+树作为索引。</p>
-<p>B树无论中间节点还是叶子节点都既有用于索引的关键字又有数据项(如数据表中的一行)。</p>
-<h2 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h2><blockquote>
-<p>一个m阶的B+树具有如下特征：<br>１．有k个子树的中间节点包含k个元素(B树中是k-1个元素)，每个元素不保存数据，只用来索引，所有数据都保存在叶子节点上（这里各个地方说法不一样）。<br>２．所有的叶子节点中包含了全部元素的信息，以及指向含这些元素记录的指针，且叶子节点本身依关键字的大小从小到大顺序链接(每一个叶子节点都包含指向下一个叶子节点的指针，从而方便叶子节点的范围遍历)。</p>
-<p>在同一个结构中保存索引和数据项时。此时，<span style="color:cornflowerblue">叶子节点包含一行的全部数据，中间节点只包含了索引列</span>。
-一个m阶的B树具有如下特征：<br>１．<span style="color:cornflowerblue">数据项存储在叶子节点上</span>。
-２．非叶节点存储指示m-1个关键字指示搜索的方向；关键字i代表子树i+1中的最小的关键字(每一个父节点的元素都出现在子节点中，是子节点中的最大或最小元素，这里是最小)<br>３．树的根或者是一片树叶，或者其孩子数在2到m之间。<br>４．除根外，所有非叶节点的孩子数在[m/2](m/2向上取整)和m之间。<br>５．所有的叶子节点都位于同一层，并且每个叶子节点拥有的数据项的个数在[L/2]和L之间。L是能装入到一个磁盘块中的数据项个数。</p>
-</blockquote>
-<h3 id="B-树索引的增删过程"><a href="#B-树索引的增删过程" class="headerlink" title="B+树索引的增删过程"></a>B+树索引的增删过程</h3><p>阶为3的B+树。只有三个元素15，15， 20，根节点用于索引，根节点中的元素为其右子树上最小元素的副本。</p>
-<p><img src="./b_plus1.png" alt="b_plus1"></p>
-<p>插入一个新元素398后整棵树成为这个样子：</p>
-<p><img src="./b_plus2.png" alt="b_plus2"></p>
-<p>插入新元素398后，右边这个节点有了三个元素15，20，398，超过了3阶B+树单个节点可以拥有的最大节点个数。之后分别插入2和18，此时B+树长这样：</p>
-<p><img src="./b_plus4.png" alt="b_plus4"></p>
-<p>之后若再插入任何元素都会使B+树加深一层。如插入17后，整棵树变为：</p>
-<p><img src="./b_plus5.png" alt="b_plus5"></p>
-<p>此后，删除元素15后，整棵树变为：</p>
-<p><img src="./b_plus6.png" alt="b_plus6"></p>
-<p>再次删除5之后，整棵树变为：</p>
-<p><img src="./b_plus7.png" alt="b_plus7"></p>
-<p>再删除2之后，整棵树变为：</p>
-<p><img src="./b_plus8.png" alt="b_plus8"></p>
-<h2 id="B树和B-树的区别"><a href="#B树和B-树的区别" class="headerlink" title="B树和B+树的区别"></a>B树和B+树的区别</h2><p>B+树中数据项只存储在叶子节点中，所以，同样大小的磁盘有可以容纳更多的关键字元素。这意味着，数据量相同的情况下，B+树的结构比B树更加矮胖，因此查询时的IO次数更少。但是B+树的查询最终必须查找到叶子节点才能获取数据项，而B树只要找到匹配的元素即可。无论匹配元素是在中间节点还是叶子节点。<br>B树的查找性能并不稳定(最好情况是只查根节点，最坏情况是查到叶子节点)。而B+树的每一次查找都是稳定的。<br>B+树的优点主要体现在查询性能上。分别以单行查询和范围查询为例。<br>B+树的范围查询只需要找到上限和下限所在的叶子节点，然后对链表进行遍历。而B树的范围查询需要通过中序遍历。<br>总的来说，B+与B树相比，优点在于：<br>１．单一节点存储更多的(关键字)元素，使得查询的IO次数更少。<br>２．所有查询都要查询到叶子节点才能获取(关键字)元素对应的数据项，查询性能更加稳定。<br>３．所有叶子节点形成有序链表，便于范围查询。</p>
-<h1 id="哈希索引"><a href="#哈希索引" class="headerlink" title="哈希索引"></a>哈希索引</h1><p>哈希索引基于哈希表实现．只有精确匹配索引所有列的查询才有效。<br>对于每一行数据(即每一个记录)，存储引擎会对所有的<span style="color:royalblue">索引列</span>计算一个哈希码(hash code)。<span style="color:royalblue">哈希索引将所有的哈希码存储在索引中，同时在哈希表中保存指向所有数据行的指针</span>。
-一般而言，对于不同的键值得出的哈希码是不同的，但是如果多个键值的哈希码相同，则将以链表的形式将多个记录指针存放到同一个哈希表条目中。</p>
-<p>哈希索引的优缺点：</p>
+<h1 id="Zookeeper概述"><a href="#Zookeeper概述" class="headerlink" title="Zookeeper概述"></a>Zookeeper概述</h1><h2 id="分布式应用"><a href="#分布式应用" class="headerlink" title="分布式应用"></a>分布式应用</h2><p>分布式应用可以在给定时间（同时）在网络中的多个系统上运行，通过协调它们以快速有效的方式完成特定任务。通常来说，对于复杂而耗时的任务，非分布式应用（运行在单个系统中）需要几个小时才能完成，而分布式应用通过使用所有系统涉及的计算能力可以在几分钟内完成。</p>
+<p>通过将分布式应用配置为在更多系统上运行，可以进一步减少完成任务的时间。<span style="color:royalblue">分布式应用正在运行的一组系统称为集群</span>，而在集群中运行的每台机器被称为<span style="color:royalblue">节点</span>。服务器应用程序实际上是分布式的，并具有通用接口，以便客户端可以连接到集群中的任何服务器并获得相同的结果。客户端应用程序是与分布式应用进行交互的工具。</p>
+<h2 id="什么是Apache-ZooKeeper？"><a href="#什么是Apache-ZooKeeper？" class="headerlink" title="什么是Apache ZooKeeper？"></a>什么是Apache ZooKeeper？</h2><p>Apache ZooKeeper是由<span style="color:royalblue">集群（节点组）使用</span>的一种服务，用于在自身之间协调，并通过稳健的同步技术维护共享数据。ZooKeeper本身是一个分布式应用程序，为写入分布式应用程序提供服务。</p>
+<p>ZooKeeper提供的常见服务如下 :</p>
 <ul>
-<li>优点：索引中只存储对应的哈希值，索引的结构十分紧凑，所以哈希查找的速度非常快。</li>
-<li>缺点：<ul>
-<li>哈希索引只包含哈希值和行指针，而不存储字段值，所以不能使用索引中的值来避免读取行</li>
-<li>哈希索引数据并不是按照索引值顺序存储的，所以无法用于排序。</li>
-<li>哈希索引不支持部分索引列匹配查找，因为哈希索引是使用所有索引列的全部内容来计算哈希值的。例如，在数据列(A,B)上建立哈希索引，如果查询只有数据列A则无法使用该索引</li>
+<li>命名服务：按名称标识集群中的节点。它类似于DNS，但仅对于节点。</li>
+<li>配置管理：加入节点的最近和最新的系统配置信息。</li>
+<li>集群管理：实时地在集群和节点状态中加入/离开节点。</li>
+<li>选举算法：选举一个节点作为协调目的leader。</li>
+<li>锁定和同步服务：在修改数据的同时锁定数据。此机制可帮助你在连接其他分布式应用程序时进行自动故障恢复。</li>
+<li>高度可靠的数据注册表：即使在一个或几个节点关闭时也可以获得数据。</li>
 </ul>
-</li>
+<p>分布式应用程序提供了很多好处，但它们也抛出了一些复杂和难以解决的挑战。ZooKeeper框架提供了一个完整的机制来克服所有的挑战。竞争条件和死锁使用<span style="color:firebrick">故障安全同步方法</span>进行处理。另一个主要缺点是数据的不一致性，ZooKeeper使用<strong>原子性</strong>解析。</p>
+<h2 id="ZooKeeper的好处"><a href="#ZooKeeper的好处" class="headerlink" title="ZooKeeper的好处"></a>ZooKeeper的好处</h2><p>以下是使用ZooKeeper的好处：</p>
+<ul>
+<li><strong>简单的分布式协调过程</strong></li>
+<li><strong>同步</strong> - 服务器进程之间的相互排斥和协作。此过程有助于Apache HBase进行配置管理。</li>
+<li><strong>有序的消息</strong></li>
+<li><strong>序列化</strong> - 根据特定规则对数据进行编码。确保应用程序运行一致。这种方法可以在MapReduce中用来协调队列以执行运行的线程。</li>
+<li><strong>可靠性</strong></li>
+<li><strong>原子性</strong> - 数据转移完全成功或完全失败，但没有事务是部分的。</li>
 </ul>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] B+树：<a href="https://mp.weixin.qq.com/s?__biz=MzIxMjE5MTE1Nw==&mid=2653191027&idx=1&sn=4ba22e3ec8bd149f69fc0aba72e4347e&chksm=8c9909a9bbee80bfa1d8497ff0525df130414c1731b5aa5287bf16ea1cf86c8d8e6f20782184&mpshare=1&scene=1&srcid=0925sA77A3hmiwr5HA9RSDzm&sharer_sharetime=1569419984774&sharer_shareid=98e442f4afad129e8b911831ba1d924a&pass_ticket=gKtUZgL16JtjtQiE3lotTm8CearSQYQ59A80esjorZO78gNkS9v%2B5Uh9XhTfsEaH#rd">B+树</a><br>[2] B树：<a href="https://mp.weixin.qq.com/s?__biz=MzIxMjE5MTE1Nw==&mid=2653190965&idx=1&sn=53f78fa037386f85531832cd5322d2a0&pass_ticket=gKtUZgL16JtjtQiE3lotTm8CearSQYQ59A80esjorZO78gNkS9v%2B5Uh9XhTfsEaH">B树</a><br>[3] MySQL索引和SQL调优：<a href="https://zhuanlan.zhihu.com/p/76494612">https://zhuanlan.zhihu.com/p/76494612</a><br>[4]可视化插入和删除过程：<a href="https://www.cs.usfca.edu/~galles/visualization/BPlusTree.html">https://www.cs.usfca.edu/~galles/visualization/BPlusTree.html</a><br>[5]MySQL索引背后的数据结构及算法原理：<a href="http://blog.codinglabs.org/articles/theory-of-mysql-index.html">http://blog.codinglabs.org/articles/theory-of-mysql-index.html</a></p>
+<h1 id="Zookeeper基础"><a href="#Zookeeper基础" class="headerlink" title="Zookeeper基础"></a>Zookeeper基础</h1><p>在深入了解ZooKeeper的运作之前，让我们来看看ZooKeeper的基本概念。我们将在本章中讨论以下主题：<br>1、Architecture（架构）<br>2、Hierarchical namespace（层次命名空间）<br>3、Session（会话）<br>4、Watches（监视）</p>
+<h2 id="ZooKeeper的架构"><a href="#ZooKeeper的架构" class="headerlink" title="ZooKeeper的架构"></a>ZooKeeper的架构</h2><p>看看下面的图表。它描述了ZooKeeper的“客户端-服务器架构”。</p>
+<p><img src="./arch.png" alt="arch"></p>
+<p>作为ZooKeeper架构的一部分的每个组件在下表中进行了说明。</p>
+<table>
+<thead>
+<tr>
+<th>部分</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Client（客户端）</td>
+<td>客户端，我们的分布式应用集群中的一个节点，从服务器访问信息。对于特定的时间间隔，每个客户端向服务器发送消息以使服务器知道客户端是活跃的。类似地，当客户端连接时，服务器发送确认码。如果连接的服务器没有响应，客户端会自动将消息重定向到另一个服务器。</td>
+</tr>
+<tr>
+<td>Server（服务器）</td>
+<td>服务器，我们的ZooKeeper总体中的一个节点，为客户端提供所有的服务。向客户端发送确认码以告知服务器是活跃的。</td>
+</tr>
+<tr>
+<td>Ensemble</td>
+<td>ZooKeeper服务器组。形成ensemble所需的最小节点数为3。</td>
+</tr>
+<tr>
+<td>Leader</td>
+<td>服务器节点，如果任何连接的节点失败，则执行自动恢复。Leader在服务启动时被选举。</td>
+</tr>
+<tr>
+<td>Follower</td>
+<td>跟随leader指令的服务器节点。</td>
+</tr>
+</tbody></table>
+<h2 id="层次命名空间"><a href="#层次命名空间" class="headerlink" title="层次命名空间"></a>层次命名空间</h2><p>下图描述了用于内存表示的ZooKeeper文件系统的树结构。<span style="color:royalblue">ZooKeeper节点称为 znode</span> 。每个znode由一个名称标识，并用路径(/)序列分隔。</p>
+<ul>
+<li>在图中，首先有一个由“/”分隔的znode。在根目录下，你有两个逻辑命名空间 <strong>config</strong> 和 <strong>workers</strong> 。</li>
+<li><strong>config</strong> 命名空间用于<span style="color:royalblue">集中式配置管理</span>，<strong>workers</strong> 命名空间用于<span style="color:royalblue">命名</span>。</li>
+<li>在 <strong>config</strong> 命名空间下，每个znode最多可存储1MB的数据。这与UNIX文件系统相类似，除了父znode也可以存储数据。这种结构的主要目的是存储同步数据并描述znode的元数据。此结构称为 <strong>ZooKeeper数据模型</strong>。</li>
+</ul>
+<p><img src="./namespace.png" alt="namespace"></p>
+<p>ZooKeeper数据模型中的每个znode都维护着一个 <span style="color:royalblue">stat</span>结构。一个stat仅提供一个znode的<span style="color:royalblue">元数据</span>。它由版本号，操作控制列表(ACL)，时间戳和数据长度组成。</p>
+<ul>
+<li>版本号：每个znode都有版本号，这意味着每当与znode相关联的数据发生变化时，其对应的版本号也会增加。当多个zookeeper客户端尝试在同一znode上执行操作时，版本号的使用就很重要。</li>
+<li>操作控制列表（ACL）：ACL基本上是访问znode的认证机制。它管理所有znode读取和写入操作。</li>
+<li>时间戳：时间戳表示创建和修改znode所经过的时间。它通常以毫秒为单位。Zookeeper从“事务ID”（zxid）标识znode的每个更改。zxid是唯一的，并且为每个事务保留时间，以便可以轻松地确定从一个请求到另一个请求所经过的时间。</li>
+<li>数据长度：存储在znode中的数据总量是数据长度。最多可以存储1MB的数据。</li>
+</ul>
+<h2 id="Sessions（会话）"><a href="#Sessions（会话）" class="headerlink" title="Sessions（会话）"></a>Sessions（会话）</h2><p>会话对于ZooKeeper的操作非常重要。<span style="color:royalblue">会话中的请求按FIFO顺序执行</span>。<span style="color:royalblue">一旦客户端连接到服务器，将建立会话并向客户端分配会话ID</span>（什么时候建立会话，以及建立会话时发生了什么？）。</p>
+<p>客户端以特定的时间间隔发送<strong>心跳</strong>以保持会话有效。如果ZooKeeper集合在超过服务器开启时指定的期间（会话超时）都没有从客户端接收到心跳，则它会判定客户端死机。</p>
+<p>会话超时通常以毫秒为单位。当会话由于任何原因结束时，在该会话期间创建的临时节点也会被删除。</p>
+<h2 id="Watches（监视）"><a href="#Watches（监视）" class="headerlink" title="Watches（监视）"></a>Watches（监视）</h2><p>监视是一种简单的机制，<span style="color:royalblue">使客户端收到关于ZooKeeper集合中的更改的通知</span>（监视的作用）。客户端可以在读取特定znode时设置Watches。Watches会向注册的客户端发送任何znode（客户端注册表）更改的通知。</p>
+<p>Znode更改是与znode相关的数据的修改或znode的子项中的更改。只触发一次watches。如果客户端想要再次通知，则必须通过另一个读取操作来完成。当连接会话过期时，客户端将与服务器断开连接，相关的watches也将被删除。</p>
+<h1 id="Zookeeper-工作流"><a href="#Zookeeper-工作流" class="headerlink" title="Zookeeper 工作流"></a>Zookeeper 工作流</h1><p>一旦ZooKeeper集合启动，它将等待客户端连接。客户端将连接到ZooKeeper集合中的一个节点。它可以是leader或follower节点。一旦客户端被连接，节点将向特定客户端分配会话ID并向该客户端发送确认。如果客户端没有收到确认，它将尝试连接ZooKeeper集合中的另一个节点。 一旦连接到节点，客户端将以有规律的间隔向节点发送心跳，以确保连接不会丢失。</p>
+<ul>
+<li>如果客户端想要读取特定的znode，它将会向<span style="color:firebrick">具有znode路径的节点发送读取请求</span>（什么节点才是具有znode路径的节点），并且节点通过从其自己的数据库获取来返回所请求的znode。为此，在ZooKeeper集合中读取速度很快。</li>
+<li>如果客户端想要将数据存储在ZooKeeper集合中*<em>，则会将znode路径和数据发送到服务器。连接的服务器将该请求转发给leader，然后leader将向所有的follower重新发出写入请求。如果只有大部分节点成功响应，而写入请求成功，则成功返回代码将被发送到客户端。 否则，写入请求失败。绝大多数节点被称为 *</em>Quorum 。</li>
+</ul>
+<h2 id="ZooKeeper集合中的节点"><a href="#ZooKeeper集合中的节点" class="headerlink" title="ZooKeeper集合中的节点"></a>ZooKeeper集合中的节点</h2><p>让我们分析在ZooKeeper集合中拥有不同数量的节点的效果。</p>
+<ul>
+<li>如果我们有<strong>单个节点</strong>，则当该节点故障时，ZooKeeper集合将故障。它有助于“单点故障”，不建议在生产环境中使用。</li>
+<li>如果我们有<strong>两个节点</strong>而一个节点故障，我们没有占多数，因为两个中的一个不是多数。</li>
+<li>如果我们有<strong>三个节点</strong>而一个节点故障，那么我们有大多数，因此，这是最低要求。ZooKeeper集合在实际生产环境中必须至少有三个节点。</li>
+<li>如果我们有<strong>四个节点</strong>而两个节点故障，它将再次故障。类似于有三个节点，额外节点不用于任何目的，因此，最好添加奇数的节点，例如3，5，7。</li>
+</ul>
+<p>我们知道写入过程比ZooKeeper集合中的读取过程要贵，因为所有节点都需要在数据库中写入相同的数据。因此，对于平衡的环境拥有较少数量（例如3，5，7）的节点比拥有大量的节点要好。</p>
+<p>下图描述了ZooKeeper工作流，后面的表说明了它的不同组件。</p>
+<p><img src="https://atts.w3cschool.cn/attachments/image/20161229/1482990578752713.png" alt="Zookeeper - 工作流"></p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>写入（write）</td>
+<td>写入过程由leader节点处理。leader将写入请求转发到所有znode，并等待znode的回复。如果一半的znode回复，则写入过程完成。</td>
+</tr>
+<tr>
+<td>读取（read）</td>
+<td>读取由特定连接的znode在内部执行，因此不需要与集群进行交互。</td>
+</tr>
+<tr>
+<td>复制数据库（replicated database）</td>
+<td>它用于在zookeeper中存储数据。每个znode都有自己的数据库，每个znode在一致性的帮助下每次都有相同的数据。</td>
+</tr>
+<tr>
+<td>Leader</td>
+<td>Leader是负责处理写入请求的Znode。</td>
+</tr>
+<tr>
+<td>Follower</td>
+<td>follower从客户端接收写入请求，并将它们转发到leader znode。</td>
+</tr>
+<tr>
+<td>请求处理器（request processor）</td>
+<td>只存在于leader节点。它管理来自follower节点的写入请求。</td>
+</tr>
+<tr>
+<td>原子广播（atomic broadcasts）</td>
+<td>负责广播从leader节点到follower节点的变化。</td>
+</tr>
+</tbody></table>
+<h1 id="Zookeeper-leader选举"><a href="#Zookeeper-leader选举" class="headerlink" title="Zookeeper leader选举"></a>Zookeeper leader选举</h1><p>让我们分析如何在ZooKeeper集合中选举leader节点。考虑一个集群中有N个节点。leader选举的过程如下：</p>
+<ul>
+<li>所有节点创建具有相同路径 /app/leader_election/guid_ 的顺序、临时节点。</li>
+<li>ZooKeeper集合将附加10位序列号到路径，创建的znode将是 /app/leader_election/guid_0000000001，/app/leader_election/guid_0000000002等。</li>
+<li>对于给定的实例，在znode中创建最小数字的节点成为leader，而所有其他节点是follower。</li>
+<li>每个follower节点监视下一个具有最小数字的znode。例如，创建znode/app/leader_election/guid_0000000008的节点将监视znode/app/leader_election/guid_0000000007，创建znode/app/leader_election/guid_0000000007的节点将监视znode/app/leader_election/guid_0000000006。</li>
+<li>如果leader关闭，则其相应的znode/app/leader_electionN会被删除。</li>
+<li>下一个在线follower节点将通过监视器获得关于leader移除的通知。</li>
+<li>下一个在线follower节点将检查是否存在其他具有最小数字的znode。如果没有，那么它将承担leader的角色。否则，它找到的创建具有最小数字的znode的节点将作为leader。</li>
+<li>类似地，<span style="color:royalblue">所有其他follower节点选举创建具有最小数字的znode的节点作为leader</span>。</li>
+</ul>
+<h1 id="Zookeeper-安装"><a href="#Zookeeper-安装" class="headerlink" title="Zookeeper 安装"></a>Zookeeper 安装</h1><p>java通过源码安装。</p>
+<h2 id="启动过程中报错"><a href="#启动过程中报错" class="headerlink" title="启动过程中报错"></a>启动过程中报错</h2><p>报错信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@ivic:/opt/zookeeper-3.5.6# vim /etc/profile</span><br><span class="line">root@ivic:/opt/zookeeper-3.5.6# bin/zkServer.sh start</span><br><span class="line">ZooKeeper JMX enabled by default</span><br><span class="line">Using config: /opt/zookeeper-3.5.6/bin/../conf/zoo.cfg</span><br><span class="line">Starting zookeeper ... FAILED TO START</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]zookeeper：<a href="https://www.w3cschool.cn/zookeeper/zookeeper_overview.html">https://www.w3cschool.cn/zookeeper/zookeeper_overview.html</a></p>
 
       
     </div>
@@ -493,8 +559,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/21/SSH协议/" rel="next" title="SSH协议">
-                <i class="fa fa-chevron-left"></i> SSH协议
+              <a href="/2019/10/24/数据库索引/" rel="next" title="数据库索引">
+                <i class="fa fa-chevron-left"></i> 数据库索引
               </a>
             
           </div>
@@ -502,10 +568,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/10/22/zookeeper/" rel="prev" title="zookeeper基础">
-                zookeeper基础 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -584,7 +646,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">148</span>
+                  <span class="site-state-item-count">147</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -639,7 +701,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用索引"><span class="nav-number">1.</span> <span class="nav-text">使用索引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#B-tree索引"><span class="nav-number">2.</span> <span class="nav-text">B-tree索引</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#B树"><span class="nav-number">2.1.</span> <span class="nav-text">B树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-树"><span class="nav-number">2.2.</span> <span class="nav-text">B+树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#B-树索引的增删过程"><span class="nav-number">2.2.1.</span> <span class="nav-text">B+树索引的增删过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B树和B-树的区别"><span class="nav-number">2.3.</span> <span class="nav-text">B树和B+树的区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#哈希索引"><span class="nav-number">3.</span> <span class="nav-text">哈希索引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Zookeeper概述"><span class="nav-number">1.</span> <span class="nav-text">Zookeeper概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式应用"><span class="nav-number">1.1.</span> <span class="nav-text">分布式应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Apache-ZooKeeper？"><span class="nav-number">1.2.</span> <span class="nav-text">什么是Apache ZooKeeper？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ZooKeeper的好处"><span class="nav-number">1.3.</span> <span class="nav-text">ZooKeeper的好处</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Zookeeper基础"><span class="nav-number">2.</span> <span class="nav-text">Zookeeper基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ZooKeeper的架构"><span class="nav-number">2.1.</span> <span class="nav-text">ZooKeeper的架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#层次命名空间"><span class="nav-number">2.2.</span> <span class="nav-text">层次命名空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sessions（会话）"><span class="nav-number">2.3.</span> <span class="nav-text">Sessions（会话）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Watches（监视）"><span class="nav-number">2.4.</span> <span class="nav-text">Watches（监视）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Zookeeper-工作流"><span class="nav-number">3.</span> <span class="nav-text">Zookeeper 工作流</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ZooKeeper集合中的节点"><span class="nav-number">3.1.</span> <span class="nav-text">ZooKeeper集合中的节点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Zookeeper-leader选举"><span class="nav-number">4.</span> <span class="nav-text">Zookeeper leader选举</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Zookeeper-安装"><span class="nav-number">5.</span> <span class="nav-text">Zookeeper 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#启动过程中报错"><span class="nav-number">5.1.</span> <span class="nav-text">启动过程中报错</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">6.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>
