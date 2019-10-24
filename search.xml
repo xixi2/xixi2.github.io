@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[209. Minimum Size Subarray Sum]]></title>
+    <url>%2F2019%2F10%2F24%2F209.Minimum-Size-Subarray-Sum%2F</url>
+    <content type="text"><![CDATA[Given an array of n positive integers and a positive integer s, find the minimal length of a contiguous subarray of which the sum ≥ s. If there isn’t one, return 0 instead. Example: 123Input: s = 7, nums = [2,3,1,2,4,3]Output: 2Explanation: the subarray [4,3] has the minimal length under the problem constraint. Follow up: If you have figured out the O(n) solution, try coding another solution of which the time complexity is O(n log n). 双指针双指针解法如何确定双指针移动的方法和结束条件？当区间i到j内的元素的和大于等于s时，不需要再考虑区间i到j+1，j+2,…,nums.size()-1内的元素之和，因为这里要求的是最短的连续子数组。[i,j+1]，[i, j+2]等与[i, j]相比都不是无法满足最短这个条件。 二分查找]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[981. Time Based Key-Value Store]]></title>
+    <url>%2F2019%2F10%2F24%2F981.Time-Based-Key-Value-Store%2F</url>
+    <content type="text"><![CDATA[Create a timebased key-value store class TimeMap, that supports two operations. set(string key, string value, int timestamp) Stores the key and value, along with the given timestamp. get(string key, int timestamp) Returns a value such that set(key, value, timestamp_prev) was called previously, with timestamp_prev &lt;= timestamp. If there are multiple such values, it returns the one with the largest timestamp_prev. If there are no values, it returns the empty string (&quot;&quot;). Example 1: 12345678910Input: inputs = [&quot;TimeMap&quot;,&quot;set&quot;,&quot;get&quot;,&quot;get&quot;,&quot;set&quot;,&quot;get&quot;,&quot;get&quot;], inputs = [[],[&quot;foo&quot;,&quot;bar&quot;,1],[&quot;foo&quot;,1],[&quot;foo&quot;,3],[&quot;foo&quot;,&quot;bar2&quot;,4],[&quot;foo&quot;,4],[&quot;foo&quot;,5]]Output: [null,null,&quot;bar&quot;,&quot;bar&quot;,null,&quot;bar2&quot;,&quot;bar2&quot;]Explanation: TimeMap kv; kv.set(&quot;foo&quot;, &quot;bar&quot;, 1); // store the key &quot;foo&quot; and value &quot;bar&quot; along with timestamp = 1 kv.get(&quot;foo&quot;, 1); // output &quot;bar&quot; kv.get(&quot;foo&quot;, 3); // output &quot;bar&quot; since there is no value corresponding to foo at timestamp 3 and timestamp 2, then the only value is at timestamp 1 ie &quot;bar&quot; kv.set(&quot;foo&quot;, &quot;bar2&quot;, 4); kv.get(&quot;foo&quot;, 4); // output &quot;bar2&quot; kv.get(&quot;foo&quot;, 5); //output &quot;bar2&quot; Example 2: 12Input: inputs = [&quot;TimeMap&quot;,&quot;set&quot;,&quot;set&quot;,&quot;get&quot;,&quot;get&quot;,&quot;get&quot;,&quot;get&quot;,&quot;get&quot;], inputs = [[],[&quot;love&quot;,&quot;high&quot;,10],[&quot;love&quot;,&quot;low&quot;,20],[&quot;love&quot;,5],[&quot;love&quot;,10],[&quot;love&quot;,15],[&quot;love&quot;,20],[&quot;love&quot;,25]]Output: [null,null,null,&quot;&quot;,&quot;high&quot;,&quot;high&quot;,&quot;low&quot;,&quot;low&quot;]]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[Mysql中事务的实现]]></title>
     <url>%2F2019%2F10%2F24%2FMysql%E4%B8%AD%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%AE%9E%E7%8E%B0%2F</url>
     <content type="text"><![CDATA[【非原创】MySQL中的事务 自动提交（autocommit）MySQL默认采用自动提交模式。也就是说，如果不是显式地开始一个事务，则每个查询都会被当做一个事务执行提交操作。在当前连接中，可以通过设置AUTOCOMMIT变量来启用或禁用自动提交模式： 1234567mysql&gt; show variables like 'AUTOCOMMIT';+---------------+-------+| Variable_name | Value |+---------------+-------+| autocommit | ON |+---------------+-------+1 row in set (0.00 sec) 1或者ON表示启用，0或者OFF表示禁用。当AUTOCOMMIT=0时，所有的查询都是在一个事务中，直到显式地执行COMMIT提交或者ROLLBACK回滚，该事务结束，同时又开始了另一个新事务。 原子性事务就是一系列的操作，要么全部都执行，要都不执行。那么全部都执行，要么都不执行就是说明事务的原子性。 回滚日志要想保证事务的原子性，就需要在异常发生时，对已经执行的操作进行回滚，而在MySQL中，恢复机制是通过回滚日志（undo log）实现的，所有事务进行的修改都会先记录到这个回滚日志中，然后对数据库中的对应行进行写入。这个过程其实非常好理解，为了能够在发生错误时撤销之前的全部操作，肯定是需要将之前的操作都记录下来的，这样在发生错误时才可以回滚。回滚日志除了能够在发生错误或用户执行ROLLBACK时提供回滚相关的信息，它还能够在整个系统发生崩溃、数据库进程直接被杀死后，当用户再次启动数据库进程时，还能够立刻通过查询回滚日志将之前未完成的事务进行回滚，这就需要回滚日志必须先于数据持久化到磁盘上。回滚日志并不能将数据库物理地恢复到执行语句或者事务之前的样子；它是逻辑日志，当回滚日志被使用时，它只会按照日志逻辑地将数据库中的修改撤销掉看，可以理解为，我们在事务中使用的每一条 INSERT 都对应了一条 DELETE，每一条 UPDATE 也都对应一条相反的 UPDATE 语句。 持久性事务的持久性体现在，一旦事务被提交，那么数据一定会被写入到数据库中并持久存储起来。当事务被提交之后，也就无法回滚了，唯一能够撤回已经提交的事务的方式就是创建一个相反的事务对原操作进行补偿，这也是事务持久性的体现之一。 与原子性一样，事务的持久性也是通过日志来实现的，mysql使用重做日志（redo log）实现事务的持久性，重做日志由两部分组成，一是内存中的重做日志缓冲区。重做日志缓冲区在内存中，所以它是易失的。另一个是存储在磁盘上的重做日志文件，它是持久的。 当我们在一个事务中尝试对数据进行修改时，它会先将数据从磁盘读入内存，并更新内存中缓存的数据，然后生成一条重做日志并写入重做日志缓存，当事务真正提交时，Mysql会将重做日志缓存中的内容刷新到重做日志文件，再将内存中的数据更新到磁盘上，图中的第4、5步就是在事务提交时执行的。 在InnoDB中，重做日志都是以512字节的块的形式进行存储的，同时因为块的大小与磁盘扇区大小相同，所以重做日志的写入可以保证原子性，不会由于机器断电导致重做日志仅写入一半并留下脏数据。（不太明白） 除了所有对数据库的修改可会产生重做日志，因为回滚日志也是需要持久存储的，它们也会创建对应的重做日志，在发生错误时，数据库重启时会从重做日志中找出未被更新到数据库磁盘中的日志重新执行以满足事务的持久性。 回滚日志和重做日志回滚日志（undo log）和重做日志（redo log）。在数据库系统中，事务的原子性和持久性是由事务日志保证的，在实现时也就是上面提到的两种日志，前者用于对事务的影响进行撤销，后者在错误处理时对提交的事务进行重做，它们能保证两点： 发生错误或者需要回滚的事务能够成功回滚（原子性）； 在事务提交后，数据没来得及写入磁盘就宕机时，在下次重新启动后能够成功恢复数据（持久性）； 在数据库中，这两种日志经常都是一起工作的，我们可以将它们整体看做一条事务日志，其中包含了事务的ID、修改的行元素以及修改前后的值。 一条事务日志同时包含了修改前后的值，能够非常简单地进行回滚和重做两种操作。 隔离性隔离性是指多个用户并发访问数据库时，比如操作同一张表时，数据库为每个用户开启的事务，不能被其他事务所干扰，多个并发事务之间要相互隔离。 SQL标准中定义了四种数据库的事务的隔离级别：READ UNCOMMIT 、 READ COMMITED 、REPEATABLE READ和SERIALIZABLE；每个事务的隔离级别都比上一级多解决了一个问题。 READ UNCOMMITED： 使用查询语句不会加锁，可能会读到未提交的行（dirty read）。 脏读是指事务可以读取未提交的数据。 READ COMMITED： 提交读，又称为不可重复读。 一个事务开始时，只能“看见”已经提交的事务所做的修改。换句话说，一个事物从开始直到提交之前，所有的修改对其他事务是不可见的。 只对记录加记录锁，而不会在记录之间加间隙锁，所以允许新的记录插入到被锁定记录的附近，所以在多次使用查询语句时，可能得到不同的结果（Non-Repeatable Read）； REPEATABLE READ： 可重复读。可重复读解决了脏读的问题。该级别保证了在同一个事务中多次读取同样记录的结果是一致的。 可重复读是Mysql的默认事务隔离级别。 多次读取同一范围的数据会返回第一次查询的快照，不会返回不同的数据行，但是可能发生幻读（Phantom Read）； 幻读是指当某个事务在读取某个范围内的记录时，另外一个事务又在该范围内插入了新的记录，当之前的事务再次读取该范围内的记录时，会产生幻行。 InnoDB和XtraDB存储引擎通过多版本并发控制解决了幻读的问题。 SERIALIZABLE： 可串行化是最高的隔离级别。它通过强制事务串行执行，避免了幻读的问题。 可串行化会在读取的每一行数据上都加锁，所以可能导致大量的超时和锁争用的问题。 只有在非常需要确保数据的一致性而且可以接受没有并发的情况下，才考虑采用该级别。 InnoDB隐式地将全部的查询语句加上共享锁，解决了幻读的问题。 以上的所有的事务隔离级别都不允许脏写入（dirty write），也就是当前事务更新了另一个事务已经更新但是还未提交的数据，大部分的数据库中都是用了READ COMMITED作为默认事务隔离级别，但是Mysql使用了可重复读作为默认的事务隔离级别。 下面的图用来展示各个隔离级别对脏读、不可重复读和幻读这三个问题的解决情况。 脏读、不可重复读和幻读的深入理解隔离级别的实现数据库对隔离级别的实现就是使用并发控制机制在同一时间执行的事务进行控制，限制不同的事务对于统一资源的访问和更新，而最重要也最常见的并发控制机制，在这里简单介绍三种最重要的并发控制机制的工作原理。 锁锁是最为常见的并发控制机制，在一个事务中，我们并不会将整个数据库都加锁，而是只会锁住那些需要访问的数据项。MySQL和常见数据库中的锁都分为两种，共享锁和互斥锁，前者也叫读锁，后者也叫写锁。 读锁保证了读操作可以并发执行，相互不会影响，而写锁保证了在更新数据库时不会有其他的事务访问或者更改同一条记录造成不可预知的问题。 时间戳除了锁，另一种实现事务的隔离性的方式就是通过时间戳，使用这种方式实现事务的数据库，例如 PostgreSQL 会为每一条记录保留两个字段；读时间戳中包括了所有访问该记录的事务中的最大时间戳，而记录行的写时间戳中保存了将记录改到当前值的事务的时间戳。 使用时间戳实现事务的隔离性时，往往都会使用乐观锁，先对数据进行修改，在写回时再去判断当前值，也就是时间戳是否改变过，如果没有改变过，就写入，否则，生成一个新的时间戳并再次更新数据，乐观锁其实并不是真正的锁机制，它只是一种思想。 多版本和快照隔离通过维护多个版本的数据，数据库可以允许事务在数据被其他事务更新时对旧版本的数据进行读取，很多数据库都对这一机制进行了实现偏；因为所有的读操作不再需要等待写锁的释放，所以能够显著地提升读的性能，MySQL 和 PostgreSQL 都对这一机制进行自己的实现，也就是 MVCC，虽然各自实现的方式有所不同，MySQL 就通过文章中提到的回滚日志实现了 MVCC，保证事务并行执行时能够不等待互斥锁的释放直接获取数据。 可以认为MVCC是行级锁的一个变种，但是它在很多情况下避免了加锁操作，因此开销更低。虽然实现机制有所不同，但大都实现了非阻塞的读操作，写操作也只锁定必要的行。 MVCC的实现，是通过保存数据在某个时间点的快照来实现的。也就是说，不管需要执行多长时间，每个事务看到的数据都是一致的。根据事务开始的时间不同，每个事务对同一张表，同一时刻看到的数据可能是不一样的。 下面通过InnoDB的简化版行为来说明MVCC是如何工作的。InnoDB的MVCC，是通过在每行记录后面保存两个隐藏的列来实现的。这两个列，一个保存了行的创建时间，一个保存行的过期时间（或删除时间）。当然存储的病史实际的时间值，而是系统版本号。没开始一个新的事务，系统版本号自动递增。事务开始时刻的系统版本号会作为事务的版本号，用来和查询到的每行记录的版本号进行比较。下面看一下在REPEATABLE READ隔离级别下，MVCC具体是如何操作的。 select InnoDB会根据以下两个条件检查每行记录： InnoDB只查找版本早于当前事务版本的数据行（也就是，行的系统版本号小于或等于事务的系统版本号），这样可以确保事务读取的行，要么是在事务开始前已经存在的，要么是事务自身插入或者修改过的。 行的删除版本要么 未定义，要么大于当前事务版本号。这可以确保事务读取到的行，在事务开始之前未被删除。 只有符合上述两个条件的记录，才能返回作为查询结果。 insert InnoDB为新插入的每一行保存当前系统版本号作为行版本号。 delete InnoDB为删除的每一行保存当前系统版本号作为行删除标识。 update InnoDB为插入一行新记录，保存当前系统版本号作为行版本号，同时保存当前系统版本号到原来的行作为行删除标识。 保存这两个额外系统版本号，使大多数读操作都可以不用加锁。这样设计使得读数据操作很简单，性能很好，并且也能保证只会读取到符合标准的行。不足之处是每行记录都需要额外的存储空间，需要做更多的行检查工作，以及一些额外的维护工作。 MVCC只在REPEATABLE READ和READ COMMITED两个隔离级别下工作。其他两个隔离级别都和MVCC不兼容，因为READ UNCOMMITED总是读取最新的数据行，而不是符合当前事务版本的数据行。而SERIALIZABLE则会对所有读取的行都加锁。 隔离性与原子性在这里简单提一下在原子性一节中遇到的级联回滚问题了，如果一个事务对数据进行了写入，这时就会获取一个互斥锁，其他的事务如果想要获得该行数据的读锁必须等待写锁的释放，自然不会发生级联回滚问题了。 不过在大多数的数据库，比如 MySQL 中都使用了 MVCC 等特性，也就是正常的读方法是不需要获取锁的，在想要对读取的数据进行更新时需要使用 SELECT ... FOR UPDATE 尝试获取对应行的互斥锁，以保证不同事务可以正常工作。 一致性如果一个事务在一个一致的数据库中独立运行，那么在它执行之后，数据库的状态一定是一致的。 对于这个概念，它的第一层意思就是对于数据完整性的约束，包括主键约束、引用约束以及一些约束检查等等，在事务的执行的前后以及过程中不会违背对数据完整性的约束，所有对数据库写入的操作都应该是合法的，并不能产生不合法的数据状态。而第二层意思其实是指逻辑上的对于开发者的要求，我们要在代码中写出正确的事务逻辑，比如银行转账，事务中的逻辑不可能只扣钱或者只加钱，这是应用层面上对于数据库一致性的要求。 参考文献[1]深入浅出mysql中事务的实现：https://draveness.me/mysql-transaction[2]InnoDB存储引擎MVCC实现原理：https://liuzhengyang.github.io/2017/04/18/innodb-mvcc/]]></content>
@@ -33,25 +49,9 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[981. Time Based Key-Value Store]]></title>
-    <url>%2F2019%2F10%2F23%2F981.Time-Based-Key-Value-Store%2F</url>
-    <content type="text"><![CDATA[Create a timebased key-value store class TimeMap, that supports two operations. set(string key, string value, int timestamp) Stores the key and value, along with the given timestamp. get(string key, int timestamp) Returns a value such that set(key, value, timestamp_prev) was called previously, with timestamp_prev &lt;= timestamp. If there are multiple such values, it returns the one with the largest timestamp_prev. If there are no values, it returns the empty string (&quot;&quot;). Example 1: 12345678910Input: inputs = [&quot;TimeMap&quot;,&quot;set&quot;,&quot;get&quot;,&quot;get&quot;,&quot;set&quot;,&quot;get&quot;,&quot;get&quot;], inputs = [[],[&quot;foo&quot;,&quot;bar&quot;,1],[&quot;foo&quot;,1],[&quot;foo&quot;,3],[&quot;foo&quot;,&quot;bar2&quot;,4],[&quot;foo&quot;,4],[&quot;foo&quot;,5]]Output: [null,null,&quot;bar&quot;,&quot;bar&quot;,null,&quot;bar2&quot;,&quot;bar2&quot;]Explanation: TimeMap kv; kv.set(&quot;foo&quot;, &quot;bar&quot;, 1); // store the key &quot;foo&quot; and value &quot;bar&quot; along with timestamp = 1 kv.get(&quot;foo&quot;, 1); // output &quot;bar&quot; kv.get(&quot;foo&quot;, 3); // output &quot;bar&quot; since there is no value corresponding to foo at timestamp 3 and timestamp 2, then the only value is at timestamp 1 ie &quot;bar&quot; kv.set(&quot;foo&quot;, &quot;bar2&quot;, 4); kv.get(&quot;foo&quot;, 4); // output &quot;bar2&quot; kv.get(&quot;foo&quot;, 5); //output &quot;bar2&quot; Example 2: 12Input: inputs = [&quot;TimeMap&quot;,&quot;set&quot;,&quot;set&quot;,&quot;get&quot;,&quot;get&quot;,&quot;get&quot;,&quot;get&quot;,&quot;get&quot;], inputs = [[],[&quot;love&quot;,&quot;high&quot;,10],[&quot;love&quot;,&quot;low&quot;,20],[&quot;love&quot;,5],[&quot;love&quot;,10],[&quot;love&quot;,15],[&quot;love&quot;,20],[&quot;love&quot;,25]]Output: [null,null,null,&quot;&quot;,&quot;high&quot;,&quot;high&quot;,&quot;low&quot;,&quot;low&quot;]]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[350. Intersection of Two Arrays II]]></title>
     <url>%2F2019%2F10%2F23%2F350.-Intersection-of-Two-Arrays-II%2F</url>
     <content type="text"><![CDATA[Given two arrays, write a function to compute their intersection. Example 1: 12Input: nums1 = [1,2,2,1], nums2 = [2,2]Output: [2,2] Example 2: 12Input: nums1 = [4,9,5], nums2 = [9,4,9,8,4]Output: [4,9] Note: Each element in the result should appear as many times as it shows in both arrays. The result can be in any order. Follow up: What if the given array is already sorted? How would you optimize your algorithm? What if nums1‘s size is small compared to nums2‘s size? Which algorithm is better? What if elements of nums2 are stored on disk, and the memory is limited such that you cannot load all elements into the memory at once? 解法1：hashmap解法2：排序解法3：Built-in Intersection1234567891011class Solution &#123;public: vector&lt;int&gt; intersect(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123; sort(nums1.begin(), nums1.end()); sort(nums2.begin(), nums2.end()); vector&lt;int&gt;::iterator it = set_intersection(begin(nums1), end(nums1), begin(nums2), end(nums2), begin(nums1)); nums1.erase(it, end(nums1)); return nums1; &#125;&#125;; set_intersection1234567891011121314151617template&lt;class InputIt1, class InputIt2, class OutputIt&gt;OutputIt set_intersection(InputIt1 first1, InputIt1 last1, InputIt2 first2, InputIt2 last2, OutputIt d_first)&#123; while (first1 != last1 &amp;&amp; first2 != last2) &#123; if (*first1 &lt; *first2) &#123; ++first1; &#125; else &#123; if (!(*first2 &lt; *first1)) &#123; *d_first++ = *first1++; &#125; ++first2; &#125; &#125;c return d_first;&#125; 双指针的实现。set_intersection的功能：给定两个迭代器表示的元素范围，将这两个范围内的元素的交集拷贝到最后一个d_first参考给定的空间内。 参考文献[1]set_intersection：https://en.cppreference.com/w/cpp/algorithm/set_intersection]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[209. Minimum Size Subarray Sum]]></title>
-    <url>%2F2019%2F10%2F23%2F209.Minimum-Size-Subarray-Sum%2F</url>
-    <content type="text"><![CDATA[Given an array of n positive integers and a positive integer s, find the minimal length of a contiguous subarray of which the sum ≥ s. If there isn’t one, return 0 instead. Example: 123Input: s = 7, nums = [2,3,1,2,4,3]Output: 2Explanation: the subarray [4,3] has the minimal length under the problem constraint. Follow up: If you have figured out the O(n) solution, try coding another solution of which the time complexity is O(n log n). 双指针双指针解法如何确定双指针移动的方法和结束条件？当区间i到j内的元素的和大于等于s时，不需要再考虑区间i到j+1，j+2,…,nums.size()-1内的元素之和，因为这里要求的是最短的连续子数组。[i,j+1]，[i, j+2]等与[i, j]相比都不是无法满足最短这个条件。 二分查找]]></content>
       <categories>
         <category>leetcode</category>
       </categories>
@@ -269,8 +269,8 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>插入排序</tag>
         <tag>链表</tag>
+        <tag>插入排序</tag>
       </tags>
   </entry>
   <entry>
@@ -856,6 +856,14 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[C++牛客网刷题总结]]></title>
+    <url>%2F2019%2F09%2F27%2FC%2B%2B%E7%89%9B%E5%AE%A2%E7%BD%91%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93%2F</url>
+    <content type="text"><![CDATA[字符串系列]]></content>
+      <categories>
+        <category>牛客网</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[bind与函数适配器]]></title>
     <url>%2F2019%2F09%2F27%2Fbind%E4%B8%8E%E5%87%BD%E6%95%B0%E9%80%82%E9%85%8D%E5%99%A8%2F</url>
     <content type="text"><![CDATA[bind是从c++11开始出现的新型适配器]]></content>
@@ -869,14 +877,6 @@
     <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
       <categories>
         <category>STL</category>
-      </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[C++牛客网刷题总结]]></title>
-    <url>%2F2019%2F09%2F27%2FC%2B%2B%E7%89%9B%E5%AE%A2%E7%BD%91%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93%2F</url>
-    <content type="text"><![CDATA[字符串系列]]></content>
-      <categories>
-        <category>牛客网</category>
       </categories>
   </entry>
   <entry>
@@ -905,17 +905,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[c++2.0新特性]]></title>
-    <url>%2F2019%2F09%2F27%2Fc%2B%2B2.0%E6%96%B0%E7%89%B9%E6%80%A7%2F</url>
-    <content type="text"><![CDATA[此文档整理c++11中新特性． autoauto和decltype的区别与联系variadic templatesrange base for]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>c++11新特性</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[可变模板参数(c++11新特性)]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%8F%AF%E5%8F%98%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0%2F</url>
     <content type="text"><![CDATA[Variadic Templates Variadic Templates谈的是template function template class template 变化的是template parameters 参数个数：利用参数个数注意递减的特性，实现递归函数调用．使用function template完成 参数类型：利用参数个数逐一递减，参数类型也逐一递减的特性，实现递归继承或递归复合，以class template完成． 可变模板参数写的一个小例子针对函数模板参数包，函数参数类型包，函数参数包 123456789void print() &#123;&#125; //非模板，和模板的实例形成重载函数；函数没有特化和偏特化template&lt;typename T, typename... Types&gt;void print(const T &amp;firstArg, const Types &amp;... args) &#123; // firstArg是包中第一个元素的引用，输出包中剩余元素个数 cout &lt;&lt; sizeof...(args) &lt;&lt; " "; cout &lt;&lt; firstArg &lt;&lt; endl; print(args...); // 当args为空时，调用的是非模板函数print&#125; 可变模板参数实现hash function1234567891011121314151617181920212223242526template&lt;typename T&gt;inline void hash_combine(size_t &amp;seed, const T &amp;val) &#123; seed ^= std::hash&lt;T&gt;()(val) + 0x9e3779b9 // 0x9e3779b9黄金比例 + (seed &lt;&lt; 6) + (seed &gt;&gt; 2);&#125;template&lt;typename T&gt;inline void hash_val(size_t &amp;seed, const T &amp;val) &#123; hash_combine(seed, val);&#125;template&lt;typename T, typename...Types&gt;inline void hash_val(size_t &amp;seed, const T &amp;val, const Types &amp;...args) &#123; hash_combine(seed, val); hash_val(seed, args...);&#125;// 版本1// typename...Types：任意个模板参数// 第一个函数不是size_ttemplate&lt;typename...Types&gt;inline size_t hash_val(const Types &amp;...args) &#123; size_t seed = 0; hash_val(seed, args...); return seed;&#125; 可变模板参数实现printf1234567891011121314151617181920212223242526void printf(const char *s) &#123; while (*s) &#123; if (*s == '%' &amp;&amp; (*(++s) != '%')) &#123; throw std::runtime_error("invalid formal string::missing arguments"); &#125; cout &lt;&lt; *s++; &#125;&#125;template&lt;typename T, typename... Args&gt;void printf(const char *s, T value, Args... args) &#123; while (*s) &#123; if (*s == '%' &amp;&amp; (*(++s)) != '%') &#123; cout &lt;&lt; value; printf(++s, args...); return; &#125; cout &lt;&lt; *s++; // 如果s不是用于格式控制，则直接输出s &#125; throw std::logic_error("extra argument provided to printf");&#125;void test_printf() &#123; printf("%d\n%s\n%f\n", 15, "This is Alice", 3.1415926); printf("%d, %s, %f\n", 15, "This is Alice", 3.1415926);&#125; variadic templates与initializer_list若参数的类型相同，无须使用variadic templates,使用initializer_list&lt;T&gt;即可 使用initializer_list实现max 12345678910111213141516171819202122232425262728293031323334template&lt;typename __ForwardIterator, typename __Compare&gt;__ForwardIterator __max_element(__ForwardIterator __first, __ForwardIterator __last, __Compare _comp) &#123; if (__first == __last) &#123; return __first; &#125; __ForwardIterator __result = __first; while (++__first != __last) &#123; if (_comp(__result, __first)) __result = __first; &#125; return __result;&#125;// _Iter_less_iter是一种类型inline __Iter_less_iter __iter_less_iter() &#123; return __Iter_less_iter();&#125;template&lt;typename __ForwardIterator&gt;inline __ForwardIterator max_element(__ForwardIterator __first, __ForwardIterator __last) &#123; // _iter_less_iter()是一个函数调用，但是返回一个对象 return __max_element(__first, __last, __iter_less_iter());&#125;template&lt;typename _Tp&gt;inline _Tpmax(initializer_list&lt;_Tp&gt; _l) &#123; return *max_element(_l.begin(), _l.end());&#125;// 调用形式：max(&#123;1,2,43,2,41&#125;); 使用varadic templates实现max 123456789101112int maximum(int n) &#123; return n;&#125;template&lt;typename... Args&gt;int maximum(int n, Args... args) &#123; return max(maximum(args...), n);&#125;void test_maximum() &#123; cout &lt;&lt; maximum(57, 48, 60, 100, 20, 18) &lt;&lt; endl;&#125; 对异于一般的方式处理first元素和last元素12345678910111213141516171819202122232425template&lt;int IDX, int MAX, typename... Args&gt;struct PRINT_TUPLE &#123; static void print(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123; os &lt;&lt; get&lt;IDX&gt;(t) &lt;&lt; (IDX + 1 == MAX ? &quot;&quot; : &quot;,&quot;); PRINT_TUPLE&lt;IDX + 1, MAX, Args...&gt;::print(os, t); &#125;&#125;;// 当前元素是最后一个template&lt;int MAX, typename...Args&gt;struct PRINT_TUPLE&lt;MAX, MAX, Args...&gt; &#123; static void print(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123;&#125;&#125;;template&lt;typename... Args&gt;ostream &amp;operator&lt;&lt;(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123; PRINT_TUPLE&lt;0, sizeof...(Args), Args...&gt;::print(os, t); return os;&#125;void test_print_tuple() &#123; cout &lt;&lt; make_tuple(1.4, &quot;hello&quot;, 13, string(&quot;good&quot;)) &lt;&lt; endl;&#125; 可变模板参数实现tuple通过private 继承实现复合递归的继承 12345678910111213141516171819202122232425262728293031323334353637383940414243444546template&lt;typename...Values&gt;class tuple;template&lt;&gt;class tuple&lt;&gt; &#123;&#125;;// private继承template&lt;typename Head, typename... Tail&gt;class tuple&lt;Head, Tail...&gt; : private tuple&lt;Tail...&gt; &#123; typedef tuple&lt;Tail...&gt; inherited;protected: Head m_head;public: tuple() &#123;&#125; // inherited(vtail...)调用base ctor并给予参数(不是创建temp object) tuple(Head v, Tail... vtail) : m_head(v), inherited(vtail...) &#123;&#125; // 原始构想是取出Head指定的类型，但是head类型如何知道自己是什么type？// typename Head::type head() &#123; return m_head; &#125; // 通过decltype获取Head // m_head必须声明在此句之前 // auto head() -&gt; decltype(m_head) &#123; return m_head; &#125; // 更好的等价写法 // 可以直接这么写，Head本身就是指的类型 // Head head() &#123; return m_head; &#125; // return后转型为inherited // 返回值一定得是引用 // 调用tail之后，得到一个inhertied子对象，然后再对此子对象调用head时会改变此子对象，但是如果传回的是值(而非引用)，则被改变的是副本 inherited &amp;tail() &#123; return *this; &#125;&#125;;void test_tuple() &#123; tuple&lt;int, float, string&gt; t(41, 6.3, "nico"); cout &lt;&lt; sizeof(string) &lt;&lt; " " &lt;&lt; sizeof(int) &lt;&lt; " " &lt;&lt; sizeof(float) &lt;&lt; endl; // 32 4 4 cout &lt;&lt; sizeof(t) &lt;&lt; endl; // 40 cout &lt;&lt; t.head() &lt;&lt; endl; // 40 cout &lt;&lt; t.tail().head() &lt;&lt; endl; // 6.3 cout &lt;&lt; t.tail().tail().head() &lt;&lt; endl; // nico&#125; 通过composite实现复合1234567891011121314151617181920212223242526272829303132333435363738394041424344// 这两句存在的意义是什么？换言之，为什么需要这两句template&lt;typename... Values&gt; class tup;// 特化版本template&lt;&gt; class tup&lt;&gt; &#123; public: tup() &#123; cout &lt;&lt; "empty tup" &lt;&lt; endl; &#125; &#125;;// 特化版本template&lt;typename Head, typename...Tail&gt; class tup&lt;Head, Tail...&gt; &#123; typedef tup&lt;Tail...&gt; compositied; protected: compositied m_tail; Head m_head; public: tup() &#123;&#125;; // vtail...是一个函数参数包 tup(Head v, Tail... vtail) : m_head(v), m_tail(vtail...) &#123; cout &lt;&lt; m_head &lt;&lt; " " &lt;&lt; sizeof...(vtail) &lt;&lt; endl; &#125; Head head() &#123; return m_head; &#125; compositied &amp;tail() &#123; return m_tail; &#125; &#125;;void test_tup() &#123; tup&lt;int, float, string&gt; it1(41, 6.3, "nico"); cout &lt;&lt; endl; cout &lt;&lt; sizeof(it1) &lt;&lt; endl; cout &lt;&lt; it1.head() &lt;&lt; endl; cout &lt;&lt; it1.tail().head() &lt;&lt; endl; cout &lt;&lt; it1.tail().tail().head() &lt;&lt; endl;&#125; 运行结果 1234567891011# 由内到外构造对象empty tupnico 06.3 141 2# 依次输出tup中的内容56416.3nico]]></content>
@@ -924,6 +913,17 @@
       </categories>
       <tags>
         <tag>variadic templates</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[c++2.0新特性]]></title>
+    <url>%2F2019%2F09%2F27%2Fc%2B%2B2.0%E6%96%B0%E7%89%B9%E6%80%A7%2F</url>
+    <content type="text"><![CDATA[此文档整理c++11中新特性． autoauto和decltype的区别与联系variadic templatesrange base for]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>c++11新特性</tag>
       </tags>
   </entry>
   <entry>
@@ -1243,8 +1243,8 @@
         <category>指针</category>
       </categories>
       <tags>
-        <tag>函数</tag>
         <tag>函数指针</tag>
+        <tag>函数</tag>
       </tags>
   </entry>
   <entry>
@@ -1310,21 +1310,21 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[并查集基础知识]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%B9%B6%E6%9F%A5%E9%9B%86%2F</url>
-    <content type="text"><![CDATA[并查集(不相交集合)不相交集合数据结构是这样一种数据结构: 它维护了一个不相交动态集的集合 $$S = {s_1, s_2, …, s_i, …, s_k}$$对于每个集合S中的每个元素集合si而言,用集合中的而一个元素来代表该集合.假设x是集合si中的一个元素,则有以下三种操作: make_set(x): 建立一个新的集合,它的唯一成员是x.因为各个集合是不相交的集合, 所以x不会出现在别的集合中.union(x, y): 将包含x和y的两个动态集合(表示为sx和sy合并成一个新的集合, 即这两个集合的并集)find_set(x): 返回一个指针,该指针指向包含x的(唯一)集合的代表.不相交集合可以用于求无向图的连通分量等.待后续加上代码 为了提交效率,建立并查集的过程往往会采用两种策略来提高性能.一种是按秩(秩是指节点高度的一个上界)合并, 另一种是路径压缩.按秩合并是在合并两个集合的过程中, 让具有较小秩的根指向较大秩的根.路径压缩是在查找节点的根节点的过程中, 使查找路径上的每个节点指向指向根(即令根节点成为查找路径上每个节点的父节点). 节点x的秩: 节点x的高度(从节点x到某一后代叶节点的最长简单路径上边的数目)的一个上界.当make_set(x)创建一个单元素x集合时, 节点x的秩为0.使用按秩合并union(x, y)合并两个集合时, 若两个集合的秩不同,则让较大秩的根成为较小秩的根的父节点, 秩本身保持不变.若两个集合的秩相同,则任意选择两个根中的一个作为父节点, 并使它的秩加1. 并查集的实现(伪代码)123456789101112131415161718make_set(x) x.p = x // x的父节点是自己,即x是x所在集合的根节点 x.rank = 0 // x.rank即x的秩link(x, y) if(x.rank &gt; y.rank) y.p = x else x.p = y if(x.rank == y.rank) y.rank = y.rank + 1union(x, y) link(find_set(x), find_set(y))find_set(x) if x != x.p x.p = find_set(x.p) return x.p find_set的非递归形式 12345678find_set(x) a = x while x != x.p x = x.p while a != a.p z = a a = a.p z.p = x]]></content>
-      <tags>
-        <tag>基础算法</tag>
-        <tag>理论</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[二叉树的下一个结点]]></title>
     <url>%2F2019%2F09%2F27%2F%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E7%BB%93%E7%82%B9%2F</url>
     <content type="text"><![CDATA[给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。 题目链接:https://www.nowcoder.com/questionTerminal/9023a0c988684a53960365b889ceaf5e 相关题目:寻找下一个节点]]></content>
       <tags>
         <tag>牛客网</tag>
         <tag>binary tree</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[并查集基础知识]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%B9%B6%E6%9F%A5%E9%9B%86%2F</url>
+    <content type="text"><![CDATA[并查集(不相交集合)不相交集合数据结构是这样一种数据结构: 它维护了一个不相交动态集的集合 $$S = {s_1, s_2, …, s_i, …, s_k}$$对于每个集合S中的每个元素集合si而言,用集合中的而一个元素来代表该集合.假设x是集合si中的一个元素,则有以下三种操作: make_set(x): 建立一个新的集合,它的唯一成员是x.因为各个集合是不相交的集合, 所以x不会出现在别的集合中.union(x, y): 将包含x和y的两个动态集合(表示为sx和sy合并成一个新的集合, 即这两个集合的并集)find_set(x): 返回一个指针,该指针指向包含x的(唯一)集合的代表.不相交集合可以用于求无向图的连通分量等.待后续加上代码 为了提交效率,建立并查集的过程往往会采用两种策略来提高性能.一种是按秩(秩是指节点高度的一个上界)合并, 另一种是路径压缩.按秩合并是在合并两个集合的过程中, 让具有较小秩的根指向较大秩的根.路径压缩是在查找节点的根节点的过程中, 使查找路径上的每个节点指向指向根(即令根节点成为查找路径上每个节点的父节点). 节点x的秩: 节点x的高度(从节点x到某一后代叶节点的最长简单路径上边的数目)的一个上界.当make_set(x)创建一个单元素x集合时, 节点x的秩为0.使用按秩合并union(x, y)合并两个集合时, 若两个集合的秩不同,则让较大秩的根成为较小秩的根的父节点, 秩本身保持不变.若两个集合的秩相同,则任意选择两个根中的一个作为父节点, 并使它的秩加1. 并查集的实现(伪代码)123456789101112131415161718make_set(x) x.p = x // x的父节点是自己,即x是x所在集合的根节点 x.rank = 0 // x.rank即x的秩link(x, y) if(x.rank &gt; y.rank) y.p = x else x.p = y if(x.rank == y.rank) y.rank = y.rank + 1union(x, y) link(find_set(x), find_set(y))find_set(x) if x != x.p x.p = find_set(x.p) return x.p find_set的非递归形式 12345678find_set(x) a = x while x != x.p x = x.p while a != a.p z = a a = a.p z.p = x]]></content>
+      <tags>
+        <tag>基础算法</tag>
+        <tag>理论</tag>
       </tags>
   </entry>
   <entry>
