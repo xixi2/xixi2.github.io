@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="完全二叉树,">
 
 
 
@@ -79,17 +79,21 @@
 
 
 
-<meta name="description" content="Given a complete binary tree, count the number of nodes. Definition of a complete binary tree from Wikipedia:In a complete binary tree every level, except possibly the last, is completely filled, and">
+<meta name="description" content="Check Completeness of a Binary Tree Given a binary tree, determine if it is a complete binary tree. Definition of a complete binary tree from Wikipedia:In a complete binary tree every level, except po">
+<meta name="keywords" content="完全二叉树">
 <meta property="og:type" content="article">
-<meta property="og:title" content="222. Count Complete Tree Nodes">
-<meta property="og:url" content="http://yoursite.com/2019/10/06/222.-Count-Complete-Tree-Nodes/index.html">
+<meta property="og:title" content="958. Check Completeness of a Binary Tree">
+<meta property="og:url" content="http://yoursite.com/2019/10/25/958. Check Completeness of a Binary Tree/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="Given a complete binary tree, count the number of nodes. Definition of a complete binary tree from Wikipedia:In a complete binary tree every level, except possibly the last, is completely filled, and">
+<meta property="og:description" content="Check Completeness of a Binary Tree Given a binary tree, determine if it is a complete binary tree. Definition of a complete binary tree from Wikipedia:In a complete binary tree every level, except po">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-06T02:35:00.277Z">
+<meta property="og:image" content="https://assets.leetcode.com/uploads/2018/12/15/complete-binary-tree-1.png">
+<meta property="og:image" content="https://assets.leetcode.com/uploads/2018/12/15/complete-binary-tree-2.png">
+<meta property="og:updated_time" content="2019-10-25T04:44:00.039Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="222. Count Complete Tree Nodes">
-<meta name="twitter:description" content="Given a complete binary tree, count the number of nodes. Definition of a complete binary tree from Wikipedia:In a complete binary tree every level, except possibly the last, is completely filled, and">
+<meta name="twitter:title" content="958. Check Completeness of a Binary Tree">
+<meta name="twitter:description" content="Check Completeness of a Binary Tree Given a binary tree, determine if it is a complete binary tree. Definition of a complete binary tree from Wikipedia:In a complete binary tree every level, except po">
+<meta name="twitter:image" content="https://assets.leetcode.com/uploads/2018/12/15/complete-binary-tree-1.png">
 
 
 
@@ -119,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/10/06/222.-Count-Complete-Tree-Nodes/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/25/958. Check Completeness of a Binary Tree/">
 
 
 
 
 
-  <title>222. Count Complete Tree Nodes | xixi2</title>
+  <title>958. Check Completeness of a Binary Tree | xixi2</title>
   
 
 
@@ -294,7 +298,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/06/222.-Count-Complete-Tree-Nodes/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/25/958. Check Completeness of a Binary Tree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -311,7 +315,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">222. Count Complete Tree Nodes</h1>
+          <h1 class="post-title" itemprop="name headline">958. Check Completeness of a Binary Tree</h1>
         
 
         <div class="post-meta">
@@ -323,8 +327,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-06T10:35:00+08:00">
-                2019-10-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-25T12:44:00+08:00">
+                2019-10-25
               </time>
             
 
@@ -388,15 +392,26 @@
       
 
       
-        <p>Given a <strong>complete</strong> binary tree, count the number of nodes.</p>
-<p><strong>Definition of a complete binary tree from Wikipedia:</strong><br>In a complete binary tree every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.</p>
-<a id="more"></a>
+        <p>Check Completeness of a Binary Tree</p>
+<p>Given a binary tree, determine if it is a <em>complete binary tree</em>.
+<strong>Definition of a complete binary tree from Wikipedia:</strong><br>In a complete binary tree every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.<br> <a id="more"></a></p>
+<p><strong>Example 1:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2018/12/15/complete-binary-tree-1.png" alt="img"></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [1,2,3,4,5,6]</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Every level before the last is full (ie. levels with node-values &#123;1&#125; and &#123;2, 3&#125;), and all nodes in the last level (&#123;4, 5, 6&#125;) are as far left as possible.</span><br></pre></td></tr></table></figure>
 
-<p><strong>Example:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Input: </span><br><span class="line">    1</span><br><span class="line">   / \</span><br><span class="line">  2   3</span><br><span class="line"> / \  /</span><br><span class="line">4  5 6</span><br><span class="line"></span><br><span class="line">Output: 6</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2018/12/15/complete-binary-tree-2.png" alt="img"></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [1,2,3,4,5,null,7]</span><br><span class="line">Output: false</span><br><span class="line">Explanation: The node with value 7 isn&apos;t as far left as possible.</span><br></pre></td></tr></table></figure>
 
-<p>完全二叉树的定义：它是一棵空树或者它的叶子节点只出现在最后两层。若最后一层不满，则叶子节点只出现在最左侧。</p>
-<p>对于满二叉树，如果层数为h，则总节点个数为：2<sup>h</sup>-1。<br>因此，对根节点的左右子树的高度进行统计，假设左子树的高度记做lh，右子树的高度记做rh。<br>1.如果lh == rh，说明左子树和右子树一样高，那么左子树一定是满二叉树，所以左子树的总结点个数为2<sup>lh-1</sup>-1。加上根节点，共有2<sup>lh-1</sup>个节点。然后再对右子树进行递归统计。<br>2.如果lh&gt;rh，说明最后一层不满，但是倒数第二层必然是满的，因此右子树节点总数为2<sup>rh-1</sup>，再加上根节点，共有2<sup>rh-1</sup>个节点。再对左子树进行递归统计。</p>
+<h1 id="解法一：层次遍历"><a href="#解法一：层次遍历" class="headerlink" title="解法一：层次遍历"></a>解法一：层次遍历</h1><blockquote>
+<p>思路：层次遍历每一个节点，当遇到第一个叶子节点或最后一个非叶子节点时，判断此后的每一个节点都是叶子节点。<br>对于每一个节点，如果它是非叶子节点，那么它要么有两个孩子节点，否则，只有左孩子节点，如果一个节点有右孩子而没有左孩子，则该节点不是完全二叉树上的节点。<br>当一个节点只有左孩子，没有右孩子，则该节点是最后一个非叶子节点；如果一个节点既没有左孩子节点也没有右孩子节点，则该节点是第一个叶子节点。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isCompleteTree</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="literal">nullptr</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">queue</span>&lt;TreeNode*&gt; q;</span><br><span class="line">        TreeNode* node = <span class="literal">nullptr</span>;</span><br><span class="line">        <span class="keyword">int</span> cur = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> next = <span class="number">0</span>;</span><br><span class="line">        q.push(root);</span><br><span class="line">        <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">            node = q.front();</span><br><span class="line">            q.pop();</span><br><span class="line">            <span class="keyword">if</span>(node-&gt;left !=<span class="literal">nullptr</span>)&#123;</span><br><span class="line">                q.push(node-&gt;left);</span><br><span class="line">                ++next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(node-&gt;right !=<span class="literal">nullptr</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span>(node-&gt;left == <span class="literal">nullptr</span>)&#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                q.push(node-&gt;right);</span><br><span class="line">                ++next;</span><br><span class="line">            &#125;            <span class="comment">// first leaf or last not leaf</span></span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                   <span class="keyword">while</span>(!q.empty()) &#123;</span><br><span class="line">                       node = q.front();</span><br><span class="line">                       q.pop();</span><br><span class="line">                       <span class="keyword">if</span>(node-&gt;left != <span class="literal">nullptr</span> || node-&gt;right != <span class="literal">nullptr</span>)&#123;</span><br><span class="line">                           <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>(--cur==<span class="number">0</span>)&#123;</span><br><span class="line">                cur = next;</span><br><span class="line">                next = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// only one node</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="解法二："><a href="#解法二：" class="headerlink" title="解法二："></a>解法二：</h1><p>通过比较一棵完全二叉树中应有的节点总数和当前二叉树中的节点总数来判断是否是完全二叉树。这种思路是可行的，但是代码无法通过所有测试用例，原因是当二叉树的深度过深时，start的值会超出int允许的范围。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isCompleteTree</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> cnt1 = countNodes(root);</span><br><span class="line">        <span class="keyword">int</span> cnt2 = countByLevel(root, <span class="number">1</span>) ;</span><br><span class="line">        <span class="keyword">return</span> cnt1 == cnt2;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">countNodes</span><span class="params">(TreeNode* root)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="literal">nullptr</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span> + countNodes(root-&gt;left) + countNodes(root-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">countByLevel</span><span class="params">(TreeNode* root, <span class="keyword">int</span> start)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="literal">nullptr</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> left = countByLevel(root-&gt;left, start * <span class="number">2</span>);</span><br><span class="line">        <span class="keyword">int</span> right = countByLevel(root-&gt;right, start * <span class="number">2</span> + <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> max(max(left, right), start);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="相关题目"><a href="#相关题目" class="headerlink" title="相关题目"></a>相关题目</h1><p><a href="https://leetcode.com/problems/check-completeness-of-a-binary-tree/">958. Check Completeness of a Binary Tree</a><br><a href="https://leetcode.com/problems/count-complete-tree-nodes">222. Count Complete Tree Nodes</a><br><a href="https://leetcode.com/problems/complete-binary-tree-inserter">919. Complete Binary Tree Inserter</a></p>
 
       
     </div>
@@ -412,6 +427,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/完全二叉树/" rel="tag"># 完全二叉树</a>
+          
+        </div>
+      
 
       
       
@@ -421,8 +442,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/05/未排序数组中累加和为给定值的子数组系列/" rel="next" title>
-                <i class="fa fa-chevron-left"></i> 
+              <a href="/2019/10/25/222.Count-Complete-Tree-Nodes/" rel="next" title="222. Count Complete Tree Nodes">
+                <i class="fa fa-chevron-left"></i> 222. Count Complete Tree Nodes
               </a>
             
           </div>
@@ -431,8 +452,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/10/06/完全二叉树/" rel="prev" title="958. Check Completeness of a Binary Tree">
-                958. Check Completeness of a Binary Tree <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/26/数据库索引/" rel="prev" title="数据库索引">
+                数据库索引 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -485,8 +506,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -548,6 +578,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#解法一：层次遍历"><span class="nav-number">1.</span> <span class="nav-text">解法一：层次遍历</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解法二："><span class="nav-number">2.</span> <span class="nav-text">解法二：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#相关题目"><span class="nav-number">3.</span> <span class="nav-text">相关题目</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
