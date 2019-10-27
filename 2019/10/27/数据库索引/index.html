@@ -82,26 +82,26 @@
 <meta name="description" content="索引是存储引擎用于快速找到记录的一种数据结构。索引是按用户任意指定的字段对数据进行排序的一种数据结构。索引是为了加快查询的速度．">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据库索引">
-<meta property="og:url" content="http://yoursite.com/2019/10/26/数据库索引/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/10/27/数据库索引/index.html">
 <meta property="og:site_name" content="xixi2">
 <meta property="og:description" content="索引是存储引擎用于快速找到记录的一种数据结构。索引是按用户任意指定的字段对数据进行排序的一种数据结构。索引是为了加快查询的速度．">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2019/10/26/数据库索引/b_plus1.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/26/数据库索引/b_plus2.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/26/数据库索引/b_plus4.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/26/数据库索引/b_plus5.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/26/数据库索引/b_plus6.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/26/数据库索引/b_plus7.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/26/数据库索引/b_plus8.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/27/数据库索引/b_plus1.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/27/数据库索引/b_plus2.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/27/数据库索引/b_plus4.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/27/数据库索引/b_plus5.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/27/数据库索引/b_plus6.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/27/数据库索引/b_plus7.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/27/数据库索引/b_plus8.png">
 <meta property="og:image" content="http://blog.codinglabs.org/uploads/pictures/theory-of-mysql-index/8.png">
 <meta property="og:image" content="http://blog.codinglabs.org/uploads/pictures/theory-of-mysql-index/9.png">
 <meta property="og:image" content="http://blog.codinglabs.org/uploads/pictures/theory-of-mysql-index/10.png">
 <meta property="og:image" content="http://blog.codinglabs.org/uploads/pictures/theory-of-mysql-index/11.png">
-<meta property="og:updated_time" content="2019-10-26T11:34:52.522Z">
+<meta property="og:updated_time" content="2019-10-27T10:55:03.335Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库索引">
 <meta name="twitter:description" content="索引是存储引擎用于快速找到记录的一种数据结构。索引是按用户任意指定的字段对数据进行排序的一种数据结构。索引是为了加快查询的速度．">
-<meta name="twitter:image" content="http://yoursite.com/2019/10/26/数据库索引/b_plus1.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/10/27/数据库索引/b_plus1.png">
 
 
 
@@ -131,7 +131,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/10/26/数据库索引/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/27/数据库索引/">
 
 
 
@@ -306,7 +306,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/26/数据库索引/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/27/数据库索引/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -335,8 +335,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-26T19:34:52+08:00">
-                2019-10-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-27T18:55:03+08:00">
+                2019-10-27
               </time>
             
 
@@ -485,7 +485,11 @@
 <h2 id="InnoDB索引实现"><a href="#InnoDB索引实现" class="headerlink" title="InnoDB索引实现"></a>InnoDB索引实现</h2><p>虽然InnoDB也使用B+Tree作为索引结构，但具体实现方式却与MyISAM截然不同。<br>第一个重大区别是<span style="color:royalblue">InnoDB的数据文件本身就是索引文件</span>。从上文知道，MyISAM索引文件和数据文件是分离的，索引文件仅保存数据记录的地址。而在InnoDB中，表数据文件本身就是按B+树组织的一个索引结构，这棵树的叶节点数据域保存了完整的数据记录。这个<span style="color:royalblue">索引的key是数据表的主键</span>，因此<span style="color:royalblue">InnoDB表数据文件本身就是主索引</span>。</p>
 <p>来自数据库系统概念P269</p>
 <blockquote>
-<p>如果包含记录的文件按照某个搜索码指定的顺序排列，那么该搜索码对应的索引称为聚集索引。聚集索引也称为主索引。<br>搜索码指定的顺序与文件中记录的物理顺序不同的索引称为非聚集索引或辅助索引。</p>
+<p>用于在文件中查找记录的属性或属性集称为<span style="color:Darkgreen">搜索码</span>。
+如果包含记录的文件按照某个搜索码指定的顺序排列，那么该搜索码对应的索引称为<span style="color:Darkgreen">聚集索引</span>。聚集索引也称为<span style="color:Darkgreen">主索引</span>。
+搜索码指定的顺序与文件中记录的物理顺序不同的索引称为<span style="color:Darkgreen">非聚集索引</span>或<span style="color:Darkgreen">辅助索引</span>。
+搜索码上有聚集索引的文件称作<span style="color:Darkgreen">索引顺序文件</span>。
+一个包含多个属性的搜索码称为<span style="color:Darkgreen">复合搜索码</span>。</p>
 <p>稠密索引：在稠密索引中，文件中的每个搜索码值都有一个搜索项。<br>辅助索引必须是稠密索引，对每个搜索码值都有一个索引项，而且对文件中的每条记录都有一个指针。</p>
 </blockquote>
 <p><img src="http://blog.codinglabs.org/uploads/pictures/theory-of-mysql-index/10.png" alt="img"></p>
@@ -493,7 +497,8 @@
 <p>第二个与MyISAM索引不同的是<span style="color:royalblue">InnoDB的辅助索引数据域存储相应记录主键的值而不是地址</span>。换句话说，InnoDB的所有辅助索引都引用主键作为数据域。这里之所以在辅助索引数据域记录主键的值，而不是记录的地址，是因为当主索引文件中的叶子节点分裂或者删除时，需要进行记录的移动，这会造成记录地址的变化。如果在辅助索引数据域记录的是记录的地址，那么当叶子节点分裂或者删除叶子节点时需要对辅助索引数据域进行维护。但是叶节点可能包含相当多的记录，而其中的每条记录都可能在辅助索引中的不同位置，因此会造成巨大的IO开销。<br>例如，下图为定义在col3上的一个辅助索引：</p>
 <p><img src="http://blog.codinglabs.org/uploads/pictures/theory-of-mysql-index/11.png" alt="img"></p>
 <p>这里以英文字符的ASCII码作为比较准则。聚集索引这种实现方式使得按主键的搜索十分高效，但是<span style="color:royalblue">辅助索引搜索定位一条记录需要两步：首先用辅助索引找到主索引中搜索码的值（即主键），然后用主键到主索引中找到记录</span>。</p>
-<p>了解不同存储引擎的索引实现方式对于正确使用和优化索引都非常有帮助，例如知道了InnoDB的索引实现后，就很容易明白为什么不建议使用过长的字段作为主键，因为所有辅助索引都引用主索引，过长的主索引会令辅助索引变得过大。再例如，用非单调的字段作为主键在InnoDB中不是个好主意，因为InnoDB数据文件本身是一颗B+Tree，非单调的主键会造成在插入新记录时数据文件为了维持B+Tree的特性而频繁的分裂调整，十分低效，而使用自增字段作为主键则是一个很好的选择。</p>
+<p>为什么在辅助索引中存储主索引搜索码的值，而不存储指向被索引的记录的指针呢？这是因为如果存储的是被索引的记录的指针，当B+树中的叶节点分裂时，一些记录需要移动到新节点中，那么此时所有存储了那些指向重定位的记录的指针的辅助索引也需要更新。每个叶节点可能包含相当多的记录，而其中每条记录都可能在每个辅助索引的不同位置。因此一个叶节点的分裂可能需要几十甚至几百次IO操作来更新所有影响到的辅助索引。但是如果存储的是主索引搜索码的值就不会导致这个问题了。</p>
+<p>了解不同存储引擎的索引实现方式对于正确使用和优化索引都非常有帮助，例如知道了InnoDB的索引实现后，就很容易明白为什么不建议使用过长的字段作为主键，因为所有辅助索引都引用主索引，过长的主索引会令辅助索引变得过大。再例如，用非单调的字段作为主键在InnoDB中不是个好主意，因为InnoDB数据文件本身是一颗B+Tree，<span style="color:royalblue">非单调的主键会造成在插入新记录时数据文件为了维持B+Tree的特性而频繁的分裂调整</span>（分裂调整时需要创建新的叶子节点并移动记录），十分低效，而使用自增字段作为主键则是一个很好的选择。</p>
 <h3 id="唯一性索引和普通索引"><a href="#唯一性索引和普通索引" class="headerlink" title="唯一性索引和普通索引"></a>唯一性索引和普通索引</h3><h1 id="索引使用策略及优化"><a href="#索引使用策略及优化" class="headerlink" title="索引使用策略及优化"></a>索引使用策略及优化</h1><p>MySQL的优化主要分为结构优化和查询优化。本章讨论的高性能索引策略主要属于结构优化范畴。</p>
 <h2 id="示例数据库"><a href="#示例数据库" class="headerlink" title="示例数据库"></a>示例数据库</h2><p><a href="https://github.com/datacharmer/test_db">下载地址</a></p>
 <h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] B+树：<a href="https://mp.weixin.qq.com/s?__biz=MzIxMjE5MTE1Nw==&mid=2653191027&idx=1&sn=4ba22e3ec8bd149f69fc0aba72e4347e&chksm=8c9909a9bbee80bfa1d8497ff0525df130414c1731b5aa5287bf16ea1cf86c8d8e6f20782184&mpshare=1&scene=1&srcid=0925sA77A3hmiwr5HA9RSDzm&sharer_sharetime=1569419984774&sharer_shareid=98e442f4afad129e8b911831ba1d924a&pass_ticket=gKtUZgL16JtjtQiE3lotTm8CearSQYQ59A80esjorZO78gNkS9v%2B5Uh9XhTfsEaH#rd">B+树</a><br>[2] B树：<a href="https://mp.weixin.qq.com/s?__biz=MzIxMjE5MTE1Nw==&mid=2653190965&idx=1&sn=53f78fa037386f85531832cd5322d2a0&pass_ticket=gKtUZgL16JtjtQiE3lotTm8CearSQYQ59A80esjorZO78gNkS9v%2B5Uh9XhTfsEaH">B树</a><br>[3] MySQL索引和SQL调优：<a href="https://zhuanlan.zhihu.com/p/76494612">https://zhuanlan.zhihu.com/p/76494612</a><br>[4]可视化插入和删除过程：<a href="https://www.cs.usfca.edu/~galles/visualization/BPlusTree.html">https://www.cs.usfca.edu/~galles/visualization/BPlusTree.html</a><br>[5]MySQL索引背后的数据结构及算法原理：<a href="http://blog.codinglabs.org/articles/theory-of-mysql-index.html">http://blog.codinglabs.org/articles/theory-of-mysql-index.html</a></p>
@@ -521,8 +526,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/25/958. Check Completeness of a Binary Tree/" rel="next" title="958. Check Completeness of a Binary Tree">
-                <i class="fa fa-chevron-left"></i> 958. Check Completeness of a Binary Tree
+              <a href="/2019/10/26/数组和字符指针/" rel="next" title="数组和字符指针">
+                <i class="fa fa-chevron-left"></i> 数组和字符指针
               </a>
             
           </div>
@@ -531,8 +536,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/10/26/数组和字符指针/" rel="prev" title="数组和字符指针">
-                数组和字符指针 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/27/unix-高级环境编程系列2/" rel="prev" title="unix 高级环境编程系列2">
+                unix 高级环境编程系列2 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

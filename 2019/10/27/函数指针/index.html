@@ -83,11 +83,11 @@
 <meta name="keywords" content="函数,函数指针">
 <meta property="og:type" content="article">
 <meta property="og:title" content="函数指针">
-<meta property="og:url" content="http://yoursite.com/2019/09/27/函数指针/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/10/27/函数指针/index.html">
 <meta property="og:site_name" content="xixi2">
 <meta property="og:description" content="函数指针指向的是函数而非对象.和其他指针一样,函数指针指向某种特定类型.函数的类型由它的返回类型和形参类型共同决定,与函数名无关.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-27T15:06:31.482Z">
+<meta property="og:updated_time" content="2019-10-27T11:41:56.320Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="函数指针">
 <meta name="twitter:description" content="函数指针指向的是函数而非对象.和其他指针一样,函数指针指向某种特定类型.函数的类型由它的返回类型和形参类型共同决定,与函数名无关.">
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/09/27/函数指针/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/27/函数指针/">
 
 
 
@@ -295,7 +295,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/27/函数指针/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/27/函数指针/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -324,8 +324,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T23:06:31+08:00">
-                2019-09-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-27T19:41:56+08:00">
+                2019-10-27
               </time>
             
 
@@ -409,11 +409,11 @@
 <p>使用类型别名定义返回类型为函数指针的函数</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">PF <span class="title">f1</span><span class="params">(<span class="keyword">int</span>)</span></span>;		<span class="comment">// PF是指向函数的指针,f1返回指向函数的指针</span></span><br><span class="line"><span class="function">F <span class="title">f1</span><span class="params">(<span class="keyword">int</span>)</span></span>;		<span class="comment">// F是函数类型,f1不能返回一个函数类型</span></span><br><span class="line"><span class="function">F* <span class="title">f1</span><span class="params">(<span class="keyword">int</span>)</span></span>;		<span class="comment">// F*是函数类型</span></span><br><span class="line"><span class="keyword">int</span> (*f1(<span class="keyword">int</span>))(<span class="keyword">int</span> *,<span class="keyword">int</span>); <span class="comment">// 直接声明f1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 尾置返回类型</span></span><br><span class="line">auto f1(int) -&gt; int(*)(int *,int);</span><br></pre></td></tr></table></figure>
 
-<p>首先f1有形参列表,所以,f1是个函数,f1的返回值是一个指针.该指针也有形参列表,所以,该指针指向函数.该函数的形参是int<em>和int,返回int.所以,f1是一个返回一个函数int(\</em>)(int *,int)的函数.</p>
+<p>首先f1有形参列表，所以，f1是个函数，f1的返回值是一个指针。该指针也有形参列表，所以，该指针指向函数。此指针指向的函数的形参是int*和int，返回int。所以，<span style="color:royalblue">f1是一个返回一个函数int(*)(int *,int)的函数</span>。</p>
 <p>一个复杂点的例子</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span>::<span class="function">size_type <span class="title">sumLength</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span> &amp;a, <span class="keyword">const</span> <span class="built_in">string</span> &amp;b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a.size() + b.size();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">string</span>::<span class="function">size_type <span class="title">largerLength</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span> &amp;a, <span class="keyword">const</span> <span class="built_in">string</span> &amp;b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a.size() &gt; b.size() ? a.size() : b.size();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">decltype</span>(sumLength) *getFcn(<span class="keyword">const</span> <span class="built_in">string</span> &amp;s) &#123;</span><br><span class="line">    <span class="keyword">if</span> (s == <span class="string">"+"</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> sumLength;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> largerLength;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="built_in">string</span>::size_type (*Func)(<span class="keyword">const</span> <span class="built_in">string</span> &amp;, <span class="keyword">const</span> <span class="built_in">string</span> &amp;);</span><br><span class="line">    Func fcn = getFcn(<span class="string">"+"</span>);		<span class="comment">// fcn是一个函数指针</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 一种等价形式</span></span><br><span class="line"><span class="comment">//    auto fcn = getFcn("+");</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">string</span>::size_type sz = fcn(<span class="string">"hello"</span>, <span class="string">"good"</span>);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; sz &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    fcn = getFcn(<span class="string">"-"</span>);</span><br><span class="line">    sz = fcn(<span class="string">"hello"</span>, <span class="string">"good"</span>);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; sz &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>由于函数的类型由它的返回类型和形参类型决定,而与函数名无关,可知sumLength和largerLength属于相同的类型.所以,我们可以向getFcn传入参数,获取指向同一种函数类型的不同的函数指针.</p>
+<p>由于函数的类型由它的返回类型和形参类型决定，而与函数名无关，可知sumLength和largerLength属于相同的类型。所以，我们可以向getFcn传入参数，获取指向同一种函数类型的不同的函数指针。</p>
 
       
     </div>
@@ -446,8 +446,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/27/变形词系列/" rel="next" title="变形词">
-                <i class="fa fa-chevron-left"></i> 变形词
+              <a href="/2019/10/27/unix-高级环境编程系列2/" rel="next" title="unix 高级环境编程系列2">
+                <i class="fa fa-chevron-left"></i> unix 高级环境编程系列2
               </a>
             
           </div>
@@ -455,10 +455,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/09/27/Parentheses系列/" rel="prev" title="Parentheses系列">
-                Parentheses系列 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
