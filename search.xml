@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[88. Merge Sorted Array]]></title>
+    <url>%2F2019%2F10%2F28%2F88.Merge-Sorted-Array%2F</url>
+    <content type="text"><![CDATA[Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array. Note: The number of elements initialized in nums1 and nums2 are m and n respectively. You may assume that nums1 has enough space (size that is greater or equal to m + n) to hold additional elements from nums2. Example 1: 12345Input:nums1 = [1,2,3,0,0,0], m = 3nums2 = [2,5,6], n = 3Output: [1,2,2,3,5,6] Example 2: 12345Input:nums1 = [3,4,5,0,0,0], m = 3nums2 = [2,5,6], n = 3Output: [2,3,4,5,5,6] 解法1：逆序复制12345678910111213141516class Solution &#123;public: void merge(vector&lt;int&gt;&amp; nums1, int m, vector&lt;int&gt;&amp; nums2, int n) &#123; int i = m - 1, j = n - 1, k = m + n - 1; while(i &gt;= 0 &amp;&amp; j&gt;= 0)&#123; if(nums2[j] &gt;= nums1[i])&#123; nums1[k--] = nums2[j--]; &#125;else&#123; nums1[k--] = nums1[i--]; &#125; &#125; while(j&gt;=0)&#123; nums1[k--] = nums2[j--]; &#125; &#125;&#125;; 相关题目 977. Squares of a Sorted Array]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[21. Merge Two Sorted Lists]]></title>
+    <url>%2F2019%2F10%2F28%2F21.Merge-Two-Sorted-Lists%2F</url>
+    <content type="text"><![CDATA[Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists. Example: 12Input: 1-&gt;2-&gt;4, 1-&gt;3-&gt;4Output: 1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4 递归解法递归的方法每次确定一个元素的位置，将问题规模减小1。 1234567891011121314151617181920class Solution &#123;public: ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) &#123; if(l1 == nullptr)&#123; return l2; &#125; if(l2 == nullptr)&#123; return l1; &#125; ListNode* newHead = nullptr; if(l1-&gt;val &gt; l2-&gt;val)&#123; newHead = l2; newHead-&gt;next = mergeTwoLists(l1, l2-&gt;next); &#125;else&#123; newHead = l1; newHead-&gt;next = mergeTwoLists(l1-&gt;next, l2); &#125; return newHead; &#125;&#125;; 非递归解法123456789101112131415161718192021222324252627282930313233class Solution &#123;public: ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) &#123; if(l1 == nullptr)&#123; return l2; &#125; if(l2 == nullptr)&#123; return l1; &#125; ListNode* p1 = l1; ListNode* p2 = l2; ListNode* pre = nullptr; ListNode* next = nullptr; ListNode* head = l1-&gt;val &lt;= l2-&gt;val ? l1 : l2; while(p1 &amp;&amp; p2)&#123; while(p1 &amp;&amp; p1-&gt;val &lt;= p2-&gt;val)&#123; pre = p1; p1 = p1-&gt;next; &#125; next = p2-&gt;next; if(pre != nullptr)&#123; pre-&gt;next = p2; &#125; p2-&gt;next = p1; pre = p2; p2 = next; &#125; if(p2 != nullptr)&#123; pre-&gt;next = p2; &#125; return head; &#125;&#125;;]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>减治</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[unix 高级环境编程系列2]]></title>
+    <url>%2F2019%2F10%2F28%2Funix-%E9%AB%98%E7%BA%A7%E7%8E%AF%E5%A2%83%E7%BC%96%E7%A8%8B%E7%B3%BB%E5%88%972%2F</url>
+    <content type="text"><![CDATA[此文档主要整理并记录liunx中常用的api． IOlseek函数原型：lseek(int fd, off_t offset, int whence);当whence为SEEK_CUR, 将该文件的文件偏移量设置为其当前值加offset；当whence为SEEK_END，则该文件的文件偏移量设置为文件长度加offset。功能：显式地为一个打开文件设置偏移量。返回值：若函数成功执行，返回新的文件偏移量。 read函数原型 1ssize_t read(int fd, void* buf, size_t nbytes); 成功时返回接收的字节数(但遇到文件结尾则返回0)，失败时返回-1.fd: 显示数据接收对象的文件描述符．buf: 要保存接收数据的缓冲地址值．nbytes: 要接收数据的最大字节数． write1ssize_t write(int fd, const void* buf, size_t nbytes); 成功时返回写入的字节数，失败时返回-1.fd: 显示数据传输对象的文件描述符．buf: 要保存传输数据的缓冲地址值．nbytes: 要传输数据的最大字节数． read和write都是系统调用。read和write都在内核执行，所以称这些函数为不带缓冲的IO函数。 fgetcfgetc从文件指针stream指向的文件中读取一个字符，读取一个字节后，光标位置后移一个字节。 fputc功能：把一个字符写到一个输出文件流中．它返回写入的值，如果失败，则返回EOF．putc函数的作用相当于fputc，但它可能被实现为一个宏．putchar相当于putc(c, stdout)，但它把单个字符写到标准输出．注意：putchar和getchar都是把字符当做int类型而不是char类型来使用的．这就允许文件尾标识取值-1，这是一个超出字符数字编码范围的值． fopenhttps://blog.csdn.net/hairetz/article/details/4150193 freadsize_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream) 功能：从给定流 stream 读取数据到 ptr 所指向的数组中 ptr – 这是指向带有最小尺寸 size\nmemb* 字节的内存块的指针。 size – 这是要读取的每个元素的大小，以字节为单位。 nmemb – 这是元素的个数，每个元素的大小为 size 字节。 stream – 这是指向 FILE 对象的指针，该 FILE 对象指定了一个输入流。 fgets函数原型为：char *fgets(char *str, int n, FILE *stream) 功能：从指定的流 stream 读取一行，并把它存储在 str 所指向的字符串内。fgets会把读到字符写到s指向的字符串里，直到出现下面某种情况： 遇到换行符 已经传输了n-1个字节 到达文件尾 它会把遇到的换行符也保存到s中．最后在s末尾加上一个表示结尾的空字符\0．一次调用最多只能传输n-1个字符，因为它必须把空字符加到字符串表示结尾． gets函数类似于fgets，但是它从标准输入流中取数据并丢弃遇到的换行符．它在接收字符串的尾部加上一个空字节(一个字符占一个字节)． fflush函数原型 1int fflush(FILE *stream); 功能：把文件流里的所有未写数据立刻写出(将进程缓冲区中的数据送入内核缓冲区中还是将数据从内核缓冲区写入磁盘？)。可以用这个函数来确保试图读入一个用户响应之前，先向终端送出一个交互提示符。使用这个函数还可以确保在程序继续执行之前重要的数据都已经被写到磁盘上。有时在调试程序时，你还可以用它来确认程序是正在写数据而不是被挂起了。注意，调用fclose函数隐含执行了一次flush操作，所以不必在调用fclose之前调用fflush。 puts12# include &lt;stdio.h&gt;int puts(const char *s); 功能：将字符串输出到屏幕。输出时只有遇到 ‘\0’ 也就是字符串结束标志符才会停止。 pread功能：对文件随机读。 pwrite功能：对文件随机写。 目录opendir123#include &lt;sys/types.h&gt; #include &lt;dirent.h&gt;DIR * opendir(const char * name); 功能：opendir()用来打开参数name指定的目录，并返回DIR*形态的目录流．接下来对目录的读取和搜索都要使用此返回值． 返回值：成功则返回DIR*型态的目录流，打开失败则返回nullptr. 错误代码： EACCESS 权限不足 EMFILE 已达到进程可同时打开的文件数上限 ENFILE 已达到系统可同时打开的文件数上限 ENOTDIR 参数name 非真正的目录 ENOENT 参数name 指定的目录不存在, 或是参数name 为一空字符串 ENOMEM 核心内存不足 进程fork12 vfork函数原型 12 功能：vfork函数用于创建一个新进程．新进程的目的是exec一个新程序． vfork和fork一样都创建一个子进程，但是它并不将父进程的地址空间完全复制到子进程中．因为子进程会立即调用exec(exit)，于是也就不会引用该地址空间．但是在子进程调用exec或exit之前，它在父进程的空间中运行． vfork和fork之间的另一个区别是：vfork保证子进程先运行．在它调用exec或exit之后父进程才可能被调度运行．当子进程调用这两个函数中的任意一个时，父进程会恢复运行．如果在调用这两个函数之前子进程依赖于父进程的进一步动作，会导致死锁． wait在父进程中通过调用wait函数来让父进程等待子进程的结束．wait系统调用将阻塞父进程直到它的子进程结束．这个调用返回子进程的PID，它通常是已经结束运行的子进程的PID．状态信息允许父进程了解子进程的退出状态，即子进程的main函数返回的值或子进程中exit函数的退出码．如果stat_loc不是空指针，那么状态信息就会被写入它所指向的位置．如果调用wait的进程有多个子进程，那么在其某一子进程终止时，wait就立即返回． 12#include&lt;sys/wait.h&gt;pid_t wait(int *stat_loc) 头文件sys/wait.h中定义的宏来解释状态信息． 12WIFEXITED(stat_val); // 如果子进程正常结束，它就取一个非零值WEXITSTATUS(stat_val); // 如果WIFEXITED非零，它返回子进程的退出码 waitpid函数原型 123#include&lt;sys/type.h&gt;#include&lt;sys/wait.h&gt;pid_t waitpid(pid_t pid, int *stat_loc, int options) 功能：waitpid用来等待某个特定进程的结束． pid参数用于指定需要等待的子进程的PID．如果它的值为-1，waitpid将返回任一子进程的信息． 如果stat_loc不是空指针，waitpid将状态信息写入到stat_loc指定的位置． option参数可用来改变waitpid的行为，其中一个最有用的选项是WNOHANG，它的作用是防止waitpid调用将调用者的执行挂起．可以使用这个选项来查找是否有子进程已经结束，如果没有，程序将继续执行．其他的选项和wait调用的选项相同． 返回值：如果子进程没有结束或意外终止，返回0；否则返回child_pid．如果waitpid失败，它将返回-1并设置errno．失败的情况包括：没有子进程(errno设置为ECHILD)，调用被某个信号中断(EINTR)，或选项参数无效(EINVAL)． exec函数族1int execl(const char*path, const char *arg,...) exec函数族的函数执行成功后不会返回，调用失败时，会设置errno并返回-1，然后从原程序的调用点接着往下执行参数path：可执行文件的路径名字arg：可执行程序所带的参数，第一个参数为可执行文件的名字，没有带路径且arg必须以空指针结束 https://blog.csdn.net/u014530704/article/details/73848573 进程同步用于进程的信号量线程pthread_create函数原型 1int pthread_create(pthread_t *thread, pthread_attr_t *attr, void *(*start_routine)(void*), void* arg); 功能：创建一个新线程 第一个参数指向一个pthread_t 类型的指针，线程被创建时，这个指针指向的变量中将被写入一个标识符，我们用该标识符来引用新线程． 第二个参数用于设置线程的属性；一般不需要特殊的属性，因此令该参数为NULL 第三个参数一个函数指针，告诉线程将要启动执行的函数 第四个参数是传递给该函数的参数 成功时，返回0；失败时，返回错误代码 pthread_join函数原型 1int pthread_join(pthread_t th, void **thread_return); 功能：pthread_join等价于进程中用来收集子进程信息的wait函数．调用进程将一直阻塞，直到指定的线程调用thread_exit或者从启动例程(即被调用的函数)中返回，或被取消。 第一个参数指定将要等待的线程，线程通过pthread_create返回的标识符来指定。第二个参数是一个指向指针的指针，而后者指向线程的返回值。 返回值：成功时返回0，失败时返回错误代码。 pthread_exit函数原型 1int pthread_exit(void * rval_ptr); 线程同步线程同步有几种方式。信号量、互斥量、 用于线程的信号量有两组接口函数用于信号量．一组取自POSIX的实时扩展，用于线程．另一组被称为系统V信号量，常用于进程的同步。信号量是一个特殊类型的变量，它可以被增加或减少，但对其的关键访问被保证是原子操作。 在多线程程序中，如果一个程序中有两个(或多个)线程试图改变一个信号量的值，系统将保证所有的操作都依次进行。信号量有二进制信号量和计数信号量。信号量一般用来保护一段代码，使其每次只能被一个执行线程运行，使用二进制信号量来完成这个工作。允许有限数目的线程执行一段指定的代码，这时需要计数信号量。 sem_init函数原型 1int sem_init(sem_t *sem, int pshared, unsigned int value); 功能：创建信号量；信号量由一个sem_t类型指针指定，设置该信号量对象的共享选项，并给它一个初始的整数值． 第一个参数为指向sem_t类型的信号量对象的指针． pshared表示该信号量对象的共享选项，若为0表示该信号量是当前进程的局部信号量，否则，这个信号量就可以在多个进程之间共享． sem_wait函数原型 1int sem_wait(sem_t* sem); 功能：以原子操作的方式给信号量的值减1.但是它会等待直到信号量有个非零值才会开始减法操作． sem_post函数原型 1int sem_post(sem_t* sem); 功能：以原子操作的方式给信号量的值加1. 互斥量另一种用在多线程程序中的同步访问方法是使用互斥量。它允许程序锁住某个对象，使得每次只能有一个线程访问它。为了控制对关键代码的访问，必须在进入这段代码之前锁住一个互斥量，然后在完成操作之后解锁它。互斥量又称为互斥锁，主要用于线程互斥，不能保证按序访问，可以和条件锁一起实现同步。当进入临界区时，需要获得互斥锁并加锁；当离开临界区时，需要对互斥锁解锁，以唤醒其他等待该互斥锁的线程。以下这些用于互斥量的基本函数成功时返回0，失败时返回错误代码，但是这些函数并不设置errno，必须对函数的返回代码进行检查。 pthread_mutex_init函数原型 1int pthread_mutex_init(pthread_mutext_t *mutex, const pthread_mutexattr_t *mutexattr); 功能：初始化互斥锁。 pthread_mutex_lock函数原型 1int pthread_mutex_lock(pthread_mutex_t *mutex) 功能：以原子操作的方式给一个互斥锁加锁，如果目标互斥锁已经被上锁，pthread_mutex_lock调用将阻塞，直到该互斥锁的占有者将其解锁。 pthread_mutex_unlock函数原型 1int pthread_mutex_unlock(pthread_mutex_t *mutex); pthread_mutex_destroy函数原型 1int pthread_mutex_destroy(pthread_mutex_t *mutex) 功能：以原子操作的方式给一个互斥锁解锁。 条件变量条件变量又称条件锁，用于在线程之间同步共享数据的值。条件变量提供一种线程间通信机制；当某个共享数据达到某个值时，唤醒等待这个共享数据的一个/多个线程。即，当某个共享变量等于某个值时，调用signal/broadcast。此时操作共享变量需要加锁。其主要系统调用如下：pthread_cond_init：初始化条件变量pthread_cond_destory：销毁条件变量pthread_cond_signal：唤醒一个等待目标条件变量的线程。哪个线程被唤醒取决于调度策略和优先级。pthread_cond_wait：等待目标条件变量。需要一个加锁的互斥锁确保操作的原子性。该函数中在进入wait状态前首先进行解锁，然后接收到信号后会再加锁，保证该线程对共享资源正常访问。 信号signal函数原型 12#inclue&lt;signal.h&gt;void (*signal(int signo, void (*func)(int)))(int); void (*func)(int)表示func是一个未初始化的函数指针，func指向的这个函数需要一个int类型的参数，返回void。上述定义可以写成下面这样： 12void (*func)(int); // func是一个未初始化的函数指针void (*signal(int signo, func))(int); 由内往外的顺序阅读第二条声明语句。因为signal有形参列表，所以signal是一个函数，它需要两个参数，一个是int类型参数，表示信号名；另一个是当接收到此信号后要调用的函数的地址func。signal前面有*，所以signal返回一个指针；指针类型本身也包含形参列表，因此指针指向函数，所以signal函数的返回值是一个函数指针。这个函数函数指针指向的函数有一个int类型参数，返回类型为void。 如果func的值为SIG_IGN，表示向内核忽略此信号（但是SIGKILL和SIGSTOP不能被忽略）如果func的值为SIG_DFL，表示接到此信号后的动作是系统默认动作。当指定函数地址时，则在信号发生时，调用该函数，我们称这种处理为捕捉该信号。func指定的函数为信号处理函数或者信号捕捉函数。]]></content>
+      <categories>
+        <category>unix 高级环境编程</category>
+      </categories>
+      <tags>
+        <tag>API</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[227. Basic Calculator II]]></title>
+    <url>%2F2019%2F10%2F28%2F227.Basic-Calculator-II%2F</url>
+    <content type="text"><![CDATA[Implement a basic calculator to evaluate a simple expression string. The expression string contains only non-negative integers, +, -, *, / operators and empty spaces ``. The integer division should truncate toward zero. Example 1: 12Input: &quot;3+2*2&quot;Output: 7 Example 2: 12Input: &quot; 3/2 &quot;Output: 1 Example 3: 12Input: &quot; 3+5 / 2 &quot;Output: 5 Note: You may assume that the given expression is always valid. Do not use the eval built-in library function. 解法1：使用两个栈，一个栈用来装操作数，另一个用来装操作符。通过后缀表达式的形式来计算。 AC代码 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869class Solution &#123;public: int calculate(string s) &#123; if(s.empty())&#123; return 0; &#125; stack&lt;int&gt; nums; stack&lt;char&gt; ops; bool isNum = true; int sum = 0; for(int i=0;i&lt;s.size();++i)&#123; if(s[i] == ' ')&#123; continue; &#125; if(s[i] == '+' || s[i] == '-' || s[i] =='*' || s[i] =='/')&#123; if(ops.empty() || isPrefered(s[i], ops.top()))&#123; nums.push(sum); &#125;else&#123; while(!ops.empty() &amp;&amp; !isPrefered(s[i], ops.top()))&#123; sum = operate(nums.top(), sum, ops.top()); ops.pop(); nums.pop(); &#125; nums.push(sum); &#125; ops.push(s[i]); sum = 0; &#125;else&#123; sum = sum * 10 + (s[i] - '0'); &#125; &#125; nums.push(sum); while(nums.size() &gt; 1)&#123; int second = nums.top(); nums.pop(); int first = nums.top(); nums.pop(); int res = operate(first, second, ops.top()); ops.pop(); nums.push(res); &#125; return nums.top(); &#125; int operate(int first, int second, char op)&#123; int res = 0; switch(op)&#123; case '+': res = first + second; break; case '-': res = first - second; break; case '*': res = first *second; break; case '/': if(second != 0)&#123; res = first / second; &#125;else&#123; throw "divided by zero"; &#125; break; &#125; return res; &#125; bool isPrefered(char cur, char before)&#123; if((cur == '*' || cur =='/') &amp;&amp; (before =='+' || before == '-'))&#123; return true; // 继续入栈 &#125; return false; &#125;&#125;; 相关题目 224. Basic Calculator 991. Broken Calculator 参考文献[1]后缀表达式：https://www.cnblogs.com/chensongxian/p/7059802.html]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[函数指针]]></title>
     <url>%2F2019%2F10%2F27%2F%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%2F</url>
     <content type="text"><![CDATA[函数指针指向的是函数而非对象.和其他指针一样,函数指针指向某种特定类型.函数的类型由它的返回类型和形参类型共同决定,与函数名无关. 123456789101112131415161718bool lengthCompare(const string &amp;a, const string &amp;b) &#123; return a.size() &lt; b.size();&#125;bool (*pf)(const string &amp;a, const string &amp;b); // pf是一个未初始化的函数指针bool (*pf1)(const string &amp;a, const string &amp;b); // pf1是一个未初始化的函数指针int main()&#123; // 以下两种写法都是等价的 pf = lengthCompare; pf1 = &amp;lengthCompare; // 以下是三个等价的调用 bool fa = pf("hello", "goodbye"); bool fb = pf1("hello", "goodbye"); bool fc = lengthCompare("hello", "goodbye"); return 0; &#125; 当把函数名作为一个值使用时,该函数自动转换为指针,所以, pf = lengthCompare和 pf1 = &amp;lengthCompare是等价的. 函数指针作为实参不能定义函数类型的形参,但是形参可以是指向函数的指针 12345// 第三个形参是函数类型,它会自动转换为指向函数的指针void useBigger(const string &amp;s1, const string &amp;s2, bool pf(const string &amp;, const string &amp;));// 显式地将形参定义为指向函数的指针void useBigger(const string &amp;s1, const string &amp;s2, bool (*pf)(const string &amp;, const string &amp;)); 定义函数类型别名和函数指针类型别名decltype返回函数类型,不会将函数类型自动转换为指针类型 12345678// Func和Func2是函数类型typedef bool Func(const string &amp;, const string &amp;);typedef decltype(lengthCompare) Func2; // 等价的类型// FuncP和FuncP2是指向函数的指针typedef bool (*FuncP)(const string &amp;, const string &amp;);typedef decltype(lengthCompare) *FuncP2; useBigger的另外两种等价的声明(使用了类型别名) 12void useBigger(const string &amp;s1, const string &amp;s2,Func);void useBigger(const string &amp;s1, const string &amp;s2,FuncP2); 返回函数指针12using F = int(int*, int); // F是函数类型,不是指针using PF = int(*)(int*,int); // PF是指针类型 使用类型别名定义返回类型为函数指针的函数 1234567PF f1(int); // PF是指向函数的指针,f1返回指向函数的指针F f1(int); // F是函数类型,f1不能返回一个函数类型F* f1(int); // F*是函数类型int (*f1(int))(int *,int); // 直接声明f1// 尾置返回类型auto f1(int) -&gt; int(*)(int *,int); 首先f1有形参列表，所以，f1是个函数，f1的返回值是一个指针。该指针也有形参列表，所以，该指针指向函数。此指针指向的函数的形参是int*和int，返回int。所以，f1是一个返回一个函数int(*)(int *,int)的函数。 一个复杂点的例子 12345678910111213141516171819202122232425262728293031string::size_type sumLength(const string &amp;a, const string &amp;b) &#123; return a.size() + b.size();&#125;string::size_type largerLength(const string &amp;a, const string &amp;b) &#123; return a.size() &gt; b.size() ? a.size() : b.size();&#125;decltype(sumLength) *getFcn(const string &amp;s) &#123; if (s == "+") &#123; return sumLength; &#125; else &#123; return largerLength; &#125;&#125;int main()&#123; typedef string::size_type (*Func)(const string &amp;, const string &amp;); Func fcn = getFcn("+"); // fcn是一个函数指针 // 一种等价形式// auto fcn = getFcn("+"); string::size_type sz = fcn("hello", "good"); cout &lt;&lt; sz &lt;&lt; endl; fcn = getFcn("-"); sz = fcn("hello", "good"); cout &lt;&lt; sz &lt;&lt; endl; return 0;&#125; 由于函数的类型由它的返回类型和形参类型决定，而与函数名无关，可知sumLength和largerLength属于相同的类型。所以，我们可以向getFcn传入参数，获取指向同一种函数类型的不同的函数指针。]]></content>
@@ -10,17 +48,6 @@
       <tags>
         <tag>函数</tag>
         <tag>函数指针</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[unix 高级环境编程系列2]]></title>
-    <url>%2F2019%2F10%2F27%2Funix-%E9%AB%98%E7%BA%A7%E7%8E%AF%E5%A2%83%E7%BC%96%E7%A8%8B%E7%B3%BB%E5%88%972%2F</url>
-    <content type="text"><![CDATA[此文档主要整理并记录liunx中常用的api． IOlseek函数原型：lseek(int fd, off_t offset, int whence);当whence为SEEK_CUR, 将该文件的文件偏移量设置为其当前值加offset；当whence为SEEK_END，则该文件的文件偏移量设置为文件长度加offset。功能：显式地为一个打开文件设置偏移量。返回值：若函数成功执行，返回新的文件偏移量。 read函数原型 1ssize_t read(int fd, void* buf, size_t nbytes); 成功时返回接收的字节数(但遇到文件结尾则返回0)，失败时返回-1.fd: 显示数据接收对象的文件描述符．buf: 要保存接收数据的缓冲地址值．nbytes: 要接收数据的最大字节数． write1ssize_t write(int fd, const void* buf, size_t nbytes); 成功时返回写入的字节数，失败时返回-1.fd: 显示数据传输对象的文件描述符．buf: 要保存传输数据的缓冲地址值．nbytes: 要传输数据的最大字节数． read和write都是系统调用。read和write都在内核执行，所以称这些函数为不带缓冲的IO函数。 fgetcfgetc从文件指针stream指向的文件中读取一个字符，读取一个字节后，光标位置后移一个字节。 fputc功能：把一个字符写到一个输出文件流中．它返回写入的值，如果失败，则返回EOF．putc函数的作用相当于fputc，但它可能被实现为一个宏．putchar相当于putc(c, stdout)，但它把单个字符写到标准输出．注意：putchar和getchar都是把字符当做int类型而不是char类型来使用的．这就允许文件尾标识取值-1，这是一个超出字符数字编码范围的值． fopenhttps://blog.csdn.net/hairetz/article/details/4150193 freadsize_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream) 功能：从给定流 stream 读取数据到 ptr 所指向的数组中 ptr – 这是指向带有最小尺寸 size\nmemb* 字节的内存块的指针。 size – 这是要读取的每个元素的大小，以字节为单位。 nmemb – 这是元素的个数，每个元素的大小为 size 字节。 stream – 这是指向 FILE 对象的指针，该 FILE 对象指定了一个输入流。 fgets函数原型为：char *fgets(char *str, int n, FILE *stream) 功能：从指定的流 stream 读取一行，并把它存储在 str 所指向的字符串内。fgets会把读到字符写到s指向的字符串里，直到出现下面某种情况： 遇到换行符 已经传输了n-1个字节 到达文件尾 它会把遇到的换行符也保存到s中．最后在s末尾加上一个表示结尾的空字符\0．一次调用最多只能传输n-1个字符，因为它必须把空字符加到字符串表示结尾． gets函数类似于fgets，但是它从标准输入流中取数据并丢弃遇到的换行符．它在接收字符串的尾部加上一个空字节(一个字符占一个字节)． fflush函数原型 1int fflush(FILE *stream); 功能：把文件流里的所有未写数据立刻写出(将进程缓冲区中的数据送入内核缓冲区中还是将数据从内核缓冲区写入磁盘？)。可以用这个函数来确保试图读入一个用户响应之前，先向终端送出一个交互提示符。使用这个函数还可以确保在程序继续执行之前重要的数据都已经被写到磁盘上。有时在调试程序时，你还可以用它来确认程序是正在写数据而不是被挂起了。注意，调用fclose函数隐含执行了一次flush操作，所以不必在调用fclose之前调用fflush。 puts12# include &lt;stdio.h&gt;int puts(const char *s); 功能：将字符串输出到屏幕。输出时只有遇到 ‘\0’ 也就是字符串结束标志符才会停止。 目录opendir123#include &lt;sys/types.h&gt; #include &lt;dirent.h&gt;DIR * opendir(const char * name); 功能：opendir()用来打开参数name指定的目录，并返回DIR*形态的目录流．接下来对目录的读取和搜索都要使用此返回值． 返回值：成功则返回DIR*型态的目录流，打开失败则返回nullptr. 错误代码： EACCESS 权限不足 EMFILE 已达到进程可同时打开的文件数上限 ENFILE 已达到系统可同时打开的文件数上限 ENOTDIR 参数name 非真正的目录 ENOENT 参数name 指定的目录不存在, 或是参数name 为一空字符串 ENOMEM 核心内存不足 进程fork12 vfork函数原型 12 功能：vfork函数用于创建一个新进程．新进程的目的是exec一个新程序． vfork和fork一样都创建一个子进程，但是它并不将父进程的地址空间完全复制到子进程中．因为子进程会立即调用exec(exit)，于是也就不会引用该地址空间．但是在子进程调用exec或exit之前，它在父进程的空间中运行． vfork和fork之间的另一个区别是：vfork保证子进程先运行．在它调用exec或exit之后父进程才可能被调度运行．当子进程调用这两个函数中的任意一个时，父进程会恢复运行．如果在调用这两个函数之前子进程依赖于父进程的进一步动作，会导致死锁． wait在父进程中通过调用wait函数来让父进程等待子进程的结束．wait系统调用将阻塞父进程直到它的子进程结束．这个调用返回子进程的PID，它通常是已经结束运行的子进程的PID．状态信息允许父进程了解子进程的退出状态，即子进程的main函数返回的值或子进程中exit函数的退出码．如果stat_loc不是空指针，那么状态信息就会被写入它所指向的位置．如果调用wait的进程有多个子进程，那么在其某一子进程终止时，wait就立即返回． 12#include&lt;sys/wait.h&gt;pid_t wait(int *stat_loc) 头文件sys/wait.h中定义的宏来解释状态信息． 12WIFEXITED(stat_val); // 如果子进程正常结束，它就取一个非零值WEXITSTATUS(stat_val); // 如果WIFEXITED非零，它返回子进程的退出码 waitpid函数原型 123#include&lt;sys/type.h&gt;#include&lt;sys/wait.h&gt;pid_t waitpid(pid_t pid, int *stat_loc, int options) 功能：waitpid用来等待某个特定进程的结束． pid参数用于指定需要等待的子进程的PID．如果它的值为-1，waitpid将返回任一子进程的信息． 如果stat_loc不是空指针，waitpid将状态信息写入到stat_loc指定的位置． option参数可用来改变waitpid的行为，其中一个最有用的选项是WNOHANG，它的作用是防止waitpid调用将调用者的执行挂起．可以使用这个选项来查找是否有子进程已经结束，如果没有，程序将继续执行．其他的选项和wait调用的选项相同． 返回值：如果子进程没有结束或意外终止，返回0；否则返回child_pid．如果waitpid失败，它将返回-1并设置errno．失败的情况包括：没有子进程(errno设置为ECHILD)，调用被某个信号中断(EINTR)，或选项参数无效(EINVAL)． exec函数族1int execl(const char*path, const char *arg,...) exec函数族的函数执行成功后不会返回，调用失败时，会设置errno并返回-1，然后从原程序的调用点接着往下执行参数path：可执行文件的路径名字arg：可执行程序所带的参数，第一个参数为可执行文件的名字，没有带路径且arg必须以空指针结束 https://blog.csdn.net/u014530704/article/details/73848573 进程同步用于进程的信号量线程pthread_create函数原型 1int pthread_create(pthread_t *thread, pthread_attr_t *attr, void *(*start_routine)(void*), void* arg); 功能：创建一个新线程 第一个参数指向一个pthread_t 类型的指针，线程被创建时，这个指针指向的变量中将被写入一个标识符，我们用该标识符来引用新线程． 第二个参数用于设置线程的属性；一般不需要特殊的属性，因此令该参数为NULL 第三个参数一个函数指针，告诉线程将要启动执行的函数 第四个参数是传递给该函数的参数 成功时，返回0；失败时，返回错误代码 pthread_join函数原型 1int pthread_join(pthread_t th, void **thread_return); 功能：pthread_join等价于进程中用来收集子进程信息的wait函数．调用进程将一直阻塞，直到指定的线程调用thread_exit或者从启动例程(即被调用的函数)中返回，或被取消。 第一个参数指定将要等待的线程，线程通过pthread_create返回的标识符来指定。第二个参数是一个指向指针的指针，而后者指向线程的返回值。 返回值：成功时返回0，失败时返回错误代码。 pthread_exit函数原型 1int pthread_exit(void * rval_ptr); 线程同步线程同步有几种方式。信号量、互斥量、 用于线程的信号量有两组接口函数用于信号量．一组取自POSIX的实时扩展，用于线程．另一组被称为系统V信号量，常用于进程的同步。信号量是一个特殊类型的变量，它可以被增加或减少，但对其的关键访问被保证是原子操作。 在多线程程序中，如果一个程序中有两个(或多个)线程试图改变一个信号量的值，系统将保证所有的操作都依次进行。信号量有二进制信号量和计数信号量。信号量一般用来保护一段代码，使其每次只能被一个执行线程运行，使用二进制信号量来完成这个工作。允许有限数目的线程执行一段指定的代码，这时需要计数信号量。 sem_init函数原型 1int sem_init(sem_t *sem, int pshared, unsigned int value); 功能：创建信号量；信号量由一个sem_t类型指针指定，设置该信号量对象的共享选项，并给它一个初始的整数值． 第一个参数为指向sem_t类型的信号量对象的指针． pshared表示该信号量对象的共享选项，若为0表示该信号量是当前进程的局部信号量，否则，这个信号量就可以在多个进程之间共享． sem_wait函数原型 1int sem_wait(sem_t* sem); 功能：以原子操作的方式给信号量的值减1.但是它会等待直到信号量有个非零值才会开始减法操作． sem_post函数原型 1int sem_post(sem_t* sem); 功能：以原子操作的方式给信号量的值加1. 互斥量另一种用在多线程程序中的同步访问方法是使用互斥量。它允许程序锁住某个对象，使得每次只能有一个线程访问它。为了控制对关键代码的访问，必须在进入这段代码之前锁住一个互斥量，然后在完成操作之后解锁它。互斥量又称为互斥锁，主要用于线程互斥，不能保证按序访问，可以和条件锁一起实现同步。当进入临界区时，需要获得互斥锁并加锁；当离开临界区时，需要对互斥锁解锁，以唤醒其他等待该互斥锁的线程。以下这些用于互斥量的基本函数成功时返回0，失败时返回错误代码，但是这些函数并不设置errno，必须对函数的返回代码进行检查。 pthread_mutex_init函数原型 1int pthread_mutex_init(pthread_mutext_t *mutex, const pthread_mutexattr_t *mutexattr); 功能：初始化互斥锁。 pthread_mutex_lock函数原型 1int pthread_mutex_lock(pthread_mutex_t *mutex) 功能：以原子操作的方式给一个互斥锁加锁，如果目标互斥锁已经被上锁，pthread_mutex_lock调用将阻塞，直到该互斥锁的占有者将其解锁。 pthread_mutex_unlock函数原型 1int pthread_mutex_unlock(pthread_mutex_t *mutex); pthread_mutex_destroy函数原型 1int pthread_mutex_destroy(pthread_mutex_t *mutex) 功能：以原子操作的方式给一个互斥锁解锁。 条件变量条件变量又称条件锁，用于在线程之间同步共享数据的值。条件变量提供一种线程间通信机制；当某个共享数据达到某个值时，唤醒等待这个共享数据的一个/多个线程。即，当某个共享变量等于某个值时，调用signal/broadcast。此时操作共享变量需要加锁。其主要系统调用如下：pthread_cond_init：初始化条件变量pthread_cond_destory：销毁条件变量pthread_cond_signal：唤醒一个等待目标条件变量的线程。哪个线程被唤醒取决于调度策略和优先级。pthread_cond_wait：等待目标条件变量。需要一个加锁的互斥锁确保操作的原子性。该函数中在进入wait状态前首先进行解锁，然后接收到信号后会再加锁，保证该线程对共享资源正常访问。 信号signal函数原型 12#inclue&lt;signal.h&gt;void (*signal(int signo, void (*func)(int)))(int); void (*func)(int)表示func是一个未初始化的函数指针，func指向的这个函数需要一个int类型的参数，返回void。上述定义可以写成下面这样： 12void (*func)(int); // func是一个未初始化的函数指针void (*signal(int signo, func))(int); signal是一个函数指针，它指向的函数需要两个参数，一个是int类型参数，表示信号名；另一个是当接收到此信号后要调用的函数的地址。如果func的值为SIG_IGN，表示向内核忽略此信号（但是SIGKILL和SIGSTOP不能被忽略）如果func的值为SIG_DFL，表示接到此信号后的动作是系统默认动作。当指定函数地址时，则在信号发生时，调用该函数，我们称这种处理为捕捉该信号。func指定的函数为信号处理函数或者信号捕捉函数。]]></content>
-      <categories>
-        <category>unix 高级环境编程</category>
-      </categories>
-      <tags>
-        <tag>API</tag>
       </tags>
   </entry>
   <entry>
@@ -317,17 +344,6 @@
       <tags>
         <tag>链表</tag>
         <tag>插入排序</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[21. Merge Two Sorted Lists]]></title>
-    <url>%2F2019%2F10%2F16%2F21.-Merge-Two-Sorted-Lists%2F</url>
-    <content type="text"><![CDATA[Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists. Example: 12Input: 1-&gt;2-&gt;4, 1-&gt;3-&gt;4Output: 1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4 递归解法递归的方法每次确定一个元素的位置，将问题规模减小1。 非递归解法]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-      <tags>
-        <tag>减治</tag>
       </tags>
   </entry>
   <entry>
@@ -868,19 +884,19 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[bind与函数适配器]]></title>
-    <url>%2F2019%2F09%2F27%2Fbind%E4%B8%8E%E5%87%BD%E6%95%B0%E9%80%82%E9%85%8D%E5%99%A8%2F</url>
-    <content type="text"><![CDATA[bind是从c++11开始出现的新型适配器]]></content>
-      <categories>
-        <category>STL</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[C++牛客网刷题总结]]></title>
     <url>%2F2019%2F09%2F27%2FC%2B%2B%E7%89%9B%E5%AE%A2%E7%BD%91%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93%2F</url>
     <content type="text"><![CDATA[字符串系列]]></content>
       <categories>
         <category>牛客网</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[bind与函数适配器]]></title>
+    <url>%2F2019%2F09%2F27%2Fbind%E4%B8%8E%E5%87%BD%E6%95%B0%E9%80%82%E9%85%8D%E5%99%A8%2F</url>
+    <content type="text"><![CDATA[bind是从c++11开始出现的新型适配器]]></content>
+      <categories>
+        <category>STL</category>
       </categories>
   </entry>
   <entry>
@@ -995,14 +1011,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[k sum 系列]]></title>
-    <url>%2F2019%2F09%2F27%2Fk-sum-%E7%B3%BB%E5%88%97%2F</url>
-    <content type="text"><![CDATA[two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[冒泡排序的优化和鸡尾酒排序]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%E7%9A%84%E4%BC%98%E5%8C%96%E5%92%8C%E9%B8%A1%E5%B0%BE%E9%85%92%E6%8E%92%E5%BA%8F%2F</url>
     <content type="text"><![CDATA[冒泡排序的优化有设置哨兵来表示当前整个数组已经有序，以及设置有序区间，下一次只对有序区间进行排序（尚未完全理解）． 详情可见 鸡尾酒排序鸡尾酒排序算法适用于大部分元素已经有序的情况．它能够在特定条件下，减少排序的回合数；但是缺点是代码量几乎扩大了一倍． 鸡尾酒排序 未进行优化的鸡尾酒排序 12345678910111213141516171819202122232425262728293031323334353637383940414243void clockTailSort(vector&lt;int&gt; &amp;nums) &#123; // 未进行优化的鸡尾酒排序 int tmp = 0; for (int i = 0; i &lt; nums.size() / 2 - 1; ++i) &#123; // 有序标记，每一轮的初始值是true bool isSorted = true; // 奇数轮:从做向右比较和交换 // 奇数轮：区间内最大的数会被冒泡到最右 for (int j = i; j &lt; nums.size() - i - 1; ++j) &#123; if (nums[j] &gt; nums[j + 1]) &#123; tmp = nums[j]; nums[j] = nums[j + 1]; nums[j + 1] = tmp; // 有元素交换，所以，不是有序，标记变为false isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; isSorted = true; // 8 1 2 3 4 // 偶数轮，从右向左比较和交换 // 偶数轮，最小的数会被冒泡到最左边 for (int j = nums.size() - i - 1; j &gt; i; j--) &#123; if (nums[j] &lt; nums[j - 1]) &#123; tmp = nums[j]; nums[j] = nums[j - 1]; nums[j - 1] = tmp; isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; &#125;&#125; 进行优化的鸡尾酒排序优化方法：]]></content>
@@ -1012,6 +1020,14 @@
       <tags>
         <tag>冒泡排序的优化</tag>
       </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[k sum 系列]]></title>
+    <url>%2F2019%2F09%2F27%2Fk-sum-%E7%B3%BB%E5%88%97%2F</url>
+    <content type="text"><![CDATA[two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
   </entry>
   <entry>
     <title><![CDATA[旋转数组]]></title>
@@ -1191,8 +1207,8 @@
     <url>%2F2019%2F09%2F27%2F%E6%9C%AA%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%B4%AF%E5%8A%A0%E5%92%8C%E4%B8%BA%E7%BB%99%E5%AE%9A%E5%80%BC%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E6%95%B0%E7%BB%84%E7%B3%BB%E5%88%97%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[原题给定一个无序数组,其中元素可正,可负,可0.给定一个整数k,求arr所有的子数组中累加和为k的最长子数组长度. 12345678910111213141516171819int maxLength(vector&lt;int&gt; &amp;arr, int k) &#123; if (arr.empty()) &#123; return 0; &#125; map&lt;int, int&gt; mp; mp[0] = -1; int len = 0; int sum = 0; for (int i = 0; i &lt; arr.size(); i++) &#123; sum += arr[i]; if (mp.find(sum - k) != mp.end()) &#123; len = max(len, i - mp[sum - k]); &#125; if (mp.find(sum) == mp.end()) &#123; mp[sum] = i; &#125; &#125; return len;&#125; 补充题1补充题2类似题138. 子数组之和给定一个整数数组，找到和为零的子数组。你的代码应该返回满足要求的子数组的起始位置和结束位置 样例 样例 1: 123输入: [-3, 1, 2, -3, 4]输出: [0,2] 或 [1,3] 样例解释： 返回任意一段和为0的区间即可。 样例 2: 12输入: [-3, 1, -4, 2, -3, 4]输出: [1,5] 样例 3: 12输入: [3,4,5,6,-3,-4,-5,-6]输出: [0,7] 样例 4: 12输入: [1,0,-1]输出: [1,1] 注意事项: 至少有一个子数组的和为 0 1234567891011121314151617181920212223242526272829303132class Solution &#123;public: /** * @param nums: A list of integers * @return: A list of integers includes the index of the first number and the index of the last number */ vector&lt;int&gt; subarraySum(vector&lt;int&gt; &amp;nums) &#123; // write your code here if(nums.empty())&#123; return &#123;&#125;; &#125; int sum = 0; vector&lt;int&gt; res; map&lt;int, int&gt; mp; for(int i=0;i&lt;nums.size();++i)&#123; sum += nums[i]; if(sum == 0)&#123; res.push_back(0); res.push_back(i); return res; &#125; if(mp.find(sum)!=mp.end())&#123; res.push_back(mp[sum]+1); res.push_back(i); return res; &#125; mp[sum] = i; &#125; return res; &#125;&#125;; 此题与上题的相似之处在于:需要用到相同的结论:s[i]= arr[0] + arr[1] +…+arr[i]s[j]= arr[0] + arr[1] +…+arr[j]假设i &gt; j,则s[i] - s[j] = arr[j+1] + arr[j+2] + … + arr[i] 复杂度分析 理论上, 时间复杂度为O(n).但实际实现时,时间复杂度为O(nlogn).因为map的find方法查找一个数的时间复杂度为O(logn)空间复杂度为O(n) 题目来源: leetcode 560. Subarray Sum Equals K930 binary subarrays with sum另有使用三指针的解法,可以尝试看看试用否,三指针解法时间复杂度为O(n),空间复杂度为O(1),是最优解法]]></content>
       <tags>
-        <tag>leetcode</tag>
         <tag>累积和</tag>
+        <tag>leetcode</tag>
         <tag>程序员代码面试指南</tag>
       </tags>
   </entry>
@@ -1286,6 +1302,11 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[寻找下一个节点]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%AF%BB%E6%89%BE%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%2F</url>
+    <content type="text"><![CDATA[链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继返回-1。]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[可调用对象]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%8F%AF%E8%B0%83%E7%94%A8%E5%AF%B9%E8%B1%A1%2F</url>
     <content type="text"><![CDATA[可调用对象有函数,函数指针,lambda表达式,函数对象, bind创建的对象等.函数和函数指针不必多说.那么什么是函数对象呢?函数对象是一种重载了调用运算符的类类型.因为重载了调用运算符,所以我们可以像调用函数一样调用类的对象,因为称为函数对象.lambda表达式表示一个可调用的代码单元. 函数对象12345678910111213141516/** * absInt类只定义了一种操作:函数调用运算符 * 此类为函数对象 */struct absInt &#123; int operator()(int val) const &#123; return val &lt; 0 ? -val : val; &#125;&#125;;int main()&#123; absInt absObj; cout &lt;&lt; absObj(42) &lt;&lt; endl; // 42 cout &lt;&lt; absObj(-10) &lt;&lt; endl; // 10 return 0;&#125; 以上代码即定义了一个函数对象.调用该对象就像调用函数一样.仿佛该类型对象是一个函数.还可以定义有数据成员的函数对象 123456789101112131415161718class PrintString &#123;public: PrintString(ostream &amp;o = cout, char c = ' ') : os(o), sep(c) &#123;&#125; void operator()(const string &amp;s) const &#123; os &lt;&lt; s &lt;&lt; sep; &#125;private: ostream &amp;os; char sep;&#125;;int main()&#123; PrintString printer; printer("hello"); // 输出hello PrintString errors(cerr, '\n'); string s = "wrong answer"; errors(s); // 输出wrong answer return 0;&#125; lambda表达式lambda表达式在很多语言中都有.lambda可以理解为一个未命名的内联函数,但是与普通函数不同的是,lambda可能定义在函数内部;lambda表达式必须尾置返回; lambda表达式不能有默认参数; lambda表达式的参数列表和返回类型可以省略. 那么在c++中该怎么定义一个lambda表达式呢?一个lambda表达式具有以下形式: 1[capure list](parameter list)-&gt; return type &#123;function body&#125; 其中,捕获列表(capure list)是该lambda表达式所在函数中定义的局部变量(通常为空).参数列表(parameter list), 返回类型, 返回类型(return type)和函数体(function body)与普通函数相同. 当定义一个lambda时,编译器生成一个与lambda对象的新的(未命名的)类类型.当向一个函数传递一个lambda时,同时定义了一个新类型和该类型的一个对象. 123456vector&lt;string&gt; vc&#123;"good", "to", "see", "you", "again"&#125;;for_each(vc.begin(), vc.end(), PrintString(cout, '\n')); // 函数对象// 等价的lambda表达式string sep("\n");for_each(vc.begin(), vc.end(), [sep](const string &amp;s) &#123; cout &lt;&lt; s &lt;&lt; sep; &#125;); 使用函数对象打印出可变数组vc中的元素.同时定义了一个与函数对象PrintString等价的lambda表达式. 捕获变量与参数传递类似,捕获变量也有两种方式,值捕获和引用捕获.采用值捕获需要变量可以拷贝.与参数传递不同,被捕获的变量的值是在lambda创建时拷贝,而不是调用时拷贝.引用捕获需要保证lambda表达式执行时,该引用指向的对象仍然存在. 在一个基本类型为string类型的可变数组中找出第一个长度大于给定值sz的元素.下面分别用函数对象和lambda表达式的形式实现. 123456789101112131415161718192021222324252627class SizeCmp &#123;public: SizeCmp(size_t n) : sz(n) &#123;&#125; bool operator()(const string &amp;a) &#123; return a.size() &gt;= sz; &#125;private: size_t sz;&#125;;int main()&#123; vector&lt;string&gt; vc&#123;"good", "to", "see", "mango", "again", "day", "nana"&#125;; size_t sz = 6; // 使用lambda表达式// auto wc = find_if(vc.begin(), vc.end(), [sz](const string &amp;a) &#123; return a.size() &gt;= sz; &#125;); // 使用等价的函数对象 auto wc = find_if(vc.begin(), vc.end(), SizeCmp(sz)); // wc 为指向第一个长度不小于给定值sz的元素的迭代器 if (wc != vc.end()) cout &lt;&lt; (*wc) &lt;&lt; endl; else &#123; cout &lt;&lt; "empty result" &lt;&lt; endl; &#125; //当sz=5时,输出mango;当sz=6时,输出empty result&#125; bind参数绑定标准库的bind函数可以看做一个函数适配器.它接受一个可调用对象,生成一个新的可调用对象. 12345678910111213141516171819bool check_size(const string&amp; s, string::size_type sz)&#123; return s.size() &gt;= sz;&#125;// 给check_size函数的第一个参数绑定一个值// auto check6 = bind(check_size, std::placeholders::_1, 6);auto check6 = bind(check_size, std::placeholders::_1, 5);// 调用check6函数string s = "hello";cout &lt;&lt; check6(s) &lt;&lt; endl;vector&lt;string&gt; vc&#123;"good", "to", "see", "mango", "again", "day", "nana"&#125;;auto wc = find_if(vc.begin(), vc.end(), check6);// wc 为指向第一个长度不小于给定值sz的元素的迭代器if (wc != vc.end()) cout &lt;&lt; (*wc) &lt;&lt; endl;else &#123; cout &lt;&lt; "empty result" &lt;&lt; endl; 可调用对象与function每一个lambda表达式都是一种未命名的新类型;函数对象的类型是该对象的类类型;函数和函数指针的类型由参数列表和返回值决定. 多个调用对象有不同的类型,但是却共享相同的调用形式.调用形式指明了调用返回的类型以及传递给调用的实参类型(如何SizeCmp类型的函数对象和lambda表达式,类型不同,调用形式相同).一种调用形式对应一个函数类型.标准库中function模板可以表示函数类型. 123456789101112map&lt;string, function&lt;int(int, int)&gt;&gt; binops = &#123; &#123;"+", add&#125;, &#123;"-", std::minus&lt;int&gt;()&#125;, &#123;"/", Divide()&#125;, &#123;"*", [](int i, int j) &#123; return i * j; &#125;&#125;, &#123;"%", mod&#125;&#125;;cout &lt;&lt; binops["+"](10, 5) &lt;&lt; endl; // 15cout &lt;&lt; binops["-"](10, 5) &lt;&lt; endl; // 5cout &lt;&lt; binops["%"](11, 4) &lt;&lt; endl; // 3cout &lt;&lt; binops["*"](13, 2) &lt;&lt; endl; // 26 add, Divide(),mod等各个可调用对象的类型各不相同,但是它们都是调用形式为int(int, int)的可调用对象,因此可以赋值给function&lt;int(int,int)&gt;类型的对象.]]></content>
@@ -1297,9 +1318,13 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[寻找下一个节点]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%AF%BB%E6%89%BE%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%2F</url>
-    <content type="text"><![CDATA[链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继返回-1。]]></content>
+    <title><![CDATA[并查集基础知识]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%B9%B6%E6%9F%A5%E9%9B%86%2F</url>
+    <content type="text"><![CDATA[并查集(不相交集合)不相交集合数据结构是这样一种数据结构: 它维护了一个不相交动态集的集合 $$S = {s_1, s_2, …, s_i, …, s_k}$$对于每个集合S中的每个元素集合si而言,用集合中的而一个元素来代表该集合.假设x是集合si中的一个元素,则有以下三种操作: make_set(x): 建立一个新的集合,它的唯一成员是x.因为各个集合是不相交的集合, 所以x不会出现在别的集合中.union(x, y): 将包含x和y的两个动态集合(表示为sx和sy合并成一个新的集合, 即这两个集合的并集)find_set(x): 返回一个指针,该指针指向包含x的(唯一)集合的代表.不相交集合可以用于求无向图的连通分量等.待后续加上代码 为了提交效率,建立并查集的过程往往会采用两种策略来提高性能.一种是按秩(秩是指节点高度的一个上界)合并, 另一种是路径压缩.按秩合并是在合并两个集合的过程中, 让具有较小秩的根指向较大秩的根.路径压缩是在查找节点的根节点的过程中, 使查找路径上的每个节点指向指向根(即令根节点成为查找路径上每个节点的父节点). 节点x的秩: 节点x的高度(从节点x到某一后代叶节点的最长简单路径上边的数目)的一个上界.当make_set(x)创建一个单元素x集合时, 节点x的秩为0.使用按秩合并union(x, y)合并两个集合时, 若两个集合的秩不同,则让较大秩的根成为较小秩的根的父节点, 秩本身保持不变.若两个集合的秩相同,则任意选择两个根中的一个作为父节点, 并使它的秩加1. 并查集的实现(伪代码)123456789101112131415161718make_set(x) x.p = x // x的父节点是自己,即x是x所在集合的根节点 x.rank = 0 // x.rank即x的秩link(x, y) if(x.rank &gt; y.rank) y.p = x else x.p = y if(x.rank == y.rank) y.rank = y.rank + 1union(x, y) link(find_set(x), find_set(y))find_set(x) if x != x.p x.p = find_set(x.p) return x.p find_set的非递归形式 12345678find_set(x) a = x while x != x.p x = x.p while a != a.p z = a a = a.p z.p = x]]></content>
+      <tags>
+        <tag>基础算法</tag>
+        <tag>理论</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[二叉树的下一个结点]]></title>
@@ -1308,15 +1333,6 @@
       <tags>
         <tag>牛客网</tag>
         <tag>binary tree</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[并查集基础知识]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%B9%B6%E6%9F%A5%E9%9B%86%2F</url>
-    <content type="text"><![CDATA[并查集(不相交集合)不相交集合数据结构是这样一种数据结构: 它维护了一个不相交动态集的集合 $$S = {s_1, s_2, …, s_i, …, s_k}$$对于每个集合S中的每个元素集合si而言,用集合中的而一个元素来代表该集合.假设x是集合si中的一个元素,则有以下三种操作: make_set(x): 建立一个新的集合,它的唯一成员是x.因为各个集合是不相交的集合, 所以x不会出现在别的集合中.union(x, y): 将包含x和y的两个动态集合(表示为sx和sy合并成一个新的集合, 即这两个集合的并集)find_set(x): 返回一个指针,该指针指向包含x的(唯一)集合的代表.不相交集合可以用于求无向图的连通分量等.待后续加上代码 为了提交效率,建立并查集的过程往往会采用两种策略来提高性能.一种是按秩(秩是指节点高度的一个上界)合并, 另一种是路径压缩.按秩合并是在合并两个集合的过程中, 让具有较小秩的根指向较大秩的根.路径压缩是在查找节点的根节点的过程中, 使查找路径上的每个节点指向指向根(即令根节点成为查找路径上每个节点的父节点). 节点x的秩: 节点x的高度(从节点x到某一后代叶节点的最长简单路径上边的数目)的一个上界.当make_set(x)创建一个单元素x集合时, 节点x的秩为0.使用按秩合并union(x, y)合并两个集合时, 若两个集合的秩不同,则让较大秩的根成为较小秩的根的父节点, 秩本身保持不变.若两个集合的秩相同,则任意选择两个根中的一个作为父节点, 并使它的秩加1. 并查集的实现(伪代码)123456789101112131415161718make_set(x) x.p = x // x的父节点是自己,即x是x所在集合的根节点 x.rank = 0 // x.rank即x的秩link(x, y) if(x.rank &gt; y.rank) y.p = x else x.p = y if(x.rank == y.rank) y.rank = y.rank + 1union(x, y) link(find_set(x), find_set(y))find_set(x) if x != x.p x.p = find_set(x.p) return x.p find_set的非递归形式 12345678find_set(x) a = x while x != x.p x = x.p while a != a.p z = a a = a.p z.p = x]]></content>
-      <tags>
-        <tag>基础算法</tag>
-        <tag>理论</tag>
       </tags>
   </entry>
   <entry>
