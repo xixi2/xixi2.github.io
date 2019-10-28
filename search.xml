@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[SSH协议]]></title>
+    <url>%2F2019%2F10%2F28%2FSSH%E5%8D%8F%E8%AE%AE%2F</url>
+    <content type="text"><![CDATA[什么是SSH？ SSH协议SSH是一种网络协议，用于计算机之间的加密登录。如果一个用户从本地计算机，使用SSH协议登录到另一台远程计算机，我们就可以认为，这种登录是安全的，即使被中途截获，密码也不会泄露。最早的时候，互联网通信都是明文通信，一旦被截获，内容就暴露无疑。1995年，芬兰学者Tatu Ylonen设计了SSH协议，将登录信息全部加密，成为互联网安全的一个基本解决方案，迅速在全世界获得推广，目前已经成为Linux系统的标准配置。 需要指出的是，SSH只是一种协议，存在多种实现，既有商业实现，也有开源实现。本文针对的实现是OpenSSH，它是自由软件，应用非常广泛。 此外，本文只讨论SSH在Linux Shell中的用法。如果要在Windows系统中使用SSH，会用到另一种软件PuTTY，这需要另文介绍。 中间人攻击SSH之所以能够保证安全，是因为它采用了公钥加密。 123456sequenceDiagram participant 用户 用户-&gt;&gt;远程主机:登录请求 远程主机--&gt;&gt;用户:公钥 用户--&gt;&gt;远程主机:登录密码 远程主机--&gt;&gt;用户:同意or不同意登录 第一步：用户向远程主机发送自己的登录请求。 第二步：远程主机收到用户发送的登录请求后，把自己的公钥发送给用户。 第三步：用户使用这个公钥，将登录密码加密后，发送给远程主机。 第四步：远程主机用自己的私钥，解密登录密码，如果密码正确，就同意用户登录。 这个过程本身是安全的，但是存在一个风险：如果有人截获了登录请求，然后冒充远程主机，将伪造的公钥发送给用户，但是用户不知道这个公钥是伪造的，他将自己的登录密码使用伪造的公钥加密后发送给了伪造的远程主机，就会造成用户密码的泄露。因为不像https协议，SSH协议的公钥是没有证书中心（CA）公证的，也就是说，都是自己签发的。可以设想，如果攻击者插在用户与远程主机之间（比如在公共的wifi区域），用伪造的公钥，获取用户的登录密码。再用这个密码登录远程主机，那么SSH的安全机制就荡然无存了。这种风险就是著名的“中间人攻击”（Man-in-the-middle attack）。SSH协议是如何应对的呢？ 口令登录如果你是第一次登录对方主机，系统会出现下面的提示： 1234$ ssh user@hostThe authenticity of host 'host (12.18.429.21)' can't be established.RSA key fingerprint is 98:2e:d7:e0:de:9f:ac:67:28:c2:42:2d:37:16:58:4d.Are you sure you want to continue connecting (yes/no)? 这段话的意思是，无法确认host主机的真实性，只知道它的公钥指纹，问你还想继续连接吗？所谓”公钥指纹”，是指公钥长度较长（这里采用RSA算法，长达1024位），很难比对，所以对其进行MD5计算，将它变成一个128位的指纹。上例中是98:2e:d7:e0:de:9f:ac:67:28:c2:42:2d:37:16:58:4d，再进行比较，就容易多了。很自然的一个问题就是，用户怎么知道远程主机的公钥指纹应该是多少？回答是没有好办法，远程主机必须在自己的网站上贴出公钥指纹，以便用户自行核对。假定经过风险衡量以后，用户决定接受这个远程主机的公钥。 1Are you sure you want to continue connecting (yes/no)? yes 系统会出现一句提示，表示host主机已经得到认可。 1Warning: Permanently added 'host,12.18.429.21' (RSA) to the list of known hosts. 然后，会要求输入密码。 1Password: (enter password) 如果密码正确，就可以登录了。当远程主机的公钥被接受以后，它就会被保存在文件$HOME/.ssh/known_hosts之中。下次再连接这台主机，系统就会认出它的公钥已经保存在本地了，从而跳过警告部分，直接提示输入密码。每个SSH用户都有自己的known_hosts文件，此外系统也有一个这样的文件，通是/etc/ssh/ssh_known_hosts，保存一些对所有用户都可信赖的远程主机的公钥。 公钥登录使用密码登录，每次都需要输入密码，非常麻烦。所以SSH还提供了公钥登录，可以不用输入密码。所谓“公钥登录”，就是用户将自己的公钥存储在远程主机上。登录的时候，远程主机会向用户发送一段随机字符串，用户用自己的私钥加密后，再发回来。远程主机用事先存储的公钥进行解密，如果成功，就证明用户是可信的，直接运行登录shell，不再要求密码。这种方法要求用户必须提供自己的公钥。如果没有现成的，可以用ssh-keygen生成一个。 1ssh-keygen 运行上面的命令以后，系统会出现一系列提示，可以一路回车。其中有一个问题是，要不要对私钥设置口令（passphrase），如果担心私钥的安全，这里可以设置一个。运行结束之后，在$HOME/.ssh/目录下，会新生成两个文件：id_rsa.pub和id_rsa。前者是生成的公玥，后者是对应的私钥。这时候，再输入下面的命令，将公钥传送到远程主机host上面。 1ssh-copy-id user@host 从此以后再登录，就不需要输入密码了。如果还是不行，就打开远程主机的/etc/ssh/sshd_config这个文件，检查下面几行前面的#注释是否取消掉。 123RSAAuthentication yesPubkeyAuthentication yesAuthorizedKeysFile .ssh/authorized_keys 然后，重启远程主机的ssh服务。 12345// ubuntu系统service ssh restart// debian系统/etc/init.d/ssh restart authorized_keys文件远程主机将用户的公钥，保存在登录后的用户主目录的$HOME/.ssh/authorized_keys文件中。公钥就是一段字符串，只要把它追加在authorized_keys文件的末尾就行了。这里不使用上面的ssh-copy-id命令，改用下面的命令，解释公钥的保存过程： 1$ ssh user@host 'mkdir -p .ssh &amp;&amp; cat &gt;&gt; .ssh/authorized_keys' &lt; ~/.ssh/id_rsa.pub 这条命令由多个语句组成，依次分解开来看：(1)”$ ssh user@host”表示登录远程主机；（2）单引号中的mkdir .ssh &amp;&amp; cat &gt;&gt; .ssh/authorized_keys，表示登录后在远程shell上执行的命令：（3）”$ mkdir -p .ssh”的作用是，如果用户目录中的.ssh目录不存在，就创建一个；（4）’cat &gt;&gt; .ssh/authorized_keys’ &lt; /.ssh/id_rsa.pub的作用是，将本地的公钥文件/.ssh/id_rsa.pub，重定向追加到远程文件.ssh/authorized_keys文件的末尾。写入authorized_keys文件后，公钥登录的设置就完成了。 绑定本地端口SSH可以传送数据，所以可以让那些不加密的网络连接，全部改走SSH连接，从而提高安全性。假定我们要让8080端口的数据，都通过SSH传向远程主机，命令可以这样写： 1$ ssh -D 8080 user@host SSH会建立一个socket，去监听本地的8080端口。一旦有数据传向那个端口，就自动把它转移到SSH连接上面，发往远程主机。可以想象，如果8080端口原来是一个不加密端口，现在将变成一个加密端口。 本地端口转发有时候，绑定本地端口还不够，还必须指定数据传送的目标主机，从而形成点对点的“端口转发”。为了区别后文的“远程端口转发”，我们把这种情况称为“本地端口转发”。 假定host1是本地主机，host2是远程主机。由于种种原因，这两台主机之间无法连通。但是，另外还有一台host3，可以同时连通前面两台主机。因此，很自然的想法就是，通过host3，将host1连上host2。我们在host1执行下面的命令： 1$ ssh -L 2121:host2:21 host3 命令中的L参数一共接受三个值，分别是“本地端口: 目标主机:目标主机端口”。这条命令的意思是，指定SSH绑定本地端口2121，然后指定host3将所有的数据，转发到目标主机host2的21端口（假定host2运行FTP，默认端口为21）。 这样一来，我们只要连接host1的2121端口，就等于连上了host2的21端口。 1$ ftp localhost:2121 “本地端口转发”使得host1和host3之间仿佛形成一个数据传输的密码隧道，因此又称为SSH隧道。 下面是一个比较有趣的例子。 1$ ssh -L 5900:localhost:5900 host3 它表示将本机的5900端口绑定host3的5900端口（这里的localhost指的是host3，因为目标主机是相对host3而言的）。另一个例子是通过host3的端口转发，ssh登录host2。 1$ ssh -L 9001:host2:22 host3 这时，只要ssh登录本机的9001端口，就相当于登录host2了。 1$ ssh -p 9001 localhost 上面的-p参数表示指定登录端口。 参考文献[1]ssh协议：http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html[2]ssh原理与运用，远程操作与端口转发：http://www.ruanyifeng.com/blog/2011/12/ssh_port_forwarding.html[3]SSH 协议原理、组成、认证方式和过程：https://www.jianshu.com/p/8e5b7aea52b5]]></content>
+      <categories>
+        <category>安全基础</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[深入Mysql事务日志]]></title>
+    <url>%2F2019%2F10%2F28%2FMysql%E4%BA%8B%E5%8A%A1%E6%97%A5%E5%BF%97%2F</url>
+    <content type="text"><![CDATA[事务日志是InnoDB引擎特有的日志，可以帮助提高事务的效率。使用事务日志，存储引擎在修改表的数据时只需要修改其内存拷贝，再把该修改行为记录到持久在磁盘上的事务日志中，而不用每次都将修改的数据本身持久到磁盘。事务日志采用追加的方式，因此写日志的操作是磁盘上一小块区域内的顺序I/O，而不像随机I/O需要在磁盘的多个地方移动磁头，所以采用事务日志的方式相对来说要快得多。事务日志持久化以后，内存中被修改的数据可以在后台慢慢地刷回到磁盘。目前大多数的存储引擎都是这样实现的，我们通常称之为预写式日志，修改数据需要写两次磁盘。如果数据的修改已经记录到事务日志并持久化，但数据本身还没有写回磁盘，此时系统崩溃，存储引擎在重启时能够自动恢复这部分修改的数据。具体的恢复方式则视存储引擎而定。 参考文献[1]详细分析MySQL事务日志(redo log和undo log)：https://www.cnblogs.com/f-ck-need-u/p/9010872.html]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>redo log</tag>
+        <tag>undo log</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[88. Merge Sorted Array]]></title>
     <url>%2F2019%2F10%2F28%2F88.Merge-Sorted-Array%2F</url>
     <content type="text"><![CDATA[Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array. Note: The number of elements initialized in nums1 and nums2 are m and n respectively. You may assume that nums1 has enough space (size that is greater or equal to m + n) to hold additional elements from nums2. Example 1: 12345Input:nums1 = [1,2,3,0,0,0], m = 3nums2 = [2,5,6], n = 3Output: [1,2,2,3,5,6] Example 2: 12345Input:nums1 = [3,4,5,0,0,0], m = 3nums2 = [2,5,6], n = 3Output: [2,3,4,5,5,6] 解法1：逆序复制12345678910111213141516class Solution &#123;public: void merge(vector&lt;int&gt;&amp; nums1, int m, vector&lt;int&gt;&amp; nums2, int n) &#123; int i = m - 1, j = n - 1, k = m + n - 1; while(i &gt;= 0 &amp;&amp; j&gt;= 0)&#123; if(nums2[j] &gt;= nums1[i])&#123; nums1[k--] = nums2[j--]; &#125;else&#123; nums1[k--] = nums1[i--]; &#125; &#125; while(j&gt;=0)&#123; nums1[k--] = nums2[j--]; &#125; &#125;&#125;; 相关题目 977. Squares of a Sorted Array]]></content>
@@ -146,14 +166,6 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[SSH协议]]></title>
-    <url>%2F2019%2F10%2F21%2FSSH%E5%8D%8F%E8%AE%AE%2F</url>
-    <content type="text"><![CDATA[什么是SSH？ SSH协议SSH是一种网络协议，用于计算机之间的加密登录。如果一个用户从本地计算机，使用SSH协议登录到另一台远程计算机，我们就可以认为，这种登录是安全的，即使被中途接货，密码也不会泄露。最早的时候，互联网通信都是明文通信，一旦被截获，内容就暴露无疑。1995年，芬兰学者Tatu Ylonen设计了SSH协议，将登录信息全部加密，成为互联网安全的一个基本解决方案，迅速在全世界获得推广，目前已经成为Linux系统的标准配置。 需要指出的是，SSH只是一种协议，存在多种实现，既有商业实现，也有开源实现。本文针对的实现是OpenSSH，它是自由软件，应用非常广泛。 此外，本文只讨论SSH在Linux Shell中的用法。如果要在Windows系统中使用SSH，会用到另一种软件PuTTY，这需要另文介绍。 中间人攻击SSH之所以能够保证安全，是因为它采用了公钥加密。 123456sequenceDiagram participant 用户 用户-&gt;&gt;远程主机:登录请求 远程主机--&gt;&gt;用户:公钥 用户--&gt;&gt;远程主机:登录密码 远程主机--&gt;&gt;用户:同意or不同意登录 第一步：用户向远程主机发送自己的登录请求。 第二步：远程主机收到用户发送的登录请求后，把自己的公钥发送给用户。 第三步：用户使用这个公钥，将登录密码加密后，发送给远程主机。 第四步：远程主机用自己的私钥，解密登录密码，如果密码正确，就同意用户登录。 这个过程本身是安全的，但是存在一个风险：如果有人截获了登录请求，然后冒充远程主机，将伪造的公钥发送给用户，但是用户不知道这个公钥是伪造的，他将自己的登录密码使用伪造的公钥加密后发送给了伪造的远程主机，就会造成用户密码的泄露。因为不像https协议，SSH协议的公钥是没有证书中心（CA）公证的，也就是说，都是自己签发的。可以设想，如果攻击者插在用户与远程主机之间（比如在公共的wifi区域），用伪造的公钥，获取用户的登录密码。再用这个密码登录远程主机，那么SSH的安全机制就荡然无存了。这种风险就是著名的“中间人攻击”（Man-in-the-middle attack）。SSH协议是如何应对的呢？ 口令登录如果你是第一次登录对方主机，系统会出现下面的提示： 1234$ ssh user@hostThe authenticity of host 'host (12.18.429.21)' can't be established.RSA key fingerprint is 98:2e:d7:e0:de:9f:ac:67:28:c2:42:2d:37:16:58:4d.Are you sure you want to continue connecting (yes/no)? 这段话的意思是，无法确认host主机的真实性，只知道它的公钥指纹，问你还想继续连接吗？所谓”公钥指纹”，是指公钥长度较长（这里采用RSA算法，长达1024位），很难比对，所以对其进行MD5计算，将它变成一个128位的指纹。上例中是98:2e:d7:e0:de:9f:ac:67:28:c2:42:2d:37:16:58:4d，再进行比较，就容易多了。很自然的一个问题就是，用户怎么知道远程主机的公钥指纹应该是多少？回答是没有好办法，远程主机必须在自己的网站上贴出公钥指纹，以便用户自行核对。假定经过风险衡量以后，用户决定接受这个远程主机的公钥。 1Are you sure you want to continue connecting (yes/no)? yes 系统会出现一句提示，表示host主机已经得到认可。 1Warning: Permanently added 'host,12.18.429.21' (RSA) to the list of known hosts. 然后，会要求输入密码。 1Password: (enter password) 如果密码正确，就可以登录了。当远程主机的公钥被接受以后，它就会被保存在文件$HOME/.ssh/known_hosts之中。下次再连接这台主机，系统就会认出它的公钥已经保存在本地了，从而跳过警告部分，直接提示输入密码。每个SSH用户都有自己的known_hosts文件，此外系统也有一个这样的文件，通是/etc/ssh/ssh_known_hosts，保存一些对所有用户都可信赖的远程主机的公钥。 公钥登录使用密码登录，每次都需要输入密码，非常麻烦。所以SSH还提供了公钥登录，可以不用输入密码。所谓“公钥登录”，就是用户将自己的公钥存储在远程主机上。登录的时候，远程主机会向用户发送一段随机字符串，用户用自己的私钥加密后，再发回来。远程主机用事先存储的公钥进行解密，如果成功，就证明用户是可信的，直接运行登录shell，不再要求密码。这种方法要求用户必须提供自己的公钥。如果没有现成的，可以用ssh-keygen生成一个。 1ssh-keygen 运行上面的命令以后，系统会出现一系列提示，可以一路回车。其中有一个问题是，要不要对私钥设置口令（passphrase），如果担心私钥的安全，这里可以设置一个。运行结束之后，在$HOME/.ssh/目录下，会新生成两个文件：id_rsa.pub和id_rsa。前者是生成的公玥，后者是对应的私钥。这时候，再输入下面的命令，将公钥传送到远程主机host上面。 1ssh-copy-id user@host 从此以后再登录，就不需要输入密码了。如果还是不行，就打开远程主机的/etc/ssh/sshd_config这个文件，检查下面几行前面的#注释是否取消掉。 123RSAAuthentication yesPubkeyAuthentication yesAuthorizedKeysFile .ssh/authorized_keys 然后，重启远程主机的ssh服务。 12345// ubuntu系统service ssh restart// debian系统/etc/init.d/ssh restart authorized_keys文件远程主机将用户的公钥，保存在登录后的用户主目录的$HOME/.ssh/authorized_keys文件中。公钥就是一段字符串，只要把它追加在authorized_keys文件的末尾就行了。这里不使用上面的ssh-copy-id命令，改用下面的命令，解释公钥的保存过程： 1$ ssh user@host 'mkdir -p .ssh &amp;&amp; cat &gt;&gt; .ssh/authorized_keys' &lt; ~/.ssh/id_rsa.pub 这条命令由多个语句组成，依次分解开来看：(1)”$ ssh user@host”表示登录远程主机；（2）单引号中的mkdir .ssh &amp;&amp; cat &gt;&gt; .ssh/authorized_keys，表示登录后在远程shell上执行的命令：（3）”$ mkdir -p .ssh”的作用是，如果用户目录中的.ssh目录不存在，就创建一个；（4）’cat &gt;&gt; .ssh/authorized_keys’ &lt; /.ssh/id_rsa.pub的作用是，将本地的公钥文件/.ssh/id_rsa.pub，重定向追加到远程文件.ssh/authorized_keys文件的末尾。写入authorized_keys文件后，公钥登录的设置就完成了。 绑定本地端口SSH可以传送数据，所以可以让那些不加密的网络连接，全部改走SSH连接，从而提高安全性。假定我们要让8080端口的数据，都通过SSH传向远程主机，命令可以这样写： 1$ ssh -D 8080 user@host SSH会建立一个socket，去监听本地的8080端口。一旦有数据传向那个端口，就自动把它转移到SSH连接上面，发往远程主机。可以想象，如果8080端口原来是一个不加密端口，现在将变成一个加密端口。 本地端口转发有时候，绑定本地端口还不够，还必须指定数据传送的目标主机，从而形成点对点的“端口转发”。为了区别后文的“远程端口转发”，我们把这种情况称为“本地端口转发”。 假定host1是本地主机，host2是远程主机。由于种种原因，这两台主机之间无法连通。但是，另外还有一台host3，可以同时连通前面两台主机。因此，很自然的想法就是，通过host3，将host1连上host2。我们在host1执行下面的命令： 1$ ssh -L 2121:host2:21 host3 命令中的L参数一共接受三个值，分别是“本地端口: 目标主机:目标主机端口”。这条命令的意思是，指定SSH绑定本地端口2121，然后指定host3将所有的数据，转发到目标主机host2的21端口（假定host2运行FTP，默认端口为21）。 这样一来，我们只要连接host1的2121端口，就等于连上了host2的21端口。 1$ ftp localhost:2121 “本地端口转发”使得host1和host3之间仿佛形成一个数据传输的密码隧道，因此又称为SSH隧道。 下面是一个比较有趣的例子。 1$ ssh -L 5900:localhost:5900 host3 它表示将本机的5900端口绑定host3的5900端口（这里的localhost指的是host3，因为目标主机是相对host3而言的）。另一个例子是通过host3的端口转发，ssh登录host2。 1$ ssh -L 9001:host2:22 host3 这时，只要ssh登录本机的9001端口，就相当于登录host2了。 1$ ssh -p 9001 localhost 上面的-p参数表示指定登录端口。 参考文献[1]ssh协议：http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html[2]ssh原理与运用，远程操作与端口转发：http://www.ruanyifeng.com/blog/2011/12/ssh_port_forwarding.html]]></content>
-      <categories>
-        <category>安全基础</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[vector的实现]]></title>
     <url>%2F2019%2F10%2F20%2Fvector%E7%9A%84%E5%AE%9E%E7%8E%B0%2F</url>
     <content type="text"><![CDATA[STL SGI 2.9.2版本源码中vector的实现细节。 insert(iterator position, size_type n, const T&amp; x)12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970/* * 从position处（包括）开始插入n个相同的元素x * */template&lt;class T, class Alloc&gt;void vector&lt;T, Alloc&gt;::insert(iterator position, size_type n, const T &amp;x) &#123; if (n != 0) &#123; // end_of_storage表示可用空间的尾, finish表示未使用空间内存的起始处 // 可用空间个数大于等于n if (size_type(end_of_storage - finish) &gt;= n) &#123; T x_copy = x; const size_type elems_after = finish - position; iterator old_finish = finish; // 插入点之后的现有元素个数大于新增元素个数 if (elems_after &gt; n) &#123; // uninitialized_copy将迭代器first和last指定的范围内中的元素拷贝到以迭代器result起始的区域内 // 从finish - n 到finish(不包括finish)共有n个元素 uninitialized_copy(finish - n, finish, finish); finish += n; // 把[position, old_finish - n)中的元素拷贝到[old_finish - n - position, old_finish)指定的范围内 copy_backward(position, old_finish - n, old_finish); fill(position, position + n, x_copy); &#125; else &#123; // 插入点之后的现有元素个数小于新增元素个数 // 为以finish开始的内存空间指定n-elems_after个x_copy的初值 // 返回值：被赋值的尾元素下一位置的迭代器 uninitialized_fill_n(finish, n - elems_after, x_copy); finish += n - elems_after; uninitialized_copy(position, old_finish, finish); finish += elems_after; fill(position, old_finish, x_copy); &#125; &#125; else &#123; const size_type old_size = size(); const size_type len = old_size + max(old_size, n); iterator new_start = data_allocator::allocate(len); // 配置新的内存空间 iterator new_finish = new_start; __STL_TRY&#123; // 将插入点之前的元素拷贝到新空间中 new_finish = uninitialized_copy(start, position, new_start); // 插入新元素 new_finish = uninitialized_fill_n(new_finish, n, x); // 将插入点之后的元素拷贝到新空间中 new_finish = uninitialized_copy(position, finish, new_finish); &#125; // 如有异常发生，实现"commit or rollback" semantics# ifdef __STL_USE_EXCEPTIONS catch(...) &#123; destroy(new_start, new_finish); data_allocator::deallocate(new_start, len); throw; &#125;# endif /* __STL_USE_EXCEPTIONS */ // 调用旧的元素的额析构函数,释放旧的内存空间 destroy(start, finish); deallocate(); // 调整迭代器 start = new_start; finish = new_finish; end_of_storage = new_start + len; &#125; &#125;&#125; 向可变数组中position指定的位置之后加入n个元素x_copy。 插入点之后的元素个数大于等于新增元素个数n插入点之后的元素个数大于等于新增元素个数n即size_type(end_of_storage - finish) &gt;= n。 n=3，elems_after=7，x_copy = 17。 假设vector的当前状态如下： 执行uninitialized_copy(finish - n, finish, finish);之后 执行finish += n;之后， 执行copy_backward(position, old_finish - n, old_finish);之后， 执行fill(position, position + n, x_copy);之后， 插入点之后的元素个数小于新增元素个数n插入点之后的元素个数小于新增元素个数n即size_type(end_of_storage - finish) &lt; n。 n=3, elems_after = 2, x_copy = 17。 假设vector的当前状态为： 执行uninitialized_fill_n(finish, n - elems_after, x_copy);后的状态： 执行finish += n - elems_after;后 执行uninitialized_copy(position, old_finish, finish);后 执行finish += elems_after;后 执行fill(position, old_finish, x_copy);后]]></content>
@@ -218,14 +230,6 @@
     <content type="text"><![CDATA[mysql日志记录了mysql的日常操作和错误信息，通过日志，我们可以知道mysql内部发生的事情，可以为mysql的管理和优化提供必要的信息。mysql日志主要有：二进制日志、通用查询日志、慢查询日志、错误日志、事务日志。 二进制日志二进制日志用来记录操作mysql数据库中的写入性操作(包括增删改，不包括查询)，操作语句以事件的形式进行保存，描述数据更改。二进制日志的主要作用有两个：1.复制，配置了主从复制的时候，主服务器会将其产生的二进制日志发送给slave，slave会利用这个二进制日志的信息在本地重做，实现主从同步。2.恢复，因为二进制日志包含了备份以后的所有更新，因此可以用于最大限度地恢复数据库。因此，建议二进制日志单独保存到一个磁盘上，以便磁盘损坏后进行数据恢复。 查看二进制日志是否打开使用show variables like ‘log_bin’;可以查看二进制日志是否打开(二进制日志是否启用)。下面的返回表明二进制日志未打开。 1234567mysql&gt; show variables like 'log_bin';+---------------+-------+| Variable_name | Value |+---------------+-------+| log_bin | OFF |+---------------+-------+1 row in set (0.00 sec) 下面是在尚未打开二进制日志的情况下，查看当前日志和所生成的二进制文件的结果。 1234567# 查看当前日志mysql&gt; show master status;Empty set (0.00 sec)# 查看日志（所生成的全部日志文件）mysql&gt; show binary logs;ERROR 1381 (HY000): You are not using binary logging 配置二进制日志ubuntu下mysql安装布局 /usr/bin 客户端程序和mysql_install_db/var/lib/mysql 数据库和日志文件/var/run/mysqld 服务器/etc/mysql 配置文件my.cnf/usr/share/mysql 字符集，基准程序和错误消息/etc/init.d/mysql 启动mysql服务器 修改/etc/mysql/conf.d/mysql.cnf，添加以下内容，将二进制日志打开： 1234[mysqld]server_id = 1log-binexpire-logs-days=7 server_id而不是server-id：https://stackoverflow.com/questions/33328652/setting-server-id-variable-in-mysql-doesnt-work 二进制日志内容二进制日志打开后：查看生成的日志 1234567mysql&gt; show binary logs;+-----------------+-----------+| Log_name | File_size |+-----------------+-----------+| ivic-bin.000001 | 658 |+-----------------+-----------+1 row in set (0.00 sec) 通过mysqlbinlog语句查看二进制日志的内容，二进制日志文件名：/var/lib/mysql/ivic-bin.00001 123456789101112 sudo mysqlbinlog -vv /var/lib/mysql/ivic-bin.000001 /*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE=1*/;/*!50003 SET @OLD_COMPLETION_TYPE=@@COMPLETION_TYPE,COMPLETION_TYPE=0*/;DELIMITER /*!*/;# at 4#191002 10:00:40 server id 1 end_log_pos 123 CRC32 0x7e402a57 Start: binlog v 4, server v 5.7.27-0ubuntu0.18.04.1-log created 191002 10:00:40 at startup# Warning: this binlog is either in use or was not closed properly.ROLLBACK/*!*/;此处省略多行# End of log file/*!50003 SET COMPLETION_TYPE=@OLD_COMPLETION_TYPE*/;/*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE=0*/; 通过show binlog events命令查看binlog内记录的事件： 1234567891011121314mysql&gt; show binlog events;+-----------------+-----+----------------+-----------+-------------+---------------------------------------------------------------------------------------------------------------+| Log_name | Pos | Event_type | Server_id | End_log_pos | Info |+-----------------+-----+----------------+-----------+-------------+---------------------------------------------------------------------------------------------------------------+| ivic-bin.000001 | 4 | Format_desc | 1 | 123 | Server ver: 5.7.27-0ubuntu0.18.04.1-log, Binlog ver: 4 || ivic-bin.000001 | 123 | Previous_gtids | 1 | 154 | || ivic-bin.000001 | 154 | Anonymous_Gtid | 1 | 219 | SET @@SESSION.GTID_NEXT= 'ANONYMOUS' || ivic-bin.000001 | 219 | Query | 1 | 390 | use `mydb`; create table test_tbl(id INT NOT NULL AUTO_INCREMENT, name varchar(10) not null, primary key(id)) || ivic-bin.000001 | 390 | Anonymous_Gtid | 1 | 455 | SET @@SESSION.GTID_NEXT= 'ANONYMOUS' || ivic-bin.000001 | 455 | Query | 1 | 527 | BEGIN || ivic-bin.000001 | 527 | Table_map | 1 | 581 | table_id: 112 (mydb.test_tbl) || ivic-bin.000001 | 581 | Write_rows | 1 | 627 | table_id: 112 flags: STMT_END_F || ivic-bin.000001 | 627 | Xid | 1 | 658 | COMMIT /* xid=29 */ |+-----------------+-----+----------------+-----------+-------------+---------------------------------------------------------------------------------- 各字段含义： 字段名 含义 Log_name 此条log存在的那个文件，这些log存在于文件ivic-bin.000001中 Pos log在bin-log中的开始位置 Event_type log的类型信息 Server_id 可以查看配置中的server_id，表示产生此log的mysql服务器，server_id可以在mysql.cnf中配置 End_log_pos log在bin-log中的结束位置 Info log的一些备注信息，可以直观地看出进行了什么操作 查询日志查询日志能够存放到一个文本文件或表中，全部连接或者表中，全部连接和语句都被记录到该日志文件或表，默认不开启该日志。 错误日志mysql的错误日志记录了mysqld启动和停止时，以及服务器在运行过程中出现的错误。 慢查询日志记录所有执行时间超过long_query_time秒的所有查询或不使用索引的查询。慢查询日志记录的是查询比较慢的sql语句的日志，可用于对执行时间较长、执行效率较低的sql语句的性能优化。 临时开启慢查询日志: 1set global slow_query_log = on; 如果想关闭慢查询日志，只需要执行: 1set global slow_query_log = off; 临时设置慢查询时间临界点。查询时间高于这个临界点的都会被记录到慢查询日志中。所有执行时间超过1秒的sql都将被记录到慢查询日志： 1set long_query_time = 1; 设置慢查询存储的方式 1set globle log_output = file; 这里设置为了file,就是说慢查询日志是通过file保存,默认是none,我们还可以设置为table,如果是table则慢查询信息会保存到mysql库下的slow_log表中。 查询慢查询日志的开启状态和慢查询日志储存的位置 12345678910111213141516171819mysql&gt; mysql&gt; show variables like '%query%';+------------------------------+------------------------------+| Variable_name | Value |+------------------------------+------------------------------+| binlog_rows_query_log_events | OFF || ft_query_expansion_limit | 20 || have_query_cache | YES || long_query_time | 10.000000 || query_alloc_block_size | 8192 || query_cache_limit | 1048576 || query_cache_min_res_unit | 4096 || query_cache_size | 16777216 || query_cache_type | OFF || query_cache_wlock_invalidate | OFF || query_prealloc_size | 8192 || slow_query_log | ON || slow_query_log_file | /var/lib/mysql/ivic-slow.log |+------------------------------+------------------------------+13 rows in set (0.00 sec) 可以看到最后两行显示的就是慢查询日志的开启状态和存储信息。 事务日志事务日志是InnoDB引擎特有的日志，可以帮助提高事务的效率。使用事务日志，存储引擎在修改表的数据时只需要修改其内存拷贝，再把该修改行为记录到持久在磁盘上的事务日志中，而不用每次都将修改的数据本身持久到磁盘。事务日志采用追加的方式，因此写日志的操作是磁盘上一小块区域内的顺序I/O，而不像随机I/O需要在磁盘的多个地方移动磁头，所以采用事务日志的方式相对来说要快得多。事务日志持久化以后，内存中被修改的数据可以在后台慢慢地刷回到磁盘。目前大多数的存储引擎都是这样实现的，我们通常称之为预写式日志，修改数据需要写两次磁盘。如果数据的修改已经记录到事务日志并持久化，但数据本身还没有写回磁盘，此时系统崩溃，存储引擎在重启时能够自动恢复这部分修改的数据。具体的恢复方式则视存储引擎而定。查看日志参数： 12345678mysql&gt; show global variables like '%log%';+--------------------------------------------+-------------------------------------+| Variable_name | Value |+--------------------------------------------+-------------------------------------+| back_log | 80 || binlog_cache_size | 32768 |此处省略很多行......... 查看事务日志参数： 123456789101112mysql&gt; show global variables like 'innodb_log%';+-----------------------------+----------+| Variable_name | Value |+-----------------------------+----------+| innodb_log_buffer_size | 16777216 || innodb_log_checksums | ON || innodb_log_compressed_pages | ON || innodb_log_file_size | 50331648 || innodb_log_files_in_group | 2 || innodb_log_group_home_dir | ./ || innodb_log_write_ahead_size | 8192 |+-----------------------------+----------+ 总结mysql日志主要有：错误日志、通用查询日志、慢查询日志、事务日志、二进制日志mysql日志的输出位置一般有三种方式：file(文件)、table(表)、none(不保存)mysql日志主要是用于：异常监控、性能优化、数据恢复、主从同步 参考文献[1] mysql日志类型：https://mp.weixin.qq.com/s/zX9rs0SxY68Pmm5hEj1zdw[2]ubuntu下mysql的安装布局：https://www.cnblogs.com/jiangfeilong/p/10527562.html[3]log-bin的配置：https://dev.mysql.com/doc/refman/5.7/en/replication-options-binary-log.html#option_mysqld_log-bin[4]linux mysql的二进制日志：https://blog.csdn.net/sunny1660/article/details/77505985[6]高性能mysql]]></content>
       <categories>
         <category>数据库</category>
-      </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[ssh协议]]></title>
-    <url>%2F2019%2F10%2F19%2Fssh%E5%8D%8F%E8%AE%AE%2F</url>
-    <content type="text"><![CDATA[ssh协议是什么？它用于哪些场景？ 参考文献[1]SSH 协议原理、组成、认证方式和过程：https://www.jianshu.com/p/8e5b7aea52b5]]></content>
-      <categories>
-        <category>安全基础</category>
       </categories>
   </entry>
   <entry>
@@ -876,14 +880,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[traits]]></title>
-    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
-    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
-      <categories>
-        <category>STL</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[C++牛客网刷题总结]]></title>
     <url>%2F2019%2F09%2F27%2FC%2B%2B%E7%89%9B%E5%AE%A2%E7%BD%91%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93%2F</url>
     <content type="text"><![CDATA[字符串系列]]></content>
@@ -895,6 +891,14 @@
     <title><![CDATA[bind与函数适配器]]></title>
     <url>%2F2019%2F09%2F27%2Fbind%E4%B8%8E%E5%87%BD%E6%95%B0%E9%80%82%E9%85%8D%E5%99%A8%2F</url>
     <content type="text"><![CDATA[bind是从c++11开始出现的新型适配器]]></content>
+      <categories>
+        <category>STL</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[traits]]></title>
+    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
+    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
       <categories>
         <category>STL</category>
       </categories>
@@ -1011,6 +1015,14 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[k sum 系列]]></title>
+    <url>%2F2019%2F09%2F27%2Fk-sum-%E7%B3%BB%E5%88%97%2F</url>
+    <content type="text"><![CDATA[two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[冒泡排序的优化和鸡尾酒排序]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%E7%9A%84%E4%BC%98%E5%8C%96%E5%92%8C%E9%B8%A1%E5%B0%BE%E9%85%92%E6%8E%92%E5%BA%8F%2F</url>
     <content type="text"><![CDATA[冒泡排序的优化有设置哨兵来表示当前整个数组已经有序，以及设置有序区间，下一次只对有序区间进行排序（尚未完全理解）． 详情可见 鸡尾酒排序鸡尾酒排序算法适用于大部分元素已经有序的情况．它能够在特定条件下，减少排序的回合数；但是缺点是代码量几乎扩大了一倍． 鸡尾酒排序 未进行优化的鸡尾酒排序 12345678910111213141516171819202122232425262728293031323334353637383940414243void clockTailSort(vector&lt;int&gt; &amp;nums) &#123; // 未进行优化的鸡尾酒排序 int tmp = 0; for (int i = 0; i &lt; nums.size() / 2 - 1; ++i) &#123; // 有序标记，每一轮的初始值是true bool isSorted = true; // 奇数轮:从做向右比较和交换 // 奇数轮：区间内最大的数会被冒泡到最右 for (int j = i; j &lt; nums.size() - i - 1; ++j) &#123; if (nums[j] &gt; nums[j + 1]) &#123; tmp = nums[j]; nums[j] = nums[j + 1]; nums[j + 1] = tmp; // 有元素交换，所以，不是有序，标记变为false isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; isSorted = true; // 8 1 2 3 4 // 偶数轮，从右向左比较和交换 // 偶数轮，最小的数会被冒泡到最左边 for (int j = nums.size() - i - 1; j &gt; i; j--) &#123; if (nums[j] &lt; nums[j - 1]) &#123; tmp = nums[j]; nums[j] = nums[j - 1]; nums[j - 1] = tmp; isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; &#125;&#125; 进行优化的鸡尾酒排序优化方法：]]></content>
@@ -1020,14 +1032,6 @@
       <tags>
         <tag>冒泡排序的优化</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[k sum 系列]]></title>
-    <url>%2F2019%2F09%2F27%2Fk-sum-%E7%B3%BB%E5%88%97%2F</url>
-    <content type="text"><![CDATA[two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
   </entry>
   <entry>
     <title><![CDATA[旋转数组]]></title>
@@ -1207,8 +1211,8 @@
     <url>%2F2019%2F09%2F27%2F%E6%9C%AA%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%B4%AF%E5%8A%A0%E5%92%8C%E4%B8%BA%E7%BB%99%E5%AE%9A%E5%80%BC%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E6%95%B0%E7%BB%84%E7%B3%BB%E5%88%97%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[原题给定一个无序数组,其中元素可正,可负,可0.给定一个整数k,求arr所有的子数组中累加和为k的最长子数组长度. 12345678910111213141516171819int maxLength(vector&lt;int&gt; &amp;arr, int k) &#123; if (arr.empty()) &#123; return 0; &#125; map&lt;int, int&gt; mp; mp[0] = -1; int len = 0; int sum = 0; for (int i = 0; i &lt; arr.size(); i++) &#123; sum += arr[i]; if (mp.find(sum - k) != mp.end()) &#123; len = max(len, i - mp[sum - k]); &#125; if (mp.find(sum) == mp.end()) &#123; mp[sum] = i; &#125; &#125; return len;&#125; 补充题1补充题2类似题138. 子数组之和给定一个整数数组，找到和为零的子数组。你的代码应该返回满足要求的子数组的起始位置和结束位置 样例 样例 1: 123输入: [-3, 1, 2, -3, 4]输出: [0,2] 或 [1,3] 样例解释： 返回任意一段和为0的区间即可。 样例 2: 12输入: [-3, 1, -4, 2, -3, 4]输出: [1,5] 样例 3: 12输入: [3,4,5,6,-3,-4,-5,-6]输出: [0,7] 样例 4: 12输入: [1,0,-1]输出: [1,1] 注意事项: 至少有一个子数组的和为 0 1234567891011121314151617181920212223242526272829303132class Solution &#123;public: /** * @param nums: A list of integers * @return: A list of integers includes the index of the first number and the index of the last number */ vector&lt;int&gt; subarraySum(vector&lt;int&gt; &amp;nums) &#123; // write your code here if(nums.empty())&#123; return &#123;&#125;; &#125; int sum = 0; vector&lt;int&gt; res; map&lt;int, int&gt; mp; for(int i=0;i&lt;nums.size();++i)&#123; sum += nums[i]; if(sum == 0)&#123; res.push_back(0); res.push_back(i); return res; &#125; if(mp.find(sum)!=mp.end())&#123; res.push_back(mp[sum]+1); res.push_back(i); return res; &#125; mp[sum] = i; &#125; return res; &#125;&#125;; 此题与上题的相似之处在于:需要用到相同的结论:s[i]= arr[0] + arr[1] +…+arr[i]s[j]= arr[0] + arr[1] +…+arr[j]假设i &gt; j,则s[i] - s[j] = arr[j+1] + arr[j+2] + … + arr[i] 复杂度分析 理论上, 时间复杂度为O(n).但实际实现时,时间复杂度为O(nlogn).因为map的find方法查找一个数的时间复杂度为O(logn)空间复杂度为O(n) 题目来源: leetcode 560. Subarray Sum Equals K930 binary subarrays with sum另有使用三指针的解法,可以尝试看看试用否,三指针解法时间复杂度为O(n),空间复杂度为O(1),是最优解法]]></content>
       <tags>
-        <tag>累积和</tag>
         <tag>leetcode</tag>
+        <tag>累积和</tag>
         <tag>程序员代码面试指南</tag>
       </tags>
   </entry>
@@ -1318,21 +1322,21 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[并查集基础知识]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%B9%B6%E6%9F%A5%E9%9B%86%2F</url>
-    <content type="text"><![CDATA[并查集(不相交集合)不相交集合数据结构是这样一种数据结构: 它维护了一个不相交动态集的集合 $$S = {s_1, s_2, …, s_i, …, s_k}$$对于每个集合S中的每个元素集合si而言,用集合中的而一个元素来代表该集合.假设x是集合si中的一个元素,则有以下三种操作: make_set(x): 建立一个新的集合,它的唯一成员是x.因为各个集合是不相交的集合, 所以x不会出现在别的集合中.union(x, y): 将包含x和y的两个动态集合(表示为sx和sy合并成一个新的集合, 即这两个集合的并集)find_set(x): 返回一个指针,该指针指向包含x的(唯一)集合的代表.不相交集合可以用于求无向图的连通分量等.待后续加上代码 为了提交效率,建立并查集的过程往往会采用两种策略来提高性能.一种是按秩(秩是指节点高度的一个上界)合并, 另一种是路径压缩.按秩合并是在合并两个集合的过程中, 让具有较小秩的根指向较大秩的根.路径压缩是在查找节点的根节点的过程中, 使查找路径上的每个节点指向指向根(即令根节点成为查找路径上每个节点的父节点). 节点x的秩: 节点x的高度(从节点x到某一后代叶节点的最长简单路径上边的数目)的一个上界.当make_set(x)创建一个单元素x集合时, 节点x的秩为0.使用按秩合并union(x, y)合并两个集合时, 若两个集合的秩不同,则让较大秩的根成为较小秩的根的父节点, 秩本身保持不变.若两个集合的秩相同,则任意选择两个根中的一个作为父节点, 并使它的秩加1. 并查集的实现(伪代码)123456789101112131415161718make_set(x) x.p = x // x的父节点是自己,即x是x所在集合的根节点 x.rank = 0 // x.rank即x的秩link(x, y) if(x.rank &gt; y.rank) y.p = x else x.p = y if(x.rank == y.rank) y.rank = y.rank + 1union(x, y) link(find_set(x), find_set(y))find_set(x) if x != x.p x.p = find_set(x.p) return x.p find_set的非递归形式 12345678find_set(x) a = x while x != x.p x = x.p while a != a.p z = a a = a.p z.p = x]]></content>
-      <tags>
-        <tag>基础算法</tag>
-        <tag>理论</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[二叉树的下一个结点]]></title>
     <url>%2F2019%2F09%2F27%2F%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E7%BB%93%E7%82%B9%2F</url>
     <content type="text"><![CDATA[给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。 题目链接:https://www.nowcoder.com/questionTerminal/9023a0c988684a53960365b889ceaf5e 相关题目:寻找下一个节点]]></content>
       <tags>
         <tag>牛客网</tag>
         <tag>binary tree</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[并查集基础知识]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%B9%B6%E6%9F%A5%E9%9B%86%2F</url>
+    <content type="text"><![CDATA[并查集(不相交集合)不相交集合数据结构是这样一种数据结构: 它维护了一个不相交动态集的集合 $$S = {s_1, s_2, …, s_i, …, s_k}$$对于每个集合S中的每个元素集合si而言,用集合中的而一个元素来代表该集合.假设x是集合si中的一个元素,则有以下三种操作: make_set(x): 建立一个新的集合,它的唯一成员是x.因为各个集合是不相交的集合, 所以x不会出现在别的集合中.union(x, y): 将包含x和y的两个动态集合(表示为sx和sy合并成一个新的集合, 即这两个集合的并集)find_set(x): 返回一个指针,该指针指向包含x的(唯一)集合的代表.不相交集合可以用于求无向图的连通分量等.待后续加上代码 为了提交效率,建立并查集的过程往往会采用两种策略来提高性能.一种是按秩(秩是指节点高度的一个上界)合并, 另一种是路径压缩.按秩合并是在合并两个集合的过程中, 让具有较小秩的根指向较大秩的根.路径压缩是在查找节点的根节点的过程中, 使查找路径上的每个节点指向指向根(即令根节点成为查找路径上每个节点的父节点). 节点x的秩: 节点x的高度(从节点x到某一后代叶节点的最长简单路径上边的数目)的一个上界.当make_set(x)创建一个单元素x集合时, 节点x的秩为0.使用按秩合并union(x, y)合并两个集合时, 若两个集合的秩不同,则让较大秩的根成为较小秩的根的父节点, 秩本身保持不变.若两个集合的秩相同,则任意选择两个根中的一个作为父节点, 并使它的秩加1. 并查集的实现(伪代码)123456789101112131415161718make_set(x) x.p = x // x的父节点是自己,即x是x所在集合的根节点 x.rank = 0 // x.rank即x的秩link(x, y) if(x.rank &gt; y.rank) y.p = x else x.p = y if(x.rank == y.rank) y.rank = y.rank + 1union(x, y) link(find_set(x), find_set(y))find_set(x) if x != x.p x.p = find_set(x.p) return x.p find_set的非递归形式 12345678find_set(x) a = x while x != x.p x = x.p while a != a.p z = a a = a.p z.p = x]]></content>
+      <tags>
+        <tag>基础算法</tag>
+        <tag>理论</tag>
       </tags>
   </entry>
   <entry>

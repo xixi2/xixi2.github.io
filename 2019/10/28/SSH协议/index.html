@@ -82,14 +82,16 @@
 <meta name="description" content="什么是SSH？">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SSH协议">
-<meta property="og:url" content="http://yoursite.com/2019/10/21/SSH协议/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/10/28/SSH协议/index.html">
 <meta property="og:site_name" content="xixi2">
 <meta property="og:description" content="什么是SSH？">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-21T09:43:34.094Z">
+<meta property="og:image" content="http://yoursite.com/2019/10/28/SSH协议/man-in-middle.png">
+<meta property="og:updated_time" content="2019-10-28T06:05:37.455Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SSH协议">
 <meta name="twitter:description" content="什么是SSH？">
+<meta name="twitter:image" content="http://yoursite.com/2019/10/28/SSH协议/man-in-middle.png">
 
 
 
@@ -119,7 +121,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/10/21/SSH协议/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/28/SSH协议/">
 
 
 
@@ -294,7 +296,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/21/SSH协议/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/28/SSH协议/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -323,8 +325,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-21T17:43:34+08:00">
-                2019-10-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-28T14:05:37+08:00">
+                2019-10-28
               </time>
             
 
@@ -391,10 +393,11 @@
         <p>什么是SSH？</p>
 <a id="more"></a>
 
-<h1 id="SSH协议"><a href="#SSH协议" class="headerlink" title="SSH协议"></a>SSH协议</h1><p>SSH是一种网络协议，用于计算机之间的加密登录。如果一个用户从本地计算机，使用SSH协议登录到另一台远程计算机，我们就可以认为，这种登录是安全的，即使被中途接货，密码也不会泄露。最早的时候，互联网通信都是明文通信，一旦被截获，内容就暴露无疑。1995年，芬兰学者Tatu Ylonen设计了SSH协议，将登录信息全部加密，成为互联网安全的一个基本解决方案，迅速在全世界获得推广，目前已经成为Linux系统的标准配置。</p>
+<h1 id="SSH协议"><a href="#SSH协议" class="headerlink" title="SSH协议"></a>SSH协议</h1><p>SSH是一种网络协议，用于计算机之间的加密登录。如果一个用户从本地计算机，使用SSH协议登录到另一台远程计算机，我们就可以认为，这种登录是安全的，即使被中途截获，密码也不会泄露。最早的时候，互联网通信都是明文通信，一旦被截获，内容就暴露无疑。1995年，芬兰学者Tatu Ylonen设计了SSH协议，将登录信息全部加密，成为互联网安全的一个基本解决方案，迅速在全世界获得推广，目前已经成为Linux系统的标准配置。</p>
 <p>需要指出的是，SSH只是一种协议，存在多种实现，既有商业实现，也有开源实现。本文针对的实现是<a href="http://www.openssh.com/">OpenSSH</a>，它是自由软件，应用非常广泛。</p>
 <p>此外，本文只讨论SSH在Linux Shell中的用法。如果要在Windows系统中使用SSH，会用到另一种软件<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty">PuTTY</a>，这需要另文介绍。</p>
 <h1 id="中间人攻击"><a href="#中间人攻击" class="headerlink" title="中间人攻击"></a>中间人攻击</h1><p>SSH之所以能够保证安全，是因为它采用了公钥加密。</p>
+<p><img src="./man-in-middle.png" alt="man-in-middle"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">　　　participant 用户</span><br><span class="line">　　　用户-&gt;&gt;远程主机:登录请求</span><br><span class="line">　　　远程主机--&gt;&gt;用户:公钥</span><br><span class="line">　　　用户--&gt;&gt;远程主机:登录密码</span><br><span class="line">　　　远程主机--&gt;&gt;用户:同意or不同意登录</span><br></pre></td></tr></table></figure>
 
 <ol>
@@ -456,7 +459,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> ssh -p 9001 localhost</span><br></pre></td></tr></table></figure>
 
 <p>上面的-p参数表示指定登录端口。</p>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]ssh协议：<a href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html">http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html</a><br>[2]ssh原理与运用，远程操作与端口转发：<a href="http://www.ruanyifeng.com/blog/2011/12/ssh_port_forwarding.html">http://www.ruanyifeng.com/blog/2011/12/ssh_port_forwarding.html</a></p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]ssh协议：<a href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html">http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html</a><br>[2]ssh原理与运用，远程操作与端口转发：<a href="http://www.ruanyifeng.com/blog/2011/12/ssh_port_forwarding.html">http://www.ruanyifeng.com/blog/2011/12/ssh_port_forwarding.html</a><br>[3]SSH 协议原理、组成、认证方式和过程：<a href="https://www.jianshu.com/p/8e5b7aea52b5">https://www.jianshu.com/p/8e5b7aea52b5</a></p>
 
       
     </div>
@@ -481,8 +484,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/20/vector的实现/" rel="next" title="vector的实现">
-                <i class="fa fa-chevron-left"></i> vector的实现
+              <a href="/2019/10/28/Mysql事务日志/" rel="next" title="深入Mysql事务日志">
+                <i class="fa fa-chevron-left"></i> 深入Mysql事务日志
               </a>
             
           </div>
@@ -490,10 +493,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/10/23/350.-Intersection-of-Two-Arrays-II/" rel="prev" title="350. Intersection of Two Arrays II">
-                350. Intersection of Two Arrays II <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -594,7 +593,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">102</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
