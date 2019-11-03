@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="对象模型,">
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="一去不复返的远方还有无法抵达的过去">
+<meta name="description" content="运行时类型识别，在C++层面主要体现在dynamic_cast和typeid，VS中虚函数表的-1位置存放了指向type_info的指针。对于存在虚函数的类型，typeid和dynamice_cast都回去查询type_info。">
+<meta name="keywords" content="对象模型">
 <meta property="og:type" content="article">
-<meta property="og:title" content="162. Find Peak Element">
-<meta property="og:url" content="http://yoursite.com/2019/10/31/162.-Find-Peak-Element/index.html">
+<meta property="og:title" content="RTTI(运行时类型识别)">
+<meta property="og:url" content="http://yoursite.com/2019/11/01/RTTI(运行时类型检查)/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="一去不复返的远方还有无法抵达的过去">
+<meta property="og:description" content="运行时类型识别，在C++层面主要体现在dynamic_cast和typeid，VS中虚函数表的-1位置存放了指向type_info的指针。对于存在虚函数的类型，typeid和dynamice_cast都回去查询type_info。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-31T13:02:43.469Z">
+<meta property="og:updated_time" content="2019-11-01T11:59:17.932Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="162. Find Peak Element">
-<meta name="twitter:description" content="一去不复返的远方还有无法抵达的过去">
+<meta name="twitter:title" content="RTTI(运行时类型识别)">
+<meta name="twitter:description" content="运行时类型识别，在C++层面主要体现在dynamic_cast和typeid，VS中虚函数表的-1位置存放了指向type_info的指针。对于存在虚函数的类型，typeid和dynamice_cast都回去查询type_info。">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/10/31/162.-Find-Peak-Element/">
+  <link rel="canonical" href="http://yoursite.com/2019/11/01/RTTI(运行时类型检查)/">
 
 
 
 
 
-  <title>162. Find Peak Element | xixi2</title>
+  <title>RTTI(运行时类型识别) | xixi2</title>
   
 
 
@@ -294,7 +295,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/31/162.-Find-Peak-Element/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/01/RTTI(运行时类型检查)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -311,7 +312,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">162. Find Peak Element</h1>
+          <h1 class="post-title" itemprop="name headline">RTTI(运行时类型识别)</h1>
         
 
         <div class="post-meta">
@@ -323,8 +324,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-31T21:02:43+08:00">
-                2019-10-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-01T19:59:17+08:00">
+                2019-11-01
               </time>
             
 
@@ -346,8 +347,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
+                  <a href="/categories/C-基础知识/" itemprop="url" rel="index">
+                    <span itemprop="name">C++基础知识</span>
                   </a>
                 </span>
 
@@ -388,7 +389,17 @@
       
 
       
-        
+        <p>运行时类型识别，在C++层面主要体现在dynamic_cast和typeid，VS中虚函数表的-1位置存放了指向type_info的指针。对于存在虚函数的类型，typeid和dynamice_cast都回去查询type_info。</p>
+<a id="more"></a>
+
+<p>运行时类型识别RTTI由两个运算符实现：</p>
+<ul>
+<li>typeid运算符，用于返回表达式的类型</li>
+<li>dynamic_cast运算符，用于<span style="color:royalblue">将基类的指针或引用安全地转换成派生类的指针或引用</span>。</li>
+</ul>
+<h1 id="dynamice-cast"><a href="#dynamice-cast" class="headerlink" title="dynamice_cast"></a>dynamice_cast</h1><h1 id="typeid"><a href="#typeid" class="headerlink" title="typeid"></a>typeid</h1><h1 id="type-info"><a href="#type-info" class="headerlink" title="type_info"></a>type_info</h1><p>参考<a href="[https://xixi2.github.io/2019/10/18/C++%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%E7%B3%BB%E5%88%971/#more](https://xixi2.github.io/2019/10/18/C++对象模型系列1/#more)">C++对象模型系列1</a>中的【示例1：虚拟继承下的C++对象模型】的Point2d的虚函数表可知，在虚函数中的第一个slot即为type_info对象。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]深度探索C++对象模型</p>
+
       
     </div>
     
@@ -403,6 +414,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/对象模型/" rel="tag"># 对象模型</a>
+          
+        </div>
+      
 
       
       
@@ -412,8 +429,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/31/300.Longest-Increasing-Subsequence/" rel="next" title="300. Longest Increasing Subsequence">
-                <i class="fa fa-chevron-left"></i> 300. Longest Increasing Subsequence
+              <a href="/2019/11/01/33.Search-in-Rotated-Sorted-Array/" rel="next" title="33. Search in Rotated Sorted Array">
+                <i class="fa fa-chevron-left"></i> 33. Search in Rotated Sorted Array
               </a>
             
           </div>
@@ -422,8 +439,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/11/01/二分查找各种不同的应用场景/" rel="prev" title="二分查找各种不同的应用场景">
-                二分查找各种不同的应用场景 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/11/01/内存分配的几个函数/" rel="prev" title="内存分配的几个函数">
+                内存分配的几个函数 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -476,8 +493,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -494,7 +520,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">172</span>
+                  <span class="site-state-item-count">173</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -505,7 +531,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -539,6 +565,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#dynamice-cast"><span class="nav-number">1.</span> <span class="nav-text">dynamice_cast</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#typeid"><span class="nav-number">2.</span> <span class="nav-text">typeid</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#type-info"><span class="nav-number">3.</span> <span class="nav-text">type_info</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

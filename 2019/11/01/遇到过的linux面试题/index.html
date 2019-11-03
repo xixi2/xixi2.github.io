@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="xixi2">
 <meta property="og:description" content="此文档用于总结自身遇到过或网络找到的一些linux面试题。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-01T10:11:17.859Z">
+<meta property="og:updated_time" content="2019-11-01T14:35:54.629Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="遇到过的linux面试题">
 <meta name="twitter:description" content="此文档用于总结自身遇到过或网络找到的一些linux面试题。">
@@ -323,7 +323,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-01T18:11:17+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-01T22:35:54+08:00">
                 2019-11-01
               </time>
             
@@ -391,7 +391,11 @@
         <p>此文档用于总结自身遇到过或网络找到的一些linux面试题。</p>
 <a id="more"></a>
 
-<p>如何查看一个linux进程拥打开了多少个文件？</p>
+<h1 id="查看进程信息"><a href="#查看进程信息" class="headerlink" title="查看进程信息"></a>查看进程信息</h1><p>如何查看一个linux进程拥打开了多少个文件？<br><code>lsof -p pid</code>列出进程号pid指定的进程打开了哪些文件。</p>
+<p>例如，在我的ubuntu上使用lsof查看markdown编辑器Typora打开了哪些文件。首先通过ps命令找到Typora对应的进程号30228。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">~$ lsof -p 30228</span><br><span class="line">COMMAND   PID  USER   FD      TYPE             DEVICE  SIZE/OFF     NODE NAME</span><br><span class="line">Typora  30228 xixi2  cwd       DIR                8,5      4096 24379393 /home/xixi2</span><br><span class="line">Typora  30228 xixi2  rtd       DIR               8,17      4096        2 /</span><br><span class="line">Typora  30228 xixi2  txt       REG                8,6 120192448   811321 /usr/share/typora/Typora</span><br><span class="line">Typora  30228 xixi2  DEL       REG               0,24                219 /dev/shm/.org.chromium.Chromium.OLRm5r</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]lsof：<a href="https://www.cnblogs.com/bonelee/p/7735479.html">https://www.cnblogs.com/bonelee/p/7735479.html</a></p>
 
       
     </div>
@@ -416,8 +420,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/11/01/33.Search-in-Rotated-Sorted-Array/" rel="next" title="33. Search in Rotated Sorted Array">
-                <i class="fa fa-chevron-left"></i> 33. Search in Rotated Sorted Array
+              <a href="/2019/11/01/zookeeper基础/" rel="next" title="zookeeper基础">
+                <i class="fa fa-chevron-left"></i> zookeeper基础
               </a>
             
           </div>
@@ -425,10 +429,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/11/01/zookeeper基础/" rel="prev" title="zookeeper基础">
-                zookeeper基础 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -480,8 +480,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -498,7 +507,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">172</span>
+                  <span class="site-state-item-count">173</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -509,7 +518,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -543,6 +552,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#查看进程信息"><span class="nav-number">1.</span> <span class="nav-text">查看进程信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">2.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

@@ -1,20 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[遇到过的linux面试题]]></title>
+    <url>%2F2019%2F11%2F01%2F%E9%81%87%E5%88%B0%E8%BF%87%E7%9A%84linux%E9%9D%A2%E8%AF%95%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[此文档用于总结自身遇到过或网络找到的一些linux面试题。 查看进程信息如何查看一个linux进程拥打开了多少个文件？lsof -p pid列出进程号pid指定的进程打开了哪些文件。 例如，在我的ubuntu上使用lsof查看markdown编辑器Typora打开了哪些文件。首先通过ps命令找到Typora对应的进程号30228。 123456~$ lsof -p 30228COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAMETypora 30228 xixi2 cwd DIR 8,5 4096 24379393 /home/xixi2Typora 30228 xixi2 rtd DIR 8,17 4096 2 /Typora 30228 xixi2 txt REG 8,6 120192448 811321 /usr/share/typora/TyporaTypora 30228 xixi2 DEL REG 0,24 219 /dev/shm/.org.chromium.Chromium.OLRm5r 参考文献[1]lsof：https://www.cnblogs.com/bonelee/p/7735479.html]]></content>
+      <categories>
+        <category>linux基础</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[zookeeper基础]]></title>
     <url>%2F2019%2F11%2F01%2Fzookeeper%E5%9F%BA%E7%A1%80%2F</url>
     <content type="text"><![CDATA[ZooKeeper是一种分布式协调服务。 Zookeeper概述分布式应用分布式应用可以在给定时间（同时）在网络中的多个系统上运行，通过协调它们以快速有效的方式完成特定任务。通常来说，对于复杂而耗时的任务，非分布式应用（运行在单个系统中）需要几个小时才能完成，而分布式应用通过使用所有系统涉及的计算能力可以在几分钟内完成。 通过将分布式应用配置为在更多系统上运行，可以进一步减少完成任务的时间。分布式应用正在运行的一组系统称为集群，而在集群中运行的每台机器被称为节点。服务器应用程序实际上是分布式的，并具有通用接口，以便客户端可以连接到集群中的任何服务器并获得相同的结果。客户端应用程序是与分布式应用进行交互的工具。 什么是Apache ZooKeeper？Apache ZooKeeper是由集群（节点组）使用的一种服务，用于在自身之间协调，并通过稳健的同步技术维护共享数据。ZooKeeper本身是一个分布式应用程序，为写入分布式应用程序提供服务。 ZooKeeper提供的常见服务如下 : 命名服务：按名称标识集群中的节点。它类似于DNS，但仅对于节点。 配置管理：加入节点的最近和最新的系统配置信息。 集群管理：实时地在集群和节点状态中加入/离开节点。 选举算法：选举一个节点作为协调目的leader。 锁定和同步服务：在修改数据的同时锁定数据。此机制可帮助你在连接其他分布式应用程序时进行自动故障恢复。 高度可靠的数据注册表：即使在一个或几个节点关闭时也可以获得数据。 分布式应用程序提供了很多好处，但它们也抛出了一些复杂和难以解决的挑战。ZooKeeper框架提供了一个完整的机制来克服所有的挑战。竞争条件和死锁使用故障安全同步方法进行处理。另一个主要缺点是数据的不一致性，ZooKeeper使用原子性解析。 ZooKeeper的好处以下是使用ZooKeeper的好处： 简单的分布式协调过程 同步 - 服务器进程之间的相互排斥和协作。此过程有助于Apache HBase进行配置管理。 有序的消息 序列化 - 根据特定规则对数据进行编码。确保应用程序运行一致。这种方法可以在MapReduce中用来协调队列以执行运行的线程。 可靠性 原子性 - 数据转移完全成功或完全失败，但没有事务是部分的。 Zookeeper基础在深入了解ZooKeeper的运作之前，让我们来看看ZooKeeper的基本概念。我们将在本章中讨论以下主题：1、Architecture（架构）2、Hierarchical namespace（层次命名空间）3、Session（会话）4、Watches（监视） ZooKeeper的架构看看下面的图表。它描述了ZooKeeper的“客户端-服务器架构”。 作为ZooKeeper架构的一部分的每个组件在下表中进行了说明。 部分 描述 Client（客户端） 客户端，我们的分布式应用集群中的一个节点，从服务器访问信息。对于特定的时间间隔，每个客户端向服务器发送消息以使服务器知道客户端是活跃的。类似地，当客户端连接时，服务器发送确认码。如果连接的服务器没有响应，客户端会自动将消息重定向到另一个服务器。 Server（服务器） 服务器，我们的ZooKeeper总体中的一个节点，为客户端提供所有的服务。向客户端发送确认码以告知服务器是活跃的。 Ensemble ZooKeeper服务器组。形成ensemble所需的最小节点数为3。 Leader 服务器节点，如果任何连接的节点失败，则执行自动恢复。Leader在服务启动时被选举。 Follower 跟随leader指令的服务器节点。 层次命名空间下图描述了用于内存表示的ZooKeeper文件系统的树结构。ZooKeeper节点称为 znode 。每个znode由一个名称标识，并用路径(/)序列分隔。 在图中，首先有一个由“/”分隔的znode。在根目录下，有两个逻辑命名空间 config 和 workers 。 config 命名空间用于集中式配置管理，workers 命名空间用于命名。 在 config 命名空间下，每个znode最多可存储1MB的数据。这与UNIX文件系统相类似，除了父znode也可以存储数据。这种结构的主要目的是存储同步数据并描述znode的元数据。此结构称为 ZooKeeper数据模型。 ZooKeeper数据模型中的每个znode都维护着一个 stat结构。一个stat仅提供一个znode的元数据。它由版本号，操作控制列表(ACL)，时间戳和数据长度组成。 版本号：每个znode都有版本号，这意味着每当与znode相关联的数据发生变化时，其对应的版本号也会增加。当多个zookeeper客户端尝试在同一znode上执行操作时，版本号的使用就很重要。 操作控制列表（ACL）：ACL基本上是访问znode的认证机制。它管理所有znode读取和写入操作。 时间戳：时间戳表示创建和修改znode所经过的时间。它通常以毫秒为单位。Zookeeper用“事务ID”（zxid）标识znode的每个更改。zxid是唯一的（对于整个zookeeper都是唯一的，即使操作的是不同的znode），并且为每个事务保留时间，以便可以轻松地确定从一个请求到另一个请求所经过的时间。 数据长度：存储在znode中的数据总量是数据长度。最多可以存储1MB的数据。 Sessions（会话）会话对于ZooKeeper的操作非常重要。会话中的请求按FIFO顺序执行。一旦客户端连接到服务器，将建立会话并向客户端分配会话ID（什么时候建立会话，以及建立会话时发生了什么？）。 客户端以特定的时间间隔发送心跳以保持会话有效。如果ZooKeeper集合在超过服务器开启时指定的期间（会话超时）都没有从客户端接收到心跳，则它会判定客户端死机。会话超时通常以毫秒为单位。当会话由于任何原因结束时，在该会话期间创建的临时节点也会被删除。 Watches（监视）监视是一种简单的机制，使客户端收到关于ZooKeeper集合中的更改的通知（监视的作用）。客户端可以在读取特定znode时设置Watches。Watches会向注册的客户端发送任何znode（客户端注册表）更改的通知。 Znode更改是与znode相关的数据的修改或znode的子项中的更改。只触发一次watches。如果客户端想要再次通知，则必须通过另一个读取操作来完成。当连接会话过期时，客户端将与服务器断开连接，相关的watches也将被删除。 Zookeeper 工作流一旦ZooKeeper集合启动，它将等待客户端连接。客户端将连接到ZooKeeper集合中的一个节点。它可以是leader或follower节点。一旦客户端被连接，节点将向特定客户端分配会话ID并向该客户端发送确认。如果客户端没有收到确认，它将尝试连接ZooKeeper集合中的另一个节点。 一旦连接到节点，客户端将以有规律的间隔向节点发送心跳，以确保连接不会丢失。 如果客户端想要读取特定的znode，它将会向具有znode路径的节点发送读取请求，并且节点通过从其自己的数据库获取数据来返回所请求的znode。为此，在ZooKeeper集合中读取速度很快。 如果客户端想要将数据存储在ZooKeeper集合中，则会将znode路径和数据发送到服务器。连接的服务器将该请求转发给leader，然后leader将向所有的follower重新发出写入请求。如果只有大部分节点成功响应，而写入请求成功，则成功返回代码将被发送到客户端。 否则，写入请求失败。绝大多数节点被称为Quorum 。 ZooKeeper集合中的节点让我们分析在ZooKeeper集合中拥有不同数量的节点的效果。 如果我们有单个节点，则当该节点故障时，ZooKeeper集合将故障。这会导致“单点故障”，不建议在生产环境中使用。 如果我们有两个节点而一个节点故障，我们没有占多数，因为两个中的一个不是多数。 如果我们有三个节点而一个节点故障，那么我们有大多数，因此，这是最低要求。ZooKeeper集合在实际生产环境中必须至少有三个节点。 如果我们有四个节点而两个节点故障，它将再次故障。类似于有三个节点，额外节点不用于任何目的，因此，最好添加奇数的节点，例如3，5，7。 我们知道写入过程比ZooKeeper集合中的读取过程开销要大，因为所有节点都需要在数据库中写入相同的数据。因此，对于平衡的环境拥有较少数量（例如3，5，7）的节点比拥有大量的节点要好。 下图描述了ZooKeeper工作流，后面的表说明了它的不同组件。 组件 描述 写入（write） 写入过程由leader节点处理。leader将写入请求转发到所有znode，并等待znode的回复。如果一半的znode回复，则写入过程完成。 读取（read） 读取由特定连接的znode在内部执行，因此不需要与集群进行交互。 复制数据库（replicated database） 它用于在zookeeper中存储数据。每个znode都有自己的数据库，每个znode在一致性的帮助下每次都有相同的数据。 Leader Leader是负责处理写入请求的Znode。 Follower follower从客户端接收写入请求，并将它们转发到leader znode。 请求处理器（request processor） 只存在于leader节点。它管理来自follower节点的写入请求。 原子广播（atomic broadcasts） 负责广播从leader节点到follower节点的变化。 Zookeeper leader选举让我们分析如何在ZooKeeper集合中选举leader节点。考虑一个集群中有N个节点。leader选举的过程如下： 所有节点创建具有相同路径 /app/leader_election/guid_ 的顺序、临时节点。 ZooKeeper集合将附加10位序列号到路径，创建的znode将是 /app/leader_election/guid_0000000001，/app/leader_election/guid_0000000002等。 对于给定的实例，在znode中创建最小数字的节点成为leader，而所有其他节点是follower。 每个follower节点监视它前面的那个具有较小序号的znode。例如，创建znode/app/leader_election/guid_0000000008的节点将监视znode/app/leader_election/guid_0000000007，创建znode/app/leader_election/guid_0000000007的节点将监视znode/app/leader_election/guid_0000000006。 如果leader关闭，则其相应的znode/app/leader_election/guid_000000000N会被删除。 下一个在线follower节点将通过监视器获得关于leader移除的通知。 下一个在线follower节点将检查是否存在其他具有更小序号的znode。如果没有，那么它将承担leader的角色。否则，它找到的创建具有更小序号的znode的节点将作为leader。 类似地，所有其他follower节点选举创建具有最小序号的znode节点作为leader。 zookeeper应用场景分布式锁利用Zookeeper的临时顺序节点，可以实现分布式锁。 服务注册和发现利用Znode和Watcher，可以实现分布式服务的注册和发现。最著名的应用就是阿里的分布式RPC框架Dubbo。 共享配置和状态信息Redis的分布式解决方案Codis，就利用了Zookeeper来存放数据路由表和 codis-proxy 节点的元信息。同时 codis-config 发起的命令都会通过 ZooKeeper 同步到各个存活的 codis-proxy。 此外，Kafka、HBase、Hadoop，也都依靠Zookeeper同步节点信息，实现高可用。 Zookeeper 安装java通过源码安装。 java配置信息： 启动过程中报错报错信息 12345root@ivic:/opt/zookeeper-3.5.6# vim /etc/profileroot@ivic:/opt/zookeeper-3.5.6# bin/zkServer.sh startZooKeeper JMX enabled by defaultUsing config: /opt/zookeeper-3.5.6/bin/../conf/zoo.cfgStarting zookeeper ... FAILED TO START 重新换了一个版本，zookeeper-3.4.14，安装成功。 第一步：查看启动状态 12345ivic@ivic:~/zookeeper$ bin/zkServer.sh statusZooKeeper JMX enabled by defaultUsing config: /home/ivic/zookeeper/bin/../conf/zoo.cfgClient port found: 2181. Client address: localhost.Error contacting service. It is probably not running. zookeeper配置文件详见参考文献。这里只列举几个常用选项。 集群选项：initLimit：Observer和Follower启动时，从Leader同步最新数据时，Leader允许initLimit * tickTime时间内完成。如果同步的数据量很大，可以相应地把这个值设置得大一些。 参考文献[1]zookeeper：https://www.w3cschool.cn/zookeeper/zookeeper_overview.html[2]漫画zookeeper：https://mp.weixin.qq.com/s/Gs4rrF8wwRzF6EvyrF_o4A[3]zookeeper的znode剖析：https://blog.csdn.net/lihao21/article/details/51810395[4]zookeeper配置文件：https://blog.csdn.net/qianshangding0708/article/details/50067483]]></content>
       <categories>
-        <category>分布式基础</category>
+        <category>分布式</category>
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[遇到过的linux面试题]]></title>
-    <url>%2F2019%2F11%2F01%2F%E9%81%87%E5%88%B0%E8%BF%87%E7%9A%84linux%E9%9D%A2%E8%AF%95%E9%A2%98%2F</url>
-    <content type="text"><![CDATA[此文档用于总结自身遇到过或网络找到的一些linux面试题。 如何查看一个linux进程拥打开了多少个文件？]]></content>
+    <title><![CDATA[TCP 粘包]]></title>
+    <url>%2F2019%2F11%2F01%2FTCP-%E7%B2%98%E5%8C%85%2F</url>
+    <content type="text"></content>
       <categories>
-        <category>linux基础</category>
+        <category>网络基础</category>
       </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[进程间通信]]></title>
+    <url>%2F2019%2F11%2F01%2F%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%2F</url>
+    <content type="text"><![CDATA[IPC（进程间通信，InterProcess Communication） 进程间通信方式有管道、 管道管道的概念 本质 内核缓冲区 伪文件：不占用磁盘空间 特点 两部分 读端，写端，对应两个文件描述符 数据写端流入，读端流出 操作管道的进程被销毁之后，管道占用的内存空间自动被释放了 管道默认是阻塞的，读写都是阻塞的。 管道的原理 内部实现方式：队列 环形队列 队列的特点是先进先出 内核缓冲区大小 默认为4k 大小会根据实际情况做适当调整 管道的局限性 队列 数据只能读取一次，不能重复读取 半双工 匿名管道 适用于有血缘关系的进程 创建匿名管道 int pipe(int fd[2]); 返回值：如果匿名管道创建成功，返回0。 man pipe 2查看说明文档 fd[0]为读端文件描述符，fd[1]为写端文件描述符 父子进程使用管道通信 父进程间通信，实现ps aux | grep bash 数据重定向：dup2 exclp 注意事项：父进程读，关闭写端；父进程写，关闭读端 兄弟进程间通信，实现ps aux | grep bash 父子进程间通信是否需要sleep函数 父进程写，写得慢 子进程 读，读得快 兄弟进程间通信 父进程-资源回收 管道的读写行为 读操作 有数据 read(fd)-正常读，返回读出的字节数 无数据 写端全部关闭read解除阻塞，返回0，相当于读文件读到了尾部 写端尚未全部关闭read阻塞 写操作 读端全部关闭 管道破裂，进程被终止内核给当前进程发信号SIGPIPEkill -l 可以查看信号 读端尚未全部关闭 缓冲区写满了write阻塞 缓冲区没有满write继续写直到缓冲区满 查看管道缓冲区大小 ulimit -a ulimit用于限制shell启动进程所占用的资源，包括一各种类型的限制：所创建的内核文件的大小、进程数据块的大小、shell进程所创建文件的大小、内存锁住的大小、常驻内存集的带下、打开文件描述符的数量、分配堆栈的最大大小、CPU时间、单个用户的最大线程数、Shell进程所能使用的最大虚拟内存。 fpathconf函数 参考文献[1]ulimit：https://man.linuxde.net/ulimit]]></content>
+      <categories>
+        <category>CS基础</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[alignment(字节对齐)]]></title>
+    <url>%2F2019%2F11%2F01%2Falignment(%E5%AD%97%E8%8A%82%E5%AF%B9%E9%BD%90)%2F</url>
+    <content type="text"><![CDATA[什么是字节对齐？ 在C语言中，结构是一种复合数据类型，其构成元素既可以是基本数据类型（如int、long、float等）的变量，也可以是一些复合数据类型（如数组、结构、联合等）的数据单元。在结构中，编译器为结构的每个成员按其自然边界（alignment）分配空间。各个成员按照它们被声明的顺序在内存中顺序存储，第一个成员的地址和整个结构的地址相同。 为了使CPU能够对变量进行快速的访问,变量的起始地址应该具有某些特性,即所谓的”对齐”。 比如4字节的int型，其起始地址应该位于4字节的边界上，即起始地址能够被4整除。 为什么要进行字节对齐字节对齐便于快速访问内存，合理的利用字节对齐可以有效地节省存储空间。对于32位机器来说，4字节对齐能够使cpu访问速度提高。例如一个long类型的变量，如果跨越了4字节边界存储，那么cpu要读取两次，这样效率就低了(为什么)。另外还需要考虑编译器的类型。在vc中默认是4字节对齐的，GNU gcc 也是默认4字节对齐。 如何进行字节对齐结构体变量在给成员分配内存的时候，是按照字节对齐的方式存储的。以结构体成员中占内存最多的数据类型所占的字节数为标准，所有的成员在分配内存的时候都要与这个长度对齐。 几个小例子，可以看出结构体变量在为成员变量分配内存时如何进行字节对齐。 123456789101112131415struct Obj1 &#123; // 结构体中最长成员数据类型是int,占4个字节,则以4字节对齐 char a; int b; char c;&#125;;void test1() &#123; Obj1 data; cout &lt;&lt; "sizeof(int):" &lt;&lt; sizeof(int) &lt;&lt; endl; // sizeof(int):4 //%p是取地址输出控制符 printf("%p, %p, %p\n", &amp;data.a, &amp;data.b, &amp;data.c); //0x7ffe1e35d28c, 0x7ffe1e35d290, 0x7ffe1e35d294 printf("%d\n", sizeof(data)); //12&#125; 第一个char类型占1个字节，但是需要以4字节对齐；同理第二个char类型占1个字节，但以4字节对齐。于是Obj1类型对象data占用的内存为12字节。 123456789101112131415struct Obj2 &#123; // 结构体中最长成员数据类型是double,占8个字节,则以4字节对齐 char a; double b; char c;&#125;;void test2() &#123; Obj2 data; cout &lt;&lt; "sizeof(double):" &lt;&lt; sizeof(double) &lt;&lt; endl; //sizeof(double):8 //%p是取地址输出控制符 printf("%p, %p, %p\n", &amp;data.a, &amp;data.b, &amp;data.c); // 0x7ffe1e35d280, 0x7ffe1e35d288, 0x7ffe1e35d290 printf("%d\n", sizeof(data)); // 24&#125; 这里与上个例子的不同之处在于以8字节对齐，所以占用的内存为8 * 3 = 24字节。 123456789101112struct Obj3 &#123; Obj1 o1; // 12 ==&gt; 16 Obj2 o2; // 24&#125;;void test3() &#123; Obj3 data; printf("%p, %p\n", &amp;data.o1, &amp;data.o2); // 0x7ffe98ca7220, 0x7ffe98ca7230 //%p是取地址输出控制符 printf("%d\n", sizeof(data)); // 40&#125; 参考文献[1]结构体变量字节对齐：http://c.biancheng.net/view/243.html[2]为什么要进行字节对齐：https://blog.csdn.net/21aspnet/article/details/6729724[3]为什么要进行字节：http://blog.chinaunix.net/uid-24118190-id-75219.html]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>对象模型</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[内存分配的几个函数]]></title>
+    <url>%2F2019%2F11%2F01%2F%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%9A%84%E5%87%A0%E4%B8%AA%E5%87%BD%E6%95%B0%2F</url>
+    <content type="text"><![CDATA[用于内存分配的函数有：malloc，calloc、realloc等。]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>malloc</tag>
+        <tag>calloc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[RTTI(运行时类型识别)]]></title>
+    <url>%2F2019%2F11%2F01%2FRTTI(%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%9F%A5)%2F</url>
+    <content type="text"><![CDATA[运行时类型识别，在C++层面主要体现在dynamic_cast和typeid，VS中虚函数表的-1位置存放了指向type_info的指针。对于存在虚函数的类型，typeid和dynamice_cast都回去查询type_info。 运行时类型识别RTTI由两个运算符实现： typeid运算符，用于返回表达式的类型 dynamic_cast运算符，用于将基类的指针或引用安全地转换成派生类的指针或引用。 dynamice_casttypeidtype_info参考C++对象模型系列1中的【示例1：虚拟继承下的C++对象模型】的Point2d的虚函数表可知，在虚函数中的第一个slot即为type_info对象。 参考文献[1]深度探索C++对象模型]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>对象模型</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[33. Search in Rotated Sorted Array]]></title>
@@ -61,14 +111,6 @@
       <tags>
         <tag>二分查找</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[162. Find Peak Element]]></title>
-    <url>%2F2019%2F10%2F31%2F162.-Find-Peak-Element%2F</url>
-    <content type="text"></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
   </entry>
   <entry>
     <title><![CDATA[300. Longest Increasing Subsequence]]></title>
@@ -522,17 +564,6 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[RTTI(运行时类型识别)]]></title>
-    <url>%2F2019%2F10%2F18%2FRTTI(%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%9F%A5)%2F</url>
-    <content type="text"><![CDATA[运行时类型识别，在C++层面主要体现在dynamic_cast和typeid，VS中虚函数表的-1位置存放了指向type_info的指针。对于存在虚函数的类型，typeid和dynamice_cast都回去查询type_info。 运行时类型识别RTTI由两个运算符实现： typeid运算符，用于返回表达式的类型 dynamic_cast运算符，用于将基类的指针或引用安全地转换成派生类的指针或引用。 dynamice_casttypeidtype_info参考C++对象模型系列1中的【示例1：虚拟继承下的C++对象模型】的Point2d的虚函数表可知，在虚函数中的第一个slot即为type_info对象。 参考文献[1]深度探索C++对象模型]]></content>
-      <categories>
-        <category>C++基础</category>
-      </categories>
-      <tags>
-        <tag>对象模型</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[C++对象模型系列1]]></title>
     <url>%2F2019%2F10%2F18%2FC%2B%2B%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%E7%B3%BB%E5%88%971%2F</url>
     <content type="text"><![CDATA[在C++对象模型中，Nonstatic data members被配置于每一个class object之内，static data members则被放在个别的class object之外。static和nonstatic function members也被放在个别的class object之外。 virtual functions则通过下面两个步骤来实现： 每一个class产生出一堆指向virtual functions的指针，放在表格之中。这个表格被称为virtual table(vtbl)。 每一个class object被安插一个指针，指向相关的virtual table。通常这个指针被称为vtpr。vtpr的设定和重置由每一个class的constructor、destructor和copy assignment运算符自动完成。每一个class所关联的type_info object(用来支持runtime type identification，RTTI)也经由virtual table被指出来，通常放在表格的第一个slot。 示例1：虚拟继承下的C++对象模型在下面的代码示例中，Point3d和Vertex虚拟继承自Point2d，Vertex同时继承自Point3d和Vertex。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465#include &lt;iostream&gt;using namespace std;class Point2d &#123;public: virtual void print() &#123; cout &lt;&lt; "I am Point2d" &lt;&lt; endl; &#125; virtual ~Point2d() &#123;&#125;protected: float _x; // 4字节 float _y;&#125;;class Vertex : public virtual Point2d &#123;public: void print() &#123; cout &lt;&lt; "I am Vertex" &lt;&lt; endl; &#125; ~Vertex() &#123;&#125;protected: Vertex *next; // 指针,占8字节&#125;;class Point3d : public virtual Point2d &#123;public: // virtual function print1是Point3d独有的虚函数,不是从基类那里继承来的,但是无论这个虚函数是否存在都不影响Point3d的对象模型 virtual void print1() &#123; cout &lt;&lt; "This is my own virtual function, not inherient from my father" &lt;&lt; endl; &#125; ~Point3d() &#123;&#125;protected: float _z;&#125;;class Vertex3d : public Vertex, public Point3d &#123;public: ~Vertex3d() &#123;&#125;protected: float mumble;&#125;;void test1() &#123; Vertex vx;// vx.print(); cout &lt;&lt; "sizeof(Point2d): " &lt;&lt; sizeof(Point2d) &lt;&lt; endl; // 16 cout &lt;&lt; "sizeof(Point3d): " &lt;&lt; sizeof(Point3d) &lt;&lt; endl; // 32 cout &lt;&lt; "sizeof(Vertex) : " &lt;&lt; sizeof(Vertex) &lt;&lt; endl; // 32 cout &lt;&lt; "sizeof(Vertex3d) : " &lt;&lt; sizeof(Vertex3d) &lt;&lt; endl; // 48&#125;int main() &#123; test1(); return 0;&#125; 写这个示例的目的是为了验证：在Point3d的对象模型中有两个虚表指针，一个是从其基类Point2d那里继承而来的，另一个是Point3d自身的。 Point2d的对象模型： Point3d、Vertex、Vertex3d的对象模型。 从上图可知，在Point2d中有两个float类型的成员变量和一个指针。故Point2d的大小为16字节；Point3d对象有一个Point2d子对象和一个float类型数据成员z、一个虚表指针Point3d，故大小为16+4+8 = 28，但是因为28不是8的倍数(在64位系统上运行的)，所以28被边界对齐到32字节。同理Vertex的大小为16+8+8=32字节。对于Vertex3d，其大小为16+4+8+4+8+8 = 48字节。 示例2：继承模型下的地址多重继承下的对象模型 123456789101112131415161718192021222324class A &#123; public: virtual ~A() &#123;&#125;&#125;;class B &#123; public: virtual ~B() &#123;&#125;&#125;;class C : public A, public B &#123;&#125;;void test1() &#123; C *pC = new C(); A *pA = (A *) pC; B *pB = (B *) pC; cout &lt;&lt; pA &lt;&lt; endl; // 0x5652962dbe70 cout &lt;&lt; pB &lt;&lt; endl; // 0x5652962dbe78 cout &lt;&lt; pC &lt;&lt; endl; // 0x5652962dbe70 cout &lt;&lt; "sizeof(*pA):" &lt;&lt; sizeof(*pA) &lt;&lt; endl; cout &lt;&lt; "sizeof(*pB):" &lt;&lt; sizeof(*pB) &lt;&lt; endl; cout &lt;&lt; "sizeof(*pC):" &lt;&lt; sizeof(*pC) &lt;&lt; endl;&#125; A、B和C的对象模型： 在将A类型的指针指向C类型的对象时，因为指针指向的实际上是C类型对象中的class A子对象。因为，在A和C类型对象中，A类型子对象都是位于相同的位置(位于对象开始处，偏移量为0)，因此pA和pC的值相同。而在class C object中，B subobject的偏移量为8(即sizeof(A))，因此,pA和pC的值不同。]]></content>
@@ -547,18 +578,6 @@
       <categories>
         <category>C++基础知识</category>
       </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[内存分配的几个函数]]></title>
-    <url>%2F2019%2F10%2F18%2F%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%9A%84%E5%87%A0%E4%B8%AA%E5%87%BD%E6%95%B0%2F</url>
-    <content type="text"><![CDATA[用于内存分配的函数有：malloc，calloc、realloc等。]]></content>
-      <categories>
-        <category>C++基础</category>
-      </categories>
-      <tags>
-        <tag>malloc</tag>
-        <tag>calloc</tag>
-      </tags>
   </entry>
   <entry>
     <title><![CDATA[147. Insertion Sort List]]></title>
@@ -584,17 +603,6 @@
       <categories>
         <category>leetcode</category>
       </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[alignment(字节对齐)]]></title>
-    <url>%2F2019%2F10%2F16%2Falignment(%E5%AD%97%E8%8A%82%E5%AF%B9%E9%BD%90)%2F</url>
-    <content type="text"><![CDATA[什么是字节对齐？ 在C语言中，结构是一种复合数据类型，其构成元素既可以是基本数据类型（如int、long、float等）的变量，也可以是一些复合数据类型（如数组、结构、联合等）的数据单元。在结构中，编译器为结构的每个成员按其自然边界（alignment）分配空间。各个成员按照它们被声明的顺序在内存中顺序存储，第一个成员的地址和整个结构的地址相同。 为了使CPU能够对变量进行快速的访问,变量的起始地址应该具有某些特性,即所谓的”对齐”。 比如4字节的int型，其起始地址应该位于4字节的边界上，即起始地址能够被4整除。 为什么要进行字节对齐字节对齐便于快速访问内存，合理的利用字节对齐可以有效地节省存储空间。对于32位机器来说，4字节对齐能够使cpu访问速度提高。例如一个long类型的变量，如果跨越了4字节边界存储，那么cpu要读取两次，这样效率就低了(为什么)。另外还需要考虑编译器的类型。在vc中默认是4字节对齐的，GNU gcc 也是默认4字节对齐。 如何进行字节对齐结构体变量在给成员分配内存的时候，是按照字节对齐的方式存储的。以结构体成员中占内存最多的数据类型所占的字节数为标准，所有的成员在分配内存的时候都要与这个长度对齐。 几个小例子，可以看出结构体变量在为成员变量分配内存时如何进行字节对齐。 123456789101112131415struct Obj1 &#123; // 结构体中最长成员数据类型是int,占4个字节,则以4字节对齐 char a; int b; char c;&#125;;void test1() &#123; Obj1 data; cout &lt;&lt; "sizeof(int):" &lt;&lt; sizeof(int) &lt;&lt; endl; // sizeof(int):4 //%p是取地址输出控制符 printf("%p, %p, %p\n", &amp;data.a, &amp;data.b, &amp;data.c); //0x7ffe1e35d28c, 0x7ffe1e35d290, 0x7ffe1e35d294 printf("%d\n", sizeof(data)); //12&#125; 第一个char类型占1个字节，但是需要以4字节对齐；同理第二个char类型占1个字节，但以4字节对齐。于是Obj1类型对象data占用的内存为12字节。 123456789101112131415struct Obj2 &#123; // 结构体中最长成员数据类型是double,占8个字节,则以4字节对齐 char a; double b; char c;&#125;;void test2() &#123; Obj2 data; cout &lt;&lt; "sizeof(double):" &lt;&lt; sizeof(double) &lt;&lt; endl; //sizeof(double):8 //%p是取地址输出控制符 printf("%p, %p, %p\n", &amp;data.a, &amp;data.b, &amp;data.c); // 0x7ffe1e35d280, 0x7ffe1e35d288, 0x7ffe1e35d290 printf("%d\n", sizeof(data)); // 24&#125; 这里与上个例子的不同之处在于以8字节对齐，所以占用的内存为8 * 3 = 24字节。 123456789101112struct Obj3 &#123; Obj1 o1; // 12 ==&gt; 16 Obj2 o2; // 24&#125;;void test3() &#123; Obj3 data; printf("%p, %p\n", &amp;data.o1, &amp;data.o2); // 0x7ffe98ca7220, 0x7ffe98ca7230 //%p是取地址输出控制符 printf("%d\n", sizeof(data)); // 40&#125; 参考文献[1]结构体变量字节对齐：http://c.biancheng.net/view/243.html[2]为什么要进行字节对齐：https://blog.csdn.net/21aspnet/article/details/6729724[3]为什么要进行字节：http://blog.chinaunix.net/uid-24118190-id-75219.html]]></content>
-      <categories>
-        <category>C++基础</category>
-      </categories>
-      <tags>
-        <tag>对象模型</tag>
-      </tags>
   </entry>
   <entry>
     <title><![CDATA[将有序链表转成二叉搜索树系列]]></title>
@@ -1102,6 +1110,14 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[traits]]></title>
+    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
+    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
+      <categories>
+        <category>STL</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[C++牛客网刷题总结]]></title>
     <url>%2F2019%2F09%2F27%2FC%2B%2B%E7%89%9B%E5%AE%A2%E7%BD%91%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93%2F</url>
     <content type="text"><![CDATA[字符串系列]]></content>
@@ -1113,14 +1129,6 @@
     <title><![CDATA[bind与函数适配器]]></title>
     <url>%2F2019%2F09%2F27%2Fbind%E4%B8%8E%E5%87%BD%E6%95%B0%E9%80%82%E9%85%8D%E5%99%A8%2F</url>
     <content type="text"><![CDATA[bind是从c++11开始出现的新型适配器]]></content>
-      <categories>
-        <category>STL</category>
-      </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[traits]]></title>
-    <url>%2F2019%2F09%2F27%2Ftraits%2F</url>
-    <content type="text"><![CDATA[type_traits和iterator_traits is_void的实现is_class，is_union, is_enum, is_pod的实现]]></content>
       <categories>
         <category>STL</category>
       </categories>
@@ -1151,17 +1159,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[可变模板参数(c++11新特性)]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%8F%AF%E5%8F%98%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0%2F</url>
-    <content type="text"><![CDATA[Variadic Templates Variadic Templates谈的是template function template class template 变化的是template parameters 参数个数：利用参数个数注意递减的特性，实现递归函数调用．使用function template完成 参数类型：利用参数个数逐一递减，参数类型也逐一递减的特性，实现递归继承或递归复合，以class template完成． 可变模板参数写的一个小例子针对函数模板参数包，函数参数类型包，函数参数包 123456789void print() &#123;&#125; //非模板，和模板的实例形成重载函数；函数没有特化和偏特化template&lt;typename T, typename... Types&gt;void print(const T &amp;firstArg, const Types &amp;... args) &#123; // firstArg是包中第一个元素的引用，输出包中剩余元素个数 cout &lt;&lt; sizeof...(args) &lt;&lt; " "; cout &lt;&lt; firstArg &lt;&lt; endl; print(args...); // 当args为空时，调用的是非模板函数print&#125; 可变模板参数实现hash function1234567891011121314151617181920212223242526template&lt;typename T&gt;inline void hash_combine(size_t &amp;seed, const T &amp;val) &#123; seed ^= std::hash&lt;T&gt;()(val) + 0x9e3779b9 // 0x9e3779b9黄金比例 + (seed &lt;&lt; 6) + (seed &gt;&gt; 2);&#125;template&lt;typename T&gt;inline void hash_val(size_t &amp;seed, const T &amp;val) &#123; hash_combine(seed, val);&#125;template&lt;typename T, typename...Types&gt;inline void hash_val(size_t &amp;seed, const T &amp;val, const Types &amp;...args) &#123; hash_combine(seed, val); hash_val(seed, args...);&#125;// 版本1// typename...Types：任意个模板参数// 第一个函数不是size_ttemplate&lt;typename...Types&gt;inline size_t hash_val(const Types &amp;...args) &#123; size_t seed = 0; hash_val(seed, args...); return seed;&#125; 可变模板参数实现printf1234567891011121314151617181920212223242526void printf(const char *s) &#123; while (*s) &#123; if (*s == '%' &amp;&amp; (*(++s) != '%')) &#123; throw std::runtime_error("invalid formal string::missing arguments"); &#125; cout &lt;&lt; *s++; &#125;&#125;template&lt;typename T, typename... Args&gt;void printf(const char *s, T value, Args... args) &#123; while (*s) &#123; if (*s == '%' &amp;&amp; (*(++s)) != '%') &#123; cout &lt;&lt; value; printf(++s, args...); return; &#125; cout &lt;&lt; *s++; // 如果s不是用于格式控制，则直接输出s &#125; throw std::logic_error("extra argument provided to printf");&#125;void test_printf() &#123; printf("%d\n%s\n%f\n", 15, "This is Alice", 3.1415926); printf("%d, %s, %f\n", 15, "This is Alice", 3.1415926);&#125; variadic templates与initializer_list若参数的类型相同，无须使用variadic templates,使用initializer_list&lt;T&gt;即可 使用initializer_list实现max 12345678910111213141516171819202122232425262728293031323334template&lt;typename __ForwardIterator, typename __Compare&gt;__ForwardIterator __max_element(__ForwardIterator __first, __ForwardIterator __last, __Compare _comp) &#123; if (__first == __last) &#123; return __first; &#125; __ForwardIterator __result = __first; while (++__first != __last) &#123; if (_comp(__result, __first)) __result = __first; &#125; return __result;&#125;// _Iter_less_iter是一种类型inline __Iter_less_iter __iter_less_iter() &#123; return __Iter_less_iter();&#125;template&lt;typename __ForwardIterator&gt;inline __ForwardIterator max_element(__ForwardIterator __first, __ForwardIterator __last) &#123; // _iter_less_iter()是一个函数调用，但是返回一个对象 return __max_element(__first, __last, __iter_less_iter());&#125;template&lt;typename _Tp&gt;inline _Tpmax(initializer_list&lt;_Tp&gt; _l) &#123; return *max_element(_l.begin(), _l.end());&#125;// 调用形式：max(&#123;1,2,43,2,41&#125;); 使用varadic templates实现max 123456789101112int maximum(int n) &#123; return n;&#125;template&lt;typename... Args&gt;int maximum(int n, Args... args) &#123; return max(maximum(args...), n);&#125;void test_maximum() &#123; cout &lt;&lt; maximum(57, 48, 60, 100, 20, 18) &lt;&lt; endl;&#125; 对异于一般的方式处理first元素和last元素12345678910111213141516171819202122232425template&lt;int IDX, int MAX, typename... Args&gt;struct PRINT_TUPLE &#123; static void print(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123; os &lt;&lt; get&lt;IDX&gt;(t) &lt;&lt; (IDX + 1 == MAX ? &quot;&quot; : &quot;,&quot;); PRINT_TUPLE&lt;IDX + 1, MAX, Args...&gt;::print(os, t); &#125;&#125;;// 当前元素是最后一个template&lt;int MAX, typename...Args&gt;struct PRINT_TUPLE&lt;MAX, MAX, Args...&gt; &#123; static void print(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123;&#125;&#125;;template&lt;typename... Args&gt;ostream &amp;operator&lt;&lt;(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123; PRINT_TUPLE&lt;0, sizeof...(Args), Args...&gt;::print(os, t); return os;&#125;void test_print_tuple() &#123; cout &lt;&lt; make_tuple(1.4, &quot;hello&quot;, 13, string(&quot;good&quot;)) &lt;&lt; endl;&#125; 可变模板参数实现tuple通过private 继承实现复合递归的继承 12345678910111213141516171819202122232425262728293031323334353637383940414243444546template&lt;typename...Values&gt;class tuple;template&lt;&gt;class tuple&lt;&gt; &#123;&#125;;// private继承template&lt;typename Head, typename... Tail&gt;class tuple&lt;Head, Tail...&gt; : private tuple&lt;Tail...&gt; &#123; typedef tuple&lt;Tail...&gt; inherited;protected: Head m_head;public: tuple() &#123;&#125; // inherited(vtail...)调用base ctor并给予参数(不是创建temp object) tuple(Head v, Tail... vtail) : m_head(v), inherited(vtail...) &#123;&#125; // 原始构想是取出Head指定的类型，但是head类型如何知道自己是什么type？// typename Head::type head() &#123; return m_head; &#125; // 通过decltype获取Head // m_head必须声明在此句之前 // auto head() -&gt; decltype(m_head) &#123; return m_head; &#125; // 更好的等价写法 // 可以直接这么写，Head本身就是指的类型 // Head head() &#123; return m_head; &#125; // return后转型为inherited // 返回值一定得是引用 // 调用tail之后，得到一个inhertied子对象，然后再对此子对象调用head时会改变此子对象，但是如果传回的是值(而非引用)，则被改变的是副本 inherited &amp;tail() &#123; return *this; &#125;&#125;;void test_tuple() &#123; tuple&lt;int, float, string&gt; t(41, 6.3, "nico"); cout &lt;&lt; sizeof(string) &lt;&lt; " " &lt;&lt; sizeof(int) &lt;&lt; " " &lt;&lt; sizeof(float) &lt;&lt; endl; // 32 4 4 cout &lt;&lt; sizeof(t) &lt;&lt; endl; // 40 cout &lt;&lt; t.head() &lt;&lt; endl; // 40 cout &lt;&lt; t.tail().head() &lt;&lt; endl; // 6.3 cout &lt;&lt; t.tail().tail().head() &lt;&lt; endl; // nico&#125; 通过composite实现复合1234567891011121314151617181920212223242526272829303132333435363738394041424344// 这两句存在的意义是什么？换言之，为什么需要这两句template&lt;typename... Values&gt; class tup;// 特化版本template&lt;&gt; class tup&lt;&gt; &#123; public: tup() &#123; cout &lt;&lt; "empty tup" &lt;&lt; endl; &#125; &#125;;// 特化版本template&lt;typename Head, typename...Tail&gt; class tup&lt;Head, Tail...&gt; &#123; typedef tup&lt;Tail...&gt; compositied; protected: compositied m_tail; Head m_head; public: tup() &#123;&#125;; // vtail...是一个函数参数包 tup(Head v, Tail... vtail) : m_head(v), m_tail(vtail...) &#123; cout &lt;&lt; m_head &lt;&lt; " " &lt;&lt; sizeof...(vtail) &lt;&lt; endl; &#125; Head head() &#123; return m_head; &#125; compositied &amp;tail() &#123; return m_tail; &#125; &#125;;void test_tup() &#123; tup&lt;int, float, string&gt; it1(41, 6.3, "nico"); cout &lt;&lt; endl; cout &lt;&lt; sizeof(it1) &lt;&lt; endl; cout &lt;&lt; it1.head() &lt;&lt; endl; cout &lt;&lt; it1.tail().head() &lt;&lt; endl; cout &lt;&lt; it1.tail().tail().head() &lt;&lt; endl;&#125; 运行结果 1234567891011# 由内到外构造对象empty tupnico 06.3 141 2# 依次输出tup中的内容56416.3nico]]></content>
-      <categories>
-        <category>C++基础知识</category>
-      </categories>
-      <tags>
-        <tag>variadic templates</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[c++2.0新特性]]></title>
     <url>%2F2019%2F09%2F27%2Fc%2B%2B2.0%E6%96%B0%E7%89%B9%E6%80%A7%2F</url>
     <content type="text"><![CDATA[此文档整理c++11中新特性． autoauto和decltype的区别与联系variadic templatesrange base for]]></content>
@@ -1170,6 +1167,17 @@
       </categories>
       <tags>
         <tag>c++11新特性</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[可变模板参数(c++11新特性)]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%8F%AF%E5%8F%98%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0%2F</url>
+    <content type="text"><![CDATA[Variadic Templates Variadic Templates谈的是template function template class template 变化的是template parameters 参数个数：利用参数个数注意递减的特性，实现递归函数调用．使用function template完成 参数类型：利用参数个数逐一递减，参数类型也逐一递减的特性，实现递归继承或递归复合，以class template完成． 可变模板参数写的一个小例子针对函数模板参数包，函数参数类型包，函数参数包 123456789void print() &#123;&#125; //非模板，和模板的实例形成重载函数；函数没有特化和偏特化template&lt;typename T, typename... Types&gt;void print(const T &amp;firstArg, const Types &amp;... args) &#123; // firstArg是包中第一个元素的引用，输出包中剩余元素个数 cout &lt;&lt; sizeof...(args) &lt;&lt; " "; cout &lt;&lt; firstArg &lt;&lt; endl; print(args...); // 当args为空时，调用的是非模板函数print&#125; 可变模板参数实现hash function1234567891011121314151617181920212223242526template&lt;typename T&gt;inline void hash_combine(size_t &amp;seed, const T &amp;val) &#123; seed ^= std::hash&lt;T&gt;()(val) + 0x9e3779b9 // 0x9e3779b9黄金比例 + (seed &lt;&lt; 6) + (seed &gt;&gt; 2);&#125;template&lt;typename T&gt;inline void hash_val(size_t &amp;seed, const T &amp;val) &#123; hash_combine(seed, val);&#125;template&lt;typename T, typename...Types&gt;inline void hash_val(size_t &amp;seed, const T &amp;val, const Types &amp;...args) &#123; hash_combine(seed, val); hash_val(seed, args...);&#125;// 版本1// typename...Types：任意个模板参数// 第一个函数不是size_ttemplate&lt;typename...Types&gt;inline size_t hash_val(const Types &amp;...args) &#123; size_t seed = 0; hash_val(seed, args...); return seed;&#125; 可变模板参数实现printf1234567891011121314151617181920212223242526void printf(const char *s) &#123; while (*s) &#123; if (*s == '%' &amp;&amp; (*(++s) != '%')) &#123; throw std::runtime_error("invalid formal string::missing arguments"); &#125; cout &lt;&lt; *s++; &#125;&#125;template&lt;typename T, typename... Args&gt;void printf(const char *s, T value, Args... args) &#123; while (*s) &#123; if (*s == '%' &amp;&amp; (*(++s)) != '%') &#123; cout &lt;&lt; value; printf(++s, args...); return; &#125; cout &lt;&lt; *s++; // 如果s不是用于格式控制，则直接输出s &#125; throw std::logic_error("extra argument provided to printf");&#125;void test_printf() &#123; printf("%d\n%s\n%f\n", 15, "This is Alice", 3.1415926); printf("%d, %s, %f\n", 15, "This is Alice", 3.1415926);&#125; variadic templates与initializer_list若参数的类型相同，无须使用variadic templates,使用initializer_list&lt;T&gt;即可 使用initializer_list实现max 12345678910111213141516171819202122232425262728293031323334template&lt;typename __ForwardIterator, typename __Compare&gt;__ForwardIterator __max_element(__ForwardIterator __first, __ForwardIterator __last, __Compare _comp) &#123; if (__first == __last) &#123; return __first; &#125; __ForwardIterator __result = __first; while (++__first != __last) &#123; if (_comp(__result, __first)) __result = __first; &#125; return __result;&#125;// _Iter_less_iter是一种类型inline __Iter_less_iter __iter_less_iter() &#123; return __Iter_less_iter();&#125;template&lt;typename __ForwardIterator&gt;inline __ForwardIterator max_element(__ForwardIterator __first, __ForwardIterator __last) &#123; // _iter_less_iter()是一个函数调用，但是返回一个对象 return __max_element(__first, __last, __iter_less_iter());&#125;template&lt;typename _Tp&gt;inline _Tpmax(initializer_list&lt;_Tp&gt; _l) &#123; return *max_element(_l.begin(), _l.end());&#125;// 调用形式：max(&#123;1,2,43,2,41&#125;); 使用varadic templates实现max 123456789101112int maximum(int n) &#123; return n;&#125;template&lt;typename... Args&gt;int maximum(int n, Args... args) &#123; return max(maximum(args...), n);&#125;void test_maximum() &#123; cout &lt;&lt; maximum(57, 48, 60, 100, 20, 18) &lt;&lt; endl;&#125; 对异于一般的方式处理first元素和last元素12345678910111213141516171819202122232425template&lt;int IDX, int MAX, typename... Args&gt;struct PRINT_TUPLE &#123; static void print(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123; os &lt;&lt; get&lt;IDX&gt;(t) &lt;&lt; (IDX + 1 == MAX ? &quot;&quot; : &quot;,&quot;); PRINT_TUPLE&lt;IDX + 1, MAX, Args...&gt;::print(os, t); &#125;&#125;;// 当前元素是最后一个template&lt;int MAX, typename...Args&gt;struct PRINT_TUPLE&lt;MAX, MAX, Args...&gt; &#123; static void print(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123;&#125;&#125;;template&lt;typename... Args&gt;ostream &amp;operator&lt;&lt;(ostream &amp;os, const tuple&lt;Args...&gt; &amp;t) &#123; PRINT_TUPLE&lt;0, sizeof...(Args), Args...&gt;::print(os, t); return os;&#125;void test_print_tuple() &#123; cout &lt;&lt; make_tuple(1.4, &quot;hello&quot;, 13, string(&quot;good&quot;)) &lt;&lt; endl;&#125; 可变模板参数实现tuple通过private 继承实现复合递归的继承 12345678910111213141516171819202122232425262728293031323334353637383940414243444546template&lt;typename...Values&gt;class tuple;template&lt;&gt;class tuple&lt;&gt; &#123;&#125;;// private继承template&lt;typename Head, typename... Tail&gt;class tuple&lt;Head, Tail...&gt; : private tuple&lt;Tail...&gt; &#123; typedef tuple&lt;Tail...&gt; inherited;protected: Head m_head;public: tuple() &#123;&#125; // inherited(vtail...)调用base ctor并给予参数(不是创建temp object) tuple(Head v, Tail... vtail) : m_head(v), inherited(vtail...) &#123;&#125; // 原始构想是取出Head指定的类型，但是head类型如何知道自己是什么type？// typename Head::type head() &#123; return m_head; &#125; // 通过decltype获取Head // m_head必须声明在此句之前 // auto head() -&gt; decltype(m_head) &#123; return m_head; &#125; // 更好的等价写法 // 可以直接这么写，Head本身就是指的类型 // Head head() &#123; return m_head; &#125; // return后转型为inherited // 返回值一定得是引用 // 调用tail之后，得到一个inhertied子对象，然后再对此子对象调用head时会改变此子对象，但是如果传回的是值(而非引用)，则被改变的是副本 inherited &amp;tail() &#123; return *this; &#125;&#125;;void test_tuple() &#123; tuple&lt;int, float, string&gt; t(41, 6.3, "nico"); cout &lt;&lt; sizeof(string) &lt;&lt; " " &lt;&lt; sizeof(int) &lt;&lt; " " &lt;&lt; sizeof(float) &lt;&lt; endl; // 32 4 4 cout &lt;&lt; sizeof(t) &lt;&lt; endl; // 40 cout &lt;&lt; t.head() &lt;&lt; endl; // 40 cout &lt;&lt; t.tail().head() &lt;&lt; endl; // 6.3 cout &lt;&lt; t.tail().tail().head() &lt;&lt; endl; // nico&#125; 通过composite实现复合1234567891011121314151617181920212223242526272829303132333435363738394041424344// 这两句存在的意义是什么？换言之，为什么需要这两句template&lt;typename... Values&gt; class tup;// 特化版本template&lt;&gt; class tup&lt;&gt; &#123; public: tup() &#123; cout &lt;&lt; "empty tup" &lt;&lt; endl; &#125; &#125;;// 特化版本template&lt;typename Head, typename...Tail&gt; class tup&lt;Head, Tail...&gt; &#123; typedef tup&lt;Tail...&gt; compositied; protected: compositied m_tail; Head m_head; public: tup() &#123;&#125;; // vtail...是一个函数参数包 tup(Head v, Tail... vtail) : m_head(v), m_tail(vtail...) &#123; cout &lt;&lt; m_head &lt;&lt; " " &lt;&lt; sizeof...(vtail) &lt;&lt; endl; &#125; Head head() &#123; return m_head; &#125; compositied &amp;tail() &#123; return m_tail; &#125; &#125;;void test_tup() &#123; tup&lt;int, float, string&gt; it1(41, 6.3, "nico"); cout &lt;&lt; endl; cout &lt;&lt; sizeof(it1) &lt;&lt; endl; cout &lt;&lt; it1.head() &lt;&lt; endl; cout &lt;&lt; it1.tail().head() &lt;&lt; endl; cout &lt;&lt; it1.tail().tail().head() &lt;&lt; endl;&#125; 运行结果 1234567891011# 由内到外构造对象empty tupnico 06.3 141 2# 依次输出tup中的内容56416.3nico]]></content>
+      <categories>
+        <category>C++基础知识</category>
+      </categories>
+      <tags>
+        <tag>variadic templates</tag>
       </tags>
   </entry>
   <entry>
@@ -1237,14 +1245,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[k sum 系列]]></title>
-    <url>%2F2019%2F09%2F27%2Fk-sum-%E7%B3%BB%E5%88%97%2F</url>
-    <content type="text"><![CDATA[two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[冒泡排序的优化和鸡尾酒排序]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%E7%9A%84%E4%BC%98%E5%8C%96%E5%92%8C%E9%B8%A1%E5%B0%BE%E9%85%92%E6%8E%92%E5%BA%8F%2F</url>
     <content type="text"><![CDATA[冒泡排序的优化有设置哨兵来表示当前整个数组已经有序，以及设置有序区间，下一次只对有序区间进行排序（尚未完全理解）． 详情可见 鸡尾酒排序鸡尾酒排序算法适用于大部分元素已经有序的情况．它能够在特定条件下，减少排序的回合数；但是缺点是代码量几乎扩大了一倍． 鸡尾酒排序 未进行优化的鸡尾酒排序 12345678910111213141516171819202122232425262728293031323334353637383940414243void clockTailSort(vector&lt;int&gt; &amp;nums) &#123; // 未进行优化的鸡尾酒排序 int tmp = 0; for (int i = 0; i &lt; nums.size() / 2 - 1; ++i) &#123; // 有序标记，每一轮的初始值是true bool isSorted = true; // 奇数轮:从做向右比较和交换 // 奇数轮：区间内最大的数会被冒泡到最右 for (int j = i; j &lt; nums.size() - i - 1; ++j) &#123; if (nums[j] &gt; nums[j + 1]) &#123; tmp = nums[j]; nums[j] = nums[j + 1]; nums[j + 1] = tmp; // 有元素交换，所以，不是有序，标记变为false isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; isSorted = true; // 8 1 2 3 4 // 偶数轮，从右向左比较和交换 // 偶数轮，最小的数会被冒泡到最左边 for (int j = nums.size() - i - 1; j &gt; i; j--) &#123; if (nums[j] &lt; nums[j - 1]) &#123; tmp = nums[j]; nums[j] = nums[j - 1]; nums[j - 1] = tmp; isSorted = false; &#125; &#125; if (isSorted) &#123; break; &#125; &#125;&#125; 进行优化的鸡尾酒排序优化方法：]]></content>
@@ -1254,6 +1254,14 @@
       <tags>
         <tag>冒泡排序的优化</tag>
       </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[k sum 系列]]></title>
+    <url>%2F2019%2F09%2F27%2Fk-sum-%E7%B3%BB%E5%88%97%2F</url>
+    <content type="text"><![CDATA[two sumTwo Sum II - Input array is sorted3Sum4Sum4Sum IIk sum]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
   </entry>
   <entry>
     <title><![CDATA[旋转数组]]></title>
@@ -1414,8 +1422,8 @@
     <url>%2F2019%2F09%2F27%2F%E6%9C%AA%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%B4%AF%E5%8A%A0%E5%92%8C%E4%B8%BA%E7%BB%99%E5%AE%9A%E5%80%BC%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E6%95%B0%E7%BB%84%E7%B3%BB%E5%88%97%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[原题给定一个无序数组,其中元素可正,可负,可0.给定一个整数k,求arr所有的子数组中累加和为k的最长子数组长度. 12345678910111213141516171819int maxLength(vector&lt;int&gt; &amp;arr, int k) &#123; if (arr.empty()) &#123; return 0; &#125; map&lt;int, int&gt; mp; mp[0] = -1; int len = 0; int sum = 0; for (int i = 0; i &lt; arr.size(); i++) &#123; sum += arr[i]; if (mp.find(sum - k) != mp.end()) &#123; len = max(len, i - mp[sum - k]); &#125; if (mp.find(sum) == mp.end()) &#123; mp[sum] = i; &#125; &#125; return len;&#125; 补充题1补充题2类似题138. 子数组之和给定一个整数数组，找到和为零的子数组。你的代码应该返回满足要求的子数组的起始位置和结束位置 样例 样例 1: 123输入: [-3, 1, 2, -3, 4]输出: [0,2] 或 [1,3] 样例解释： 返回任意一段和为0的区间即可。 样例 2: 12输入: [-3, 1, -4, 2, -3, 4]输出: [1,5] 样例 3: 12输入: [3,4,5,6,-3,-4,-5,-6]输出: [0,7] 样例 4: 12输入: [1,0,-1]输出: [1,1] 注意事项: 至少有一个子数组的和为 0 1234567891011121314151617181920212223242526272829303132class Solution &#123;public: /** * @param nums: A list of integers * @return: A list of integers includes the index of the first number and the index of the last number */ vector&lt;int&gt; subarraySum(vector&lt;int&gt; &amp;nums) &#123; // write your code here if(nums.empty())&#123; return &#123;&#125;; &#125; int sum = 0; vector&lt;int&gt; res; map&lt;int, int&gt; mp; for(int i=0;i&lt;nums.size();++i)&#123; sum += nums[i]; if(sum == 0)&#123; res.push_back(0); res.push_back(i); return res; &#125; if(mp.find(sum)!=mp.end())&#123; res.push_back(mp[sum]+1); res.push_back(i); return res; &#125; mp[sum] = i; &#125; return res; &#125;&#125;; 此题与上题的相似之处在于:需要用到相同的结论:s[i]= arr[0] + arr[1] +…+arr[i]s[j]= arr[0] + arr[1] +…+arr[j]假设i &gt; j,则s[i] - s[j] = arr[j+1] + arr[j+2] + … + arr[i] 复杂度分析 理论上, 时间复杂度为O(n).但实际实现时,时间复杂度为O(nlogn).因为map的find方法查找一个数的时间复杂度为O(logn)空间复杂度为O(n) 题目来源: leetcode 560. Subarray Sum Equals K930 binary subarrays with sum另有使用三指针的解法,可以尝试看看试用否,三指针解法时间复杂度为O(n),空间复杂度为O(1),是最优解法]]></content>
       <tags>
-        <tag>累积和</tag>
         <tag>leetcode</tag>
+        <tag>累积和</tag>
         <tag>程序员代码面试指南</tag>
       </tags>
   </entry>
@@ -1509,11 +1517,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[寻找下一个节点]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%AF%BB%E6%89%BE%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%2F</url>
-    <content type="text"><![CDATA[链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继返回-1。]]></content>
-  </entry>
-  <entry>
     <title><![CDATA[可调用对象]]></title>
     <url>%2F2019%2F09%2F27%2F%E5%8F%AF%E8%B0%83%E7%94%A8%E5%AF%B9%E8%B1%A1%2F</url>
     <content type="text"><![CDATA[可调用对象有函数,函数指针,lambda表达式,函数对象, bind创建的对象等.函数和函数指针不必多说.那么什么是函数对象呢?函数对象是一种重载了调用运算符的类类型.因为重载了调用运算符,所以我们可以像调用函数一样调用类的对象,因为称为函数对象.lambda表达式表示一个可调用的代码单元. 函数对象12345678910111213141516/** * absInt类只定义了一种操作:函数调用运算符 * 此类为函数对象 */struct absInt &#123; int operator()(int val) const &#123; return val &lt; 0 ? -val : val; &#125;&#125;;int main()&#123; absInt absObj; cout &lt;&lt; absObj(42) &lt;&lt; endl; // 42 cout &lt;&lt; absObj(-10) &lt;&lt; endl; // 10 return 0;&#125; 以上代码即定义了一个函数对象.调用该对象就像调用函数一样.仿佛该类型对象是一个函数.还可以定义有数据成员的函数对象 123456789101112131415161718class PrintString &#123;public: PrintString(ostream &amp;o = cout, char c = ' ') : os(o), sep(c) &#123;&#125; void operator()(const string &amp;s) const &#123; os &lt;&lt; s &lt;&lt; sep; &#125;private: ostream &amp;os; char sep;&#125;;int main()&#123; PrintString printer; printer("hello"); // 输出hello PrintString errors(cerr, '\n'); string s = "wrong answer"; errors(s); // 输出wrong answer return 0;&#125; lambda表达式lambda表达式在很多语言中都有.lambda可以理解为一个未命名的内联函数,但是与普通函数不同的是,lambda可能定义在函数内部;lambda表达式必须尾置返回; lambda表达式不能有默认参数; lambda表达式的参数列表和返回类型可以省略. 那么在c++中该怎么定义一个lambda表达式呢?一个lambda表达式具有以下形式: 1[capure list](parameter list)-&gt; return type &#123;function body&#125; 其中,捕获列表(capure list)是该lambda表达式所在函数中定义的局部变量(通常为空).参数列表(parameter list), 返回类型, 返回类型(return type)和函数体(function body)与普通函数相同. 当定义一个lambda时,编译器生成一个与lambda对象的新的(未命名的)类类型.当向一个函数传递一个lambda时,同时定义了一个新类型和该类型的一个对象. 123456vector&lt;string&gt; vc&#123;"good", "to", "see", "you", "again"&#125;;for_each(vc.begin(), vc.end(), PrintString(cout, '\n')); // 函数对象// 等价的lambda表达式string sep("\n");for_each(vc.begin(), vc.end(), [sep](const string &amp;s) &#123; cout &lt;&lt; s &lt;&lt; sep; &#125;); 使用函数对象打印出可变数组vc中的元素.同时定义了一个与函数对象PrintString等价的lambda表达式. 捕获变量与参数传递类似,捕获变量也有两种方式,值捕获和引用捕获.采用值捕获需要变量可以拷贝.与参数传递不同,被捕获的变量的值是在lambda创建时拷贝,而不是调用时拷贝.引用捕获需要保证lambda表达式执行时,该引用指向的对象仍然存在. 在一个基本类型为string类型的可变数组中找出第一个长度大于给定值sz的元素.下面分别用函数对象和lambda表达式的形式实现. 123456789101112131415161718192021222324252627class SizeCmp &#123;public: SizeCmp(size_t n) : sz(n) &#123;&#125; bool operator()(const string &amp;a) &#123; return a.size() &gt;= sz; &#125;private: size_t sz;&#125;;int main()&#123; vector&lt;string&gt; vc&#123;"good", "to", "see", "mango", "again", "day", "nana"&#125;; size_t sz = 6; // 使用lambda表达式// auto wc = find_if(vc.begin(), vc.end(), [sz](const string &amp;a) &#123; return a.size() &gt;= sz; &#125;); // 使用等价的函数对象 auto wc = find_if(vc.begin(), vc.end(), SizeCmp(sz)); // wc 为指向第一个长度不小于给定值sz的元素的迭代器 if (wc != vc.end()) cout &lt;&lt; (*wc) &lt;&lt; endl; else &#123; cout &lt;&lt; "empty result" &lt;&lt; endl; &#125; //当sz=5时,输出mango;当sz=6时,输出empty result&#125; bind参数绑定标准库的bind函数可以看做一个函数适配器.它接受一个可调用对象,生成一个新的可调用对象. 12345678910111213141516171819bool check_size(const string&amp; s, string::size_type sz)&#123; return s.size() &gt;= sz;&#125;// 给check_size函数的第一个参数绑定一个值// auto check6 = bind(check_size, std::placeholders::_1, 6);auto check6 = bind(check_size, std::placeholders::_1, 5);// 调用check6函数string s = "hello";cout &lt;&lt; check6(s) &lt;&lt; endl;vector&lt;string&gt; vc&#123;"good", "to", "see", "mango", "again", "day", "nana"&#125;;auto wc = find_if(vc.begin(), vc.end(), check6);// wc 为指向第一个长度不小于给定值sz的元素的迭代器if (wc != vc.end()) cout &lt;&lt; (*wc) &lt;&lt; endl;else &#123; cout &lt;&lt; "empty result" &lt;&lt; endl; 可调用对象与function每一个lambda表达式都是一种未命名的新类型;函数对象的类型是该对象的类类型;函数和函数指针的类型由参数列表和返回值决定. 多个调用对象有不同的类型,但是却共享相同的调用形式.调用形式指明了调用返回的类型以及传递给调用的实参类型(如何SizeCmp类型的函数对象和lambda表达式,类型不同,调用形式相同).一种调用形式对应一个函数类型.标准库中function模板可以表示函数类型. 123456789101112map&lt;string, function&lt;int(int, int)&gt;&gt; binops = &#123; &#123;"+", add&#125;, &#123;"-", std::minus&lt;int&gt;()&#125;, &#123;"/", Divide()&#125;, &#123;"*", [](int i, int j) &#123; return i * j; &#125;&#125;, &#123;"%", mod&#125;&#125;;cout &lt;&lt; binops["+"](10, 5) &lt;&lt; endl; // 15cout &lt;&lt; binops["-"](10, 5) &lt;&lt; endl; // 5cout &lt;&lt; binops["%"](11, 4) &lt;&lt; endl; // 3cout &lt;&lt; binops["*"](13, 2) &lt;&lt; endl; // 26 add, Divide(),mod等各个可调用对象的类型各不相同,但是它们都是调用形式为int(int, int)的可调用对象,因此可以赋值给function&lt;int(int,int)&gt;类型的对象.]]></content>
@@ -1525,13 +1528,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[并查集基础知识]]></title>
-    <url>%2F2019%2F09%2F27%2F%E5%B9%B6%E6%9F%A5%E9%9B%86%2F</url>
-    <content type="text"><![CDATA[并查集(不相交集合)不相交集合数据结构是这样一种数据结构: 它维护了一个不相交动态集的集合 $$S = {s_1, s_2, …, s_i, …, s_k}$$对于每个集合S中的每个元素集合si而言,用集合中的而一个元素来代表该集合.假设x是集合si中的一个元素,则有以下三种操作: make_set(x): 建立一个新的集合,它的唯一成员是x.因为各个集合是不相交的集合, 所以x不会出现在别的集合中.union(x, y): 将包含x和y的两个动态集合(表示为sx和sy合并成一个新的集合, 即这两个集合的并集)find_set(x): 返回一个指针,该指针指向包含x的(唯一)集合的代表.不相交集合可以用于求无向图的连通分量等.待后续加上代码 为了提交效率,建立并查集的过程往往会采用两种策略来提高性能.一种是按秩(秩是指节点高度的一个上界)合并, 另一种是路径压缩.按秩合并是在合并两个集合的过程中, 让具有较小秩的根指向较大秩的根.路径压缩是在查找节点的根节点的过程中, 使查找路径上的每个节点指向指向根(即令根节点成为查找路径上每个节点的父节点). 节点x的秩: 节点x的高度(从节点x到某一后代叶节点的最长简单路径上边的数目)的一个上界.当make_set(x)创建一个单元素x集合时, 节点x的秩为0.使用按秩合并union(x, y)合并两个集合时, 若两个集合的秩不同,则让较大秩的根成为较小秩的根的父节点, 秩本身保持不变.若两个集合的秩相同,则任意选择两个根中的一个作为父节点, 并使它的秩加1. 并查集的实现(伪代码)123456789101112131415161718make_set(x) x.p = x // x的父节点是自己,即x是x所在集合的根节点 x.rank = 0 // x.rank即x的秩link(x, y) if(x.rank &gt; y.rank) y.p = x else x.p = y if(x.rank == y.rank) y.rank = y.rank + 1union(x, y) link(find_set(x), find_set(y))find_set(x) if x != x.p x.p = find_set(x.p) return x.p find_set的非递归形式 12345678find_set(x) a = x while x != x.p x = x.p while a != a.p z = a a = a.p z.p = x]]></content>
-      <tags>
-        <tag>基础算法</tag>
-        <tag>理论</tag>
-      </tags>
+    <title><![CDATA[寻找下一个节点]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%AF%BB%E6%89%BE%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%2F</url>
+    <content type="text"><![CDATA[链接： https://www.nowcoder.com/questionTerminal/60231d6931d543d4aadcb67851b21e4a 请设计一个算法，寻找二叉树中指定结点的下一个结点（即中序遍历的后继）。 给定树的根结点指针TreeNode* root和结点的值int p，请返回值为p的结点的后继结点的值。保证结点的值大于等于零小于等于100000且没有重复值，若不存在后继返回-1。]]></content>
   </entry>
   <entry>
     <title><![CDATA[二叉树的下一个结点]]></title>
@@ -1540,6 +1539,15 @@
       <tags>
         <tag>牛客网</tag>
         <tag>binary tree</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[并查集基础知识]]></title>
+    <url>%2F2019%2F09%2F27%2F%E5%B9%B6%E6%9F%A5%E9%9B%86%2F</url>
+    <content type="text"><![CDATA[并查集(不相交集合)不相交集合数据结构是这样一种数据结构: 它维护了一个不相交动态集的集合 $$S = {s_1, s_2, …, s_i, …, s_k}$$对于每个集合S中的每个元素集合si而言,用集合中的而一个元素来代表该集合.假设x是集合si中的一个元素,则有以下三种操作: make_set(x): 建立一个新的集合,它的唯一成员是x.因为各个集合是不相交的集合, 所以x不会出现在别的集合中.union(x, y): 将包含x和y的两个动态集合(表示为sx和sy合并成一个新的集合, 即这两个集合的并集)find_set(x): 返回一个指针,该指针指向包含x的(唯一)集合的代表.不相交集合可以用于求无向图的连通分量等.待后续加上代码 为了提交效率,建立并查集的过程往往会采用两种策略来提高性能.一种是按秩(秩是指节点高度的一个上界)合并, 另一种是路径压缩.按秩合并是在合并两个集合的过程中, 让具有较小秩的根指向较大秩的根.路径压缩是在查找节点的根节点的过程中, 使查找路径上的每个节点指向指向根(即令根节点成为查找路径上每个节点的父节点). 节点x的秩: 节点x的高度(从节点x到某一后代叶节点的最长简单路径上边的数目)的一个上界.当make_set(x)创建一个单元素x集合时, 节点x的秩为0.使用按秩合并union(x, y)合并两个集合时, 若两个集合的秩不同,则让较大秩的根成为较小秩的根的父节点, 秩本身保持不变.若两个集合的秩相同,则任意选择两个根中的一个作为父节点, 并使它的秩加1. 并查集的实现(伪代码)123456789101112131415161718make_set(x) x.p = x // x的父节点是自己,即x是x所在集合的根节点 x.rank = 0 // x.rank即x的秩link(x, y) if(x.rank &gt; y.rank) y.p = x else x.p = y if(x.rank == y.rank) y.rank = y.rank + 1union(x, y) link(find_set(x), find_set(y))find_set(x) if x != x.p x.p = find_set(x.p) return x.p find_set的非递归形式 12345678find_set(x) a = x while x != x.p x = x.p while a != a.p z = a a = a.p z.p = x]]></content>
+      <tags>
+        <tag>基础算法</tag>
+        <tag>理论</tag>
       </tags>
   </entry>
   <entry>
