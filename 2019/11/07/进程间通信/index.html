@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="二分查找,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand. (i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).">
-<meta name="keywords" content="二分查找">
+<meta name="description" content="IPC（进程间通信，InterProcess Communication） 进程间通信方式有管道、">
 <meta property="og:type" content="article">
-<meta property="og:title" content="33. Search in Rotated Sorted Array">
-<meta property="og:url" content="http://yoursite.com/2019/11/01/33.Search-in-Rotated-Sorted-Array/index.html">
+<meta property="og:title" content="进程间通信">
+<meta property="og:url" content="http://yoursite.com/2019/11/07/进程间通信/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand. (i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).">
+<meta property="og:description" content="IPC（进程间通信，InterProcess Communication） 进程间通信方式有管道、">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-01T09:51:52.120Z">
+<meta property="og:updated_time" content="2019-11-07T13:44:48.583Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="33. Search in Rotated Sorted Array">
-<meta name="twitter:description" content="Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand. (i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).">
+<meta name="twitter:title" content="进程间通信">
+<meta name="twitter:description" content="IPC（进程间通信，InterProcess Communication） 进程间通信方式有管道、">
 
 
 
@@ -120,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/11/01/33.Search-in-Rotated-Sorted-Array/">
+  <link rel="canonical" href="http://yoursite.com/2019/11/07/进程间通信/">
 
 
 
 
 
-  <title>33. Search in Rotated Sorted Array | xixi2</title>
+  <title>进程间通信 | xixi2</title>
   
 
 
@@ -295,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/01/33.Search-in-Rotated-Sorted-Array/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/07/进程间通信/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -312,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">33. Search in Rotated Sorted Array</h1>
+          <h1 class="post-title" itemprop="name headline">进程间通信</h1>
         
 
         <div class="post-meta">
@@ -324,8 +323,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-01T17:51:52+08:00">
-                2019-11-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-07T21:44:48+08:00">
+                2019-11-07
               </time>
             
 
@@ -347,8 +346,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
+                  <a href="/categories/CS基础/" itemprop="url" rel="index">
+                    <span itemprop="name">CS基础</span>
                   </a>
                 </span>
 
@@ -389,34 +388,296 @@
       
 
       
-        <p>Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.</p>
-<p>(i.e., <code>[0,1,2,4,5,6,7]</code> might become <code>[4,5,6,7,0,1,2]</code>).</p>
+        <p>IPC（进程间通信，InterProcess Communication）</p>
+<p>进程间通信方式有管道、</p>
 <a id="more"></a>
 
-<p>You are given a target value to search. If found in the array return its index, otherwise return <code>-1</code>.</p>
-<p>You may assume no duplicate exists in the array.</p>
-<p>Your algorithm’s runtime complexity must be in the order of <em>O</em>(log <em>n</em>).</p>
-<p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: nums = [4,5,6,7,0,1,2], target = 0</span><br><span class="line">Output: 4</span><br></pre></td></tr></table></figure>
-
-<p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: nums = [4,5,6,7,0,1,2], target = 3</span><br><span class="line">Output: -1</span><br></pre></td></tr></table></figure>
-
-<p>比较朴素的做法是先按照剑指offer上的做法找出整个数组中的最小值，然后通过最小值将整个数组分为两个有序子数组。然后分别根据target的值在第一个或者第二个子数组中使用二分查找。</p>
-<p>更好的做法是直接使用二分查找。</p>
-<h1 id="解法1：二分查找"><a href="#解法1：二分查找" class="headerlink" title="解法1：二分查找"></a>解法1：二分查找</h1><p>如果nums[0] &lt;= nums[mid]（0-mid不包含旋转）且nums[0] &lt;= target &lt;= nums[mid]时，在nums[0，mid]的区间内查找。<br>如果nums[mid] &lt; nums[0]（0-mid内包含旋转），target &lt;= nums[mid] &lt; nums[0]，在nums[0，mid]区间内查找（target的位置在旋转位置到mid之间）。<br>如果nums[mid] &lt; nums[0]（0-mid包含旋转），nums[mid] &lt; nums[0] &lt;= target，在nums[0，mid]之间查找（target的位置在0到旋转位置之间）<br>剩下的情况在nums[mid+1，hi]区间内查找。</p>
+<h1 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h1><h2 id="管道的概念"><a href="#管道的概念" class="headerlink" title="管道的概念"></a>管道的概念</h2><ul>
+<li>本质<ul>
+<li>内核缓冲区</li>
+<li>伪文件：不占用磁盘空间</li>
+</ul>
+</li>
+<li>特点<ul>
+<li>两部分<ul>
+<li>读端，写端，对应两个文件描述符</li>
+<li>数据写端流入，读端流出</li>
+</ul>
+</li>
+<li>操作管道的进程被销毁之后，管道占用的内存空间自动被释放了</li>
+<li>管道默认是阻塞的，读写都是阻塞的。</li>
+</ul>
+</li>
+<li>管道的原理<ul>
+<li>内部实现方式：队列<ul>
+<li>环形队列</li>
+<li>队列的特点是先进先出</li>
+</ul>
+</li>
+<li>内核缓冲区大小<ul>
+<li>默认为4k</li>
+<li>大小会根据实际情况做适当调整</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>管道的局限性<ul>
+<li>队列<ul>
+<li>数据只能读取一次，不能重复读取</li>
+</ul>
+</li>
+<li>半双工</li>
+<li>匿名管道<ul>
+<li>适用于有血缘关系的进程</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>创建匿名管道<ul>
+<li>int pipe(int fd[2]);<ul>
+<li>返回值：如果匿名管道创建成功，返回0。</li>
+<li>man pipe 2查看说明文档</li>
+<li>fd[0]为读端文件描述符，fd[1]为写端文件描述符</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>父子进程使用管道通信<ul>
+<li>父进程间通信，实现ps aux | grep bash<ul>
+<li>数据重定向：dup2</li>
+<li>exclp</li>
+<li>注意事项：父进程读，关闭写端；父进程写，关闭读端</li>
+</ul>
+</li>
+<li>兄弟进程间通信，实现ps aux | grep bash</li>
+<li>父子进程间通信是否需要sleep函数<ul>
+<li>父进程写，写得慢</li>
+<li>子进程 读，读得快</li>
+</ul>
+</li>
+<li>兄弟进程间通信<ul>
+<li>父进程-资源回收</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="管道的读写行为"><a href="#管道的读写行为" class="headerlink" title="管道的读写行为"></a>管道的读写行为</h2><ul>
+<li>读操作<ul>
+<li>有数据<ul>
+<li>read(fd)-正常读，返回读出的字节数</li>
+</ul>
+</li>
+<li>无数据<ul>
+<li>写端全部关闭<br>read解除阻塞，返回0，相当于读文件读到了尾部</li>
+<li>写端尚未全部关闭<br>read阻塞</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>写操作<ul>
+<li>读端全部关闭<ul>
+<li>管道破裂，进程被终止<br>内核给当前进程发信号SIGPIPE<br>kill -l 可以查看信号</li>
+</ul>
+</li>
+<li>读端尚未全部关闭<ul>
+<li>缓冲区写满了<br>write阻塞</li>
+<li>缓冲区没有满<br>write继续写直到缓冲区满</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>如何设置非阻塞<ul>
+<li>默认读写两端都阻塞</li>
+<li>设置读端为非阻塞pipe(int fd[2])</li>
+<li>fcntl - 变参函数<ul>
+<li>复制文件描述符-dup</li>
+<li>修改文件属性-open的时候对应的flag</li>
+</ul>
+</li>
+<li>设置方法：<br>获取原来的flags<br>int flags = fcntl(fd[0], F_GETFL);<br>// 设置新的flags<br>flags |= O_NONBLOCK;<br>fcntl(fd[0], F_SETFL, flags);</li>
+</ul>
+</li>
+</ul>
+<h2 id="查看管道缓冲区大小"><a href="#查看管道缓冲区大小" class="headerlink" title="查看管道缓冲区大小"></a>查看管道缓冲区大小</h2><ul>
+<li>ulimit -a<ul>
+<li>ulimit用于限制shell启动进程所占用的资源，包括一各种类型的限制：所创建的内核文件的大小、进程数据块的大小、shell进程所创建文件的大小、内存锁住的大小、常驻内存集的带下、打开文件描述符的数量、分配堆栈的最大大小、CPU时间、单个用户的最大线程数、Shell进程所能使用的最大虚拟内存。</li>
+</ul>
+</li>
+<li>fpathconf函数</li>
+</ul>
+<h1 id="FIFO"><a href="#FIFO" class="headerlink" title="FIFO"></a>FIFO</h1><ol>
+<li><p>特点</p>
 <ul>
-<li>当nums[mid] &gt; nums[lo]时，区间[lo，mid]内不包含旋转。<ul>
-<li>当[lo，mid]内不包含旋转，那么这个区间是一个递增序列。那么如果target &gt; nums[lo]，说明target如果存在，则应该存在于这个区间内。令hi = mid。</li>
-<li>如果target &lt; nums[lo]，因为nums[lo]是整个区间中的最小值，那么说明target如果存在，只能存在于旋转位置之后的第二个递增子数组中。令lo = mid + 1。</li>
+<li>有名管道</li>
+<li>在磁盘上有这样一个文件ls -l -&gt; p</li>
+<li>伪文件，在磁盘大小永远为0</li>
+<li>在内核中有一个对应的缓冲区</li>
+<li>半双工的通信方式</li>
 </ul>
 </li>
-<li>当nums[mid] &lt; nums[lo]时，区间[lo，mid]内包含旋转。<ul>
-<li>当target &gt; nums[lo]时，说明target如果存在，那么应该存在于lo之后，最小值所在位置之前。令hi = mid。</li>
-<li>当target &lt; nums[mid]时，说明target如果存在，那么应该存在于最小值位置到mid之间。令hi = mid。</li>
+<li><p>使用场景</p>
+<ul>
+<li>没有亲缘关系的进程间通信</li>
+</ul>
+</li>
+<li><p>创建方式</p>
+<ul>
+<li>命令：mkfifo 管道名</li>
+<li>函数：mkfifo</li>
+</ul>
+</li>
+<li><p>fifo文件可以使用IO函数进行操作</p>
+<ul>
+<li>open/close</li>
+<li>read/write</li>
+<li>不能执行lseek</li>
+</ul>
+</li>
+<li><p>进程间通信</p>
+<ul>
+<li><p>两个不相干的进程A（a.c） B（b.c）</p>
+</li>
+<li><p>a.c -&gt; read</p>
+<ul>
+<li>int fd = open(“myfifo”, O_RDONLY);</li>
+<li>read(buf, sizeof(buf));</li>
+<li>close(fd);</li>
+</ul>
+<p>b.c –&gt; write<br>int fd1 = open(“myfifo”, O_WRONLY);<br>write(fd1, “hello world”);</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="内存映射区"><a href="#内存映射区" class="headerlink" title="内存映射区"></a>内存映射区</h1><p>mmap创建内存映射区。</p>
+<ol>
+<li><p>mmap-创建内存映射</p>
+<ul>
+<li><p>作用：将磁盘文件的数据映射到内存，用户通过修改内存就能修改磁盘文件。</p>
+</li>
+<li><p>函数头文件#include&lt;mman.h&gt;</p>
+</li>
+<li><p>函数原型：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span>* <span class="title">mmap</span><span class="params">(<span class="keyword">void</span> * adrr, <span class="keyword">size_t</span> length, <span class="keyword">int</span> prot, <span class="keyword">int</span> flags, <span class="keyword">int</span> fd, <span class="keyword">off_t</span> offset)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>void *mmap(void *adrr,     // 映射区首地址，传入NULL<br>size_t length,                          // 映射区的大小，不能为0，实际分配的应该是4k的倍数，为什么呢？<br>int prot,                                     // 映射区权限</p>
+<ul>
+<li>PROT_READ              // 映射区必须有读权限</li>
+<li>PROT_WRITE           // 可选</li>
+<li>PROT_READ | PROT_WRITE</li>
+</ul>
+<p>int flags,                                    // 标志位参数</p>
+<ul>
+<li>MAP_SHARED    <ul>
+<li>修改了内存数据会同步到磁盘</li>
+</ul>
+</li>
+<li>MAP_PRIVATE               <ul>
+<li>修改了内存数据，数据不会同步到磁盘 </li>
 </ul>
 </li>
 </ul>
+<p>int fd,                                          // 文件描述符</p>
+<ul>
+<li>要映射的文件对应的文件描述符，这个文件描述符是通过对文件进行open操作得到的。</li>
+</ul>
+<p>off_t offset,                              // 映射文件的偏移量</p>
+<ul>
+<li>映射时文件指针的偏移量，必须是4k的整数倍</li>
+</ul>
+<p>);</p>
+</li>
+<li><p>返回值</p>
+<ul>
+<li>调用成功时，返回映射区的首地址</li>
+<li>调用失败时，返回MAP_FAILED，其实就是一个(void*)-1</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>munmap-释放内存映射区</p>
+<ul>
+<li>函数原型：int munmap(void* addr, size_t length);<ul>
+<li>addr-mmap的返回值，映射区的首地址</li>
+<li>length-mmap的第二个参数，映射区的长度</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>思考题</p>
+<ul>
+<li>如果open时指定O_RDONLY，mmap时prot参数指定PROT_READ | PROT_WRITE会怎样？<ul>
+<li>mmap调用失败</li>
+<li>open文件指定的权限应该大于等于mmap第三个参数prot指定的权限</li>
+</ul>
+</li>
+<li>如果文件偏移量为1000会怎么样？<ul>
+<li>文件偏移量必须是4k（4096）的整数倍</li>
+</ul>
+</li>
+<li>mmap什么时候会调用失败？<ul>
+<li>第二个参数length=0</li>
+<li>第三个参数必须指定PROT_READ<ul>
+<li>fd对应的打开权限必须大于等于prot指定的权限</li>
+</ul>
+</li>
+<li>偏移量必须是4096的整数倍</li>
+</ul>
+</li>
+<li>可以open的时候O_CREAT一个新文件来创建映射区？<ul>
+<li>可以，但是需要做文件拓展<ul>
+<li>lseek</li>
+<li>truncate(path, length)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>mmap后关闭文件描述符，对内存映射区有没有影响？<ul>
+<li>没有影响</li>
+</ul>
+</li>
+<li>对ptr越界操作，ptr是mmap的返回值，即映射区的首地址？<ul>
+<li>段错误（操作非法内存）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>进程间通信</p>
+<ul>
+<li>有亲缘关系的<ul>
+<li>父子进程共享内存映射区</li>
+</ul>
+</li>
+<li>没有亲缘关系的<ul>
+<li>如何通信？</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>mmap实现内存映射</p>
+<ul>
+<li>必须有一个文件</li>
+<li>文件数据什么时候有用<ul>
+<li>单纯文件映射</li>
+<li>进程间通信<ul>
+<li>文件数据是没有用的</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>父子进程永远共享的有哪些？</p>
+<ul>
+<li>文件描述符</li>
+<li>内存映射区</li>
+</ul>
+</li>
+</ol>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/mman.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 创建内存映射区</span></span><br><span class="line">    <span class="keyword">int</span> fd = open(<span class="string">"english.txt"</span>, O_RDWR);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取一个文件的大小</span></span><br><span class="line">    <span class="keyword">int</span> len = lseek(fd, <span class="number">0</span>, SEEK_END);</span><br><span class="line">    <span class="keyword">void</span> *ptr = mmap(<span class="literal">NULL</span>, len, PROT_READ | PROT_WRITE, MAP_SHARED, fd, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (ptr == MAP_FAILED) &#123;</span><br><span class="line">        perror(<span class="string">"mmap error"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s"</span>, (<span class="keyword">char</span> *) ptr);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 释放文件映射区</span></span><br><span class="line">    munmap(ptr, len);</span><br><span class="line">    close(fd);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>lseek当第三个参数whence为SEEK_END，则该文件的文件偏移量设置为文件长度加offset。若函数成功执行，返回新的文件偏移量。所以，当whence为SEEK_END, offset为0时,返回当前文件的长度。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]ulimit：<a href="https://man.linuxde.net/ulimit">https://man.linuxde.net/ulimit</a></p>
 
       
     </div>
@@ -432,12 +693,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/二分查找/" rel="tag"># 二分查找</a>
-          
-        </div>
-      
 
       
       
@@ -447,8 +702,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/11/01/分布式锁/" rel="next" title="redis实现分布式锁">
-                <i class="fa fa-chevron-left"></i> redis实现分布式锁
+              <a href="/2019/11/07/unix-高级环境编程系列2/" rel="next" title="unix 高级环境编程系列2">
+                <i class="fa fa-chevron-left"></i> unix 高级环境编程系列2
               </a>
             
           </div>
@@ -457,8 +712,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/11/01/RTTI(运行时类型检查)/" rel="prev" title="RTTI(运行时类型识别)">
-                RTTI(运行时类型识别) <i class="fa fa-chevron-right"></i>
+              <a href="/2019/11/09/Parentheses系列/" rel="prev" title="Parentheses系列">
+                Parentheses系列 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -538,7 +793,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">173</span>
+                  <span class="site-state-item-count">175</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -549,7 +804,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -593,7 +848,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#解法1：二分查找"><span class="nav-number">1.</span> <span class="nav-text">解法1：二分查找</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#管道"><span class="nav-number">1.</span> <span class="nav-text">管道</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#管道的概念"><span class="nav-number">1.1.</span> <span class="nav-text">管道的概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管道的读写行为"><span class="nav-number">1.2.</span> <span class="nav-text">管道的读写行为</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看管道缓冲区大小"><span class="nav-number">1.3.</span> <span class="nav-text">查看管道缓冲区大小</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FIFO"><span class="nav-number">2.</span> <span class="nav-text">FIFO</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内存映射区"><span class="nav-number">3.</span> <span class="nav-text">内存映射区</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">3.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>

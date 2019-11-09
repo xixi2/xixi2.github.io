@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="IPC（进程间通信，InterProcess Communication） 进程间通信方式有管道、">
+<meta name="description" content="TCP的状态转换">
 <meta property="og:type" content="article">
-<meta property="og:title" content="进程间通信">
-<meta property="og:url" content="http://yoursite.com/2019/11/01/进程间通信/index.html">
+<meta property="og:title" content="TCP连接管理">
+<meta property="og:url" content="http://yoursite.com/2019/11/06/TCP连接管理/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="IPC（进程间通信，InterProcess Communication） 进程间通信方式有管道、">
+<meta property="og:description" content="TCP的状态转换">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-01T14:09:41.194Z">
+<meta property="og:updated_time" content="2019-11-06T01:59:40.105Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="进程间通信">
-<meta name="twitter:description" content="IPC（进程间通信，InterProcess Communication） 进程间通信方式有管道、">
+<meta name="twitter:title" content="TCP连接管理">
+<meta name="twitter:description" content="TCP的状态转换">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/11/01/进程间通信/">
+  <link rel="canonical" href="http://yoursite.com/2019/11/06/TCP连接管理/">
 
 
 
 
 
-  <title>进程间通信 | xixi2</title>
+  <title>TCP连接管理 | xixi2</title>
   
 
 
@@ -294,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/01/进程间通信/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/06/TCP连接管理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -311,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">进程间通信</h1>
+          <h1 class="post-title" itemprop="name headline">TCP连接管理</h1>
         
 
         <div class="post-meta">
@@ -323,8 +323,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-01T22:09:41+08:00">
-                2019-11-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-06T09:59:40+08:00">
+                2019-11-06
               </time>
             
 
@@ -346,8 +346,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CS基础/" itemprop="url" rel="index">
-                    <span itemprop="name">CS基础</span>
+                  <a href="/categories/网络基础/" itemprop="url" rel="index">
+                    <span itemprop="name">网络基础</span>
                   </a>
                 </span>
 
@@ -388,118 +388,14 @@
       
 
       
-        <p>IPC（进程间通信，InterProcess Communication）</p>
-<p>进程间通信方式有管道、</p>
+        <p>TCP的状态转换</p>
 <a id="more"></a>
 
-<h1 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h1><h2 id="管道的概念"><a href="#管道的概念" class="headerlink" title="管道的概念"></a>管道的概念</h2><ul>
-<li>本质<ul>
-<li>内核缓冲区</li>
-<li>伪文件：不占用磁盘空间</li>
-</ul>
-</li>
-<li>特点<ul>
-<li>两部分<ul>
-<li>读端，写端，对应两个文件描述符</li>
-<li>数据写端流入，读端流出</li>
-</ul>
-</li>
-<li>操作管道的进程被销毁之后，管道占用的内存空间自动被释放了</li>
-<li>管道默认是阻塞的，读写都是阻塞的。</li>
-</ul>
-</li>
-<li>管道的原理<ul>
-<li>内部实现方式：队列<ul>
-<li>环形队列</li>
-<li>队列的特点是先进先出</li>
-</ul>
-</li>
-<li>内核缓冲区大小<ul>
-<li>默认为4k</li>
-<li>大小会根据实际情况做适当调整</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>管道的局限性<ul>
-<li>队列<ul>
-<li>数据只能读取一次，不能重复读取</li>
-</ul>
-</li>
-<li>半双工</li>
-<li>匿名管道<ul>
-<li>适用于有血缘关系的进程</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>创建匿名管道<ul>
-<li>int pipe(int fd[2]);<ul>
-<li>返回值：如果匿名管道创建成功，返回0。</li>
-<li>man pipe 2查看说明文档</li>
-<li>fd[0]为读端文件描述符，fd[1]为写端文件描述符</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>父子进程使用管道通信<ul>
-<li>父进程间通信，实现ps aux | grep bash<ul>
-<li>数据重定向：dup2</li>
-<li>exclp</li>
-<li>注意事项：父进程读，关闭写端；父进程写，关闭读端</li>
-</ul>
-</li>
-<li>兄弟进程间通信，实现ps aux | grep bash</li>
-<li>父子进程间通信是否需要sleep函数<ul>
-<li>父进程写，写得慢</li>
-<li>子进程 读，读得快</li>
-</ul>
-</li>
-<li>兄弟进程间通信<ul>
-<li>父进程-资源回收</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<ol>
-<li>管道的读写行为<ul>
-<li>读操作<ul>
-<li>有数据<ul>
-<li>read(fd)-正常读，返回读出的字节数</li>
-</ul>
-</li>
-<li>无数据<ul>
-<li>写端全部关闭<br>read解除阻塞，返回0，相当于读文件读到了尾部</li>
-<li>写端尚未全部关闭<br>read阻塞</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>写操作<ul>
-<li>读端全部关闭<ul>
-<li>管道破裂，进程被终止<br>内核给当前进程发信号SIGPIPE<br>kill -l 可以查看信号</li>
-</ul>
-</li>
-<li>读端尚未全部关闭<ul>
-<li>缓冲区写满了<br>write阻塞</li>
-<li>缓冲区没有满<br>write继续写直到缓冲区满</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>查看管道缓冲区大小<ul>
-<li>ulimit -a<ul>
-<li>ulimit用于限制shell启动进程所占用的资源，包括一各种类型的限制：所创建的内核文件的大小、进程数据块的大小、shell进程所创建文件的大小、内存锁住的大小、常驻内存集的带下、打开文件描述符的数量、分配堆栈的最大大小、CPU时间、单个用户的最大线程数、Shell进程所能使用的最大虚拟内存。</li>
-</ul>
-</li>
-<li>fpathconf函数</li>
-</ul>
-</li>
-</ol>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]ulimit：<a href="https://man.linuxde.net/ulimit">https://man.linuxde.net/ulimit</a></p>
+
+
+<p>当客户端首先提出要关闭连接，客户端会首先发送连接释放报文，这时客户端进入FIN_WAIT_1状态，之后，客户端收到来自服务端的确认报文，那么，TCP进入FIN_WAIT_2状态。之后，当服务端想要关闭连接时，也会向客户端发送连接释放报文，这时<span style="color:royalblue">客户端进入TIME_WAIT状态</span>。</p>
+<p>TIME_WAIT状态也被称为2MSL状态。在该状态中，TCP将会等待两倍于最大段生存期（Maximum Segment Lifetime，MSL）的时间。</p>
+<p>在客户端先提出关闭连接的场景下，当服务端向客户端发送连接释放报文之后，如果客户端给服务端发送了确认报文ACK，但是该ACK未能及时到达服务端，那么<span style="color:royalblue">服务端会因为超时而重传连接释放报文FIN（这个报文消耗一个序号），从而导致客户端重新发送ACK</span>。因此，在客户端发送完ACK报文后，必须等待2MSL的时间，以防服务端没能收到ACK报文，而进行了FIN报文的重传。如果在2MSL的时间内没有收到来自服务端的新的FIN，那么说明服务端安全收到了客户端发送的ACK报文，连接正确关闭了。</p>
 
       
     </div>
@@ -524,8 +420,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/11/01/alignment(字节对齐)/" rel="next" title="alignment(字节对齐)">
-                <i class="fa fa-chevron-left"></i> alignment(字节对齐)
+              <a href="/2019/11/05/111.Minimum-Depth-of-Binary-Tree/" rel="next" title="111. Minimum Depth of Binary Tree">
+                <i class="fa fa-chevron-left"></i> 111. Minimum Depth of Binary Tree
               </a>
             
           </div>
@@ -534,8 +430,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/11/01/TCP-粘包/" rel="prev" title="TCP 粘包">
-                TCP 粘包 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/11/07/unix-高级环境编程系列2/" rel="prev" title="unix 高级环境编程系列2">
+                unix 高级环境编程系列2 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -588,17 +484,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -615,7 +502,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">173</span>
+                  <span class="site-state-item-count">175</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -626,7 +513,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -660,22 +547,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#管道"><span class="nav-number">1.</span> <span class="nav-text">管道</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#管道的概念"><span class="nav-number">1.1.</span> <span class="nav-text">管道的概念</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">2.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

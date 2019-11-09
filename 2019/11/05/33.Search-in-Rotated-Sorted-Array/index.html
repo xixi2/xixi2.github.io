@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="子数组和,">
+  <meta name="keywords" content="二分查找,">
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Given a list of non-negative numbers and a target integer k, write a function to check if the array has a continuous subarray of size at least 2 that sums up to a multiple of k, that is, sums up to nk">
-<meta name="keywords" content="子数组和">
+<meta name="description" content="Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand. (i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).">
+<meta name="keywords" content="二分查找">
 <meta property="og:type" content="article">
-<meta property="og:title" content="523. Continuous Subarray Sum">
-<meta property="og:url" content="http://yoursite.com/2019/10/07/523.Continuous-Subarray-Sum/index.html">
+<meta property="og:title" content="33. Search in Rotated Sorted Array">
+<meta property="og:url" content="http://yoursite.com/2019/11/05/33.Search-in-Rotated-Sorted-Array/index.html">
 <meta property="og:site_name" content="xixi2">
-<meta property="og:description" content="Given a list of non-negative numbers and a target integer k, write a function to check if the array has a continuous subarray of size at least 2 that sums up to a multiple of k, that is, sums up to nk">
+<meta property="og:description" content="Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand. (i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-07T08:22:10.065Z">
+<meta property="og:updated_time" content="2019-11-05T08:50:03.908Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="523. Continuous Subarray Sum">
-<meta name="twitter:description" content="Given a list of non-negative numbers and a target integer k, write a function to check if the array has a continuous subarray of size at least 2 that sums up to a multiple of k, that is, sums up to nk">
+<meta name="twitter:title" content="33. Search in Rotated Sorted Array">
+<meta name="twitter:description" content="Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand. (i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/10/07/523.Continuous-Subarray-Sum/">
+  <link rel="canonical" href="http://yoursite.com/2019/11/05/33.Search-in-Rotated-Sorted-Array/">
 
 
 
 
 
-  <title>523. Continuous Subarray Sum | xixi2</title>
+  <title>33. Search in Rotated Sorted Array | xixi2</title>
   
 
 
@@ -295,7 +295,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/07/523.Continuous-Subarray-Sum/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/05/33.Search-in-Rotated-Sorted-Array/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xixi2">
@@ -312,7 +312,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">523. Continuous Subarray Sum</h1>
+          <h1 class="post-title" itemprop="name headline">33. Search in Rotated Sorted Array</h1>
         
 
         <div class="post-meta">
@@ -324,8 +324,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-07T16:22:10+08:00">
-                2019-10-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-05T16:50:03+08:00">
+                2019-11-05
               </time>
             
 
@@ -389,21 +389,74 @@
       
 
       
-        <p>Given a list of <strong>non-negative</strong> numbers and a target <strong>integer</strong> k, write a function to check if the array has a continuous subarray of size at least 2 that sums up to a multiple of <strong>k</strong>, that is, sums up to n<em>k where n is also an *</em>integer**.</p>
- <a id="more"></a>
+        <p>Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.</p>
+<p>(i.e., <code>[0,1,2,4,5,6,7]</code> might become <code>[4,5,6,7,0,1,2]</code>).</p>
+<a id="more"></a>
 
+<p>You are given a target value to search. If found in the array return its index, otherwise return <code>-1</code>.</p>
+<p>You may assume no duplicate exists in the array.</p>
+<p>Your algorithm’s runtime complexity must be in the order of <em>O</em>(log <em>n</em>).</p>
 <p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [23, 2, 4, 6, 7],  k=6</span><br><span class="line">Output: True</span><br><span class="line">Explanation: Because [2, 4] is a continuous subarray of size 2 and sums up to 6.</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: nums = [4,5,6,7,0,1,2], target = 0</span><br><span class="line">Output: 4</span><br></pre></td></tr></table></figure>
 
 <p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [23, 2, 6, 4, 7],  k=6</span><br><span class="line">Output: True</span><br><span class="line">Explanation: Because [23, 2, 6, 4, 7] is an continuous subarray of size 5 and sums up to 42.</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: nums = [4,5,6,7,0,1,2], target = 3</span><br><span class="line">Output: -1</span><br></pre></td></tr></table></figure>
 
-<h1 id="解法1-二重循环枚举所有可能的子数组组合"><a href="#解法1-二重循环枚举所有可能的子数组组合" class="headerlink" title="解法1: 二重循环枚举所有可能的子数组组合"></a>解法1: 二重循环枚举所有可能的子数组组合</h1><p>时间复杂度分析</p>
-<blockquote>
-<p>时间复杂度为O(n<sup>2</sup>)</p>
-</blockquote>
-<h1 id="解法2"><a href="#解法2" class="headerlink" title="解法2"></a>解法2</h1><h1 id="相关题目"><a href="#相关题目" class="headerlink" title="相关题目"></a>相关题目</h1><p><a href>leetcode 974</a></p>
-<p> <a href="https://xixi2.github.io/2019/09/27/560.-Subarray-Sum-Equals-K/">leetcode 560</a></p>
+<p>比较朴素的做法是先按照剑指offer上的做法找出整个数组中的最小值，然后通过最小值将整个数组分为两个有序子数组。然后分别根据target的值在第一个或者第二个子数组中使用二分查找。</p>
+<p>更好的做法是直接使用二分查找。</p>
+<h1 id="解法1：二分查找"><a href="#解法1：二分查找" class="headerlink" title="解法1：二分查找"></a>解法1：二分查找</h1><p>假设当前要查找的区间是[lo, hi]，mid = (lo + hi) / 2。</p>
+<ul>
+<li>当nums[mid] &gt;= nums[lo]时，区间[lo，mid]内不包含旋转。当[lo，mid]内不包含旋转，那么这个区间是一个递增序列。<ul>
+<li>那么如果target &gt;= nums[lo]，说明target如果存在，则应该存在于这个区间内。令hi = mid；</li>
+<li>如果target &gt; nums[mid]，说明target如果存在，只能存在于右边，则令lo = mid + 1；</li>
+<li>如果target &lt; nums[lo]，因为nums[lo]是整个区间中的最小值，那么说明target如果存在，只能存在于旋转位置之后的第二个递增子数组中。令lo = mid + 1。</li>
+</ul>
+</li>
+<li>当nums[mid] &lt; nums[lo]时，区间[lo，mid]内包含旋转。<ul>
+<li>当target &gt;= nums[lo]时，说明target如果存在，那么应该存在于lo之后，最小值所在位置之前。令hi = mid。</li>
+<li>当target &lt;= nums[mid]时，说明target如果存在，那么应该存在于最小值位置到mid之间。令hi = mid。</li>
+<li>如果target &gt; nums[mid] &amp;&amp; nums[lo] &gt; target时，说明target如果存在，只能存在与第二个递增子数组中mid后面的位置，所以令lo = mid + 1。</li>
+</ul>
+</li>
+</ul>
+<p>所以，在三种情况下到右半区间中去寻找，而其他情况下到左半边寻找。<br>向右半区间寻找的这两种情况是：</p>
+<ul>
+<li>target &gt; nums[mid] &gt;= nums[lo] </li>
+<li>nums[mid] &gt;= nums[lo] &gt; target</li>
+<li>target &gt;= nums[lo] &gt; nums[mid]</li>
+</ul>
+<p>在另外三种情况中应该向左半边寻找：</p>
+<ol>
+<li>nums[lo] &lt;= target &lt;= nums[mid]</li>
+<li>target &lt;= nums[mid] &lt; nums[lo]</li>
+<li>nums[mid] &lt; nums[lo] &lt;= target</li>
+</ol>
+<p>第一项中<span style="color:royalblue">nums[lo] &lt;= nums[mid]</span>，第二项中nums[lo] &gt; nums[mid]，同样第三项中nums[lo] &gt; nums[mid]<br>第二项中<span style="color:royalblue">target &lt; nums[lo]</span>，第一项中target &gt;= nums[lo]，第三项中target &gt;= nums[lo]<br>第三项中<span style="color:royalblue">nums[mid] &lt; target</span>，第一项中nums[mid] &gt;= nums[lo]，第二项中nums[mid] &gt;= nums[lo]</p>
+<p>从以上分析可知，这三个条件最多满足一个。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">search</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> lo = <span class="number">0</span>, hi = nums.size()  - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(lo &lt; hi)&#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (lo + hi) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>((nums[lo] &lt;= nums[mid]) ^ (target &lt; nums[lo]) ^ (nums[mid] &lt;  target))&#123;</span><br><span class="line">               hi = mid;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                lo = mid + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> lo == hi &amp;&amp; nums[lo] == target ? lo : <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>此外，当退出循环之外，会出现哪些情况？<br>必须判断lo是否等于hi的情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: nums = [], target = 5</span><br><span class="line">Output: -1</span><br></pre></td></tr></table></figure>
+
+<p>在这个测试用例下，lo初值为0，hi初值为-1，初值不等，但是不会进入while循环。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: nums = [3], target = 5</span><br><span class="line">Output: -1</span><br></pre></td></tr></table></figure>
+
+<p>在这个测试用例中，同样不会进入到循环中，因为进入循环的条件为lo &lt; hi，而这里lo和hi的初值都为0。</p>
+<p>一旦进入while循环，唯一退出循环的条件就是lo == hi。因为lo&lt;=mid &lt;= hi，所以，经过一轮循环之后，lo和hi的值有几种情况：</p>
+<ul>
+<li><p>循环之前，因为lo &lt; hi，所以，lo和hi差值最小时，lo = x，hi = x + 1，mid = x，</p>
+<ul>
+<li>条件表达式的结果：<br>因为条件表达式nums[lo] &lt;= nums[mid]) ^ (target &lt; nums[lo]) ^ (nums[mid] &lt;  target)的结果在lo = mid = hi时，必然为0。这是因为nums[lo] == nums[mid]，nums[lo] &lt;= nums[mid]必然成立。<ul>
+<li>当target &lt; nums[lo]和nums[mid] &lt; target中有一个成立时，(target &lt; nums[lo]) ^ (nums[mid] &lt;  target)的结果为1。那么最后的结果为0。此时执行的表达式是lo = mid + 1。</li>
+<li>当target == nums[lo]时，target &lt; nums[lo]和nums[mid] &lt; target中都不成立时，(target &lt; nums[lo]) ^ (nums[mid] &lt;  target)的结果为0。那么最后的结果为1，执行的表达式是hi = mid。</li>
+</ul>
+</li>
+<li>循环中执行的表达式是hi = mid时，则循环之后，lo = x，hi = x。</li>
+<li>循环中执行的表达式是lo = mid + 1时，则循环之后，lo = x + 1，hi = x + 1。</li>
+</ul>
+<p>所以，在循环之后，lo和hi可能会因为相等而不满足while循环的条件而退出。</p>
+</li>
+</ul>
 
       
     </div>
@@ -421,7 +474,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/子数组和/" rel="tag"># 子数组和</a>
+            <a href="/tags/二分查找/" rel="tag"># 二分查找</a>
           
         </div>
       
@@ -434,8 +487,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/07/560.-Subarray-Sum-Equals-K/" rel="next" title="560. Subarray Sum Equals K">
-                <i class="fa fa-chevron-left"></i> 560. Subarray Sum Equals K
+              <a href="/2019/11/01/遇到过的linux面试题/" rel="next" title="遇到过的linux面试题">
+                <i class="fa fa-chevron-left"></i> 遇到过的linux面试题
               </a>
             
           </div>
@@ -444,8 +497,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/10/07/包管理工具aptitude/" rel="prev" title="包管理工具aptitude">
-                包管理工具aptitude <i class="fa fa-chevron-right"></i>
+              <a href="/2019/11/05/523.Continuous-Subarray-Sum/" rel="prev" title="523. Continuous Subarray Sum">
+                523. Continuous Subarray Sum <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -525,7 +578,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">173</span>
+                  <span class="site-state-item-count">175</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -536,7 +589,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -580,7 +633,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#解法1-二重循环枚举所有可能的子数组组合"><span class="nav-number">1.</span> <span class="nav-text">解法1: 二重循环枚举所有可能的子数组组合</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解法2"><span class="nav-number">2.</span> <span class="nav-text">解法2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#相关题目"><span class="nav-number">3.</span> <span class="nav-text">相关题目</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#解法1：二分查找"><span class="nav-number">1.</span> <span class="nav-text">解法1：二分查找</span></a></li></ol></div>
             
 
           </div>
